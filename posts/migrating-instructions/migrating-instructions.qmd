@@ -6,3 +6,7 @@ categories: [how_to]
 ---
 
 Here will come the list of migrating instructions
+
+-   create folder under post
+-   name the folder year-month-date-slug (slug=summary of title of the post)
+-   
