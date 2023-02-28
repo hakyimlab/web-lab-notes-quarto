@@ -1,0 +1,8 @@
+---
+title: "Migrating"
+author: "Haky"
+date: "2023-02-28"
+categories: [how_to]
+---
+
+Here will come the list of migrating instructions

@@ -1,0 +1,14 @@
+[
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/post-with-code/index.html",
+      "/posts/migrating-instructions/migrating-instructions.html",
+      "/posts/welcome/index.html"
+    ]
+  },
+  {
+    "listing": "/posts/migrating-instructions/index.html",
+    "items": []
+  }
+]
