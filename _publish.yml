@@ -1,0 +1,4 @@
+- source: project
+  netlify:
+    - id: 7e6a3708-8d7d-42ed-be09-10bf7a719801
+      url: 'https://draft-lab-notes-quarto.hakyimlab.org'
