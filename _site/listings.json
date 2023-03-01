@@ -3,6 +3,7 @@
     "listing": "/index.html",
     "items": [
       "/posts/migrating-instructions/migrating-instructions.html",
+      "/posts/2023-02-28-predictdb-weights-distribution/predictdb-weights-distribution.html",
       "/posts/post-with-code/index.html",
       "/posts/welcome/index.html"
     ]
