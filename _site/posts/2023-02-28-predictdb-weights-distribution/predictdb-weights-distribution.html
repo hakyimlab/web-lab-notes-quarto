@@ -255,9 +255,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(dbname)</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>db <span class="ot">=</span> <span class="fu">dbConnect</span>(sqlite,dbname)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>weights <span class="ot">=</span> <span class="fu">dbGetQuery</span>(db, <span class="st">"select * from weights"</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>eightylines <span class="ot">=</span> <span class="fu">quantile</span>(weights<span class="sc">$</span>weight,<span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>))</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>( <span class="fu">quantile</span>(weights<span class="sc">$</span>weight,(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>)<span class="sc">/</span><span class="dv">10</span>) )</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>pp <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(weights,<span class="fu">aes</span>(weight))<span class="sc">+</span><span class="fu">geom_histogram</span>() <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept=</span>eightylines) <span class="sc">+</span><span class="fu">ggtitle</span>(titulo) <span class="sc">+</span><span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">15</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>eightylines <span class="ot">=</span> <span class="fu">quantile</span>(weights<span class="sc">$</span>weight,<span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(weights<span class="sc">$</span>weight,(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>)<span class="sc">/</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="fu">print</span>()</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>pp <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(weights,<span class="fu">aes</span>(weight))<span class="sc">+</span><span class="fu">geom_histogram</span>() <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept=</span>eightylines) <span class="sc">+</span><span class="fu">ggtitle</span>(<span class="fu">glue</span>(<span class="st">"{titulo}; {eightylines[1]} - {eightylines[2]}"</span>))</span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pp)</span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(db)</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -274,12 +274,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data/2023-02-28-predictdb-weight-distribution/eqtl/mashr_Adipose_Subcutaneous.db
-           0%           10%           20%           30%           40% 
--2.0862835036 -0.3366646457 -0.1955407983 -0.1192029220 -0.0524795537 
-          50%           60%           70%           80%           90% 
--0.0004974371  0.0508192645  0.1156329492  0.1967938636  0.3453561636 
-         100% 
- 2.4661740079 </code></pre>
+   0%   10%   20%   30%   40%   50%   60%   70%   80%   90%  100% 
+-2.09 -0.34 -0.20 -0.12 -0.05  0.00  0.05  0.12  0.20  0.35  2.47 </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
@@ -299,12 +295,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data/2023-02-28-predictdb-weight-distribution/eqtl/mashr_Brain_Substantia_nigra.db
-           0%           10%           20%           30%           40% 
--2.5606706826 -0.2817076343 -0.1412252157 -0.0716207590 -0.0249602797 
-          50%           60%           70%           80%           90% 
--0.0002157115  0.0224318182  0.0676146117  0.1430069239  0.2949888129 
-         100% 
- 2.3995855086 </code></pre>
+   0%   10%   20%   30%   40%   50%   60%   70%   80%   90%  100% 
+-2.56 -0.28 -0.14 -0.07 -0.02  0.00  0.02  0.07  0.14  0.29  2.40 </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
