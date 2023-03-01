@@ -66,6 +66,7 @@ dbDisconnect(db)
 ```
 
 -   [ ] read weights adipose with 491 samples
+
 ```{r}
 dbname <- glue("{DATA}/eqtl/mashr_Adipose_Subcutaneous.db") ## add full path if db file not in current directory
 myshowdist(dbname,titulo="n=491")
@@ -78,11 +79,13 @@ dbname <- glue("{DATA}/eqtl/mashr_Brain_Substantia_nigra.db") ## add full path i
 myshowdist(dbname,titulo="n=101")
 ```
 
+- [ ] read protein prediction weights 
 
 
 
 
 
+## GTEx sample size by tissue
 
   name                                          european samples abbreviation     expression models   splicing models
   ------------------------------------------- ------------------ -------------- ------------------- -----------------

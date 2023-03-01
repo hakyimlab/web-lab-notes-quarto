@@ -1,0 +1,14 @@
+{
+  "hash": "e438d95fea001182b9b697c2b5cfa93e",
+  "result": {
+    "markdown": "---\ntitle: \"PredictDB weight distribution\"\nauthor: \"Haky Im\"\ndate: \"2023-03-01\"\ncategories: [how_to]\nformat:\n  html:\n    code-fold: true\n    code-summary: \"Show the code\"\n---\n\n\n\n- [ ] create a new folder under post/new_folder\n- [ ] name the folder with year-month-date-slug, 2023-03-02-descriptive-title\n- [ ] create a file named index.qmd and add the following header, update the title, your name and the date\n\n```\n---\ntitle: \"PredictDB weight distribution\"\nauthor: \"Your Name\"\ndate: \"2023-02-28\"\ncategories: [analysis,how_to]\nformat:\n  html:\n    code-fold: true\n    code-summary: \"Show the code\"\n---\n```\n\n- [ ] copy file to box so that the analysis can be reproducible\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsuppressMessages(library(tidyverse))\nsuppressMessages(library(glue))\nPRE = \"/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data\"\n##PRE=\"/Users/margaretperry/Library/CloudStorage/Box-Box/imlab-data/data-Github/web-data \"\n##PRE=\"/Users/temi/Library/CloudStorage/Box-Box/imlab-data/data-Github/web-data\"\n## COPY THE DATE AND SLUG fields FROM THE HEADER\nSLUG=\"predictdb-weight-distribution\" ## copy the slug from the header\nbDATE='2023-02-28' ## copy the date from the blog's header here\nDATA = glue(\"{PRE}/{bDATE}-{SLUG}\")\nif(!file.exists(DATA)) system(glue::glue(\"mkdir {DATA}\"))\nWORK=DATA\n\n## move data to DATA\n#tempodata=(\"~/Downloads/tempo/gwas_catalog_v1.0.2-associations_e105_r2022-04-07.tsv\")\n#system(glue::glue(\"cp {tempodata} {DATA}/\"))\nsystem(glue(\"open {DATA}\")) ## this will open the folder \n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

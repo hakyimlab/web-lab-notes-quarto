@@ -11,4 +11,4 @@ page-layout: full
 title-block-banner: true
 ---
 
-We will migrate our blogging to quarto.
+## We will migrate all the lab notes here shortly
