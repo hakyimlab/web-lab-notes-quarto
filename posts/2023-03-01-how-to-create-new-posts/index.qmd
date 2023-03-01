@@ -1,5 +1,5 @@
 ---
-title: "PredictDB weight distribution"
+title: "Create New"
 author: "Haky Im"
 date: "2023-03-01"
 categories: [how_to]
@@ -48,3 +48,6 @@ WORK=DATA
 system(glue("open {DATA}")) ## this will open the folder 
 ```
 
+## other links
+
+Useful tips for new posts [here](https://samanthacsik.github.io/posts/2022-10-24-quarto-blogs/#vi.-a-note-on-adding-an-additional-blog-or-more-to-your-site)
