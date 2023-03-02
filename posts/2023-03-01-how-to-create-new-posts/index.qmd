@@ -1,35 +1,31 @@
 ---
-title: "Create New"
+title: "How to create a new blog post"
 author: "Haky Im"
 date: "2023-03-01"
 categories: [how_to]
-format:
-  html:
-    code-fold: true
-    code-summary: "Show the code"
 ---
 
-
-- [ ] create a new folder under post/new_folder
-- [ ] name the folder with year-month-date-slug, 2023-03-02-descriptive-title
-- [ ] create a file named index.qmd and add the following header, update the title, your name and the date
+-   [ ] create a new folder under post/new_folder
+-   [ ] name the folder with year-month-date-slug, 2023-03-02-descriptive-title
+-   [ ] create a file named index.qmd and add the following header, update the title, your name and the date
 
 ```
----
-title: "PredictDB weight distribution"
-author: "Your Name"
-date: "2023-02-28"
-categories: [analysis,how_to]
-format:
-  html:
-    code-fold: true
-    code-summary: "Show the code"
----
+    ---
+    title: "PredictDB weight distribution"
+    author: "Your Name"
+    date: "2023-02-28"
+    categories: [analysis,how_to]
+    format:
+      html:
+        code-fold: true
+        code-summary: "Show the code"
+    ---
 ```
 
-- [ ] copy file to box so that the analysis can be reproducible
+-   [ ] copy file to box so that the analysis can be reproducible
 
 ```{r}
+## - [ ] clean up this part. Create function that creates the folder
 suppressMessages(library(tidyverse))
 suppressMessages(library(glue))
 PRE = "/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"
@@ -51,3 +47,31 @@ system(glue("open {DATA}")) ## this will open the folder
 ## other links
 
 Useful tips for new posts [here](https://samanthacsik.github.io/posts/2022-10-24-quarto-blogs/#vi.-a-note-on-adding-an-additional-blog-or-more-to-your-site)
+
+## functions
+
+```{r echo=FALSE}
+
+## input: date, title, slug
+REPO="/Users/haekyungim/Github/web-lab-notes-quarto"
+bDATE=format(Sys.time(),"%Y-%m-%d")
+SLUG="test 1 lsdkf"
+
+new_post = function(repo=REPO,slug=SLUG,bdate=bDATE)
+{ 
+  slug =  tolower(gsub(" ", "-", slug) )
+  FOLDERNAME = glue::glue("{repo}/posts/{bdate}-{slug}")
+  if(!file.exists(FOLDERNAME))
+  {
+  system(glue::glue("mkdir {FOLDERNAME}"))
+  system(glue::glue("touch {FOLDERNAME}/index.qmd"))
+  system(glue::glue("echo --- >>  {FOLDERNAME}/index.qmd"))
+  system(glue::glue("echo 'title: {slug}' >>  {FOLDERNAME}/index.qmd"))
+  system(glue::glue("echo 'author: AUTHOR NAME HERE' >>  {FOLDERNAME}/index.qmd"))
+  system(glue::glue("echo 'date: {bdate}' >>  {FOLDERNAME}/index.qmd"))
+  system(glue::glue("echo --- >>  {FOLDERNAME}/index.qmd"))
+  } else
+  {warning("{bdate}-{slug} already exists; you may want to change the slug")}
+}
+
+```

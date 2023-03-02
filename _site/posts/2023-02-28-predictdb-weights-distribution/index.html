@@ -221,7 +221,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>DATA <span class="ot">=</span> <span class="fu">glue</span>(<span class="st">"{PRE}/{bDATE}-{SLUG}"</span>)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(DATA)) <span class="fu">system</span>(glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"mkdir {DATA}"</span>))</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>WORK<span class="ot">=</span>DATA</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>USERNAME<span class="ot">=</span><span class="st">"haekyungim"</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="do">## move data to DATA</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#tempodata=("~/Downloads/tempo/gwas_catalog_v1.0.2-associations_e105_r2022-04-07.tsv")</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#system(glue::glue("cp {tempodata} {DATA}/"))</span></span>
@@ -234,11 +234,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(DATA)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="fu">glue</span>(<span class="st">"wget https://zenodo.org/record/3518299/files/mashr_eqtl.tar?download=1"</span>))</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="fu">glue</span>(<span class="st">"tar xvf mashr_eqtl.tar"</span>))</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="fu">glue</span>(<span class="st">"cd eqtl"</span>))</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="st">"rm *.txt.gz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(F)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setwd</span>(DATA)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system</span>(<span class="fu">glue</span>(<span class="st">"wget https://zenodo.org/record/3518299/files/mashr_eqtl.tar?download=1"</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system</span>(<span class="fu">glue</span>(<span class="st">"tar xvf mashr_eqtl.tar"</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system</span>(<span class="fu">glue</span>(<span class="st">"cd eqtl"</span>))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system</span>(<span class="st">"rm *.txt.gz"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <ul class="task-list">
@@ -255,12 +258,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(dbname)</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>db <span class="ot">=</span> <span class="fu">dbConnect</span>(sqlite,dbname)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>weights <span class="ot">=</span> <span class="fu">dbGetQuery</span>(db, <span class="st">"select * from weights"</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>eightylines <span class="ot">=</span> <span class="fu">quantile</span>(weights<span class="sc">$</span>weight,<span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>)) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(weights<span class="sc">$</span>weight,(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>)<span class="sc">/</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="fu">print</span>()</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>pp <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(weights,<span class="fu">aes</span>(weight))<span class="sc">+</span><span class="fu">geom_histogram</span>() <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept=</span>eightylines) <span class="sc">+</span><span class="fu">ggtitle</span>(<span class="fu">glue</span>(<span class="st">"{titulo}; {eightylines[1]} - {eightylines[2]}"</span>))</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pp)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(db)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>absweivec <span class="ot">=</span> <span class="fu">abs</span>(weights<span class="sc">$</span>weight)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>qlines <span class="ot">=</span> <span class="fu">quantile</span>(absweivec,<span class="fu">c</span>(<span class="fl">0.2</span>,<span class="fl">0.5</span>)) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(absweivec,(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>)<span class="sc">/</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="fu">print</span>()</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>pp <span class="ot">&lt;-</span> weights <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">abswei=</span><span class="fu">abs</span>(weight)) <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(abswei))<span class="sc">+</span><span class="fu">geom_histogram</span>() <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept=</span>qlines) <span class="sc">+</span><span class="fu">ggtitle</span>(<span class="fu">glue</span>(<span class="st">"{titulo}; 20%={qlines[1]}, median={qlines[2]}"</span>))</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pp)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(db)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <ul class="task-list">
@@ -270,12 +274,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <details>
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dbname <span class="ot">&lt;-</span> <span class="fu">glue</span>(<span class="st">"{DATA}/eqtl/mashr_Adipose_Subcutaneous.db"</span>) <span class="do">## add full path if db file not in current directory</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">myshowdist</span>(dbname,<span class="at">titulo=</span><span class="st">"n=491"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">myshowdist</span>(dbname,<span class="at">titulo=</span><span class="st">"Adipose expr n=491"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data/2023-02-28-predictdb-weight-distribution/eqtl/mashr_Adipose_Subcutaneous.db
-   0%   10%   20%   30%   40%   50%   60%   70%   80%   90%  100% 
--2.09 -0.34 -0.20 -0.12 -0.05  0.00  0.05  0.12  0.20  0.35  2.47 </code></pre>
+  0%  10%  20%  30%  40%  50%  60%  70%  80%  90% 100% 
+0.00 0.02 0.05 0.08 0.12 0.15 0.20 0.25 0.34 0.50 2.47 </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
@@ -291,12 +295,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <details>
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dbname <span class="ot">&lt;-</span> <span class="fu">glue</span>(<span class="st">"{DATA}/eqtl/mashr_Brain_Substantia_nigra.db"</span>) <span class="do">## add full path if db file not in current directory</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">myshowdist</span>(dbname,<span class="at">titulo=</span><span class="st">"n=101"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">myshowdist</span>(dbname,<span class="at">titulo=</span><span class="st">"Brain SN expr - n=101"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data/2023-02-28-predictdb-weight-distribution/eqtl/mashr_Brain_Substantia_nigra.db
-   0%   10%   20%   30%   40%   50%   60%   70%   80%   90%  100% 
--2.56 -0.28 -0.14 -0.07 -0.02  0.00  0.02  0.07  0.14  0.29  2.40 </code></pre>
+  0%  10%  20%  30%  40%  50%  60%  70%  80%  90% 100% 
+0.00 0.01 0.02 0.04 0.07 0.10 0.14 0.20 0.29 0.44 2.56 </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
@@ -308,367 +312,95 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul class="task-list">
 <li><input type="checkbox" disabled="">read protein prediction weights</li>
 </ul>
-<section id="gtex-sample-size-by-tissue" class="level2">
-<h2 class="anchored" data-anchor-id="gtex-sample-size-by-tissue">GTEx sample size by tissue</h2>
-<table class="table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">name</th>
-<th style="text-align: right;">european samples</th>
-<th style="text-align: left;">abbreviation</th>
-<th style="text-align: right;">expression models</th>
-<th style="text-align: right;">splicing models</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Adipose - Subcutaneous</td>
-<td style="text-align: right;">491</td>
-<td style="text-align: left;">ADPSBQ</td>
-<td style="text-align: right;">14732</td>
-<td style="text-align: right;">42912</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Adipose - Visceral (Omentum)</td>
-<td style="text-align: right;">401</td>
-<td style="text-align: left;">ADPVSC</td>
-<td style="text-align: right;">14640</td>
-<td style="text-align: right;">41720</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Adrenal Gland</td>
-<td style="text-align: right;">200</td>
-<td style="text-align: left;">ADRNLG</td>
-<td style="text-align: right;">13622</td>
-<td style="text-align: right;">36754</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Artery - Aorta</td>
-<td style="text-align: right;">338</td>
-<td style="text-align: left;">ARTAORT</td>
-<td style="text-align: right;">14396</td>
-<td style="text-align: right;">40474</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Artery - Coronary</td>
-<td style="text-align: right;">180</td>
-<td style="text-align: left;">ARTCRN</td>
-<td style="text-align: right;">13878</td>
-<td style="text-align: right;">40579</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Artery - Tibial</td>
-<td style="text-align: right;">489</td>
-<td style="text-align: left;">ARTTBL</td>
-<td style="text-align: right;">14493</td>
-<td style="text-align: right;">40690</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Brain - Amygdala</td>
-<td style="text-align: right;">119</td>
-<td style="text-align: left;">BRNAMY</td>
-<td style="text-align: right;">12814</td>
-<td style="text-align: right;">24236</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Brain - Anterior cingulate cortex (BA24)</td>
-<td style="text-align: right;">135</td>
-<td style="text-align: left;">BRNACC</td>
-<td style="text-align: right;">13528</td>
-<td style="text-align: right;">28806</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Brain - Caudate (basal ganglia)</td>
-<td style="text-align: right;">172</td>
-<td style="text-align: left;">BRNCDT</td>
-<td style="text-align: right;">14118</td>
-<td style="text-align: right;">32127</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Brain - Cerebellar Hemisphere</td>
-<td style="text-align: right;">157</td>
-<td style="text-align: left;">BRNCHB</td>
-<td style="text-align: right;">13771</td>
-<td style="text-align: right;">39862</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Brain - Cerebellum</td>
-<td style="text-align: right;">188</td>
-<td style="text-align: left;">BRNCHA</td>
-<td style="text-align: right;">13992</td>
-<td style="text-align: right;">40747</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Brain - Cortex</td>
-<td style="text-align: right;">184</td>
-<td style="text-align: left;">BRNCTXA</td>
-<td style="text-align: right;">14284</td>
-<td style="text-align: right;">35086</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Brain - Frontal Cortex (BA9)</td>
-<td style="text-align: right;">158</td>
-<td style="text-align: left;">BRNCTXB</td>
-<td style="text-align: right;">14091</td>
-<td style="text-align: right;">32031</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Brain - Hippocampus</td>
-<td style="text-align: right;">150</td>
-<td style="text-align: left;">BRNHPP</td>
-<td style="text-align: right;">13526</td>
-<td style="text-align: right;">27437</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Brain - Hypothalamus</td>
-<td style="text-align: right;">157</td>
-<td style="text-align: left;">BRNHPT</td>
-<td style="text-align: right;">13741</td>
-<td style="text-align: right;">30326</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Brain - Nucleus accumbens (basal ganglia)</td>
-<td style="text-align: right;">181</td>
-<td style="text-align: left;">BRNNCC</td>
-<td style="text-align: right;">14062</td>
-<td style="text-align: right;">32670</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Brain - Putamen (basal ganglia)</td>
-<td style="text-align: right;">153</td>
-<td style="text-align: left;">BRNPTM</td>
-<td style="text-align: right;">13694</td>
-<td style="text-align: right;">28461</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Brain - Spinal cord (cervical c-1)</td>
-<td style="text-align: right;">115</td>
-<td style="text-align: left;">BRNSPC</td>
-<td style="text-align: right;">13096</td>
-<td style="text-align: right;">28883</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Brain - Substantia nigra</td>
-<td style="text-align: right;">101</td>
-<td style="text-align: left;">BRNSNG</td>
-<td style="text-align: right;">12637</td>
-<td style="text-align: right;">23677</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Breast - Mammary Tissue</td>
-<td style="text-align: right;">337</td>
-<td style="text-align: left;">BREAST</td>
-<td style="text-align: right;">14654</td>
-<td style="text-align: right;">44613</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Cells - Cultured fibroblasts</td>
-<td style="text-align: right;">417</td>
-<td style="text-align: left;">FIBRBLS</td>
-<td style="text-align: right;">13976</td>
-<td style="text-align: right;">36809</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Cells - EBV-transformed lymphocytes</td>
-<td style="text-align: right;">116</td>
-<td style="text-align: left;">LCL</td>
-<td style="text-align: right;">12398</td>
-<td style="text-align: right;">37627</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Colon - Sigmoid</td>
-<td style="text-align: right;">274</td>
-<td style="text-align: left;">CLNSGM</td>
-<td style="text-align: right;">14363</td>
-<td style="text-align: right;">41581</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Colon - Transverse</td>
-<td style="text-align: right;">306</td>
-<td style="text-align: left;">CLNTRN</td>
-<td style="text-align: right;">14582</td>
-<td style="text-align: right;">41215</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Esophagus - Gastroesophageal Junction</td>
-<td style="text-align: right;">281</td>
-<td style="text-align: left;">ESPGEJ</td>
-<td style="text-align: right;">14285</td>
-<td style="text-align: right;">41004</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Esophagus - Mucosa</td>
-<td style="text-align: right;">423</td>
-<td style="text-align: left;">ESPMCS</td>
-<td style="text-align: right;">14589</td>
-<td style="text-align: right;">37186</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Esophagus - Muscularis</td>
-<td style="text-align: right;">399</td>
-<td style="text-align: left;">ESPMSL</td>
-<td style="text-align: right;">14603</td>
-<td style="text-align: right;">40376</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Heart - Atrial Appendage</td>
-<td style="text-align: right;">322</td>
-<td style="text-align: left;">HRTAA</td>
-<td style="text-align: right;">14035</td>
-<td style="text-align: right;">36322</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Heart - Left Ventricle</td>
-<td style="text-align: right;">334</td>
-<td style="text-align: left;">HRTLV</td>
-<td style="text-align: right;">13200</td>
-<td style="text-align: right;">29470</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Kidney - Cortex</td>
-<td style="text-align: right;">65</td>
-<td style="text-align: left;">KDNCTX</td>
-<td style="text-align: right;">11164</td>
-<td style="text-align: right;">24571</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Liver</td>
-<td style="text-align: right;">183</td>
-<td style="text-align: left;">LIVER</td>
-<td style="text-align: right;">12714</td>
-<td style="text-align: right;">27011</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Lung</td>
-<td style="text-align: right;">444</td>
-<td style="text-align: left;">LUNG</td>
-<td style="text-align: right;">15058</td>
-<td style="text-align: right;">44346</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Minor Salivary Gland</td>
-<td style="text-align: right;">119</td>
-<td style="text-align: left;">SLVRYG</td>
-<td style="text-align: right;">13884</td>
-<td style="text-align: right;">38380</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Muscle - Skeletal</td>
-<td style="text-align: right;">602</td>
-<td style="text-align: left;">MSCLSK</td>
-<td style="text-align: right;">13381</td>
-<td style="text-align: right;">31855</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Nerve - Tibial</td>
-<td style="text-align: right;">449</td>
-<td style="text-align: left;">NERVET</td>
-<td style="text-align: right;">15373</td>
-<td style="text-align: right;">45478</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Ovary</td>
-<td style="text-align: right;">140</td>
-<td style="text-align: left;">OVARY</td>
-<td style="text-align: right;">13738</td>
-<td style="text-align: right;">40857</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Pancreas</td>
-<td style="text-align: right;">253</td>
-<td style="text-align: left;">PNCREAS</td>
-<td style="text-align: right;">13695</td>
-<td style="text-align: right;">31203</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Pituitary</td>
-<td style="text-align: right;">219</td>
-<td style="text-align: left;">PTTARY</td>
-<td style="text-align: right;">14647</td>
-<td style="text-align: right;">42343</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Prostate</td>
-<td style="text-align: right;">186</td>
-<td style="text-align: left;">PRSTTE</td>
-<td style="text-align: right;">14450</td>
-<td style="text-align: right;">41991</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Skin - Not Sun Exposed (Suprapubic)</td>
-<td style="text-align: right;">440</td>
-<td style="text-align: left;">SKINNS</td>
-<td style="text-align: right;">14932</td>
-<td style="text-align: right;">42005</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Skin - Sun Exposed (Lower leg)</td>
-<td style="text-align: right;">517</td>
-<td style="text-align: left;">SKINS</td>
-<td style="text-align: right;">15204</td>
-<td style="text-align: right;">42219</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Small Intestine - Terminal Ileum</td>
-<td style="text-align: right;">144</td>
-<td style="text-align: left;">SNTTRM</td>
-<td style="text-align: right;">14065</td>
-<td style="text-align: right;">39864</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Spleen</td>
-<td style="text-align: right;">186</td>
-<td style="text-align: left;">SPLEEN</td>
-<td style="text-align: right;">14073</td>
-<td style="text-align: right;">40290</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Stomach</td>
-<td style="text-align: right;">269</td>
-<td style="text-align: left;">STMACH</td>
-<td style="text-align: right;">14102</td>
-<td style="text-align: right;">36624</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Testis</td>
-<td style="text-align: right;">277</td>
-<td style="text-align: left;">TESTIS</td>
-<td style="text-align: right;">17867</td>
-<td style="text-align: right;">67784</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Thyroid</td>
-<td style="text-align: right;">494</td>
-<td style="text-align: left;">THYROID</td>
-<td style="text-align: right;">15303</td>
-<td style="text-align: right;">45217</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Uterus</td>
-<td style="text-align: right;">108</td>
-<td style="text-align: left;">UTERUS</td>
-<td style="text-align: right;">13199</td>
-<td style="text-align: right;">39485</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Vagina</td>
-<td style="text-align: right;">122</td>
-<td style="text-align: left;">VAGINA</td>
-<td style="text-align: right;">12969</td>
-<td style="text-align: right;">36931</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Whole Blood</td>
-<td style="text-align: right;">573</td>
-<td style="text-align: left;">WHLBLD</td>
-<td style="text-align: right;">12623</td>
-<td style="text-align: right;">24568</td>
-</tr>
-</tbody>
-</table>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## can download from https://uchicago.box.com/shared/static/m3zsxy3oy8kn5gkktkuo8lvui269hxi5.db</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"AA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "AA"</code></pre>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dbname <span class="ot">&lt;-</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"/Users/{USERNAME}/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/Within-Lab-Sharing/Sabrina-Data/ARIC/ARIC_AA_hg38.db"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">myshowdist</span>(dbname,<span class="at">titulo=</span><span class="st">"protein ARIC AA n=1,871"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/Within-Lab-Sharing/Sabrina-Data/ARIC/ARIC_AA_hg38.db
+  0%  10%  20%  30%  40%  50%  60%  70%  80%  90% 100% 
+0.00 0.00 0.00 0.00 0.00 0.01 0.01 0.01 0.02 0.03 0.59 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## can download from https://uchicago.box.com/shared/static/m3zsxy3oy8kn5gkktkuo8lvui269hxi5.db</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"EUR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "EUR"</code></pre>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dbname <span class="ot">&lt;-</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"/Users/{USERNAME}/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/Within-Lab-Sharing/Sabrina-Data/ARIC/ARIC_EA_hg38.db"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">myshowdist</span>(dbname,<span class="at">titulo=</span><span class="st">"protein ARIC EA n=7,213"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/Within-Lab-Sharing/Sabrina-Data/ARIC/ARIC_EA_hg38.db
+  0%  10%  20%  30%  40%  50%  60%  70%  80%  90% 100% 
+0.00 0.00 0.00 0.00 0.00 0.01 0.01 0.01 0.01 0.03 0.55 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul class="task-list">
+<li><input type="checkbox" disabled="">read brainxcan weights (use elastic net to be closer to QTL effect size)</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">##install.packages("arrow")</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>tempo <span class="ot">=</span> arrow<span class="sc">::</span><span class="fu">read_parquet</span>(glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"{DATA}/brainxcan-gw_lasso_beta.parquet"</span>))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>tempo <span class="ot">=</span> <span class="fu">as.matrix</span>(tempo <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"IDP"</span>)))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>kk <span class="ot">=</span> <span class="fu">abs</span>(tempo[tempo<span class="sc">!=</span><span class="dv">0</span>])</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(kk))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+0.0000000 0.0003630 0.0009091 0.0013655 0.0018487 0.0652540 </code></pre>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">quantile</span>(kk,(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>)<span class="sc">/</span><span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>          0%          10%          20%          30%          40%          50% 
+1.513009e-11 1.207948e-04 2.761802e-04 4.559484e-04 6.659417e-04 9.090500e-04 
+         60%          70%          80%          90%         100% 
+1.205991e-03 1.594788e-03 2.162211e-03 3.165862e-03 6.525400e-02 </code></pre>
+</div>
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">quantile</span>(kk,<span class="fu">c</span>(<span class="fl">0.2</span>,<span class="fl">0.5</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>         20%          50% 
+0.0002761802 0.0009090500 </code></pre>
+</div>
+</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

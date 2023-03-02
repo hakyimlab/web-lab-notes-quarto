@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="AUTHOR NAME HERE">
+<meta name="dcterms.date" content="2023-03-01">
+
+<title>web-lab-notes-quarto - gtex-sample-size-by-tissue</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">web-lab-notes-quarto</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/hakyimlab/"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">gtex-sample-size-by-tissue</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>AUTHOR NAME HERE </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 1, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>GTEx Sample Size by Tissue</p>
+<table class="table">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 16%">
+<col style="width: 12%">
+<col style="width: 17%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">name</th>
+<th style="text-align: right;">european samples</th>
+<th style="text-align: left;">abbreviation</th>
+<th style="text-align: right;">expression models</th>
+<th style="text-align: right;">splicing models</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Adipose - Subcutaneous</td>
+<td style="text-align: right;">491</td>
+<td style="text-align: left;">ADPSBQ</td>
+<td style="text-align: right;">14732</td>
+<td style="text-align: right;">42912</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Adipose - Visceral (Omentum)</td>
+<td style="text-align: right;">401</td>
+<td style="text-align: left;">ADPVSC</td>
+<td style="text-align: right;">14640</td>
+<td style="text-align: right;">41720</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Adrenal Gland</td>
+<td style="text-align: right;">200</td>
+<td style="text-align: left;">ADRNLG</td>
+<td style="text-align: right;">13622</td>
+<td style="text-align: right;">36754</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Artery - Aorta</td>
+<td style="text-align: right;">338</td>
+<td style="text-align: left;">ARTAORT</td>
+<td style="text-align: right;">14396</td>
+<td style="text-align: right;">40474</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Artery - Coronary</td>
+<td style="text-align: right;">180</td>
+<td style="text-align: left;">ARTCRN</td>
+<td style="text-align: right;">13878</td>
+<td style="text-align: right;">40579</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Artery - Tibial</td>
+<td style="text-align: right;">489</td>
+<td style="text-align: left;">ARTTBL</td>
+<td style="text-align: right;">14493</td>
+<td style="text-align: right;">40690</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Brain - Amygdala</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: left;">BRNAMY</td>
+<td style="text-align: right;">12814</td>
+<td style="text-align: right;">24236</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Brain - Anterior cingulate cortex (BA24)</td>
+<td style="text-align: right;">135</td>
+<td style="text-align: left;">BRNACC</td>
+<td style="text-align: right;">13528</td>
+<td style="text-align: right;">28806</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Brain - Caudate (basal ganglia)</td>
+<td style="text-align: right;">172</td>
+<td style="text-align: left;">BRNCDT</td>
+<td style="text-align: right;">14118</td>
+<td style="text-align: right;">32127</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Brain - Cerebellar Hemisphere</td>
+<td style="text-align: right;">157</td>
+<td style="text-align: left;">BRNCHB</td>
+<td style="text-align: right;">13771</td>
+<td style="text-align: right;">39862</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Brain - Cerebellum</td>
+<td style="text-align: right;">188</td>
+<td style="text-align: left;">BRNCHA</td>
+<td style="text-align: right;">13992</td>
+<td style="text-align: right;">40747</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Brain - Cortex</td>
+<td style="text-align: right;">184</td>
+<td style="text-align: left;">BRNCTXA</td>
+<td style="text-align: right;">14284</td>
+<td style="text-align: right;">35086</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Brain - Frontal Cortex (BA9)</td>
+<td style="text-align: right;">158</td>
+<td style="text-align: left;">BRNCTXB</td>
+<td style="text-align: right;">14091</td>
+<td style="text-align: right;">32031</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Brain - Hippocampus</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: left;">BRNHPP</td>
+<td style="text-align: right;">13526</td>
+<td style="text-align: right;">27437</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Brain - Hypothalamus</td>
+<td style="text-align: right;">157</td>
+<td style="text-align: left;">BRNHPT</td>
+<td style="text-align: right;">13741</td>
+<td style="text-align: right;">30326</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Brain - Nucleus accumbens (basal ganglia)</td>
+<td style="text-align: right;">181</td>
+<td style="text-align: left;">BRNNCC</td>
+<td style="text-align: right;">14062</td>
+<td style="text-align: right;">32670</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Brain - Putamen (basal ganglia)</td>
+<td style="text-align: right;">153</td>
+<td style="text-align: left;">BRNPTM</td>
+<td style="text-align: right;">13694</td>
+<td style="text-align: right;">28461</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Brain - Spinal cord (cervical c-1)</td>
+<td style="text-align: right;">115</td>
+<td style="text-align: left;">BRNSPC</td>
+<td style="text-align: right;">13096</td>
+<td style="text-align: right;">28883</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Brain - Substantia nigra</td>
+<td style="text-align: right;">101</td>
+<td style="text-align: left;">BRNSNG</td>
+<td style="text-align: right;">12637</td>
+<td style="text-align: right;">23677</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Breast - Mammary Tissue</td>
+<td style="text-align: right;">337</td>
+<td style="text-align: left;">BREAST</td>
+<td style="text-align: right;">14654</td>
+<td style="text-align: right;">44613</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cells - Cultured fibroblasts</td>
+<td style="text-align: right;">417</td>
+<td style="text-align: left;">FIBRBLS</td>
+<td style="text-align: right;">13976</td>
+<td style="text-align: right;">36809</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cells - EBV-transformed lymphocytes</td>
+<td style="text-align: right;">116</td>
+<td style="text-align: left;">LCL</td>
+<td style="text-align: right;">12398</td>
+<td style="text-align: right;">37627</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Colon - Sigmoid</td>
+<td style="text-align: right;">274</td>
+<td style="text-align: left;">CLNSGM</td>
+<td style="text-align: right;">14363</td>
+<td style="text-align: right;">41581</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Colon - Transverse</td>
+<td style="text-align: right;">306</td>
+<td style="text-align: left;">CLNTRN</td>
+<td style="text-align: right;">14582</td>
+<td style="text-align: right;">41215</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Esophagus - Gastroesophageal Junction</td>
+<td style="text-align: right;">281</td>
+<td style="text-align: left;">ESPGEJ</td>
+<td style="text-align: right;">14285</td>
+<td style="text-align: right;">41004</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Esophagus - Mucosa</td>
+<td style="text-align: right;">423</td>
+<td style="text-align: left;">ESPMCS</td>
+<td style="text-align: right;">14589</td>
+<td style="text-align: right;">37186</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Esophagus - Muscularis</td>
+<td style="text-align: right;">399</td>
+<td style="text-align: left;">ESPMSL</td>
+<td style="text-align: right;">14603</td>
+<td style="text-align: right;">40376</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Heart - Atrial Appendage</td>
+<td style="text-align: right;">322</td>
+<td style="text-align: left;">HRTAA</td>
+<td style="text-align: right;">14035</td>
+<td style="text-align: right;">36322</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Heart - Left Ventricle</td>
+<td style="text-align: right;">334</td>
+<td style="text-align: left;">HRTLV</td>
+<td style="text-align: right;">13200</td>
+<td style="text-align: right;">29470</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Kidney - Cortex</td>
+<td style="text-align: right;">65</td>
+<td style="text-align: left;">KDNCTX</td>
+<td style="text-align: right;">11164</td>
+<td style="text-align: right;">24571</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Liver</td>
+<td style="text-align: right;">183</td>
+<td style="text-align: left;">LIVER</td>
+<td style="text-align: right;">12714</td>
+<td style="text-align: right;">27011</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Lung</td>
+<td style="text-align: right;">444</td>
+<td style="text-align: left;">LUNG</td>
+<td style="text-align: right;">15058</td>
+<td style="text-align: right;">44346</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Minor Salivary Gland</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: left;">SLVRYG</td>
+<td style="text-align: right;">13884</td>
+<td style="text-align: right;">38380</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Muscle - Skeletal</td>
+<td style="text-align: right;">602</td>
+<td style="text-align: left;">MSCLSK</td>
+<td style="text-align: right;">13381</td>
+<td style="text-align: right;">31855</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Nerve - Tibial</td>
+<td style="text-align: right;">449</td>
+<td style="text-align: left;">NERVET</td>
+<td style="text-align: right;">15373</td>
+<td style="text-align: right;">45478</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ovary</td>
+<td style="text-align: right;">140</td>
+<td style="text-align: left;">OVARY</td>
+<td style="text-align: right;">13738</td>
+<td style="text-align: right;">40857</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pancreas</td>
+<td style="text-align: right;">253</td>
+<td style="text-align: left;">PNCREAS</td>
+<td style="text-align: right;">13695</td>
+<td style="text-align: right;">31203</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pituitary</td>
+<td style="text-align: right;">219</td>
+<td style="text-align: left;">PTTARY</td>
+<td style="text-align: right;">14647</td>
+<td style="text-align: right;">42343</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Prostate</td>
+<td style="text-align: right;">186</td>
+<td style="text-align: left;">PRSTTE</td>
+<td style="text-align: right;">14450</td>
+<td style="text-align: right;">41991</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Skin - Not Sun Exposed (Suprapubic)</td>
+<td style="text-align: right;">440</td>
+<td style="text-align: left;">SKINNS</td>
+<td style="text-align: right;">14932</td>
+<td style="text-align: right;">42005</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Skin - Sun Exposed (Lower leg)</td>
+<td style="text-align: right;">517</td>
+<td style="text-align: left;">SKINS</td>
+<td style="text-align: right;">15204</td>
+<td style="text-align: right;">42219</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Small Intestine - Terminal Ileum</td>
+<td style="text-align: right;">144</td>
+<td style="text-align: left;">SNTTRM</td>
+<td style="text-align: right;">14065</td>
+<td style="text-align: right;">39864</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Spleen</td>
+<td style="text-align: right;">186</td>
+<td style="text-align: left;">SPLEEN</td>
+<td style="text-align: right;">14073</td>
+<td style="text-align: right;">40290</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Stomach</td>
+<td style="text-align: right;">269</td>
+<td style="text-align: left;">STMACH</td>
+<td style="text-align: right;">14102</td>
+<td style="text-align: right;">36624</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Testis</td>
+<td style="text-align: right;">277</td>
+<td style="text-align: left;">TESTIS</td>
+<td style="text-align: right;">17867</td>
+<td style="text-align: right;">67784</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Thyroid</td>
+<td style="text-align: right;">494</td>
+<td style="text-align: left;">THYROID</td>
+<td style="text-align: right;">15303</td>
+<td style="text-align: right;">45217</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Uterus</td>
+<td style="text-align: right;">108</td>
+<td style="text-align: left;">UTERUS</td>
+<td style="text-align: right;">13199</td>
+<td style="text-align: right;">39485</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vagina</td>
+<td style="text-align: right;">122</td>
+<td style="text-align: left;">VAGINA</td>
+<td style="text-align: right;">12969</td>
+<td style="text-align: right;">36931</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Whole Blood</td>
+<td style="text-align: right;">573</td>
+<td style="text-align: left;">WHLBLD</td>
+<td style="text-align: right;">12623</td>
+<td style="text-align: right;">24568</td>
+</tr>
+</tbody>
+</table>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
