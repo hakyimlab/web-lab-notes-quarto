@@ -1,12 +1,13 @@
 ---
 title: gtex-sample-size-by-tissue
-author: AUTHOR NAME HERE
+author: Haky Im
 date: 2023-03-01
 ---
+
 GTEx Sample Size by Tissue
 
 | name                                      | european samples | abbreviation | expression models | splicing models |
-|:------------------------------------------|-----------------:|:-------------|------------------:|----------------:|
+|:---------------------|------------:|:------------|------------:|------------:|
 | Adipose - Subcutaneous                    |              491 | ADPSBQ       |             14732 |           42912 |
 | Adipose - Visceral (Omentum)              |              401 | ADPVSC       |             14640 |           41720 |
 | Adrenal Gland                             |              200 | ADRNLG       |             13622 |           36754 |

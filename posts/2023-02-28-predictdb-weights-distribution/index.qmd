@@ -95,7 +95,8 @@ dbname <- glue::glue("/Users/{USERNAME}/Library/CloudStorage/Box-Box/LargeFiles/
 myshowdist(dbname,titulo="protein ARIC EA n=7,213")
 ```
 
-- [ ] read brainxcan weights (use elastic net to be closer to QTL effect size)
+-   [ ] read brainxcan weights (use elastic net to be closer to QTL effect size)
+
 ```{r}
 ##install.packages("arrow")
 tempo = arrow::read_parquet(glue::glue("{DATA}/brainxcan-gw_lasso_beta.parquet"))
@@ -106,5 +107,47 @@ print(quantile(kk,(0:10)/10))
 print(quantile(kk,c(0.2,0.5)))
 ```
 
+## get protein predictors with FDR < 0.05
+just need to count the number of prediction models
+```{r}
+print("Protein ARIC models AA")
+dbname <- glue::glue("/Users/{USERNAME}/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/Within-Lab-Sharing/Sabrina-Data/ARIC/ARIC_AA_hg38.db")
+print(dbname)
+db = dbConnect(sqlite,dbname)
+##weights = dbGetQuery(db, "select * from weights")
+extra = dbGetQuery(db,"select * from extra")
+nrow(extra)
+dbDisconnect(db)
 
+print("Protein ARIC models EUR")
+dbname <- glue::glue("/Users/{USERNAME}/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/Within-Lab-Sharing/Sabrina-Data/ARIC/ARIC_EA_hg38.db")
+print(dbname)
+db = dbConnect(sqlite,dbname)
+##weights = dbGetQuery(db, "select * from weights")
+extra = dbGetQuery(db,"select * from extra")
+nrow(extra)
+dbDisconnect(db)
+
+```
+
+```{r}
+dbname <- glue("{DATA}/en_Adipose_Subcutaneous.db") ## add full path if db file not in current directory
+print("Adipose models")
+print(dbname)
+db = dbConnect(sqlite,dbname)
+##weights = dbGetQuery(db, "select * from weights")
+extra = dbGetQuery(db,"select * from extra")
+nrow(extra)
+dbDisconnect(db)
+
+
+dbname <- glue("{DATA}/en_Brain_Substantia_nigra.db") ## add full path if db file not in current directory
+print("Brain Substantia nigra models")
+print(dbname)
+db = dbConnect(sqlite,dbname)
+##weights = dbGetQuery(db, "select * from weights")
+extra = dbGetQuery(db,"select * from extra")
+nrow(extra)
+dbDisconnect(db)
+```
 
