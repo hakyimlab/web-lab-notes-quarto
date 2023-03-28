@@ -2,6 +2,8 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2023-03-28-erap2-finemapping/index.html",
+      "/posts/2023-03-23-jane-austen-corpus/index.html",
       "/posts/2023-03-01-gtex-sample-size-by-tissue/index.html",
       "/posts/2023-03-01-how-to-create-new-posts/index.html",
       "/posts/migrating-instructions/index.html",

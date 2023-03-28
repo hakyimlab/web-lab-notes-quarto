@@ -1,0 +1,35 @@
+---
+title: "Jane Austen Corpus"
+author: "Haky Im"
+date: "2023-03-22"
+categories: [analysis,how_to]
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+---
+
+```{r}
+suppressMessages(library(tidyverse))
+suppressMessages(library(glue))
+PRE = "/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"
+##PRE="/Users/margaretperry/Library/CloudStorage/Box-Box/imlab-data/data-Github/web-data "
+##PRE="/Users/temi/Library/CloudStorage/Box-Box/imlab-data/data-Github/web-data"
+## COPY THE DATE AND SLUG fields FROM THE HEADER
+SLUG="jane-austen-corpus" ## copy the slug from the header
+bDATE='2023-03238' ## copy the date from the blog's header here
+DATA = glue("{PRE}/{bDATE}-{SLUG}")
+if(!file.exists(DATA)) system(glue::glue("mkdir {DATA}"))
+WORK=DATA
+
+## move data to DATA
+#tempodata=("~/Downloads/tempo/gwas_catalog_v1.0.2-associations_e105_r2022-04-07.tsv")
+#system(glue::glue("cp {tempodata} {DATA}/"))
+#system(glue("open {DATA}")) ## this will open the folder 
+```
+
+-   [ ] get jane austen corpus
+
+```{r}
+##install.packages("janeaustenr")
+```

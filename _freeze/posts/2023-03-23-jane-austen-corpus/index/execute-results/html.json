@@ -1,0 +1,14 @@
+{
+  "hash": "95ea04655fae094b3bae351ab601c927",
+  "result": {
+    "markdown": "---\ntitle: \"Jane Austen Corpus\"\nauthor: \"Haky Im\"\ndate: \"2023-03-22\"\ncategories: [analysis,how_to]\nformat:\n  html:\n    code-fold: true\n    code-summary: \"Show the code\"\n---\n\n::: {.cell}\n\n```{.r .cell-code}\nsuppressMessages(library(tidyverse))\nsuppressMessages(library(glue))\nPRE = \"/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data\"\n##PRE=\"/Users/margaretperry/Library/CloudStorage/Box-Box/imlab-data/data-Github/web-data \"\n##PRE=\"/Users/temi/Library/CloudStorage/Box-Box/imlab-data/data-Github/web-data\"\n## COPY THE DATE AND SLUG fields FROM THE HEADER\nSLUG=\"jane-austen-corpus\" ## copy the slug from the header\nbDATE='2023-03238' ## copy the date from the blog's header here\nDATA = glue(\"{PRE}/{bDATE}-{SLUG}\")\nif(!file.exists(DATA)) system(glue::glue(\"mkdir {DATA}\"))\nWORK=DATA\n\n## move data to DATA\n#tempodata=(\"~/Downloads/tempo/gwas_catalog_v1.0.2-associations_e105_r2022-04-07.tsv\")\n#system(glue::glue(\"cp {tempodata} {DATA}/\"))\nsystem(glue(\"open {DATA}\")) ## this will open the folder \n```\n:::\n\n\n-   [ ] get jane austen corpus\n\n\n::: {.cell}\n\n```{.r .cell-code}\n##install.packages(\"janeaustenr\")\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
