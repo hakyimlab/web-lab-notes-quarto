@@ -4,7 +4,7 @@ author: "Haky Im"
 date: "2023-03-28"
 format:
   html:
-    code-fold: true
+    code-fold: false
     code-summary: "Show the code"
 editor_options: 
   chunk_output_type: console
