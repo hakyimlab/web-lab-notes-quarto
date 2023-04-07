@@ -1,0 +1,159 @@
+---
+title: "Inflation Brainxcan"
+author: "Haky Im"
+date: "2023-04-07"
+categories: [analysis]
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+Summary: 
+
+```{r}
+suppressMessages(library(tidyverse))
+suppressMessages(library(glue))
+
+PRE = "/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"
+SLUG="inflation-brainxcan" ## copy the slug from the header
+bDATE='2023-04-07' ## copy the date from the blog's header here
+DATA = glue("{PRE}/{bDATE}-{SLUG}")
+if(!file.exists(DATA)) system(glue::glue("mkdir {DATA}"))
+WORK=DATA
+##system(glue("open {DATA}")) ## this will open the folder 
+```
+
+
+- [ ] simulate Xk
+
+```{r simulate Xmat}
+nsam = 10000
+nsim = 100
+msnp = 1000
+
+Xmat = matrix(rbinom(nsam*msnp, 2, 0.4), nsam, msnp)
+```
+
+- [ ] simulate polygenic model: Y and IDP (nsam x nsim)
+
+\begin{align}
+Y &= \beta \cdot \text{IDP} + \sum_k X_k \cdot b_k + \epsilon \\
+\text{IDP} &= \sum_k \gamma_k \cdot X_k + \epsilon',
+\end{align}
+
+```{r simulate Y}
+## betamat msnp x 1 
+betamat = matrix(rnorm(msnp),msnp, 1)
+epsimat = matrix(rnorm(nsam),nsam, 1)
+gYmat = Xmat %*% betamat
+Ymat = gYmat + epsimat
+## Ymat = scale(Ymat)
+```
+
+```{r simulate IDP}
+gammamat = matrix(rnorm(msnp * nsim),msnp, nsim)
+epsimat2 = matrix(rnorm(nsam * nsim),nsam, nsim)
+gIDPmat = Xmat %*% gammamat
+IDPmat = gIDPmat + epsimat2
+```
+
+- [ ] calculate pvec of Y ~ IDP
+
+```{r fit Y on IDP}
+# ## load fast lm
+# devtools::source_gist("5d2251ea1a86009499e4ffdf47fe2735")
+
+## load fn_ratxcan: 115403f16bec0a0e871f3616d552ce9b
+devtools::source_gist("115403f16bec0a0e871f3616d552ce9b")
+devtools::source_gist("38431b74c6c0bf90c12f")
+
+## run fast_predixcan_assoc
+idnum=1:nsam
+idvec = glue("id-{idnum}")
+res <- fast_predixcan_assoc(data.frame(IID=idvec,IDPmat), data.frame(IID=idvec,Ymat), idlist=idvec)
+qqunif(res$pval)
+
+```
+
+- [ ] calculate pvec of cor(Y, IDP): this is the same as running linear regression
+
+```{r eval=FALSE}
+# > summary(lm(Ymat~ IDPmat[,32]))
+# 
+# Call:
+# lm(formula = Ymat ~ IDPmat[, 32])
+# 
+# Residuals:
+#      Min       1Q   Median       3Q      Max 
+# -201.069  -46.406   -0.164   46.472  205.379 
+# 
+# Coefficients:
+#               Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  -37.14480    4.61728  -8.045 2.44e-15 ***
+# IDPmat[, 32]  -0.08780    0.03051  -2.878  0.00409 ** 
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 68.63 on 998 degrees of freedom
+# Multiple R-squared:  0.008231,	Adjusted R-squared:  0.007237 
+# F-statistic: 8.282 on 1 and 998 DF,  p-value: 0.004088
+# 
+# > cor.test(Ymat, IDPmat[,32])
+# 
+# 	Pearson's product-moment correlation
+# 
+# data:  Ymat and IDPmat[, 32]
+# t = -2.8779, df = 998, p-value = 0.004088
+# alternative hypothesis: true correlation is not equal to 0
+# 95 percent confidence interval:
+#  -0.15186241 -0.02889285
+# sample estimates:
+#         cor 
+# -0.09072344 
+```
+
+
+- [ ] calculate pvec of cor(sum bk Xk, sum gammak Xk)
+```{r fit gY on gIDP}
+## run fast_predixcan_assoc
+idnum=1:nsam
+idvec = glue("id-{idnum}")
+gres <- fast_predixcan_assoc(data.frame(IID=idvec,gIDPmat), data.frame(IID=idvec,gYmat), idlist=idvec)
+qqunif(gres$pval)
+
+```
+
+- [ ] check FDR of BrainXcan schizophrenia associations
+
+```{r}
+## google sheets prepared by Yanyu for revision 4/7/2023
+s2 <- read_csv(glue("{DATA}/Table_S2.xlsx - ..csv"))
+s8 <- read_csv(glue("{DATA}/Table_S8-w-factor.xlsx - Table_S8-w-factor.csv"))
+
+tempo <- s8 %>% left_join(s2 %>% select(IDP,modality,notes,subtype),by=c("IDP")) %>% filter(model=="ridge",phenotype=="SCZ_PGC_2020") %>% filter(substr(subtype, 1, 2) != 'w-' | is.na(subtype) ) %>% filter(!grepl("ProbTrack-1",IDP))
+
+## qq <- tempo %>% filter(modality=="dMRI") %>% .[["pval_adj_perm_null"]] %>% qvalue::qvalue()
+
+qq <- tempo  %>% .[["pval_adj_perm_null"]] %>% qvalue::qvalue()
+
+
+```
+
+- [ ] read hapmap file
+```{r, eval=FALSE}
+# if (!require("BiocManager", quietly = TRUE))
+#     install.packages("BiocManager")
+# BiocManager::install("snpStats")
+suppressMessages(library(snpStats))
+# Set the path to the binary files (without file extensions)
+plink_file_path <- "/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/Reference-Data/GWAS-tutorial-Marees/data_1_QC_GWAS/HapMap_3_r3_1"
+# Read the binary files into an object of class "snpMatrix"
+snp_matrix <- read.plink(plink_file_path)
+
+```
+

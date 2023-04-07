@@ -1,5 +1,5 @@
 ---
-title: "Migrating instructions"
+title: "Lab Notes - with quarto - to be merged with lab-notes"
 listing:
   contents: posts
   sort: "date desc"
@@ -11,4 +11,4 @@ page-layout: full
 title-block-banner: true
 ---
 
-## We will migrate all the lab notes here shortly
+## We will merge all the lab notes shortly

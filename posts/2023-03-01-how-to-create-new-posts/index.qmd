@@ -10,16 +10,16 @@ categories: [how_to]
 -   [ ] create a file named index.qmd and add the following header, update the title, your name and the date
 
 ```
-    ---
-    title: "PredictDB weight distribution"
-    author: "Your Name"
-    date: "2023-02-28"
-    categories: [analysis,how_to]
-    format:
-      html:
-        code-fold: true
-        code-summary: "Show the code"
-    ---
+---
+title: "Your Title"
+author: "Your Name"
+date: "2023-02-28"
+categories: [analysis,how_to]
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+---
 ```
 
 -   [ ] copy file to box so that the analysis can be reproducible
@@ -41,7 +41,8 @@ WORK=DATA
 ## move data to DATA
 #tempodata=("~/Downloads/tempo/gwas_catalog_v1.0.2-associations_e105_r2022-04-07.tsv")
 #system(glue::glue("cp {tempodata} {DATA}/"))
-system(glue("open {DATA}")) ## this will open the folder 
+
+#system(glue("open {DATA}")) ## this will open the folder 
 ```
 
 ## other links
