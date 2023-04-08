@@ -3,17 +3,11 @@ title: "Inflation Brainxcan"
 author: "Haky Im"
 date: "2023-04-07"
 categories: [analysis]
-format:
-  html:
-    code-fold: true
-    code-summary: "Show the code"
 editor_options: 
   chunk_output_type: console
 ---
 
-
-
-Summary: 
+Summary:
 
 ```{r}
 suppressMessages(library(tidyverse))
@@ -28,8 +22,7 @@ WORK=DATA
 ##system(glue("open {DATA}")) ## this will open the folder 
 ```
 
-
-- [ ] simulate Xk
+-   [ ] simulate Xk
 
 ```{r simulate Xmat}
 nsam = 10000
@@ -39,13 +32,14 @@ msnp = 1000
 Xmat = matrix(rbinom(nsam*msnp, 2, 0.4), nsam, msnp)
 ```
 
-- [ ] simulate polygenic model: Y and IDP (nsam x nsim)
+-   [ ] simulate polygenic model: Y and IDP (nsam x nsim)
 
+```{=tex}
 \begin{align}
 Y &= \beta \cdot \text{IDP} + \sum_k X_k \cdot b_k + \epsilon \\
 \text{IDP} &= \sum_k \gamma_k \cdot X_k + \epsilon',
 \end{align}
-
+```
 ```{r simulate Y}
 ## betamat msnp x 1 
 betamat = matrix(rnorm(msnp),msnp, 1)
@@ -62,7 +56,7 @@ gIDPmat = Xmat %*% gammamat
 IDPmat = gIDPmat + epsimat2
 ```
 
-- [ ] calculate pvec of Y ~ IDP
+-   [ ] calculate pvec of Y \~ IDP
 
 ```{r fit Y on IDP}
 # ## load fast lm
@@ -80,7 +74,7 @@ qqunif(res$pval)
 
 ```
 
-- [ ] calculate pvec of cor(Y, IDP): this is the same as running linear regression
+-   [ ] calculate pvec of cor(Y, IDP): this is the same as running linear regression
 
 ```{r eval=FALSE}
 # > summary(lm(Ymat~ IDPmat[,32]))
@@ -117,8 +111,8 @@ qqunif(res$pval)
 # -0.09072344 
 ```
 
+-   [ ] calculate pvec of cor(sum bk Xk, sum gammak Xk)
 
-- [ ] calculate pvec of cor(sum bk Xk, sum gammak Xk)
 ```{r fit gY on gIDP}
 ## run fast_predixcan_assoc
 idnum=1:nsam
@@ -128,7 +122,7 @@ qqunif(gres$pval)
 
 ```
 
-- [ ] check FDR of BrainXcan schizophrenia associations
+-   [ ] check FDR of BrainXcan schizophrenia associations
 
 ```{r}
 ## google sheets prepared by Yanyu for revision 4/7/2023
@@ -144,7 +138,8 @@ qq <- tempo  %>% .[["pval_adj_perm_null"]] %>% qvalue::qvalue()
 
 ```
 
-- [ ] read hapmap file
+-   [ ] read hapmap file
+
 ```{r, eval=FALSE}
 # if (!require("BiocManager", quietly = TRUE))
 #     install.packages("BiocManager")
@@ -156,4 +151,3 @@ plink_file_path <- "/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/im
 snp_matrix <- read.plink(plink_file_path)
 
 ```
-

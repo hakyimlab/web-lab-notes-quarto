@@ -1,7 +1,7 @@
 ---
 title: "How to create a new blog post"
 author: "Haky Im"
-date: "2023-03-01"
+date: "2023-01-01"
 categories: [how_to]
 ---
 
@@ -9,7 +9,7 @@ categories: [how_to]
 -   [ ] name the folder with year-month-date-slug, 2023-03-02-descriptive-title
 -   [ ] create a file named index.qmd and add the following header, update the title, your name and the date
 
-```
+```         
 ---
 title: "Your Title"
 author: "Your Name"
@@ -19,6 +19,10 @@ format:
   html:
     code-fold: true
     code-summary: "Show the code"
+    code-tools: true
+    code-overflow: wrap
+editor_options: 
+  chunk_output_type: console
 ---
 ```
 
