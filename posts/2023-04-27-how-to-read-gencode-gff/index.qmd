@@ -1,0 +1,77 @@
+---
+title: "How to read gencode gtf file"
+author: "Haky Im"
+date: "2023-04-27"
+categories: [analysis,how_to]
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+suppressMessages(library(tidyverse))
+suppressMessages(library(glue))
+PRE = "/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"
+SLUG="how-to-read-gencode-gtf-file" ## copy the slug from the header
+bDATE='2023-04-27' ## copy the date from the blog's header here
+DATA = glue("{PRE}/{bDATE}-{SLUG}")
+if(!file.exists(DATA)) system(glue::glue("mkdir {DATA}"))
+WORK=DATA
+
+## move data to DATA
+#tempodata=("~/Downloads/tempo/gwas_catalog_v1.0.2-associations_e105_r2022-04-07.tsv")
+#system(glue::glue("cp {tempodata} {DATA}/"))
+
+#system(glue("open {DATA}")) ## this will open the folder 
+```
+
+
+- [ ] install if necessary
+```
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("rtracklayer")
+```
+
+```{r}
+# Load the rtracklayer package
+library(rtracklayer)
+
+# Define the path to your GFF file
+gff_file_path <- glue("{DATA}/gencode.v43.annotation.gff3.gz")
+
+# Read the GFF file
+gff_data <- import(gff_file_path, format = "gff3")
+
+# Convert the GFF data to a data frame
+gff_data_frame <- as.data.frame(gff_data)
+
+# Display the first few rows of the data frame
+head(gff_data_frame)
+```
+
+
+```{r}
+"ENSG00000164308"
+
+## all gene_id start with ENSG
+table(substr(gff_data_frame$gene_id,1,4))
+## all entries have a gene_id
+dim(gff_data_frame)
+## number of genes with positive vs negative strands
+
+
+```
+
+
+```{r}
+library(biomaRt)
+
+mart <- useMart(biomart = "ENSEMBL_MART_ENSEMBL", 
+                host = "dec2013.archive.ensembl.org", # This host corresponds to Ensembl version 75
+                path = "/biomart/martservice")
+
+```
