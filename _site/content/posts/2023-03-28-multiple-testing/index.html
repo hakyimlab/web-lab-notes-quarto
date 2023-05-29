@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Haky Im">
+<meta name="dcterms.date" content="2023-03-28">
+
+<title>web-lab-notes-quarto - Multiple Testing Vignette</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">web-lab-notes-quarto</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/hakyimlab/"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">Multiple Testing Vignette</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+                                <div class="quarto-categories">
+                <div class="quarto-category">vignette</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Haky Im </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 28, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h2>
+<ul>
+<li>build intuition about p-values when multiple testing is performed via simulations</li>
+<li>recognize the need for multiple testing correction</li>
+<li>present methods to correct for multiple testing
+<ul>
+<li>Bonferroni correction</li>
+<li>FDR (false discovery rate)</li>
+</ul></li>
+</ul>
+</section>
+<section id="why-do-we-need-multiple-testing-correction" class="level2">
+<h2 class="anchored" data-anchor-id="why-do-we-need-multiple-testing-correction">Why do we need multiple testing correction</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://imgs.xkcd.com/comics/significant.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">xkcd image for significance</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="what-do-p-values-look-like-under-the-null-and-alternative" class="level2">
+<h2 class="anchored" data-anchor-id="what-do-p-values-look-like-under-the-null-and-alternative">What do p-values look like under the null and alternative?</h2>
+<section id="simulate-vectors-x-yaltxcdot-beta-epsilon-and-ynull-independent-of-x" class="level3">
+<h3 class="anchored" data-anchor-id="simulate-vectors-x-yaltxcdot-beta-epsilon-and-ynull-independent-of-x">Simulate vectors X, Yalt=<span class="math inline">\(X\cdot \beta + \epsilon\)</span> and Ynull independent of X</h3>
+<p>We start defining some parameters for the simulations. The need for these will become obvious later.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## set seed to make simulations reproducible</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## set.seed(20210108)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="do">## let's start with some parameter definitions</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>nsamp <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>h2 <span class="ot">=</span> <span class="fl">0.1</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>sig2X <span class="ot">=</span> h2</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>sig2epsi <span class="ot">=</span> (<span class="dv">1</span> <span class="sc">-</span> sig2X) <span class="sc">*</span> beta<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>sigX <span class="ot">=</span> <span class="fu">sqrt</span>(sig2X)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>sigepsi <span class="ot">=</span> <span class="fu">sqrt</span>(sig2epsi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, we simulate a vectors X and <span class="math inline">\(\epsilon\)</span>, and Ynull, all normally distributed</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">rnorm</span>(nsamp,<span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span> sigX)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>epsi <span class="ot">=</span> <span class="fu">rnorm</span>(nsamp,<span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>sigepsi)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="do">## generate Ynull (X has no effect on Ynull)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Ynull <span class="ot">=</span> <span class="fu">rnorm</span>(nsamp, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>beta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Calculate Yalt = X * beta + epsi</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Yalt <span class="ot">=</span> X <span class="sc">*</span> beta <span class="sc">+</span> epsi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Visualize Yalt vs X</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X, Yalt, <span class="at">main=</span><span class="st">"Yalt vs X"</span>); <span class="fu">grid</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Visualize Ynull vs X</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X, Ynull, <span class="at">main=</span><span class="st">"Ynull vs X"</span>);<span class="fu">grid</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Test association between Ynull and X</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(Ynull <span class="sc">~</span> X))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Ynull ~ X)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.8431 -1.3431 -0.2234  1.2499  5.8569 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)   0.1614     0.2046   0.789    0.432
+X            -0.2765     0.6653  -0.416    0.679
+
+Residual standard error: 2.039 on 98 degrees of freedom
+Multiple R-squared:  0.00176,   Adjusted R-squared:  -0.008426 
+F-statistic: 0.1728 on 1 and 98 DF,  p-value: 0.6786</code></pre>
+</div>
+</div>
+<ul class="task-list">
+<li><p><input type="checkbox" disabled="">what’s the p-value of the association?</p></li>
+<li><p><input type="checkbox" disabled="">is the p-value significant at 5% significance leve?</p></li>
+</ul>
+<p>Next, test the association between Yalt and X</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(Yalt <span class="sc">~</span> X))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Yalt ~ X)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.9610 -1.3250  0.0524  1.6622  4.2743 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)  -0.2102     0.1976  -1.064  0.29004   
+X             1.8297     0.6424   2.848  0.00536 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.969 on 98 degrees of freedom
+Multiple R-squared:  0.07645,   Adjusted R-squared:  0.06703 
+F-statistic: 8.113 on 1 and 98 DF,  p-value: 0.005357</code></pre>
+</div>
+</div>
+<ul class="task-list">
+<li><p><input type="checkbox" disabled="">what’s the p-value of the association?</p></li>
+<li><p><input type="checkbox" disabled="">is the p-value significant at 5% significance level?</p></li>
+</ul>
+</section>
+</section>
+<section id="calculate-the-empirical-distribution-of-p-values" class="level2">
+<h2 class="anchored" data-anchor-id="calculate-the-empirical-distribution-of-p-values">Calculate the empirical distribution of p-values</h2>
+<p>To calculate the empirical distribution of p-values under the null and alternatives we will simulate X, Yalt, Ynull for 10,000 times.</p>
+<section id="define-a-convenience-function-fastlm-will-do-linear-regression-much-faster" class="level3">
+<h3 class="anchored" data-anchor-id="define-a-convenience-function-fastlm-will-do-linear-regression-much-faster">Define a convenience function fastlm, will do linear regression much faster</h3>
+<p>We want to run 10,000 times this same regression, so here we define a function <code>fastlm</code> that will get us the p-values and regression coefficients.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fastlm <span class="ot">=</span> <span class="cf">function</span>(xx,yy)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## compute betahat (regression coef) and pvalue with Ftest</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">## for now it does not take covariates</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  df1 <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  df0 <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">=</span> <span class="sc">!</span><span class="fu">is.na</span>(xx) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(yy)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  xx <span class="ot">=</span> xx[ind]</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  yy <span class="ot">=</span> yy[ind]</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">sum</span>(ind)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  xbar <span class="ot">=</span> <span class="fu">mean</span>(xx)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  ybar <span class="ot">=</span> <span class="fu">mean</span>(yy)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  xx <span class="ot">=</span> xx <span class="sc">-</span> xbar</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  yy <span class="ot">=</span> yy <span class="sc">-</span> ybar</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  SXX <span class="ot">=</span> <span class="fu">sum</span>( xx<span class="sc">^</span><span class="dv">2</span> )</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  SYY <span class="ot">=</span> <span class="fu">sum</span>( yy<span class="sc">^</span><span class="dv">2</span> )</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  SXY <span class="ot">=</span> <span class="fu">sum</span>( xx <span class="sc">*</span> yy )</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  betahat <span class="ot">=</span> SXY <span class="sc">/</span> SXX</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  RSS1 <span class="ot">=</span> <span class="fu">sum</span>( ( yy <span class="sc">-</span> xx <span class="sc">*</span> betahat )<span class="sc">^</span><span class="dv">2</span> )</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  RSS0 <span class="ot">=</span> SYY</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  fstat <span class="ot">=</span> ( ( RSS0 <span class="sc">-</span> RSS1 ) <span class="sc">/</span> ( df1 <span class="sc">-</span> df0 ) )  <span class="sc">/</span> ( RSS1 <span class="sc">/</span> ( n <span class="sc">-</span> df1 ) )</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  pval <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(fstat, <span class="at">df1 =</span> ( df1 <span class="sc">-</span> df0 ), <span class="at">df2 =</span> ( n <span class="sc">-</span> df1 ))</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">=</span> <span class="fu">list</span>(<span class="at">betahat =</span> betahat, <span class="at">pval =</span> pval)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(res)</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="simulate-vectors-x-ynull-yalt-10000-times" class="level3">
+<h3 class="anchored" data-anchor-id="simulate-vectors-x-ynull-yalt-10000-times">Simulate vectors X, Ynull, Yalt 10,000 times</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>nsim <span class="ot">=</span> <span class="dv">10000</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="do">## simulate normally distributed X and epsi</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>Xmat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(nsim <span class="sc">*</span> nsamp,<span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span> sigX), nsamp, nsim)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>epsimat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(nsim <span class="sc">*</span> nsamp,<span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>sigepsi), nsamp, nsim)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="do">## generate Yalt (X has an effect on Yalt)</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>Ymat_alt <span class="ot">=</span> Xmat <span class="sc">*</span> beta <span class="sc">+</span> epsimat</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="do">## generate Ynull (X has no effect on Ynull)</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>Ymat_null <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(nsim <span class="sc">*</span> nsamp, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>beta), nsamp, nsim)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="do">## let's look at the dimensions of the simulated matrices</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(Ymat_null)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]   100 10000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(Ymat_alt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]   100 10000</code></pre>
+</div>
+</div>
+<p>Now we have 10000 independent simulations of X, Ynull, and Yalt</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## give them names so that we can refer to them later more easily</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Ymat_null) <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">"c"</span>,<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(Ymat_null))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Ymat_alt) <span class="ot">=</span> <span class="fu">colnames</span>(Ymat_null)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p>To calculate p-values under the null run 10,000 linear regressions using X and Ynull</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pvec_null <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>,nsim)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>bvec_null <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>,nsim)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(ss <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nsim)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">=</span> <span class="fu">fastlm</span>(Xmat[,ss], Ymat_null[,ss])</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  pvec_null[ss] <span class="ot">=</span> fit<span class="sc">$</span>pval  </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  bvec_null[ss] <span class="ot">=</span> fit<span class="sc">$</span>betahat</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pvec_null)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+0.0002453 0.2469528 0.4923302 0.4975967 0.7537629 0.9999578 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(pvec_null,<span class="at">xlab=</span><span class="st">"p-value"</span>,<span class="at">main=</span><span class="st">"Histogram of p-values under Null"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul class="task-list">
+<li><input type="checkbox" disabled="">how many simulations under the null yield p-value below 0.05? What percentage is that?</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(pvec_null<span class="sc">&lt;</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 523</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(pvec_null<span class="sc">&lt;</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0523</code></pre>
+</div>
+</div>
+<ul class="task-list">
+<li><p><input type="checkbox" disabled="">how many simulations under the null yield p-value &lt; 0.20?</p></li>
+<li><p><input type="checkbox" disabled="">what do you think the proportion of simulations with p-values &lt; <span class="math inline">\(\alpha\)</span> (<span class="math inline">\(\alpha\)</span> between 0 and 1) will be roughly?</p></li>
+<li><p><input type="checkbox" disabled="">Why do we need to use more stringent significance level when we test many times?</p></li>
+</ul>
+</section>
+</section>
+<section id="bonferroni-correction" class="level2">
+<h2 class="anchored" data-anchor-id="bonferroni-correction">Bonferroni correction</h2>
+<p>Use as the new threshold the original one divided by the number of tests. So typically</p>
+<p><span class="math display">\[\frac{0.05}{\text{total number of tests}}\]</span></p>
+<ul class="task-list">
+<li><p><input type="checkbox" disabled="">what’s the Bonferroni threshold for significance in this simulation?</p></li>
+<li><p><input type="checkbox" disabled="">how many did we find?</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>BF_thres <span class="ot">=</span> <span class="fl">0.05</span><span class="sc">/</span>nsim</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Bonferroni significance threshold</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(BF_thres) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5e-06</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">## number of Bonferroni significant associations</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(pvec_null<span class="sc">&lt;</span>BF_thres)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">## proportion of Bonferroni significant associations</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(pvec_null<span class="sc">&lt;</span>BF_thres)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+</section>
+<section id="mix-of-ynull-and-yalt" class="level2">
+<h2 class="anchored" data-anchor-id="mix-of-ynull-and-yalt">Mix of Ynull and Yalt</h2>
+<p>Let’s see what happens when we add a bunch of true associations in the matrix of null associations</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>prop_alt<span class="ot">=</span><span class="fl">0.20</span> <span class="do">## define proportion of alternative Ys in the mixture</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>selectvec <span class="ot">=</span> <span class="fu">rbinom</span>(nsim,<span class="dv">1</span>,prop_alt)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(selectvec) <span class="ot">=</span> <span class="fu">colnames</span>(Ymat_alt)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>selectvec[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> c1  c2  c3  c4  c5  c6  c7  c8  c9 c10 
+  0   0   0   0   0   0   0   0   0   0 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>Ymat_mix <span class="ot">=</span> <span class="fu">sweep</span>(Ymat_alt,<span class="dv">2</span>,selectvec,<span class="at">FUN=</span><span class="st">'*'</span>) <span class="sc">+</span> <span class="fu">sweep</span>(Ymat_null,<span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>selectvec,<span class="at">FUN=</span><span class="st">'*'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<!-- Ymat_mix should have Yalt for columns that have 1's in selectvec and Ynull where selectvec==0. Let's double check that. -->
+<!-- ```{r} -->
+<!-- print(head(Ymat_mix[,1:10]),2) ## use 2 decimals -->
+<!-- print(selectvec[1:10]) -->
+<!-- print("subtract Ymat_alt") -->
+<!-- print(head(Ymat_mix[,1:10] - Ymat_alt[,1:10]),2) -->
+<!-- print("subtract Ymat_null") -->
+<!-- print(head(Ymat_mix[,1:10] - Ymat_null[,1:10]),2) -->
+<!-- ## Q: how many columns have true effect and how many have null effects -->
+<!-- sum(selectvec) -->
+<!-- mean(selectvec) -->
+<!-- ``` -->
+<p>Run linear regression for all 10,000 phenotypes in the mix of true and false associations, Ymat_mix</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>pvec_mix <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>,nsim)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>bvec_mix <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>,nsim)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(ss <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nsim)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">=</span> <span class="fu">fastlm</span>(Xmat[,ss], Ymat_mix[,ss])</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  pvec_mix[ss] <span class="ot">=</span> fit<span class="sc">$</span>pval  </span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  bvec_mix[ss] <span class="ot">=</span> fit<span class="sc">$</span>betahat</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pvec_mix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+0.00000 0.08125 0.37643 0.40485 0.68693 0.99988 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(pvec_mix,<span class="at">xlab=</span><span class="st">"p-value"</span>,<span class="at">main=</span><span class="st">"Histogram of p-values under mixture of null and alt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>m_signif <span class="ot">=</span> <span class="fu">sum</span>(pvec_mix <span class="sc">&lt;</span> <span class="fl">0.05</span>) <span class="do">## observed number of significant associations</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>m_expected <span class="ot">=</span> <span class="fl">0.05</span><span class="sc">*</span>nsim <span class="do">## expected number of significant associations under the worst case scenario, where all features belong to the null </span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>m_signif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2191</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>m_expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 500</code></pre>
+</div>
+</div>
+<p><strong>Under the null, we were expecting 500 significant columns by chance but got 2191</strong></p>
+<p>Q: how can we estimate the proportion of true positives?</p>
+<p>We got 1691 extra columns, so it’s reasonable to expect that the extra significant results come from the alternative distribution (Yalt). So <span class="math display">\[\frac{\text{observed number of significant} - \text{expected number of significant}}{\text{observed number of significant}}\]</span> should be a good estimate of the true discovery rate. False discovery rate is defined as 1 - the true discovery rate.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>thres <span class="ot">=</span> <span class="fl">0.05</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>FDR <span class="ot">=</span> <span class="fu">sum</span>((pvec_mix<span class="sc">&lt;</span>thres <span class="sc">&amp;</span> selectvec<span class="sc">==</span><span class="dv">0</span>)) <span class="sc">/</span> <span class="fu">sum</span>(pvec_mix<span class="sc">&lt;</span>thres)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="do">## proportion of null columns that are significant among all significant</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>FDR</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1866728</code></pre>
+</div>
+</div>
+<p><strong>If we use a p-value threshold of 0.05, 81.33 percent of the signficant columns are true discoveries. </strong> In this case, we know which ones are true or false associations because we decided using the <code>selectvec</code> vectors which simulated Y would be a function of X or unrelated to X.</p>
+<ul class="task-list">
+<li><p><input type="checkbox" disabled="">what’s the proportion of false discoveries if we use a significance level of 0.01</p></li>
+<li><p><input type="checkbox" disabled="">what’s the proportion of false discoveries if we use Bonferroni correction as the significance level?</p></li>
+<li><p><input type="checkbox" disabled="">What’s the proportion of missed signals, proportion of true associations that have p-values greater than the Bonferroni threshold?</p></li>
+</ul>
+</section>
+<section id="common-approaches-to-control-type-i-errors" class="level2">
+<h2 class="anchored" data-anchor-id="common-approaches-to-control-type-i-errors">Common approaches to control type I errors</h2>
+<p>Assuming we are testing <span class="math inline">\(m\)</span> hypothesis, let’s define the following terms for the different errors.</p>
+<table class="table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 33%">
+<col style="width: 45%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">Called Significant</th>
+<th style="text-align: center;">Called not significant</th>
+<th style="text-align: left;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Null true</strong></td>
+<td style="text-align: center;"><span class="math inline">\(F\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(m_0 - F\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(m_0\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>Alt true</strong></td>
+<td style="text-align: center;"><span class="math inline">\(T\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(m_1 - T\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(m_1\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td style="text-align: center;"><span class="math inline">\(S\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(m - S\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(m\)</span></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Bonferroni correction assures that the <strong>FWER</strong> (Familywise error rate) <span class="math inline">\(P(F \ge 1)\)</span> is below the acceptable type I error, typically 0.05. <span class="math display">\[P(F \ge 1) &lt; \alpha. \]</span> We achieve that by requiring that for each test <span class="math display">\[p&lt;\alpha/\text{# tests}.\]</span> This can be too stringent and lead to miss real signals.</li>
+<li><strong>pFDR</strong> (positive false discovery rate) <span class="math display">\[E\left(\frac{F}{S} \rvert S&gt;0\right)\]</span></li>
+<li><strong>qvalue</strong> is the minimum false discovery rate attainable when the feature (SNP) is called significant</li>
+</ul>
+</section>
+<section id="table-of-null-or-alternative-vs.-significant-or-not-significant" class="level2">
+<h2 class="anchored" data-anchor-id="table-of-null-or-alternative-vs.-significant-or-not-significant">Table of null or alternative vs.&nbsp;significant or not significant</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>count_table <span class="ot">=</span> <span class="fu">t</span>(<span class="fu">table</span>(pvec_mix<span class="sc">&gt;</span><span class="fl">0.05</span>, selectvec))</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(count_table) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Called significant"</span>, <span class="st">"Called not significant"</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(count_table) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Null true"</span>, <span class="st">"Alt true"</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(count_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Called significant</th>
+<th style="text-align: right;">Called not significant</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Null true</td>
+<td style="text-align: right;">409</td>
+<td style="text-align: right;">7611</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Alt true</td>
+<td style="text-align: right;">1782</td>
+<td style="text-align: right;">198</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Let’s calculate the qvalue</p>
+</section>
+<section id="use-qvalue-package-to-calculate-fdr-and" class="level2">
+<h2 class="anchored" data-anchor-id="use-qvalue-package-to-calculate-fdr-and">Use qvalue package to calculate FDR and</h2>
+<p>Let’s check whether small qvalues correspond to true associations (i.e.&nbsp;the phenotype was generated under the alternative distribution)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">## install qvalue if not available.</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(F) <span class="do">## I set it to F now because I already installed the qvalue package</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>{<span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">"qvalue"</span>)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="do">## calculate qvalue using the qvalue function, which returns a list of values, we select the qvalue vector, which assigns the false discovery rate if the threshold for significance was the p-value of the same simulation vector</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>qres_mix <span class="ot">=</span> qvalue<span class="sc">::</span><span class="fu">qvalue</span>(pvec_mix)</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>qvec_mix <span class="ot">=</span> qres_mix<span class="sc">$</span>qvalue</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>qres_null <span class="ot">=</span> qvalue<span class="sc">::</span><span class="fu">qvalue</span>(pvec_null)</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>qvec_null <span class="ot">=</span> qres_null<span class="sc">$</span>qvalue</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(qvec_mix<span class="sc">~</span>selectvec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">##plot(qvec_mix,col=selectvec*2 + 1, pch=selectvec + 1, lwd=selectvec*2 + 1) </span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="do">## using selectvec*2 + 1 as a quick way to get the vector to be 1 and 3 (1 is black 3 is green) instead of 1 and 2 (2 is read and can be difficult to read for color blind people)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Plot sorted qvalues and color by the selectvec status (true association status)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>ind<span class="ot">=</span><span class="fu">order</span>(qvec_mix,<span class="at">decreasing=</span><span class="cn">FALSE</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sort</span>(qvec_mix),<span class="at">col=</span>selectvec[ind]<span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="at">pch=</span>selectvec[ind] <span class="sc">+</span> <span class="dv">1</span>, <span class="at">lwd=</span>selectvec[ind]<span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qvec_mix) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+0.0000001 0.2605298 0.6035350 0.4948872 0.7344018 0.8018152 </code></pre>
+</div>
+</div>
+<ul class="task-list">
+<li><input type="checkbox" disabled="">do small qvalues tend to be true?</li>
+<li><input type="checkbox" disabled="">interpret the figure</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="do">## distribution of qvalues and pvalues by causal status</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(pvec_mix <span class="sc">~</span> selectvec, <span class="at">main=</span><span class="st">'pvalue by causal status; 1=alt, 0=null'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(qvec_mix <span class="sc">~</span> selectvec, <span class="at">main=</span><span class="st">'qvalue by causal status; 1=alt, 0=null'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-20-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul class="task-list">
+<li><input type="checkbox" disabled="">interpret these figures</li>
+</ul>
+</section>
+<section id="how-do-qvalues-and-pvalues-relate-to-each-other" class="level2">
+<h2 class="anchored" data-anchor-id="how-do-qvalues-and-pvalues-relate-to-each-other">How do qvalues and pvalues relate to each other?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pvec_null,qvec_null,<span class="at">main=</span><span class="st">'qvalue vs pvalue for null'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pvec_mix,qvec_mix,<span class="at">main=</span><span class="st">'qvalue vs pvalue for mixture of null and alt'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-21-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>q-values are monotonic functions of p-values</p>
+</blockquote>
+<ul class="task-list">
+<li><input type="checkbox" disabled="">what’s the smallest qvalue when all simulations are from the null?</li>
+<li><input type="checkbox" disabled="">what’s the smallest qvalue when all simulations are from the mixture?</li>
+</ul>
+</section>
+<section id="pi0-and-pi1" class="level2">
+<h2 class="anchored" data-anchor-id="pi0-and-pi1">pi0 and pi1</h2>
+<p>pi0 is the proportion of null hypothesis which can be estimated using the qvalue package 1 - pi1 is the proportion of true positive associations. This is a useful parameter as we will see in later classes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>qres_null<span class="sc">$</span>pi0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9846734</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>qres_mix<span class="sc">$</span>pi0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8019101</code></pre>
+</div>
+</div>
+<ul class="task-list">
+<li><input type="checkbox" disabled="">how many true positive proportion did you expect given the simulations we performed?</li>
+</ul>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<p>Storey, John D., and Robert Tibshirani. 2003. “Statistical Significance for Genomewide Studies.” Proceedings of the National Academy of Sciences 100 (16): 9440–45.</p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb55" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Multiple Testing Vignette"</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Haky Im"</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2023-03-28"</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [vignette]</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-summary: "Show the code"</span></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learning objectives</span></span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>build intuition about p-values when multiple testing is performed via simulations </span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>recognize the need for multiple testing correction</span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>present methods to correct for multiple testing</span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Bonferroni correction</span>
+<span id="cb55-20"><a href="#cb55-20" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>FDR (false discovery rate)</span>
+<span id="cb55-21"><a href="#cb55-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-22"><a href="#cb55-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why do we need multiple testing correction</span></span>
+<span id="cb55-23"><a href="#cb55-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-24"><a href="#cb55-24" aria-hidden="true" tabindex="-1"></a><span class="al">![xkcd image for significance](https://imgs.xkcd.com/comics/significant.png)</span></span>
+<span id="cb55-25"><a href="#cb55-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-26"><a href="#cb55-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## What do p-values look like under the null and alternative?</span></span>
+<span id="cb55-27"><a href="#cb55-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-28"><a href="#cb55-28" aria-hidden="true" tabindex="-1"></a><span class="fu">### Simulate vectors X, Yalt=$X\cdot \beta + \epsilon$ and Ynull independent of X</span></span>
+<span id="cb55-29"><a href="#cb55-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-30"><a href="#cb55-30" aria-hidden="true" tabindex="-1"></a>We start defining some parameters for the simulations. The need for these will become obvious later.</span>
+<span id="cb55-31"><a href="#cb55-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-34"><a href="#cb55-34" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-35"><a href="#cb55-35" aria-hidden="true" tabindex="-1"></a><span class="do">## set seed to make simulations reproducible</span></span>
+<span id="cb55-36"><a href="#cb55-36" aria-hidden="true" tabindex="-1"></a><span class="do">## set.seed(20210108)</span></span>
+<span id="cb55-37"><a href="#cb55-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-38"><a href="#cb55-38" aria-hidden="true" tabindex="-1"></a><span class="do">## let's start with some parameter definitions</span></span>
+<span id="cb55-39"><a href="#cb55-39" aria-hidden="true" tabindex="-1"></a>nsamp <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb55-40"><a href="#cb55-40" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb55-41"><a href="#cb55-41" aria-hidden="true" tabindex="-1"></a>h2 <span class="ot">=</span> <span class="fl">0.1</span></span>
+<span id="cb55-42"><a href="#cb55-42" aria-hidden="true" tabindex="-1"></a>sig2X <span class="ot">=</span> h2</span>
+<span id="cb55-43"><a href="#cb55-43" aria-hidden="true" tabindex="-1"></a>sig2epsi <span class="ot">=</span> (<span class="dv">1</span> <span class="sc">-</span> sig2X) <span class="sc">*</span> beta<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb55-44"><a href="#cb55-44" aria-hidden="true" tabindex="-1"></a>sigX <span class="ot">=</span> <span class="fu">sqrt</span>(sig2X)</span>
+<span id="cb55-45"><a href="#cb55-45" aria-hidden="true" tabindex="-1"></a>sigepsi <span class="ot">=</span> <span class="fu">sqrt</span>(sig2epsi)</span>
+<span id="cb55-46"><a href="#cb55-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-47"><a href="#cb55-47" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-48"><a href="#cb55-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-49"><a href="#cb55-49" aria-hidden="true" tabindex="-1"></a>Next, we simulate a vectors X and $\epsilon$, and Ynull, all normally distributed</span>
+<span id="cb55-50"><a href="#cb55-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-53"><a href="#cb55-53" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-54"><a href="#cb55-54" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">rnorm</span>(nsamp,<span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span> sigX)</span>
+<span id="cb55-55"><a href="#cb55-55" aria-hidden="true" tabindex="-1"></a>epsi <span class="ot">=</span> <span class="fu">rnorm</span>(nsamp,<span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>sigepsi)</span>
+<span id="cb55-56"><a href="#cb55-56" aria-hidden="true" tabindex="-1"></a><span class="do">## generate Ynull (X has no effect on Ynull)</span></span>
+<span id="cb55-57"><a href="#cb55-57" aria-hidden="true" tabindex="-1"></a>Ynull <span class="ot">=</span> <span class="fu">rnorm</span>(nsamp, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>beta)</span>
+<span id="cb55-58"><a href="#cb55-58" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-59"><a href="#cb55-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-60"><a href="#cb55-60" aria-hidden="true" tabindex="-1"></a>Calculate Yalt = X * beta + epsi</span>
+<span id="cb55-61"><a href="#cb55-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-64"><a href="#cb55-64" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-65"><a href="#cb55-65" aria-hidden="true" tabindex="-1"></a>Yalt <span class="ot">=</span> X <span class="sc">*</span> beta <span class="sc">+</span> epsi</span>
+<span id="cb55-66"><a href="#cb55-66" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-67"><a href="#cb55-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-68"><a href="#cb55-68" aria-hidden="true" tabindex="-1"></a>Visualize Yalt vs X</span>
+<span id="cb55-71"><a href="#cb55-71" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-72"><a href="#cb55-72" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X, Yalt, <span class="at">main=</span><span class="st">"Yalt vs X"</span>); <span class="fu">grid</span>()</span>
+<span id="cb55-73"><a href="#cb55-73" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-74"><a href="#cb55-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-75"><a href="#cb55-75" aria-hidden="true" tabindex="-1"></a>Visualize Ynull vs X</span>
+<span id="cb55-78"><a href="#cb55-78" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-79"><a href="#cb55-79" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X, Ynull, <span class="at">main=</span><span class="st">"Ynull vs X"</span>);<span class="fu">grid</span>()</span>
+<span id="cb55-80"><a href="#cb55-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-81"><a href="#cb55-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-82"><a href="#cb55-82" aria-hidden="true" tabindex="-1"></a>Test association between Ynull and X</span>
+<span id="cb55-83"><a href="#cb55-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-86"><a href="#cb55-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-87"><a href="#cb55-87" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(Ynull <span class="sc">~</span> X))</span>
+<span id="cb55-88"><a href="#cb55-88" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-89"><a href="#cb55-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-90"><a href="#cb55-90" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> what's the p-value of the association?</span>
+<span id="cb55-91"><a href="#cb55-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-92"><a href="#cb55-92" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> is the p-value significant at 5% significance leve?</span>
+<span id="cb55-93"><a href="#cb55-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-94"><a href="#cb55-94" aria-hidden="true" tabindex="-1"></a>Next, test the association between Yalt and X</span>
+<span id="cb55-95"><a href="#cb55-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-98"><a href="#cb55-98" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-99"><a href="#cb55-99" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(Yalt <span class="sc">~</span> X))</span>
+<span id="cb55-100"><a href="#cb55-100" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-101"><a href="#cb55-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-102"><a href="#cb55-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-103"><a href="#cb55-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> what's the p-value of the association?</span>
+<span id="cb55-104"><a href="#cb55-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-105"><a href="#cb55-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> is the p-value significant at 5% significance level?</span>
+<span id="cb55-106"><a href="#cb55-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-107"><a href="#cb55-107" aria-hidden="true" tabindex="-1"></a><span class="fu">## Calculate the empirical distribution of p-values </span></span>
+<span id="cb55-108"><a href="#cb55-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-109"><a href="#cb55-109" aria-hidden="true" tabindex="-1"></a>To calculate the empirical distribution of p-values under the null and alternatives we will simulate X, Yalt, Ynull for 10,000 times.</span>
+<span id="cb55-110"><a href="#cb55-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-111"><a href="#cb55-111" aria-hidden="true" tabindex="-1"></a><span class="fu">### Define a convenience function fastlm, will do linear regression much faster</span></span>
+<span id="cb55-112"><a href="#cb55-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-113"><a href="#cb55-113" aria-hidden="true" tabindex="-1"></a>We want to run 10,000 times this same regression, so here we define a function <span class="in">`fastlm`</span> that will get us the p-values and regression coefficients.</span>
+<span id="cb55-114"><a href="#cb55-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-115"><a href="#cb55-115" aria-hidden="true" tabindex="-1"></a><span class="in">```{r message=FALSE}</span></span>
+<span id="cb55-116"><a href="#cb55-116" aria-hidden="true" tabindex="-1"></a>fastlm <span class="ot">=</span> <span class="cf">function</span>(xx,yy)</span>
+<span id="cb55-117"><a href="#cb55-117" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb55-118"><a href="#cb55-118" aria-hidden="true" tabindex="-1"></a>  <span class="do">## compute betahat (regression coef) and pvalue with Ftest</span></span>
+<span id="cb55-119"><a href="#cb55-119" aria-hidden="true" tabindex="-1"></a>  <span class="do">## for now it does not take covariates</span></span>
+<span id="cb55-120"><a href="#cb55-120" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-121"><a href="#cb55-121" aria-hidden="true" tabindex="-1"></a>  df1 <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb55-122"><a href="#cb55-122" aria-hidden="true" tabindex="-1"></a>  df0 <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb55-123"><a href="#cb55-123" aria-hidden="true" tabindex="-1"></a>  ind <span class="ot">=</span> <span class="sc">!</span><span class="fu">is.na</span>(xx) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(yy)</span>
+<span id="cb55-124"><a href="#cb55-124" aria-hidden="true" tabindex="-1"></a>  xx <span class="ot">=</span> xx[ind]</span>
+<span id="cb55-125"><a href="#cb55-125" aria-hidden="true" tabindex="-1"></a>  yy <span class="ot">=</span> yy[ind]</span>
+<span id="cb55-126"><a href="#cb55-126" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">=</span> <span class="fu">sum</span>(ind)</span>
+<span id="cb55-127"><a href="#cb55-127" aria-hidden="true" tabindex="-1"></a>  xbar <span class="ot">=</span> <span class="fu">mean</span>(xx)</span>
+<span id="cb55-128"><a href="#cb55-128" aria-hidden="true" tabindex="-1"></a>  ybar <span class="ot">=</span> <span class="fu">mean</span>(yy)</span>
+<span id="cb55-129"><a href="#cb55-129" aria-hidden="true" tabindex="-1"></a>  xx <span class="ot">=</span> xx <span class="sc">-</span> xbar</span>
+<span id="cb55-130"><a href="#cb55-130" aria-hidden="true" tabindex="-1"></a>  yy <span class="ot">=</span> yy <span class="sc">-</span> ybar</span>
+<span id="cb55-131"><a href="#cb55-131" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-132"><a href="#cb55-132" aria-hidden="true" tabindex="-1"></a>  SXX <span class="ot">=</span> <span class="fu">sum</span>( xx<span class="sc">^</span><span class="dv">2</span> )</span>
+<span id="cb55-133"><a href="#cb55-133" aria-hidden="true" tabindex="-1"></a>  SYY <span class="ot">=</span> <span class="fu">sum</span>( yy<span class="sc">^</span><span class="dv">2</span> )</span>
+<span id="cb55-134"><a href="#cb55-134" aria-hidden="true" tabindex="-1"></a>  SXY <span class="ot">=</span> <span class="fu">sum</span>( xx <span class="sc">*</span> yy )</span>
+<span id="cb55-135"><a href="#cb55-135" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-136"><a href="#cb55-136" aria-hidden="true" tabindex="-1"></a>  betahat <span class="ot">=</span> SXY <span class="sc">/</span> SXX</span>
+<span id="cb55-137"><a href="#cb55-137" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-138"><a href="#cb55-138" aria-hidden="true" tabindex="-1"></a>  RSS1 <span class="ot">=</span> <span class="fu">sum</span>( ( yy <span class="sc">-</span> xx <span class="sc">*</span> betahat )<span class="sc">^</span><span class="dv">2</span> )</span>
+<span id="cb55-139"><a href="#cb55-139" aria-hidden="true" tabindex="-1"></a>  RSS0 <span class="ot">=</span> SYY</span>
+<span id="cb55-140"><a href="#cb55-140" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-141"><a href="#cb55-141" aria-hidden="true" tabindex="-1"></a>  fstat <span class="ot">=</span> ( ( RSS0 <span class="sc">-</span> RSS1 ) <span class="sc">/</span> ( df1 <span class="sc">-</span> df0 ) )  <span class="sc">/</span> ( RSS1 <span class="sc">/</span> ( n <span class="sc">-</span> df1 ) )</span>
+<span id="cb55-142"><a href="#cb55-142" aria-hidden="true" tabindex="-1"></a>  pval <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(fstat, <span class="at">df1 =</span> ( df1 <span class="sc">-</span> df0 ), <span class="at">df2 =</span> ( n <span class="sc">-</span> df1 ))</span>
+<span id="cb55-143"><a href="#cb55-143" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">=</span> <span class="fu">list</span>(<span class="at">betahat =</span> betahat, <span class="at">pval =</span> pval)</span>
+<span id="cb55-144"><a href="#cb55-144" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb55-145"><a href="#cb55-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(res)</span>
+<span id="cb55-146"><a href="#cb55-146" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb55-147"><a href="#cb55-147" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-148"><a href="#cb55-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-149"><a href="#cb55-149" aria-hidden="true" tabindex="-1"></a><span class="fu">### Simulate vectors X, Ynull, Yalt 10,000 times</span></span>
+<span id="cb55-150"><a href="#cb55-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-153"><a href="#cb55-153" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-154"><a href="#cb55-154" aria-hidden="true" tabindex="-1"></a>nsim <span class="ot">=</span> <span class="dv">10000</span></span>
+<span id="cb55-155"><a href="#cb55-155" aria-hidden="true" tabindex="-1"></a><span class="do">## simulate normally distributed X and epsi</span></span>
+<span id="cb55-156"><a href="#cb55-156" aria-hidden="true" tabindex="-1"></a>Xmat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(nsim <span class="sc">*</span> nsamp,<span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span> sigX), nsamp, nsim)</span>
+<span id="cb55-157"><a href="#cb55-157" aria-hidden="true" tabindex="-1"></a>epsimat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(nsim <span class="sc">*</span> nsamp,<span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>sigepsi), nsamp, nsim)</span>
+<span id="cb55-158"><a href="#cb55-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-159"><a href="#cb55-159" aria-hidden="true" tabindex="-1"></a><span class="do">## generate Yalt (X has an effect on Yalt)</span></span>
+<span id="cb55-160"><a href="#cb55-160" aria-hidden="true" tabindex="-1"></a>Ymat_alt <span class="ot">=</span> Xmat <span class="sc">*</span> beta <span class="sc">+</span> epsimat</span>
+<span id="cb55-161"><a href="#cb55-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-162"><a href="#cb55-162" aria-hidden="true" tabindex="-1"></a><span class="do">## generate Ynull (X has no effect on Ynull)</span></span>
+<span id="cb55-163"><a href="#cb55-163" aria-hidden="true" tabindex="-1"></a>Ymat_null <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(nsim <span class="sc">*</span> nsamp, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span>beta), nsamp, nsim)</span>
+<span id="cb55-164"><a href="#cb55-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-165"><a href="#cb55-165" aria-hidden="true" tabindex="-1"></a><span class="do">## let's look at the dimensions of the simulated matrices</span></span>
+<span id="cb55-166"><a href="#cb55-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-167"><a href="#cb55-167" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(Ymat_null)</span>
+<span id="cb55-168"><a href="#cb55-168" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(Ymat_alt)</span>
+<span id="cb55-169"><a href="#cb55-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-170"><a href="#cb55-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-171"><a href="#cb55-171" aria-hidden="true" tabindex="-1"></a>Now we have 10000 independent simulations of X, Ynull, and Yalt</span>
+<span id="cb55-172"><a href="#cb55-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-175"><a href="#cb55-175" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-176"><a href="#cb55-176" aria-hidden="true" tabindex="-1"></a><span class="do">## give them names so that we can refer to them later more easily</span></span>
+<span id="cb55-177"><a href="#cb55-177" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Ymat_null) <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">"c"</span>,<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(Ymat_null))</span>
+<span id="cb55-178"><a href="#cb55-178" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Ymat_alt) <span class="ot">=</span> <span class="fu">colnames</span>(Ymat_null)</span>
+<span id="cb55-179"><a href="#cb55-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-180"><a href="#cb55-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-181"><a href="#cb55-181" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; To calculate p-values under the null run 10,000 linear regressions using X and Ynull</span></span>
+<span id="cb55-182"><a href="#cb55-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-185"><a href="#cb55-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-186"><a href="#cb55-186" aria-hidden="true" tabindex="-1"></a>pvec_null <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>,nsim)</span>
+<span id="cb55-187"><a href="#cb55-187" aria-hidden="true" tabindex="-1"></a>bvec_null <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>,nsim)</span>
+<span id="cb55-188"><a href="#cb55-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-189"><a href="#cb55-189" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(ss <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nsim)</span>
+<span id="cb55-190"><a href="#cb55-190" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb55-191"><a href="#cb55-191" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">=</span> <span class="fu">fastlm</span>(Xmat[,ss], Ymat_null[,ss])</span>
+<span id="cb55-192"><a href="#cb55-192" aria-hidden="true" tabindex="-1"></a>  pvec_null[ss] <span class="ot">=</span> fit<span class="sc">$</span>pval  </span>
+<span id="cb55-193"><a href="#cb55-193" aria-hidden="true" tabindex="-1"></a>  bvec_null[ss] <span class="ot">=</span> fit<span class="sc">$</span>betahat</span>
+<span id="cb55-194"><a href="#cb55-194" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb55-195"><a href="#cb55-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-196"><a href="#cb55-196" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pvec_null)</span>
+<span id="cb55-197"><a href="#cb55-197" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(pvec_null,<span class="at">xlab=</span><span class="st">"p-value"</span>,<span class="at">main=</span><span class="st">"Histogram of p-values under Null"</span>)</span>
+<span id="cb55-198"><a href="#cb55-198" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-199"><a href="#cb55-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-200"><a href="#cb55-200" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> how many simulations under the null yield p-value below 0.05? What percentage is that?</span>
+<span id="cb55-201"><a href="#cb55-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-204"><a href="#cb55-204" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-205"><a href="#cb55-205" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(pvec_null<span class="sc">&lt;</span><span class="fl">0.05</span>)</span>
+<span id="cb55-206"><a href="#cb55-206" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(pvec_null<span class="sc">&lt;</span><span class="fl">0.05</span>)</span>
+<span id="cb55-207"><a href="#cb55-207" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-208"><a href="#cb55-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-209"><a href="#cb55-209" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> how many simulations under the null yield p-value &lt; 0.20?</span>
+<span id="cb55-210"><a href="#cb55-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-211"><a href="#cb55-211" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> what do you think the proportion of simulations with p-values &lt; $\alpha$ ($\alpha$ between 0 and 1) will be roughly?</span>
+<span id="cb55-212"><a href="#cb55-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-213"><a href="#cb55-213" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Why do we need to use more stringent significance level when we test many times?</span>
+<span id="cb55-214"><a href="#cb55-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-215"><a href="#cb55-215" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bonferroni correction</span></span>
+<span id="cb55-216"><a href="#cb55-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-217"><a href="#cb55-217" aria-hidden="true" tabindex="-1"></a>Use as the new threshold the original one divided by the number of tests. So typically</span>
+<span id="cb55-218"><a href="#cb55-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-219"><a href="#cb55-219" aria-hidden="true" tabindex="-1"></a>$$\frac{0.05}{\text{total number of tests}}$$</span>
+<span id="cb55-220"><a href="#cb55-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-221"><a href="#cb55-221" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> what's the Bonferroni threshold for significance in this simulation?</span>
+<span id="cb55-222"><a href="#cb55-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-223"><a href="#cb55-223" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> how many did we find?</span>
+<span id="cb55-224"><a href="#cb55-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-227"><a href="#cb55-227" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-228"><a href="#cb55-228" aria-hidden="true" tabindex="-1"></a>BF_thres <span class="ot">=</span> <span class="fl">0.05</span><span class="sc">/</span>nsim</span>
+<span id="cb55-229"><a href="#cb55-229" aria-hidden="true" tabindex="-1"></a><span class="do">## Bonferroni significance threshold</span></span>
+<span id="cb55-230"><a href="#cb55-230" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(BF_thres) </span>
+<span id="cb55-231"><a href="#cb55-231" aria-hidden="true" tabindex="-1"></a><span class="do">## number of Bonferroni significant associations</span></span>
+<span id="cb55-232"><a href="#cb55-232" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(pvec_null<span class="sc">&lt;</span>BF_thres)</span>
+<span id="cb55-233"><a href="#cb55-233" aria-hidden="true" tabindex="-1"></a><span class="do">## proportion of Bonferroni significant associations</span></span>
+<span id="cb55-234"><a href="#cb55-234" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(pvec_null<span class="sc">&lt;</span>BF_thres)</span>
+<span id="cb55-235"><a href="#cb55-235" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-236"><a href="#cb55-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-237"><a href="#cb55-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-238"><a href="#cb55-238" aria-hidden="true" tabindex="-1"></a><span class="fu">## Mix of Ynull and Yalt</span></span>
+<span id="cb55-239"><a href="#cb55-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-240"><a href="#cb55-240" aria-hidden="true" tabindex="-1"></a>Let's see what happens when we add a bunch of true associations in the matrix of null associations</span>
+<span id="cb55-241"><a href="#cb55-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-244"><a href="#cb55-244" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-245"><a href="#cb55-245" aria-hidden="true" tabindex="-1"></a>prop_alt<span class="ot">=</span><span class="fl">0.20</span> <span class="do">## define proportion of alternative Ys in the mixture</span></span>
+<span id="cb55-246"><a href="#cb55-246" aria-hidden="true" tabindex="-1"></a>selectvec <span class="ot">=</span> <span class="fu">rbinom</span>(nsim,<span class="dv">1</span>,prop_alt)</span>
+<span id="cb55-247"><a href="#cb55-247" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(selectvec) <span class="ot">=</span> <span class="fu">colnames</span>(Ymat_alt)</span>
+<span id="cb55-248"><a href="#cb55-248" aria-hidden="true" tabindex="-1"></a>selectvec[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb55-249"><a href="#cb55-249" aria-hidden="true" tabindex="-1"></a>Ymat_mix <span class="ot">=</span> <span class="fu">sweep</span>(Ymat_alt,<span class="dv">2</span>,selectvec,<span class="at">FUN=</span><span class="st">'*'</span>) <span class="sc">+</span> <span class="fu">sweep</span>(Ymat_null,<span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>selectvec,<span class="at">FUN=</span><span class="st">'*'</span>)</span>
+<span id="cb55-250"><a href="#cb55-250" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-251"><a href="#cb55-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-252"><a href="#cb55-252" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Ymat_mix should have Yalt for columns that have 1's in selectvec and Ynull where selectvec==0. Let's double check that. --&gt;</span></span>
+<span id="cb55-253"><a href="#cb55-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-254"><a href="#cb55-254" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r} --&gt;</span></span>
+<span id="cb55-255"><a href="#cb55-255" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- print(head(Ymat_mix[,1:10]),2) ## use 2 decimals --&gt;</span></span>
+<span id="cb55-256"><a href="#cb55-256" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- print(selectvec[1:10]) --&gt;</span></span>
+<span id="cb55-257"><a href="#cb55-257" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- print("subtract Ymat_alt") --&gt;</span></span>
+<span id="cb55-258"><a href="#cb55-258" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- print(head(Ymat_mix[,1:10] - Ymat_alt[,1:10]),2) --&gt;</span></span>
+<span id="cb55-259"><a href="#cb55-259" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- print("subtract Ymat_null") --&gt;</span></span>
+<span id="cb55-260"><a href="#cb55-260" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- print(head(Ymat_mix[,1:10] - Ymat_null[,1:10]),2) --&gt;</span></span>
+<span id="cb55-261"><a href="#cb55-261" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ## Q: how many columns have true effect and how many have null effects --&gt;</span></span>
+<span id="cb55-262"><a href="#cb55-262" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- sum(selectvec) --&gt;</span></span>
+<span id="cb55-263"><a href="#cb55-263" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- mean(selectvec) --&gt;</span></span>
+<span id="cb55-264"><a href="#cb55-264" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
+<span id="cb55-265"><a href="#cb55-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-266"><a href="#cb55-266" aria-hidden="true" tabindex="-1"></a>Run linear regression for all 10,000 phenotypes in the mix of true and false associations, Ymat_mix</span>
+<span id="cb55-269"><a href="#cb55-269" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-270"><a href="#cb55-270" aria-hidden="true" tabindex="-1"></a>pvec_mix <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>,nsim)</span>
+<span id="cb55-271"><a href="#cb55-271" aria-hidden="true" tabindex="-1"></a>bvec_mix <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>,nsim)</span>
+<span id="cb55-272"><a href="#cb55-272" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(ss <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nsim)</span>
+<span id="cb55-273"><a href="#cb55-273" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb55-274"><a href="#cb55-274" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">=</span> <span class="fu">fastlm</span>(Xmat[,ss], Ymat_mix[,ss])</span>
+<span id="cb55-275"><a href="#cb55-275" aria-hidden="true" tabindex="-1"></a>  pvec_mix[ss] <span class="ot">=</span> fit<span class="sc">$</span>pval  </span>
+<span id="cb55-276"><a href="#cb55-276" aria-hidden="true" tabindex="-1"></a>  bvec_mix[ss] <span class="ot">=</span> fit<span class="sc">$</span>betahat</span>
+<span id="cb55-277"><a href="#cb55-277" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb55-278"><a href="#cb55-278" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pvec_mix)</span>
+<span id="cb55-279"><a href="#cb55-279" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(pvec_mix,<span class="at">xlab=</span><span class="st">"p-value"</span>,<span class="at">main=</span><span class="st">"Histogram of p-values under mixture of null and alt"</span>)</span>
+<span id="cb55-280"><a href="#cb55-280" aria-hidden="true" tabindex="-1"></a>m_signif <span class="ot">=</span> <span class="fu">sum</span>(pvec_mix <span class="sc">&lt;</span> <span class="fl">0.05</span>) <span class="do">## observed number of significant associations</span></span>
+<span id="cb55-281"><a href="#cb55-281" aria-hidden="true" tabindex="-1"></a>m_expected <span class="ot">=</span> <span class="fl">0.05</span><span class="sc">*</span>nsim <span class="do">## expected number of significant associations under the worst case scenario, where all features belong to the null </span></span>
+<span id="cb55-282"><a href="#cb55-282" aria-hidden="true" tabindex="-1"></a>m_signif</span>
+<span id="cb55-283"><a href="#cb55-283" aria-hidden="true" tabindex="-1"></a>m_expected</span>
+<span id="cb55-284"><a href="#cb55-284" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-285"><a href="#cb55-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-286"><a href="#cb55-286" aria-hidden="true" tabindex="-1"></a>**Under the null, we were expecting `r 0.05*nsim` significant columns by chance but got `r m_signif`**</span>
+<span id="cb55-287"><a href="#cb55-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-288"><a href="#cb55-288" aria-hidden="true" tabindex="-1"></a>Q: how can we estimate the proportion of true positives?</span>
+<span id="cb55-289"><a href="#cb55-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-290"><a href="#cb55-290" aria-hidden="true" tabindex="-1"></a>We got <span class="in">`r m_signif - m_expected`</span> extra columns, so it's reasonable to expect that the extra significant results come from the alternative distribution (Yalt). So </span>
+<span id="cb55-291"><a href="#cb55-291" aria-hidden="true" tabindex="-1"></a>$$\frac{\text{observed number of significant} - \text{expected number of significant}}{\text{observed number of significant}}$$</span>
+<span id="cb55-292"><a href="#cb55-292" aria-hidden="true" tabindex="-1"></a>should be a good estimate of the true discovery rate. </span>
+<span id="cb55-293"><a href="#cb55-293" aria-hidden="true" tabindex="-1"></a>False discovery rate is defined as 1 - the true discovery rate.</span>
+<span id="cb55-294"><a href="#cb55-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-297"><a href="#cb55-297" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-298"><a href="#cb55-298" aria-hidden="true" tabindex="-1"></a>thres <span class="ot">=</span> <span class="fl">0.05</span></span>
+<span id="cb55-299"><a href="#cb55-299" aria-hidden="true" tabindex="-1"></a>FDR <span class="ot">=</span> <span class="fu">sum</span>((pvec_mix<span class="sc">&lt;</span>thres <span class="sc">&amp;</span> selectvec<span class="sc">==</span><span class="dv">0</span>)) <span class="sc">/</span> <span class="fu">sum</span>(pvec_mix<span class="sc">&lt;</span>thres)</span>
+<span id="cb55-300"><a href="#cb55-300" aria-hidden="true" tabindex="-1"></a><span class="do">## proportion of null columns that are significant among all significant</span></span>
+<span id="cb55-301"><a href="#cb55-301" aria-hidden="true" tabindex="-1"></a>FDR</span>
+<span id="cb55-302"><a href="#cb55-302" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-303"><a href="#cb55-303" aria-hidden="true" tabindex="-1"></a>**If we use a p-value threshold of `r thres`, `r round((1-FDR)*100,2)<span class="in">` percent of the signficant columns are true discoveries. ** In this case, we know which ones are true or false associations because we decided using the `</span>selectvec` vectors which simulated Y would be a function of X or unrelated to X.</span>
+<span id="cb55-304"><a href="#cb55-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-305"><a href="#cb55-305" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> what's the proportion of false discoveries if we use a significance level of 0.01</span>
+<span id="cb55-306"><a href="#cb55-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-307"><a href="#cb55-307" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> what's the proportion of false discoveries if we use Bonferroni correction as the significance level? </span>
+<span id="cb55-308"><a href="#cb55-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-309"><a href="#cb55-309" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> What's the proportion of missed signals, proportion of true associations that have p-values greater than the Bonferroni threshold?</span>
+<span id="cb55-310"><a href="#cb55-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-311"><a href="#cb55-311" aria-hidden="true" tabindex="-1"></a><span class="fu">## Common approaches to control type I errors</span></span>
+<span id="cb55-312"><a href="#cb55-312" aria-hidden="true" tabindex="-1"></a>Assuming we are testing $m$ hypothesis, let's define the following terms for the different errors.</span>
+<span id="cb55-313"><a href="#cb55-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-314"><a href="#cb55-314" aria-hidden="true" tabindex="-1"></a>|          | Called Significant | Called not significant    | Total |</span>
+<span id="cb55-315"><a href="#cb55-315" aria-hidden="true" tabindex="-1"></a>| -----    |:------------------:|:-------------------------:|:------|</span>
+<span id="cb55-316"><a href="#cb55-316" aria-hidden="true" tabindex="-1"></a>|**Null true** | $F$                  | $m_0 - F$                  | $m_0$ |</span>
+<span id="cb55-317"><a href="#cb55-317" aria-hidden="true" tabindex="-1"></a>|**Alt true**  | $T$                  | $m_1 - T$                | $m_1$ |</span>
+<span id="cb55-318"><a href="#cb55-318" aria-hidden="true" tabindex="-1"></a>| **Total** | $S$                  | $m - S$ | $m$|</span>
+<span id="cb55-319"><a href="#cb55-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-320"><a href="#cb55-320" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Bonferroni correction assures that the **FWER** (Familywise error rate) </span>
+<span id="cb55-321"><a href="#cb55-321" aria-hidden="true" tabindex="-1"></a>$P(F \ge 1)$ is below the acceptable type I error, typically 0.05. </span>
+<span id="cb55-322"><a href="#cb55-322" aria-hidden="true" tabindex="-1"></a>$$P(F \ge 1) &lt; \alpha. $$</span>
+<span id="cb55-323"><a href="#cb55-323" aria-hidden="true" tabindex="-1"></a>We achieve that by requiring that for each test $$p&lt;\alpha/\text{# tests}.$$ This can be too stringent and lead to miss real signals.</span>
+<span id="cb55-324"><a href="#cb55-324" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**pFDR** (positive false discovery rate) $$E\left(\frac{F}{S} \rvert S&gt;0\right)$$</span>
+<span id="cb55-325"><a href="#cb55-325" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**qvalue** is the minimum false discovery rate attainable when the feature (SNP) is called significant</span>
+<span id="cb55-326"><a href="#cb55-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-327"><a href="#cb55-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-328"><a href="#cb55-328" aria-hidden="true" tabindex="-1"></a><span class="fu">## Table of null or alternative vs. significant or not significant</span></span>
+<span id="cb55-329"><a href="#cb55-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-332"><a href="#cb55-332" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-333"><a href="#cb55-333" aria-hidden="true" tabindex="-1"></a>count_table <span class="ot">=</span> <span class="fu">t</span>(<span class="fu">table</span>(pvec_mix<span class="sc">&gt;</span><span class="fl">0.05</span>, selectvec))</span>
+<span id="cb55-334"><a href="#cb55-334" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(count_table) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Called significant"</span>, <span class="st">"Called not significant"</span>)</span>
+<span id="cb55-335"><a href="#cb55-335" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(count_table) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Null true"</span>, <span class="st">"Alt true"</span>)</span>
+<span id="cb55-336"><a href="#cb55-336" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(count_table)</span>
+<span id="cb55-337"><a href="#cb55-337" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-338"><a href="#cb55-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-339"><a href="#cb55-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-340"><a href="#cb55-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-341"><a href="#cb55-341" aria-hidden="true" tabindex="-1"></a>Let's calculate the qvalue</span>
+<span id="cb55-342"><a href="#cb55-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-343"><a href="#cb55-343" aria-hidden="true" tabindex="-1"></a><span class="fu">## Use qvalue package to calculate FDR and </span></span>
+<span id="cb55-344"><a href="#cb55-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-345"><a href="#cb55-345" aria-hidden="true" tabindex="-1"></a>Let's check whether small qvalues correspond to true associations (i.e. the phenotype was generated under the alternative distribution)</span>
+<span id="cb55-348"><a href="#cb55-348" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-349"><a href="#cb55-349" aria-hidden="true" tabindex="-1"></a><span class="do">## install qvalue if not available.</span></span>
+<span id="cb55-350"><a href="#cb55-350" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(F) <span class="do">## I set it to F now because I already installed the qvalue package</span></span>
+<span id="cb55-351"><a href="#cb55-351" aria-hidden="true" tabindex="-1"></a>{<span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb55-352"><a href="#cb55-352" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
+<span id="cb55-353"><a href="#cb55-353" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">"qvalue"</span>)</span>
+<span id="cb55-354"><a href="#cb55-354" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb55-355"><a href="#cb55-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-356"><a href="#cb55-356" aria-hidden="true" tabindex="-1"></a><span class="do">## calculate qvalue using the qvalue function, which returns a list of values, we select the qvalue vector, which assigns the false discovery rate if the threshold for significance was the p-value of the same simulation vector</span></span>
+<span id="cb55-357"><a href="#cb55-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-358"><a href="#cb55-358" aria-hidden="true" tabindex="-1"></a>qres_mix <span class="ot">=</span> qvalue<span class="sc">::</span><span class="fu">qvalue</span>(pvec_mix)</span>
+<span id="cb55-359"><a href="#cb55-359" aria-hidden="true" tabindex="-1"></a>qvec_mix <span class="ot">=</span> qres_mix<span class="sc">$</span>qvalue</span>
+<span id="cb55-360"><a href="#cb55-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-361"><a href="#cb55-361" aria-hidden="true" tabindex="-1"></a>qres_null <span class="ot">=</span> qvalue<span class="sc">::</span><span class="fu">qvalue</span>(pvec_null)</span>
+<span id="cb55-362"><a href="#cb55-362" aria-hidden="true" tabindex="-1"></a>qvec_null <span class="ot">=</span> qres_null<span class="sc">$</span>qvalue</span>
+<span id="cb55-363"><a href="#cb55-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-364"><a href="#cb55-364" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(qvec_mix<span class="sc">~</span>selectvec)</span>
+<span id="cb55-365"><a href="#cb55-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-366"><a href="#cb55-366" aria-hidden="true" tabindex="-1"></a><span class="do">##plot(qvec_mix,col=selectvec*2 + 1, pch=selectvec + 1, lwd=selectvec*2 + 1) </span></span>
+<span id="cb55-367"><a href="#cb55-367" aria-hidden="true" tabindex="-1"></a><span class="do">## using selectvec*2 + 1 as a quick way to get the vector to be 1 and 3 (1 is black 3 is green) instead of 1 and 2 (2 is read and can be difficult to read for color blind people)</span></span>
+<span id="cb55-368"><a href="#cb55-368" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-369"><a href="#cb55-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-370"><a href="#cb55-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-371"><a href="#cb55-371" aria-hidden="true" tabindex="-1"></a>Plot sorted qvalues and color by the selectvec status (true association status)</span>
+<span id="cb55-374"><a href="#cb55-374" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-375"><a href="#cb55-375" aria-hidden="true" tabindex="-1"></a>ind<span class="ot">=</span><span class="fu">order</span>(qvec_mix,<span class="at">decreasing=</span><span class="cn">FALSE</span>)</span>
+<span id="cb55-376"><a href="#cb55-376" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sort</span>(qvec_mix),<span class="at">col=</span>selectvec[ind]<span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="at">pch=</span>selectvec[ind] <span class="sc">+</span> <span class="dv">1</span>, <span class="at">lwd=</span>selectvec[ind]<span class="sc">*</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span>) </span>
+<span id="cb55-377"><a href="#cb55-377" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qvec_mix) </span>
+<span id="cb55-378"><a href="#cb55-378" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-379"><a href="#cb55-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-380"><a href="#cb55-380" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> do small qvalues tend to be true?</span>
+<span id="cb55-381"><a href="#cb55-381" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> interpret the figure</span>
+<span id="cb55-382"><a href="#cb55-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-385"><a href="#cb55-385" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-386"><a href="#cb55-386" aria-hidden="true" tabindex="-1"></a><span class="do">## distribution of qvalues and pvalues by causal status</span></span>
+<span id="cb55-387"><a href="#cb55-387" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(pvec_mix <span class="sc">~</span> selectvec, <span class="at">main=</span><span class="st">'pvalue by causal status; 1=alt, 0=null'</span>)</span>
+<span id="cb55-388"><a href="#cb55-388" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(qvec_mix <span class="sc">~</span> selectvec, <span class="at">main=</span><span class="st">'qvalue by causal status; 1=alt, 0=null'</span>)</span>
+<span id="cb55-389"><a href="#cb55-389" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-390"><a href="#cb55-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-391"><a href="#cb55-391" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> interpret these figures</span>
+<span id="cb55-392"><a href="#cb55-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-393"><a href="#cb55-393" aria-hidden="true" tabindex="-1"></a><span class="fu">## How do qvalues and pvalues relate to each other?</span></span>
+<span id="cb55-396"><a href="#cb55-396" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-397"><a href="#cb55-397" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pvec_null,qvec_null,<span class="at">main=</span><span class="st">'qvalue vs pvalue for null'</span>)</span>
+<span id="cb55-398"><a href="#cb55-398" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pvec_mix,qvec_mix,<span class="at">main=</span><span class="st">'qvalue vs pvalue for mixture of null and alt'</span>)</span>
+<span id="cb55-399"><a href="#cb55-399" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-400"><a href="#cb55-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-401"><a href="#cb55-401" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; q-values are monotonic functions of p-values</span></span>
+<span id="cb55-402"><a href="#cb55-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-403"><a href="#cb55-403" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> what's the smallest qvalue when all simulations are from the null?</span>
+<span id="cb55-404"><a href="#cb55-404" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> what's the smallest qvalue when all simulations are from the mixture?</span>
+<span id="cb55-405"><a href="#cb55-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-406"><a href="#cb55-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-407"><a href="#cb55-407" aria-hidden="true" tabindex="-1"></a><span class="fu">## pi0 and pi1</span></span>
+<span id="cb55-408"><a href="#cb55-408" aria-hidden="true" tabindex="-1"></a>pi0 is the proportion of null hypothesis which can be estimated using the qvalue package</span>
+<span id="cb55-409"><a href="#cb55-409" aria-hidden="true" tabindex="-1"></a>1 - pi1 is the proportion of true positive associations. This is a useful parameter as we will see in later classes.</span>
+<span id="cb55-412"><a href="#cb55-412" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-413"><a href="#cb55-413" aria-hidden="true" tabindex="-1"></a>qres_null<span class="sc">$</span>pi0</span>
+<span id="cb55-414"><a href="#cb55-414" aria-hidden="true" tabindex="-1"></a>qres_mix<span class="sc">$</span>pi0</span>
+<span id="cb55-415"><a href="#cb55-415" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb55-416"><a href="#cb55-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-417"><a href="#cb55-417" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> how many true positive proportion did you expect given the simulations we performed?</span>
+<span id="cb55-418"><a href="#cb55-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-419"><a href="#cb55-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-420"><a href="#cb55-420" aria-hidden="true" tabindex="-1"></a><span class="fu">## References</span></span>
+<span id="cb55-421"><a href="#cb55-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-422"><a href="#cb55-422" aria-hidden="true" tabindex="-1"></a>Storey, John D., and Robert Tibshirani. 2003. “Statistical Significance for Genomewide Studies.” Proceedings of the National Academy of Sciences 100 (16): 9440–45.</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

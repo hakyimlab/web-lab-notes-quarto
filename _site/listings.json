@@ -2,18 +2,18 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/2023-05-26-metaboxcan-paper-analysis/index.html",
-      "/posts/2023-04-27-how-to-read-gencode-gff/index.html",
-      "/posts/2023-04-07-inflation-brainxcan/index.html",
-      "/posts/2023-03-28-cistromedb-data/index.html",
-      "/posts/2023-03-28-erap2-finemapping/index.html",
-      "/posts/2023-03-28-multiple-testing/index.html",
-      "/posts/2023-03-23-jane-austen-corpus/index.html",
-      "/posts/2023-03-01-gtex-sample-size-by-tissue/index.html",
-      "/posts/migrating-instructions/index.html",
-      "/posts/2023-02-28-predictdb-weights-distribution/index.html",
-      "/posts/2023-02-21-power-calculator-for-mol-qtls/index.html",
-      "/posts/2023-03-01-how-to-create-new-posts/index.html"
+      "/content/posts/2023-05-26-metaboxcan-paper-analysis/index.html",
+      "/content/posts/2023-04-27-how-to-read-gencode-gff/index.html",
+      "/content/posts/2023-04-07-inflation-brainxcan/index.html",
+      "/content/posts/2023-03-28-cistromedb-data/index.html",
+      "/content/posts/2023-03-28-erap2-finemapping/index.html",
+      "/content/posts/2023-03-28-multiple-testing/index.html",
+      "/content/posts/2023-03-23-jane-austen-corpus/index.html",
+      "/content/posts/2023-03-01-gtex-sample-size-by-tissue/index.html",
+      "/content/posts/migrating-instructions/index.html",
+      "/content/posts/2023-02-28-predictdb-weights-distribution/index.html",
+      "/content/posts/2023-02-21-power-calculator-for-mol-qtls/index.html",
+      "/content/posts/2023-03-01-how-to-create-new-posts/index.html"
     ]
   }
 ]

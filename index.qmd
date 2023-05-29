@@ -1,7 +1,7 @@
 ---
 title: "Lab Notes - with quarto - to be merged with lab-notes"
 listing:
-  contents: posts
+  contents: content
   sort: "date desc"
   type: default
   categories: true
