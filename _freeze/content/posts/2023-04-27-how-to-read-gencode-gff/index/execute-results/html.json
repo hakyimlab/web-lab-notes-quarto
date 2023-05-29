@@ -1,0 +1,14 @@
+{
+  "hash": "eac7a2fddd4c07573417348a1c4847a0",
+  "result": {
+    "markdown": "---\ntitle: \"How to read gencode gtf file\"\nauthor: \"Haky Im\"\ndate: \"2023-04-27\"\ncategories: [analysis,how_to]\nformat:\n  html:\n    code-fold: true\n    code-summary: \"Show the code\"\neditor_options: \n  chunk_output_type: console\n---\n\n::: {.cell}\n\n```{.r .cell-code}\nsuppressMessages(library(tidyverse))\nsuppressMessages(library(glue))\nPRE = \"/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data\"\nSLUG=\"how-to-read-gencode-gtf-file\" ## copy the slug from the header\nbDATE='2023-04-27' ## copy the date from the blog's header here\nDATA = glue(\"{PRE}/{bDATE}-{SLUG}\")\nif(!file.exists(DATA)) system(glue::glue(\"mkdir {DATA}\"))\nWORK=DATA\n\n## move data to DATA\n#tempodata=(\"~/Downloads/tempo/gwas_catalog_v1.0.2-associations_e105_r2022-04-07.tsv\")\n#system(glue::glue(\"cp {tempodata} {DATA}/\"))\n\n#system(glue(\"open {DATA}\")) ## this will open the folder \n```\n:::\n\n\n-   [ ] install if necessary\n\n```         \nif (!requireNamespace(\"BiocManager\", quietly = TRUE))\n    install.packages(\"BiocManager\")\nBiocManager::install(\"rtracklayer\")\n```\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# Load the rtracklayer package\nlibrary(rtracklayer)\n\n# Define the path to your GFF file\ngff_file_path <- glue(\"{DATA}/gencode.v43.annotation.gff3.gz\")\n\n# Read the GFF file\ngff_data <- import(gff_file_path, format = \"gff3\")\n\n# Convert the GFF data to a data frame\ngff_data_frame <- as.data.frame(gff_data)\n\n# Display the first few rows of the data frame\nhead(gff_data_frame)\n```\n:::\n\n::: {.cell}\n\n```{.r .cell-code}\n\"ENSG00000164308\"\n\n## all gene_id start with ENSG\ntable(substr(gff_data_frame$gene_id,1,4))\n## all entries have a gene_id\ndim(gff_data_frame)\n## number of genes with positive vs negative strands\n```\n:::\n\n\nto load version 75 of ensembl \n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(biomaRt)\n\n# mart <- useMart(biomart = \"ENSEMBL_MART_ENSEMBL\", \n#                 host = \"https://dec2013.archive.ensembl.org\", # This host corresponds to Ensembl version 75\n#                 path = \"/biomart/martservice\")\nmart <- useMart(biomart = \"ENSEMBL_MART_ENSEMBL\", \n                host = \"https://feb2014.archive.ensembl.org\", # This host corresponds to Ensembl version 75\n                path = \"/biomart/martservice\")\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -28,15 +28,15 @@ WORK=DATA
 #system(glue("open {DATA}")) ## this will open the folder 
 ```
 
+-   [ ] install if necessary
 
-- [ ] install if necessary
-```
+```         
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 BiocManager::install("rtracklayer")
 ```
 
-```{r}
+```{r eval=FALSE}
 # Load the rtracklayer package
 library(rtracklayer)
 
@@ -53,8 +53,7 @@ gff_data_frame <- as.data.frame(gff_data)
 head(gff_data_frame)
 ```
 
-
-```{r}
+```{r eval=FALSE}
 "ENSG00000164308"
 
 ## all gene_id start with ENSG
@@ -66,12 +65,15 @@ dim(gff_data_frame)
 
 ```
 
-
-```{r}
+to load version 75 of ensembl 
+```{r eval=FALSE}
 library(biomaRt)
 
+# mart <- useMart(biomart = "ENSEMBL_MART_ENSEMBL", 
+#                 host = "https://dec2013.archive.ensembl.org", # This host corresponds to Ensembl version 75
+#                 path = "/biomart/martservice")
 mart <- useMart(biomart = "ENSEMBL_MART_ENSEMBL", 
-                host = "dec2013.archive.ensembl.org", # This host corresponds to Ensembl version 75
+                host = "https://feb2014.archive.ensembl.org", # This host corresponds to Ensembl version 75
                 path = "/biomart/martservice")
 
 ```
