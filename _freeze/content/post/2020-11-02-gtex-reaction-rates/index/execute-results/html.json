@@ -1,0 +1,16 @@
+{
+  "hash": "76181caa5ca717932d6f544bda751765",
+  "result": {
+    "markdown": "---\ntitle: GTEx reaction rates h2 similar to permuted h2\nauthor: Haky Im\ndate: '2020-11-02'\n---\n\n\n\nWe want to investigate whether reaction rates estimated with imat(?) are heritable. Reaction rates (binary variables) were estimated by D using GTEx gene expression data.\n\nInitially, D generated reaction rates with brain cortex expression data from ~250 individuals. \n\n\n::: {.cell}\n::: {.cell-output .cell-output-stdout}\n```\n[1] \"\"\n```\n:::\n:::\n\n\n\nHeritability of reaction rates was calculated with GCTA. Actual observed h2 and two permuted h2 values are compared next. Spoiler alert: no difference between actual and permuted values. :(\n\n\n::: {.cell}\n\n```{.r .cell-code}\ntempo = read_tsv(glue::glue(\"{DATA}/reaction-rates/df.GTEX.txt\"))\n```\n\n::: {.cell-output .cell-output-stderr}\n```\nRows: 256 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \"\\t\"\ndbl (7): Phenotype, H2, Perm1, Perm2, H2 constrained, Perm constrained 1, Pe...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n```\n:::\n\n```{.r .cell-code}\ntempo_constrained = tempo %>% select(pheno=Phenotype,observed=`H2 constrained`, perm1=`Perm constrained 1`, perm2=`Perm Constrained 2`) \ntempo_constrained %>% pivot_longer(-pheno, names_to = \"type\", values_to=\"h2\") %>% ggplot(aes(h2)) + geom_histogram() + facet_wrap(~type)\n```\n\n::: {.cell-output .cell-output-stderr}\n```\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n```\n:::\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-2-1.png){width=672}\n:::\n:::\n\n\n\nqqplots comparing actual vs permuted h2\n\n\n::: {.cell}\n\n```{.r .cell-code}\nqqplot(tempo_constrained$observed, tempo_constrained$perm1); abline(0,1)\n```\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-3-1.png){width=672}\n:::\n\n```{.r .cell-code}\nqqplot(tempo_constrained$observed, tempo_constrained$perm2); abline(0,1)\n```\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-3-2.png){width=672}\n:::\n:::\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

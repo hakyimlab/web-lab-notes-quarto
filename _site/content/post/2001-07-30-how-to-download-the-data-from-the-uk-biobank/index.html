@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="">
+<meta name="dcterms.date" content="2001-07-30">
+
+<title>web-lab-notes-quarto - How to Download the Data from the UK Biobank</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">web-lab-notes-quarto</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/hakyimlab/"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">How to Download the Data from the UK Biobank</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+                                <div class="quarto-categories">
+                <div class="quarto-category">how_to</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 30, 2001</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">Background</h2>
+<p>Application 19526 is the main application from which imlab downloads data. Other ID’s correspond to specific collaborations with other investigators at Uchicago and Argonne.</p>
+<p>We have requested data in 8 baskets, with overlapping fields. The composition of the baskets are somewhat haphazard, they were put together as need arose. Basket 7947 was the first one with large number of fields, but incomplete. MRI and IDP’s were requested in two baskets (), not completely overlapping.</p>
+<p>Details of applications and baskets and field list are <a href="https://docs.google.com/spreadsheets/d/1Ph6PsxLs22B3qYdkvBV7pbUai_GW6EhaI4TorAoyGUM/edit#gid=911891313">here</a></p>
+<p>##Requesting a Data Refresh</p>
+<p>The button to refresh is not very easy to find, so here are the instructions from the <a href="https://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=accessing_data_guide">UK Biobank Accessing Data Guide</a>:</p>
+<blockquote class="blockquote">
+<p>In order to gain access to updated data for fields in a previous data basket a researcher can request a “refresh” of that basket through AMS. A refresh of a dataset is a new extraction of the fields in the basket, and will include any additional data added to Showcase when it was updated. It will also remove the data for participants who have withdrawn since the basket was last released.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>In order to request a refresh of a basket, a researcher will need to login to the Access Management System (AMS), navigate to their project (click Projects then View/Update), then click on the Data tab, and then on the “Go to Showcase to refresh or download data” button which will lead to the Downloads page. Next click ‘Application’ (at the top of the page) and then select the basket to be refreshed.</p>
+</blockquote>
+</section>
+<section id="requesting-new-data" class="level2">
+<h2 class="anchored" data-anchor-id="requesting-new-data">Requesting New Data</h2>
+<p>To request additional data fields, login to the AMS, navigate to the project, then click on the Requests tab. Check “Do you wish to request additional data fields?”. Then select fields from Quick Start tab, or Browse and Search buttons.</p>
+<p>##Standard data (phenotype data)</p>
+<ul>
+<li>Downloading standard data file (<strong><em>ukb7948.enc</em></strong>) directly from <a href="http://biobank.ctsu.ox.ac.uk"> the UK Biobank website </a> using the MD5 Checksum and password, which are included in the email. The email should also contain the key (<strong><em>k1952r7948.key</em></strong>) file, which will be used to decrypted the downloaded phenotypic data.</li>
+<li>Downloading utilities (<em><strong>ukbmd5, ukbunpack, ukbconv and encoding.ukb.txt</strong></em>) directly from <a href="http://biobank.ctsu.ox.ac.uk/crystal/download.cgi"> the UK Biobank website </a>. These data and utility files (from this step and last step) should be saved in the same file directory.</li>
+<li>Verifying the integrity of <strong><em>ukb7948.enc</em></strong>. The displayed MD5 Checksum of the dataset should be the same as the MD5 Checksum supplied via email. You may need to run chmod +x ukbmd5 beforehand, and repeat for the other utility files. This step created a decrypted file (<em><strong>ukb7948.enc.ukb</strong></em>)</li>
+</ul>
+<pre><code>./ukbmd5 ukb7948.enc </code></pre>
+<ul>
+<li>Decrypting <em><strong>ukb7948.enc</strong></em></li>
+</ul>
+<pre><code>./ukbunpack ukb7948.enc k1952r7948.key.txt</code></pre>
+<ul>
+<li>Converting the decrypted data (<strong><em>ukb7948.enc_ukb</em></strong>) into various useful formats.</li>
+</ul>
+<pre><code>./ukbconv ukb7948.enc_ukb bulk 
+./ukbconv ukb7948.enc_ukb docs 
+./ukbconv ukb7948.enc_ukb r 
+./ukbconv ukb7948.enc_ukb csv </code></pre>
+<p><strong>csv format</strong>: simple comma-separated-variable output, all fields double-quoted.<br><br> <strong>r format</strong>: produces a tab deliminated file and an R script for labeling and putting levels on the variables.<br><br> <strong>docs format</strong>: rather than output the data itself, this option generates an html file describing the data, listing the names and types of each field. You can access html file <a href="http://ukbiobank.hakyimlab.org"> here </a>. <br><br> <strong>bulk format</strong>: a list of IDs for use with the ukbfetch utility (we will not use this file, instead we will download genotype data using gfech utility).</p>
+<p>##Complex data (genetic data)</p>
+<ul>
+<li>Creating the authentication file as .ukbkey The authentication file should be named “<strong><em>.ukbkey</em></strong>” and contain two lines of text, the first containing the Application ID (1952) and the second the truncated password (the first 24 characters). The authentication file should be stored in the home directory of your rcc account.</li>
+</ul>
+<pre><code>1952
+a1b2c3d4a1b2c3d4a1b2c3d4</code></pre>
+<pre><code>cp .ukbkey ~/ </code></pre>
+<ul>
+<li><p>Downloading utilities (<em><strong>gfetch, genotype_map.csv and gconv</strong></em>) directly from <a href="http://biobank.ctsu.ox.ac.uk/crystal/download.cgi"> the UK Biobank website </a>. These files should be saved in the same file directory.</p></li>
+<li><p>Downloading genetic data. Datatype is one of “<em><strong>cal</strong></em>” (calls), “<strong><em>imp</em></strong>” (imputed data), “<strong><em>con</em></strong>” (confidences) or “<strong><strong>int</strong></strong>” (intensities). It is possible to run more than one <em><strong>gfetch</strong></em> download in parallel, however I strongly recommend that you just download only one dataset at a time to avoid overload on either the server side or your limited rcc <em><strong>cds</strong></em> provision. Please beware that imputed chromosome X, Y, mitochondria datasets are currently not available. If a download is interrupted, then please delete the incomplete file and restart.</p></li>
+</ul>
+<pre><code>seq 1 22 | parallel -j1 ./gfetch cal {}
+./gfetch cal X 
+./gfetch cal Y
+./gfetch cal MT 
+
+seq 1 22 | parallel -j1 ./gfetch imp {}
+
+seq 1 22 | parallel -j1 ./gfetch con {}
+./gfetch con X 
+./gfetch con Y
+./gfetch con MT 
+
+seq 1 22 | parallel -j1 ./gfetch int {}
+./gfetch int X 
+./gfetch int Y
+./gfetch int MT</code></pre>
+<ul>
+<li>A single sample map (impv1.sample) for the imputed data also was downloaded</li>
+</ul>
+<pre><code>    ./gfetch imp 1 -m</code></pre>
+<p>##Complex data (episode-level hospital data)</p>
+<p>This data is held within multiple standard relational databases. <br><br> 1. General structure of the hospital data<br> The HES data has been divided into 5 tables. The master table is <code>hesin</code>, which connects to 4 subsidiary tables (<code>hesin_diag10</code>, <code>hesin_diag9</code>, <code>hesin_oper</code>, <code>hesin_birth</code>) via the record_id key field.<br><br> 2. Record data can be manipulated and extracted directly using SQL via <a href="http://biobank.ctsu.ox.ac.uk"> the UK Biobank website </a>. <br><br> More detailed information please see <a href="http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingEpisodeData" target="_blank"> How to access episode-level hospital data </a> <br><br></p>
+<p>##Data</p>
+<ol type="1">
+<li>Data is in bionimbus. See instructions on how to access <a href="https://github.com/hakyimlab/ANL-ukbREST-queries/tree/master/ukbREST_setup">here</a></li>
+</ol>
+<pre><code>aws s3 ls --endpoint-url https://bionimbus-objstore.opensciencedatacloud.org \
+ --recursive s3://uk-biobank.hakyimlab.org/data/phenotype</code></pre>
+<ol start="2" type="1">
+<li>Now also in CRI <code>/gpfs/data/ukb-share/genotypes</code> and <code>/gpfs/data/im-lab/nas40t2/Data/UKB</code></li>
+</ol>
+<p>##References</p>
+<ul>
+<li><a href="http://biobank.ctsu.ox.ac.uk/crystal/exinfo.cgi" target="_blank"> Essential information </a></li>
+<li><a href="http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingData" target="_blank"> Accessing your data </a></li>
+<li><a href="http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=accessing_data_guide" target="_blank"> Using UK Biobank Data </a></li>
+<li><a href="http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingBulkRecordData" target="_blank"> How to access bulk data </a></li>
+<li><a href="http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingEpisodeData" target="_blank"> How to access episode-level hospital data </a></li>
+<li><a href="http://biobank.ctsu.ox.ac.uk/showcase/docs/HospitalEpisodeStatistics.pdf" target="_blank"> Hospital Episode Statistics data in Showcase </a></li>
+<li><a href="http://biobank.ctsu.ox.ac.uk/crystal/exinfo.cgi?src=AccessingGeneticData" target="_blank"> How to access genetic data? </a></li>
+<li><a href="http://www.ukbiobank.ac.uk/wp-content/uploads/2014/04/imputation_documentation_May2015.pdf" target="_blank"> A&nbsp;document outlining the methods used to create the imputed dataset</a></li>
+</ul>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<pre class="markdown" data-shortcodes="false"><code>---
+title: How to Download the Data from the UK Biobank
+author: ''
+date: '2001-07-30'
+categories:
+  - how_to
+tags: []
+---
+
+
+## Background
+
+
+Application 19526 is the main application from which imlab downloads data. Other ID’s correspond to specific collaborations with other investigators at Uchicago and Argonne.
+
+
+We have requested data in 8 baskets, with overlapping fields. The composition of the baskets are somewhat haphazard, they were put together as need arose. 
+Basket 7947 was the first one with large number of fields, but incomplete.
+MRI and IDP’s were requested in two baskets (), not completely overlapping.
+
+Details of applications and baskets and field list are [here](https://docs.google.com/spreadsheets/d/1Ph6PsxLs22B3qYdkvBV7pbUai_GW6EhaI4TorAoyGUM/edit#gid=911891313)
+
+
+##Requesting a Data Refresh
+
+
+The button to refresh is not very easy to find, so here are the instructions from the [UK Biobank Accessing Data Guide](https://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=accessing_data_guide):
+
+ &gt; In order to gain access to updated data for fields in a previous data basket a researcher can request a “refresh” of that basket through AMS. A refresh of a dataset is a new
+extraction of the fields in the basket, and will include any additional data added to
+Showcase when it was updated. It will also remove the data for participants who have
+withdrawn since the basket was last released.
+
+ &gt; In order to request a refresh of a basket, a researcher will need to login to the Access
+Management System (AMS), navigate to their project (click Projects then View/Update),
+then click on the Data tab, and then on the “Go to Showcase to refresh or download data”
+button which will lead to the Downloads page. Next click ‘Application’ (at the top of the
+page) and then select the basket to be refreshed. 
+
+## Requesting New Data
+
+To request additional data fields, login to the AMS, navigate to the project, then click on the Requests tab. Check "Do you wish to request additional data fields?". Then select fields from Quick Start tab, or Browse and Search buttons.
+
+##Standard data (phenotype data)
+
+* Downloading standard data file (**_ukb7948.enc_**) directly from &lt;a href=http://biobank.ctsu.ox.ac.uk&gt; the UK Biobank website &lt;/a&gt; using the MD5 Checksum and password, which are included in the email. The email should also contain the key (**_k1952r7948.key_**) file, which will be used to decrypted the downloaded phenotypic data. 
+* Downloading utilities (_**ukbmd5, ukbunpack, ukbconv and encoding.ukb.txt**_) directly from &lt;a href=http://biobank.ctsu.ox.ac.uk/crystal/download.cgi&gt; the UK Biobank website &lt;/a&gt;. These data and utility files (from this step and last step) should be saved in the same file directory.
+* Verifying the integrity of **_ukb7948.enc_**. The displayed MD5 Checksum of the dataset should be the same as the MD5 Checksum supplied via email. You may need to run chmod +x ukbmd5 beforehand, and repeat for the other utility files. This step created a decrypted file (_**ukb7948.enc.ukb**_)
+```
+./ukbmd5 ukb7948.enc 
+```
+
+* Decrypting _**ukb7948.enc**_ 
+```
+./ukbunpack ukb7948.enc k1952r7948.key.txt
+```
+
+* Converting the decrypted data (**_ukb7948.enc_ukb_**) into various useful formats. 
+```
+./ukbconv ukb7948.enc_ukb bulk 
+./ukbconv ukb7948.enc_ukb docs 
+./ukbconv ukb7948.enc_ukb r 
+./ukbconv ukb7948.enc_ukb csv 
+```
+   **csv format**: simple comma-separated-variable output, all fields double-quoted.&lt;br&gt;&lt;br&gt;
+   **r format**: produces a tab deliminated file and an R script for labeling and putting levels on the variables.&lt;br&gt;&lt;br&gt;
+   **docs format**: rather than output the data itself, this option generates an html file describing the data, listing the names and types of each field. You can access html file &lt;a href=http://ukbiobank.hakyimlab.org&gt; here &lt;/a&gt;. &lt;br&gt;&lt;br&gt;
+   **bulk format**: a list of IDs for use with the ukbfetch utility (we will not use this file, instead we will download genotype data using gfech utility). 
+
+##Complex data (genetic data)
+
+* Creating the authentication file as .ukbkey 
+The authentication file should be named "**_.ukbkey_**" and contain two lines of text, the first containing the Application ID (1952) and the second the truncated password (the first 24 characters). The authentication file should be stored in the home directory of your rcc account. 
+
+```
+1952
+a1b2c3d4a1b2c3d4a1b2c3d4
+```
+```
+cp .ukbkey ~/ 
+```
+
+* Downloading utilities (_**gfetch, genotype_map.csv and gconv**_) directly from &lt;a href=http://biobank.ctsu.ox.ac.uk/crystal/download.cgi&gt; the UK Biobank website &lt;/a&gt;. These files should be saved in the same file directory. 
+
+* Downloading genetic data. Datatype is one of "_**cal**_" (calls), "**_imp_**" (imputed data), "**_con_**" (confidences) or "__**int**__" (intensities). It is possible to run more than one _**gfetch**_ download in parallel, however I strongly recommend that you just download only one dataset at a time to avoid overload on either the server side or your limited rcc _**cds**_ provision. Please beware that imputed chromosome X, Y, mitochondria datasets are currently not available. If a download is interrupted, then please delete the incomplete file and restart. 
+
+```
+seq 1 22 | parallel -j1 ./gfetch cal {}
+./gfetch cal X 
+./gfetch cal Y
+./gfetch cal MT 
+
+seq 1 22 | parallel -j1 ./gfetch imp {}
+
+seq 1 22 | parallel -j1 ./gfetch con {}
+./gfetch con X 
+./gfetch con Y
+./gfetch con MT 
+
+seq 1 22 | parallel -j1 ./gfetch int {}
+./gfetch int X 
+./gfetch int Y
+./gfetch int MT
+```
+
+ * A single sample map (impv1.sample) for the imputed data also was downloaded
+```
+    ./gfetch imp 1 -m
+```
+
+##Complex data (episode-level hospital data)
+
+This data is held within multiple standard relational databases. &lt;br&gt;&lt;br&gt;
+1. General structure of the hospital data&lt;br&gt;
+The HES data has been divided into 5 tables. The master table is `hesin`, which connects to 4 subsidiary tables (`hesin_diag10`, `hesin_diag9`, `hesin_oper`, `hesin_birth`) via the record_id key field.&lt;br&gt;&lt;br&gt;
+2. Record data can be manipulated and extracted directly using SQL via &lt;a href=http://biobank.ctsu.ox.ac.uk&gt; the UK Biobank website &lt;/a&gt;. &lt;br&gt;&lt;br&gt;
+More detailed information please see &lt;a href="http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingEpisodeData" target="_blank"&gt; How to access episode-level hospital data &lt;/a&gt; &lt;br&gt;&lt;br&gt;
+
+##Data 
+
+1. Data is in bionimbus. See instructions on how to access [here](https://github.com/hakyimlab/ANL-ukbREST-queries/tree/master/ukbREST_setup) 
+
+```
+aws s3 ls --endpoint-url https://bionimbus-objstore.opensciencedatacloud.org \
+ --recursive s3://uk-biobank.hakyimlab.org/data/phenotype
+```
+
+2. Now also in CRI
+`/gpfs/data/ukb-share/genotypes` and `/gpfs/data/im-lab/nas40t2/Data/UKB`
+
+##References
+
+* &lt;a href="http://biobank.ctsu.ox.ac.uk/crystal/exinfo.cgi" target="_blank"&gt; Essential information &lt;/a&gt;
+* &lt;a href="http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingData" target="_blank"&gt; Accessing your data &lt;/a&gt;
+* &lt;a href="http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=accessing_data_guide" target="_blank"&gt; Using UK Biobank Data &lt;/a&gt;
+* &lt;a href="http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingBulkRecordData" target="_blank"&gt; How to access bulk data &lt;/a&gt;
+* &lt;a href="http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingEpisodeData" target="_blank"&gt; How to access episode-level hospital data &lt;/a&gt;
+* &lt;a href="http://biobank.ctsu.ox.ac.uk/showcase/docs/HospitalEpisodeStatistics.pdf" target="_blank"&gt; Hospital Episode Statistics data in Showcase  &lt;/a&gt;
+* &lt;a href="http://biobank.ctsu.ox.ac.uk/crystal/exinfo.cgi?src=AccessingGeneticData" target="_blank"&gt; How to access genetic data? &lt;/a&gt;
+* &lt;a href="http://www.ukbiobank.ac.uk/wp-content/uploads/2014/04/imputation_documentation_May2015.pdf" target="_blank"&gt; A&nbsp;document outlining the methods used to create the imputed dataset&lt;/a&gt;</code></pre>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

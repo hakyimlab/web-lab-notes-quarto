@@ -1,0 +1,5 @@
+samples_filters:
+  - eid not in (select eid from withdrawals)
+  - eid > 0
+data:
+  cause_of_death: c40001_0_0

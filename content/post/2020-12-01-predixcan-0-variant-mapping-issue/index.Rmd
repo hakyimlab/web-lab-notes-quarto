@@ -1,0 +1,42 @@
+---
+title: PrediXcan 0% variant mapping issue
+author: Haky Im
+date: '2020-12-01T18:05:51-05:00'
+slug: predixcan-0-variant-mapping-issue
+categories: []
+tags: []
+description: ''
+topics: []
+---
+
+Many users had difficulties matching the genotype variant id to the prediction model variant id.
+
+Here is one example added to the PrediXcan tutorial where the matching was failing because of the `on the fly` option not taking into account that in the GTEx v8 vcf file, chromosomes are names as chr# whereas in other vcf's (more common in hg19?) chromosomes are indicated by their number or letter (no chr prefix). 
+
+A working example for the GTEx genotype data with GTEx v8 mashr models is shown below.
+
+```{bash eval=FALSE}
+
+export PRE=/gpfs/data/im-lab/nas40t2/Data/test-PrediXcan-GTEx
+export DATA=$PRE/data
+export MODEL=$PRE/models
+export RESULTS=$PRE/results/
+export METAXCAN=$PRE/repos/MetaXcan-master/software
+export VCFSMALL=$PRE/data/gtex-small-common-test.vcf.gz
+
+printf "Predict expression\n\n"
+
+python3   $METAXCAN/Predict.py \
+--model_db_path $PRE/models/gtex_v8_mashr/mashr_Whole_Blood.db \
+--model_db_snp_key varID \
+--vcf_genotypes  $VCFSMALL \
+--vcf_mode genotyped \
+--prediction_output $RESULTS/Whole_Blood__predict.txt  \
+--prediction_summary_output $RESULTS/Whole_Blood__summary.txt \
+--verbosity  \
+--throw \
+--on_the_fly_mapping METADATA "{}_{}_{}_{}_b38" 
+
+```
+
+** Thank you, Yanyu, for solving the mystery **

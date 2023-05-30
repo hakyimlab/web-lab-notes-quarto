@@ -1,0 +1,60 @@
+Trait	ID
+BMI	JGAD000124
+Total cholesterol	JGAD000144
+High density lipoprotein cholesterol	JGAD000145
+Low density lipoprotein cholesterol	JGAD000146
+Triglyceride	JGAD000147
+Blood sugar	JGAD000148
+Hemoglobin A1c	JGAD000149
+Total protein	JGAD000150
+Albumin	JGAD000151
+Non-albumin protein	JGAD000152
+Albumin/globulin ratio	JGAD000153
+Blood urea nitrogen	JGAD000154
+Serum creatinine	JGAD000155
+Estimated glomerular filtration rate	JGAD000156
+Uric acid	JGAD000157
+Sodium	JGAD000158
+Potassium	JGAD000159
+Chlorine	JGAD000160
+Calcium	JGAD000161
+Phosphorus	JGAD000162
+Total bilirubin	JGAD000163
+Zinc sulfate turbidity test	JGAD000164
+Aspartate aminotransferase	JGAD000165
+Alanine aminotransferase	JGAD000166
+Alkaline phosphatase	JGAD000167
+Gamma-glutamyl transferase	JGAD000168
+Activated partial thromboplastin time	JGAD000169
+Prothrombin time	JGAD000170
+Fibrinogen	JGAD000171
+Creatine kinase	JGAD000172
+Lactate dehydrogenase	JGAD000173
+C-reactive protein	JGAD000174
+White blood cell count	JGAD000175
+Neutrophil count	JGAD000176
+Eosinophil count	JGAD000177
+Basophil count	JGAD000178
+Monocyte count	JGAD000179
+Lymphocyte count	JGAD000180
+Red blood cell count	JGAD000181
+Hemoglobin	JGAD000182
+Hematocrit	JGAD000183
+Mean corpuscular volume	JGAD000184
+Mean corpuscular hemoglobin	JGAD000185
+Mean corpuscular hemoglobin concentration	JGAD000186
+Platelet count	JGAD000187
+Systolic blood pressure	JGAD000188
+Diastolic blood pressure	JGAD000189
+Mean arterial pressure	JGAD000190
+Pulse pressure	JGAD000191
+Interventricular septum thickness	JGAD000192
+Posterior wall thickness	JGAD000193
+Left ventricular internal dimension in diastole	JGAD000194
+Left ventricular internal dimension in systole	JGAD000195
+Left ventricular mass	JGAD000196
+Left ventricular mass index	JGAD000197
+Relative wall thickness	JGAD000198
+Fractional shortening	JGAD000199
+Ejection fraction	JGAD000200
+E/A ratio	JGAD000201

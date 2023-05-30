@@ -1,0 +1,92 @@
+---
+title: How to convert GTEx v8 model to hg19 based on UK Biobank SNP set mapping
+author: Sabrina Mi
+date: '2020-11-23'
+slug: how-to-convert-gtex-v8-model-to-hg19-based-on-uk-biobank-snp-set-mapping
+categories: []
+tags:
+  - how to
+  - prediction model
+description: ''
+topics: []
+---
+
+`/gpfs/data/im-lab/nas40t2/Data/References/mappings/UKB2GTEx_mapping.txt.gz` contains information for variants in UK Biobank genotypes. The columns are 
+
+```{bash,eval=FALSE}
+variant	chromosome	position	non_effect_allele	effect_allele	rsid	zscore	panel_variant_id
+1:692794:CA:C	chr1	757414	CA	C	1:692794_CA_C	1	NA
+1:693731:A:G	chr1	758351	A	G	rs12238997	1	chr1_758351_A_G_b38
+1:707522:G:C	chr1	772142	G	C	rs371890604	1	chr1_772142_G_C_b38
+1:717587:G:A	chr1	782207	G	A	rs144155419	1	chr1_782207_G_A_b38
+```
+
+MetaXcan prediction models has its own format to identify variants, so a mapping file like `UKB2GTEx_mapping.txt.gz` allows us to convert the variants in prediction models to the corresponding ID used in UK Biobank data. The variant column has the variant's ID in the UK Biobank data and the panel_variant_id column has it's ID used in prediction models, specifically the GTEx V8 models.
+
+`/gpfs/data/im-lab/nas40t2/Data/References/mappings/map_GTEx_v8_models_to_UKB_SNPset.tar` has a mashr model trained on GTEx V8 Whole Blood tissue along with its covariance matrix. They have variant ids in the panel_variant_id chr_pos_ref_alt_b38 format, which we want to swap to the UK Biobank format. Unpack it:
+
+```{bash, eval=FALSE}
+tar -xvf /gpfs/data/im-lab/nas40t2/Data/References/mappings/map_GTEx_v8_models_to_UKB_SNPset.tar
+```
+
+The prediction models are SQLite databases, which can be queried in R with the [RSQLite](https://www.datacamp.com/community/tutorials/sqlite-in-r) package.
+
+Start by reading the prediction model into R.
+```{r, eval=FALSE}
+library(data.table)
+mapping <- fread("/gpfs/data/im-lab/nas40t2/Data/References/mappings/UKB2GTEx_mapping.txt.gz")
+
+```
+
+Next, load the prediction model.
+
+```{r, eval=FALSE}
+library(RSQLite)
+conn <- dbConnect(RSQLite::SQLite(), "/gpfs/data/im-lab/nas40t2/Data/References/mappings/map_GTEx_v8_models_to_UKB_SNPset/mashr_Whole_Blood.db")
+dbListTables(conn)
+weights <- dbGetQuery(conn, 'SELECT * FROM weights')
+extra <- dbGetQuery(conn, 'SELECT * FROM extra')
+dbDisconnect(conn)
+```
+
+The mashr prediction model has two tables weights and extra, and the dbGetQuery calls pull all entries from the weights and extra table.
+
+We only need the two columns, variant and panel_variant_id. Then we inner join the mapping with the variants in the weights table.
+
+```{r, eval=FALSE}
+library(tidyverse)
+mapping <- select(mapping, variant, panel_variant_id)
+mapped_weights <- inner_join(weights, mapping, by=c("varID" = "panel_variant_id"))
+mapped_weights <- mapped_weights %>% mutate(varID = variant) %>% select(-variant)
+
+```
+
+Update the n.snps.in.model column in the extra table:
+
+```{r, eval=FALSE}
+n.snps <- mapped_weights %>% group_by(gene) %>% summarise(n.snps.in.model = n())
+updated_extra <- inner_join(n.snps, extra %>% select(-n.snps.in.model), by="gene")
+
+```
+
+Write the new tables to a new RSQLite database file.
+
+```{r, eval=FALSE}
+conn <- dbConnect(RSQLite::SQLite(), "/gpfs/data/im-lab/nas40t2/Data/References/mappings/map_GTEx_v8_models_to_UKB_SNPset/mashr_Whole_Blood_UKB.db")
+dbWriteTable(conn, "weights", mapped_weights)
+dbWriteTable(conn, "extra", updated_extra)
+dbDisconnect(conn)
+
+```
+
+Similarly, we inner join to convert both RSID1 and RSID2 columns in `/gpfs/data/im-lab/nas40t2/Data/References/mappings/map_GTEx_v8_models_to_UKB_SNPset/map_GTEx_v8_models_to_UKB_SNPset/mashr_Whole_Blood.txt.gz`
+```{r, eval=FALSE}
+covariance <- fread("/gpfs/data/im-lab/nas40t2/Data/References/mappings/map_GTEx_v8_models_to_UKB_SNPset/map_GTEx_v8_models_to_UKB_SNPset/mashr_Whole_Blood.txt.gz")
+covariance <- inner_join(covariance, merged, by=c("RSID1" = "varID")) %>% mutate(RSID1 = variant) %>% select(-variant)
+covariance <- inner_join(covariance, merged, by=c("RSID2" = "varID")) %>% mutate(RSID2 = variant) %>% select(-variant)
+covariance <- covariance %>% select(GENE, variant.x, variant.y, VALUE) %>% rename(RSID1 = variant.x, RSID2 = variant.y) 
+write.table(covariance, "/gpfs/data/im-lab/nas40t2/Data/References/mappings/map_GTEx_v8_models_to_UKB_SNPset/map_GTEx_v8_models_to_UKB_SNPset/mashr_Whole_Blood_UKB.txt")
+```
+
+
+

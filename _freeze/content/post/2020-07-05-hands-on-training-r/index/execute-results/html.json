@@ -1,0 +1,14 @@
+{
+  "hash": "6dca1664d0fbf3d8be2212e58519eb46",
+  "result": {
+    "markdown": "---\ntitle: 'Hands-On Training: R'\nauthor: Laura Vairus\ndate: '2020-07-05'\nslug: hands-on-training-r\ncategories:\n  - how_to\ntags: []\n---\n\n\n\n## R Basics\n\nSwirl is a great and easy way to get you started with R. Install and open it by clicking the green arrow on the right.\n\nInstall Swirl Package:\n\n::: {.cell}\n\n```{.r .cell-code}\ninstall.packages(\"swirl\")\nlibrary(\"swirl\")\nswirl()\n```\n:::\n\n\nOnce you enter your username, it prompts you to choose a course to install.\nChoose 1 for \"R Programming\" to learn the basics. \nThen, enter 1 again and it will take you to a menu of courses you can choose from.\n\n## Quiz\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

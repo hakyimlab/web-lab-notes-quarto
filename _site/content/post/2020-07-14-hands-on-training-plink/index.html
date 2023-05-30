@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="">
+<meta name="dcterms.date" content="2020-07-14">
+
+<title>web-lab-notes-quarto - Hands-On Training: plink</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">web-lab-notes-quarto</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/hakyimlab/"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">Hands-On Training: plink</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+                                <div class="quarto-categories">
+                <div class="quarto-category">how_to</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 14, 2020</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p><strong>LATEST VERSION IN https://bios25328.hakyimlab.org/post/2021/04/07/plink-tutorial/</strong></p>
+<section id="basic-commands" class="level2">
+<h2 class="anchored" data-anchor-id="basic-commands">Basic Commands</h2>
+<ul>
+<li>here’s a list of some of the basic commands you will learn about</li>
+<li>We will go more in depth for each one below</li>
+</ul>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>–file</td>
+<td>loads a file in ascii format</td>
+</tr>
+<tr class="even">
+<td>–bfile</td>
+<td>loads a file in binary format</td>
+</tr>
+<tr class="odd">
+<td>–make-bed</td>
+<td>converts an ascii file to binary</td>
+</tr>
+<tr class="even">
+<td>–out</td>
+<td>specifies what you want to name your output</td>
+</tr>
+<tr class="odd">
+<td>–freq</td>
+<td>generates minor allele frequencies</td>
+</tr>
+</tbody>
+</table>
+<p>A more detailed tutorial for GWAS analysis is <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6001694/">here</a>.</p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>We will learn to run a GWAS using plink.<br>
+This tutorial follows a plink tutorial you can find <a href="https://zzz.bwh.harvard.edu/plink/tutorial.shtml">here</a></p>
+<ul class="task-list">
+<li><input type="checkbox" disabled="">First, download plink into a new file /Users/<username>/demo/</username></li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">DEMO</span><span class="op">=</span><span class="st">"/Users/&lt;yourusername&gt;/demo"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ul class="task-list">
+<li><input type="checkbox" disabled="">Download the <a href="https://zzz.bwh.harvard.edu/plink/hapmap1.zip">example data</a> we will be using.<ul>
+<li>Note that this data is not real and is only intended to be used as an example for using plink.</li>
+</ul></li>
+</ul>
+<p>Whenever running plink commands, you first have to indicate you’re using plink by typing the full path to it.</p>
+<ul class="task-list">
+<li><input type="checkbox" disabled="">To avoid writing out the same path over and over again, we will define a variable that contains the path to plink.</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">plink</span><span class="op">=</span><span class="st">"Users/&lt;username&gt;/demo/plink"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="ped-and-map-files" class="level2">
+<h2 class="anchored" data-anchor-id="ped-and-map-files">PED and MAP files</h2>
+<ul>
+<li><p>PED and MAP files are plain text files that contain a table of part of your data</p></li>
+<li><p>Together, they make up all of the data of the study you’re doing</p></li>
+<li><p><input type="checkbox" disabled="">Look at the first few lines of your PED file by copy and pasting this command</p></li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d</span> <span class="st">' '</span> <span class="at">-f</span>  1-6  hapmap1.ped <span class="kw">|</span> <span class="fu">head</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ul>
+<li>Each row represents a different individual.<br>
+</li>
+<li>PED files start with 6 informative columns about each individual.<br>
+</li>
+</ul>
+<ol type="1">
+<li>Family ID</li>
+<li>Individual ID</li>
+<li>Paternal ID</li>
+<li>Maternal ID</li>
+<li>Sex
+<ul>
+<li>1 = male, 2 = female, other = unknown</li>
+</ul></li>
+<li>Phenotype
+<ul>
+<li>Can be quantitative or an affection status</li>
+<li>The default values for affection status is: 1 = unaffected, 2 = affected, 0 = missing, -9 = missing</li>
+</ul></li>
+</ol>
+<ul>
+<li>Every column after these is the data for the individual’s genotypes
+<ul>
+<li>Each marker is biallelic, meaning there’s two genotypes for each column, paternal and maternal.</li>
+</ul></li>
+<li><input type="checkbox" disabled="">Now look at the beginning of your MAP file</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> hapmap1.map</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ul>
+<li>Each row represents a different SNP.</li>
+<li>there are 4 informative columns.</li>
+</ul>
+<ol type="1">
+<li>Chromosome #</li>
+<li>SNP identifier</li>
+<li>Genetic distance (in centimorgans)</li>
+<li>Base-pair position</li>
+</ol>
+<ul>
+<li>every row here corresponds to a genotype column in the ped file to indicate the position of those genotypes
+<ul>
+<li>the first row here corresponds to the first genotype column in the .ped (after the first ID-ing 6), the second row here to the next column there, and so on</li>
+</ul></li>
+</ul>
+</section>
+<section id="binary-files" class="level2">
+<h2 class="anchored" data-anchor-id="binary-files">Binary Files</h2>
+<p>It’s helpful to compress your data to speed up analysis and data processing<br>
+One way to do this is to convert your files to binary format</p>
+<ul class="task-list">
+<li><input type="checkbox" disabled="">Convert your .ped and .map files to binary</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--file</span> hapmap1 <span class="at">--make-bed</span> <span class="at">--out</span> hapmap1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>These are the three plink commands we used:<br>
+- <em>–file hapmap1</em>: specifies that we want to use the hapmap1 files<br>
+- <em>–make-bed</em>: converts that file to binary<br>
+- <em>–out hapmap1</em>: names our output files hapmap1<br>
+- if you don’t specify a name for your output, it defaults to “plink” - If you look at your hapmap folder, you’ll see four new files - .bed: binary .ped - .bim: binary .map - .fam: copy of the first 6 column of .ped - .log: a log of what commands were run and what it printed</p>
+</section>
+<section id="minor-allele-frequencies" class="level2">
+<h2 class="anchored" data-anchor-id="minor-allele-frequencies">Minor Allele Frequencies</h2>
+<ul class="task-list">
+<li><input type="checkbox" disabled="">Find the minor allele frequencies of your data and look at the head</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--file</span> hapmap1 <span class="at">--freq</span> <span class="at">--out</span> maf</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> maf.freq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ul>
+<li>There are 6 columns</li>
+</ul>
+<ol type="1">
+<li>Chromosome #</li>
+<li>SNP ID</li>
+<li>Minor Allele</li>
+<li>Major Allele</li>
+<li>Minor Allele Frequencies</li>
+<li>Number of Allele Observations</li>
+</ol>
+</section>
+<section id="run-a-gwas" class="level2">
+<h2 class="anchored" data-anchor-id="run-a-gwas">Run a GWAS</h2>
+<ul>
+<li>When you “run a GWAS,” it just means you’re finding the association between your SNPs and the phenotypes.</li>
+<li>In plink, you use the –assoc command to do this</li>
+<li><input type="checkbox" disabled="">Run a GWAS and look at the head</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--file</span> hapmap1 <span class="at">--assoc</span> <span class="at">--out</span> as</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> as.assoc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ul>
+<li>There are 10 columns</li>
+</ul>
+<ol type="1">
+<li>Chromosome #</li>
+<li>SNP ID</li>
+<li>Base pair</li>
+<li>Minor Allele</li>
+<li>Frequency of the minor allele in affected individuals</li>
+<li>Frequency of the minor allele in unaffected idividuals</li>
+<li>Major Allele</li>
+<li>Chi-squared statistic
+<ul>
+<li>The difference between the data you observed and the data you expected under the null hypothesis</li>
+</ul></li>
+<li>P-value</li>
+<li>Odds ratio</li>
+</ol>
+</section>
+<section id="manhattan-plot" class="level2">
+<h2 class="anchored" data-anchor-id="manhattan-plot">Manhattan Plot</h2>
+<p>Now we will graph a Manhattan plot of our association data We will do this in R using the “qqman” package - [ ] First, download qqman</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(qqman)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ul class="task-list">
+<li><input type="checkbox" disabled="">Read your association table and set it to a variable</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">read_table</span>(<span class="st">"/Users/&lt;username&gt;/..."</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ul>
+<li>Now if you try to plot mydata, R will give you an error because there are NA values in it.</li>
+<li>To get rid of the NA values, use the command <em>na.omit</em></li>
+<li><input type="checkbox" disabled="">Take out the NA values</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mydata2 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(mydata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ul class="task-list">
+<li><input type="checkbox" disabled="">Now you’re ready to graph your manhattan plot!</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">manhattan</span>(mydata2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="qq-plot" class="level2">
+<h2 class="anchored" data-anchor-id="qq-plot">QQ Plot</h2>
+<p>the qq() function takes in a vector instead of a table.<br>
+When graphing our data in qq plots we use the p-values - [ ] Graph your p values</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(mydata2<span class="sc">$</span>P)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>we will read the hapmap1.ped file. typically genotype files are too large to load into memory but in this example it takes 28MB, which is fine with current computers. As a rule of thumb (in a laptop with 16Gb of ram, try not to load files that are more than 1GB)</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>hapmap1_ped <span class="ot">=</span> <span class="fu">read_table</span>(<span class="st">"/Users/lvairus/Desktop/hapmap1/hapmap1.ped"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<pre class="markdown" data-shortcodes="false"><code>---
+title: 'Hands-On Training: plink'
+author: ''
+date: '2020-07-14'
+slug: hands-on-training-plink
+categories:
+  - how_to
+tags: []
+---
+
+
+**LATEST VERSION IN https://bios25328.hakyimlab.org/post/2021/04/07/plink-tutorial/**
+
+## Basic Commands
+
+- here's a list of some of the basic commands you will learn about 
+- We will go more in depth for each one below
+
+Command       |       Function
+--------------|--------------------------------------
+--file        |       loads a file in ascii format
+--bfile       |       loads a file in binary format
+--make-bed    |       converts an ascii file to binary
+--out         |       specifies what you want to name your output
+--freq        |       generates minor allele frequencies
+
+A more detailed tutorial for GWAS analysis is [here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6001694/).
+
+
+## Introduction
+
+We will learn to run a GWAS using plink.  
+This tutorial follows a plink tutorial you can find [here](https://zzz.bwh.harvard.edu/plink/tutorial.shtml)
+
+- [ ] First, download plink into a new file /Users/&lt;username&gt;/demo/
+```{bash, download plink, eval=FALSE}
+DEMO="/Users/&lt;yourusername&gt;/demo"
+
+```
+
+- [ ] Download the [example data](https://zzz.bwh.harvard.edu/plink/hapmap1.zip) we will be using.  
+  - Note that this data is not real and is only intended to be used as an example for using plink.  
+
+Whenever running plink commands, you first have to indicate you're using plink by typing the full path to it.  
+
+- [ ] To avoid writing out the same path over and over again, we will define a variable that contains the path to plink.
+```{bash, plink path, eval=FALSE}
+plink="Users/&lt;username&gt;/demo/plink"
+
+```
+
+
+## PED and MAP files
+
+- PED and MAP files are plain text files that contain a table of part of your data
+- Together, they make up all of the data of the study you're doing
+
+- [ ] Look at the first few lines of your PED file by copy and pasting this command
+```{bash, ped head, eval=FALSE}
+cut -d ' ' -f  1-6  hapmap1.ped | head
+
+```
+- Each row represents a different individual.  
+- PED files start with 6 informative columns about each individual.  
+1) Family ID
+2) Individual ID
+3) Paternal ID
+4) Maternal ID
+5) Sex
+    - 1 = male, 2 = female, other = unknown
+6) Phenotype
+    - Can be quantitative or an affection status
+    - The default values for affection status is: 1 = unaffected, 2 = affected, 0 = missing, -9 = missing
+
+- Every column after these is the data for the individual's genotypes
+  - Each marker is biallelic, meaning there's two genotypes for each column, paternal and maternal.  
+
+- [ ] Now look at the beginning of your MAP file
+```{bash, map head, eval=FALSE}
+head hapmap1.map
+
+```
+- Each row represents a different SNP.
+- there are 4 informative columns.
+1) Chromosome #
+2) SNP identifier
+3) Genetic distance (in centimorgans)
+4) Base-pair position
+- every row here corresponds to a genotype column in the ped file to indicate the position of those genotypes
+  - the first row here corresponds to the first genotype column in the .ped (after the first ID-ing 6), the second row here to the next column there, and so on
+
+
+## Binary Files
+
+It's helpful to compress your data to speed up analysis and data processing  
+One way to do this is to convert your files to binary format
+
+- [ ] Convert your .ped and .map files to binary
+```{bash, binary, eval=FALSE}
+plink --file hapmap1 --make-bed --out hapmap1
+
+```
+These are the three plink commands we used:  
+- *--file hapmap1*: specifies that we want to use the hapmap1 files  
+- *--make-bed*: converts that file to binary  
+- *--out hapmap1*: names our output files hapmap1  
+    - if you don't specify a name for your output, it defaults to "plink"
+- If you look at your hapmap folder, you'll see four new files
+  - .bed: binary .ped
+  - .bim: binary .map
+  - .fam: copy of the first 6 column of .ped
+  - .log: a log of what commands were run and what it printed
+
+  
+## Minor Allele Frequencies
+
+- [ ] Find the minor allele frequencies of your data and look at the head
+```{bash, maf, eval=FALSE}
+plink --file hapmap1 --freq --out maf
+head maf.freq
+
+```
+- There are 6 columns 
+1) Chromosome #
+2) SNP ID
+3) Minor Allele
+4) Major Allele
+5) Minor Allele Frequencies
+6) Number of Allele Observations
+
+
+## Run a GWAS
+- When you "run a GWAS," it just means you're finding the association between your SNPs and the phenotypes.
+- In plink, you use the --assoc command to do this
+- [ ] Run a GWAS and look at the head
+```{bash, GWAS, eval=FALSE}
+plink --file hapmap1 --assoc --out as
+head as.assoc
+
+```
+- There are 10 columns
+1) Chromosome #
+2) SNP ID
+3) Base pair
+4) Minor Allele
+5) Frequency of the minor allele in affected individuals
+6) Frequency of the minor allele in unaffected idividuals
+7) Major Allele
+8) Chi-squared statistic
+    - The difference between the data you observed and the data you expected under the null hypothesis
+9) P-value
+10) Odds ratio
+
+
+## Manhattan Plot 
+
+Now we will graph a Manhattan plot of our association data
+We will do this in R using the "qqman" package
+- [ ] First, download qqman
+```{r, Manhattan, eval = FALSE}
+library(qqman)
+
+```
+
+- [ ] Read your association table and set it to a variable
+```{r, eval=FALSE}
+mydata &lt;- read_table("/Users/&lt;username&gt;/...", header = TRUE)
+
+```
+
+- Now if you try to plot mydata, R will give you an error because there are NA values in it.
+- To get rid of the NA values, use the command *na.omit*
+- [ ] Take out the NA values
+```{r, eval=FALSE}
+mydata2 &lt;- na.omit(mydata)
+
+```
+- [ ] Now you're ready to graph your manhattan plot!
+```{r, eval=FALSE}
+manhattan(mydata2)
+
+```
+
+## QQ Plot
+
+the qq() function takes in a vector instead of a table.  
+When graphing our data in qq plots we use the p-values
+- [ ] Graph your p values
+```{r, qqplot, eval=FALSE}
+qqplot(mydata2$P)
+
+```
+
+
+
+we will read the hapmap1.ped file. typically genotype files are too large to load into memory but in this example it takes 28MB, which is fine with current computers. As a rule of thumb (in a laptop with 16Gb of ram, try not to load files that are more than 1GB)
+```{r, eval=FALSE}
+
+hapmap1_ped = read_table("/Users/lvairus/Desktop/hapmap1/hapmap1.ped")
+
+```
+</code></pre>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

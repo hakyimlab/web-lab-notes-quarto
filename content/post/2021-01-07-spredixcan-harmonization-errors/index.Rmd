@@ -1,0 +1,136 @@
+---
+title: SPrediXcan Harmonization Errors
+author: Sabrina Mi
+date: '2021-01-07'
+slug: spredixcan-harmonization-errors
+categories: []
+tags: []
+---
+
+The error message-- `INFO - 0 % of model's snps used`-- can typically be traced to inconsistencies between variant IDs in prediction models and input GWAS files. Our GTEx v8 mashr and elastic net models are defined in hg38. For GWAS defined in hg19, we recommend first processing the GWAS with our [harmonization tool](https://github.com/hakyimlab/summary-gwas-imputation/wiki/GWAS-Harmonization-And-Imputation) ([tutorial](https://github.com/hakyimlab/MetaXcan/wiki/Tutorial:-GTEx-v8-MASH-models-integration-with-a-Coronary-Artery-Disease-GWAS))
+
+Here, we focus on harmonization issues for prediction models and summary statistics in the same build. By harmonization, we mean that the same SNP can be identified with different names in the prediction model and GWAS, so we want to ensure they match. Our prediction models identify SNPs by their RSID and "varID", a naming format with chromosome, position, allele, and build information. For example, the variant 'rs12551220' has varID  'chr9_137032730_G_A_b38'. In our example, we focus on a GWAS that does not provide RSIDs for variants, so we requires some processing in order to run SPrediXcan.
+
+The raw GWAS file:
+```
+zless /Users/sabrinami/Desktop/psychencode_test_data/clozuk_pgc2.meta.sumstats.txt.gz | head
+SNP	Freq.A1	CHR	BP	A1	A2	OR	SE	P
+10:100968448:T:AA	0.3519	10	100968448	t	aa	1.0024	0.01	0.812
+10:101574552:A:ATG	0.4493	10	101574552	a	atg	0.989060.0097	0.2585
+10:10222597:AT:A	0	10	10222597	a	at	0.9997	0.01	0.9777
+```
+
+Our prediction models follow the format:
+```
+sqlite> SELECT * FROM weights LIMIT 5;
+ENSG00000000457|rs6703487|chr1_169550749_C_T_b37|C|T|0.0010487355157559
+ENSG00000000457|rs9332476|chr1_169556756_A_G_b37|A|G|0.0037017916840068
+ENSG00000000457|rs2142759|chr1_169618820_G_A_b37|G|A|0.00806408251476846
+```
+
+The variants identified in the `SNP` column of the GWAS file match neither the `rsid` or `varID` columns of the model. If we run SPrediXcan without harmonizing, we get the `INFO - 0 % of model's snps used` error message:
+
+```
+python3 $METAXCAN/SPrediXcan.py --gwas_file $DATA/clozuk_pgc2.meta.sumstats.out.txt.gz \
+> --model_db_path $MODEL/psychencode_model/psychencode.db \
+> --covariance $MODEL/psychencode_model/psychencode.txt.gz \
+> --or_column OR \
+> --pvalue_column P \
+> --snp_column SNP \
+> --non_effect_allele_column A2 \
+> --effect_allele_column A1 \
+> --throw \
+> --output_file $RESULTS/clozuk_pgc2_imputeformat.csv
+```
+
+```
+INFO - Processing GWAS command line parameters
+INFO - Building beta for /Users/sabrinami/Desktop/psychencode_test_data/clozuk_pgc2.meta.sumstats.out.txt.gz and /Users/sabrinami/Github/psychencode/models/psychencode_model/psychencode.db
+INFO - Reading input gwas with special handling: /Users/sabrinami/Desktop/psychencode_test_data/clozuk_pgc2.meta.sumstats.out.txt.gz
+INFO - Processing input gwas
+INFO - Aligning GWAS to models
+INFO - Trimming output
+INFO - Successfully parsed input gwas in 18.136219276 seconds
+INFO - Started metaxcan process
+INFO - Loading model from: /Users/sabrinami/Github/psychencode/models/psychencode_model/psychencode.db
+INFO - Loading covariance data from: /Users/sabrinami/Github/psychencode/models/psychencode_model/psychencode.txt.gz
+INFO - Processing loaded gwas
+INFO - Started metaxcan association
+INFO - 0 % of model's snps used
+INFO - Sucessfully processed metaxcan association in 132.015579446 seconds
+```
+
+To harmonize, we add a `varID` column in the GWAS file with the same format of as the model using information in the `CHR`, `BP`, `A1`, `A2` columns. The modified GWAS looks like:
+```
+zless /Users/sabrinami/Desktop/psychencode_test_data/clozuk_pgc2.meta.sumstats.out.txt.gz | head
+SNP	Freq.A1	CHR	BP	A1	A2	OR	SE	P	varID	
+10:100968448:T:AA	0.3519	10	100968448	T	AA	1.0024	0.01	0.812	chr10_100968448_T_AA_b37	
+10:101574552:A:ATG	0.4493	10	101574552	A	ATG	0.989060.0097	0.2585	chr10_101574552_A_ATG_b37
+10:10222597:AT:A	0	10	10222597	A	AT	0.9997	0.01	0.9777	chr10_10222597_A_AT_b37
+```
+
+We also change our SPrediXcan parameters to indicate the GWAS SNP names follow the `varID` format, with the argument `--model_db_snp_key varID`. It runs correctly because it messages `INFO - 63 % of model's snps used`:
+
+
+```
+python3 $METAXCAN/SPrediXcan.py --gwas_file $DATA/clozuk_pgc2.meta.sumstats.out.txt.gz \
+> --model_db_path $MODEL/psychencode_model/psychencode.db \
+> --covariance $MODEL/psychencode_model/psychencode_varID.txt.gz \
+> --keep_non_rsid --model_db_snp_key varID \
+> --or_column OR \
+> --pvalue_column P \
+> --snp_column varID \
+> --non_effect_allele_column A2 \
+> --effect_allele_column A1 \
+> --throw \
+> --output_file $RESULTS/clozuk_pgc2_psychencode.csv
+```
+
+```
+INFO - Processing GWAS command line parameters
+INFO - Building beta for /Users/sabrinami/Desktop/psychencode_test_data/clozuk_pgc2.meta.sumstats.out.txt.gz and /Users/sabrinami/Github/psychencode/models/psychencode_model/psychencode.db
+INFO - Reading input gwas with special handling: /Users/sabrinami/Desktop/psychencode_test_data/clozuk_pgc2.meta.sumstats.out.txt.gz
+INFO - Processing input gwas
+INFO - Aligning GWAS to models
+INFO - Trimming output
+INFO - Successfully parsed input gwas in 22.284876615 seconds
+INFO - Started metaxcan process
+INFO - Loading model from: /Users/sabrinami/Github/psychencode/models/psychencode_model/psychencode.db
+INFO - Loading covariance data from: /Users/sabrinami/Github/psychencode/models/psychencode_model/psychencode_varID.txt.gz
+INFO - Processing loaded gwas
+INFO - Started metaxcan association
+INFO - 10 % of model's snps found so far in the gwas study
+INFO - 20 % of model's snps found so far in the gwas study
+INFO - 30 % of model's snps found so far in the gwas study
+INFO - 40 % of model's snps found so far in the gwas study
+INFO - 50 % of model's snps found so far in the gwas study
+INFO - 60 % of model's snps found so far in the gwas study
+INFO - 63 % of model's snps used
+INFO - Sucessfully processed metaxcan association in 153.879826246 seconds
+```
+
+If we still see the `INFO - 0 % of model's snps used` message, there may still be inconsistencies between the GWAS and covariance file. 
+
+In the example, SPrediXcan runs using the `varID` format names from both the GWAS file and model. However, the covariance file may still identify variants by their RSID:
+
+```
+zless /Users/sabrinami/Github/psychencode/models/psychencode_model/psychencode.txt.gz | head
+GENE RSID1 RSID2 VALUE
+ENSG00000003249 rs140580708 rs140580708 0.013030848604677675
+ENSG00000003249 rs140580708 rs164739 -0.008913106189505495
+ENSG00000003249 rs140580708 rs1991508 -0.0017680061881014297
+
+```
+
+Creating a new covariance file with `varID` format variant names replacing the `RSID1` and `RSID2` columns should fix the error. The prediction model file provides a dictionary to update IDs. We have [example code](file:///Users/sabrinami/Github/psychencode/docs/test_scz_clozuk_pgc.html#reformat_model_covariance) to do so.
+
+The following covariance file (with the same column names) gives the correct output:
+
+```
+zless /Users/sabrinami/Github/psychencode/models/psychencode_model/psychencode_varID.txt.gz | head
+GENE RSID1 RSID2 VALUE
+ENSG00000003249 chr16_89594100_C_G_b37 chr16_89594100_C_G_b37 0.0130308486046777
+ENSG00000003249 chr16_89594100_C_G_b37 chr16_89667699_C_G_b37 -0.0089131061895055
+ENSG00000003249 chr16_89594100_C_G_b37 chr16_89672155_C_T_b37 -0.00176800618810143
+
+```

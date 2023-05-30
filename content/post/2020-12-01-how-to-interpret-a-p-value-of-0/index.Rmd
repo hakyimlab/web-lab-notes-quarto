@@ -1,0 +1,35 @@
+---
+title: How to interpret a p-value of 0
+author: Haky Im
+date: '2020-12-01T17:05:51-05:00'
+slug: how-to-interpret-a-p-value-of-0
+categories: []
+tags:
+  - FAQ
+  - PrediXcan
+description: ''
+topics: []
+---
+
+A p-value of zero should be interpreted as an extremely small positive value.
+
+S-PrediXcan or PrediXcan will provide the zscore as well as the p-value. You can calculate the p-value corresponding to the Zscore using the formula below. For example a Zscore of 30 will give you a (natural) log p-value of `r pnorm(-abs(30) , log.p = TRUE) + log(2)` 
+
+
+```{r}
+
+Zscore = 30
+pnorm(-abs(Zscore) , log.p = TRUE) + log(2)  
+
+```
+
+
+MultiXcan doesn't output the test statistics used for the p-value calculation. But you can get a sense of how extreme the p-values can be by looking at the largest Z-scores in absolute value in the `z_min` and `z_max` columns. The (natural) log of the p-value corresponding to your results is shown below. 
+
+ 
+```{r, eval=FALSE}
+suppressMessages(library(tidyverse))
+tempo = read_tsv("~/Downloads/multixcan_output.txt")
+pnorm(- max(abs(c(tempo$z_max,tempo$z_min ) ), na.rm = TRUE), log.p = TRUE) + log(2) 
+
+```  

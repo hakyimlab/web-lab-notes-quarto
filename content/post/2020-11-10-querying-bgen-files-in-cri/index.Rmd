@@ -1,0 +1,43 @@
+---
+title: Querying bgen files in CRI
+author: Sabrina Mi
+date: '2020-11-10'
+slug: querying-bgen-files-in-cri
+categories: []
+tags: [how to]
+description: ''
+topics: []
+---
+## BGEN format
+
+A bgen file has a header block with information about the file, including number of samples, the number of variant data blocks, and flags which describe how data is stores. A variant data block contains data for a single snp, including ID, position, and alleles. bgens from UKBiobank also have a sample identifier block with has an identifier for each sample. 
+
+## Querying a subset of a bgen genotype
+
+Start an interactive job, `qsub -I`. We can query data for a region of a chromosome in a bgen file:
+```{bash, eval=FALSE}
+module load gcc/6.2.0; module load bgen/1.1.3
+bgenix -g /gpfs/data/ukb-share/genotypes/v3/ukb_imp_chr17_v3.bgen -incl-range 17:46018872-46026674 > pnpo_37.bgen
+
+```
+
+This outputs a bgen containing data only for snps on chromosome 17, between positions 46018872 46026674.
+
+Before querying it, we need to create an index file:
+```{bash, eval=FALSE}
+bgenix -g pnpo_37.bgen -index
+
+```
+
+More documentation is [here](https://enkre.net/cgi-bin/code/bgen/wiki/bgenix).
+
+## Convert to VCF
+For some reason, using the bgenix -vcf argument to convert the bgen output to a vcf is unreliable, so we use qctool to convert instead. qctool is installed in /gpfs/data/im-lab/nas40t2/bin. Note that qctool requires gcc, so this will need to be run in a job with the gcc module loaded.
+```{bash, eval=FALSE}
+export PATH=$PATH:/gpfs/data/im-lab/nas40t2/bin/software
+
+bgenix -g pnpo_37.bgen | qctool -g - -filetype bgen -s /gpfs/data/ukb-share/genotypes/ukb19526_imp_chr1_v3_s487395.sample -og ~/PNPO_37.vcf
+
+```
+
+Run `qctool -help` for a list of options, or for more documentation, [https://www.well.ox.ac.uk/~gav/qctool_v2/index.html](https://www.well.ox.ac.uk/~gav/qctool_v2/index.html).

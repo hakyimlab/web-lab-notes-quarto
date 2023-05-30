@@ -1,0 +1,113 @@
+---
+title: How to annotate a gene with the cytogenetic band
+author: Haky Im
+date: '2021-07-28'
+slug: how-to-get-the-cytogenetic-band-of-a-gene
+categories:
+  - how to
+tags: []
+---
+
+Adding the cytogenetic to genes is convenient because it provides a somewhat memorable names for the genomic region where the gene is located. Biomart package in bioconductor has the database and function for the annnotation.
+
+```{r}
+
+suppressMessages(library(tidyverse))
+suppressMessages(library(glue))
+suppressMessages(library(RSQLite))
+
+```
+
+add cytogenetic band to genes
+
+```{r}
+# install biomaRt if not installed 
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#     install.packages("BiocManager")
+# BiocManager::install("biomaRt")
+## YOU MAY WANT TO RESTART R/RSTUDIO AFTER INSTAALLING BIOCMANAGER
+library(biomaRt)
+
+#ensembl <- useMart(biomart="ENSEMBL_MART_ENSEMBL",dataset="hsapiens_gene_ensembl")
+
+
+ensembl <- useEnsembl(biomart = "ensembl", 
+                   dataset = "hsapiens_gene_ensembl", 
+                   mirror = "useast")
+
+```
+
+::: {.callout-note}
+ mirror = "useast" was necessary to make quarto render work; interactive runs seems to be able to be redirected to the useast mirror automatically but not quarto render
+:::   
+
+```{r}
+
+
+
+## get the gene annotation with cytoband  from biomart
+anno_gene <- getBM(attributes =c("ensembl_gene_id","external_gene_name","chromosome_name","start_position","end_position","band", "gene_biotype"),mart=ensembl)
+
+## define function to add cytoband to gene
+addband2gene = function(df,geneid = "ensembl_gene_id")
+{
+  if(!exists("anno_gene"))
+  {
+    ensembl <- useMart(biomart="ENSEMBL_MART_ENSEMBL",dataset="hsapiens_gene_ensembl")
+    anno_gene <<- getBM(attributes = c("ensembl_gene_id","external_gene_name","chromosome_name","start_position","end_position","band", "gene_biotype"),mart=ensembl )
+  print("defined anno_gene")
+  }
+  if(geneid != "ensembl_gene_id") names(df)[names(df)==geneid] = "ensembl_gene_id" ## this is an ugly workaround - need to find a way to use rename_ for this but don't know how to specify a string instead of name in rename(geneid = "ensembl_gene_id")
+  df = df %>% left_join(anno_gene, by=c( "ensembl_gene_id" ))
+  if(geneid != "ensembl_gene_id") names(df)[names(df)=="ensembl_gene_id"] = geneid
+  df %>% mutate(cytoband = paste0(chromosome_name,band))
+}
+anno_gene <- anno_gene %>% mutate(cytoband = paste0(chromosome_name,band))
+
+```
+
+To get start and end of the cytegenetic bands
+
+```{r}
+## Download cytoband table from http://genome.ucsc.edu/cgi-bin/hgTables
+## 1. Go to the UCSC Genome browser: https://genome.ucsc.edu/index.html
+## 2. Mouse over "Tools" and select "Table Browser"
+## 3. In the table browser window, set the following parameters: clade = mammal, genome = human, assembly = hg38 (or other), group = Mapping and Sequencing, track = Chromosome Band, table = cytoBand, position = chr1 (or whatever chromosome you are interested in), output format = all fields from selected table, file type returned = plain text
+## 4. Click [get output]
+## The results will show the following 5 columns: chromosome number, cytoband start position, end position, cytoband name, and staining result.
+## Haynes, Karmella. (2018). Re: How can i gen the length in mb from a cytoband?. Retrieved from: https://www.researchgate.net/post/How-can-i-gen-the-length-in-mb-from-a-cytoband/5b2147a0565fba5e2820b3de/citation/download.
+#
+
+WEBDATA="/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"
+cytoband_hg38 <- read_table(glue("{WEBDATA}/2021-07-28-how-to-get-the-cytogenetic-band-of-a-gene/hgTables-cytoband-positions-hg38.txt"),comment = "#",guess_max = 10000)
+#
+cytoband_hg37 <- read_table(glue("{WEBDATA}/2021-07-28-how-to-get-the-cytogenetic-band-of-a-gene/hgTables-cytoband-positions-hg37.txt"),comment = "#",guess_max = 10000)
+
+# What's the distribution of the weights
+
+cytoband_hg38 %>% filter(chrom %in% paste0("chr",c(1:22)) )%>%  mutate(bandw = chromEnd - chromStart) %>% .[["bandw"]] %>% summary()/1e6
+  #  Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  # 0.100   2.000   3.200   3.545   4.600  18.100 
+cytoband_hg37 %>% filter(chrom %in% paste0("chr",1:2) ) %>%  mutate(bandw = chromEnd - chromStart) %>% .[["bandw"]] %>% summary()/1e6
+  #  Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  # 0.100   2.100   3.300   3.552   4.600  15.200 
+
+cytoband_hg37 %>% mutate(bandw = chromEnd - chromStart) %>% ggplot(aes(bandw,fill=chrom)) + geom_density(alpha=0.5)
+
+
+# How many cytogenetic bands are there in the autosomes (non sex chromosomes nor mitochondria)
+
+dim(cytoband_hg38)
+dim(cytoband_hg37)
+
+## there are many more cytobands in hg38 because there are many patches added after the official release of hg19
+```
+
+```{r}
+
+## number of genes per cytoband
+anno_gene %>% count(cytoband) %>% arrange(desc(n))
+
+anno_gene %>% count(cytoband) %>% arrange(desc(n)) %>% summary()
+
+```

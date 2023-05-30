@@ -1,0 +1,41 @@
+---
+title: GTEx reaction rates h2 similar to permuted h2
+author: Haky Im
+date: '2020-11-02'
+---
+
+
+We want to investigate whether reaction rates estimated with imat(?) are heritable. Reaction rates (binary variables) were estimated by D using GTEx gene expression data.
+
+Initially, D generated reaction rates with brain cortex expression data from ~250 individuals. 
+
+```{r, echo=FALSE, message=FALSE}
+
+library(tidyverse)
+DATA="/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-haky-personal-notes"
+""
+
+```
+
+
+Heritability of reaction rates was calculated with GCTA. Actual observed h2 and two permuted h2 values are compared next. Spoiler alert: no difference between actual and permuted values. :(
+
+```{r}
+
+tempo = read_tsv(glue::glue("{DATA}/reaction-rates/df.GTEX.txt"))
+
+tempo_constrained = tempo %>% select(pheno=Phenotype,observed=`H2 constrained`, perm1=`Perm constrained 1`, perm2=`Perm Constrained 2`) 
+tempo_constrained %>% pivot_longer(-pheno, names_to = "type", values_to="h2") %>% ggplot(aes(h2)) + geom_histogram() + facet_wrap(~type)
+
+```
+
+
+qqplots comparing actual vs permuted h2
+
+```{r}
+
+qqplot(tempo_constrained$observed, tempo_constrained$perm1); abline(0,1)
+qqplot(tempo_constrained$observed, tempo_constrained$perm2); abline(0,1)
+
+```
+

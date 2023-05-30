@@ -1,0 +1,14 @@
+{
+  "hash": "87cfe8cbddb548aa98d9e6cd1b01fd1f",
+  "result": {
+    "markdown": "---\ntitle: Installing/Running Tensorqtl on CRI\nauthor: Natasha\ndate: '2020-11-17'\nslug: installing-running-tensorqtl-on-cri\ncategories: []\ntags: []\ndescription: ''\ntopics: []\n---\n\nNote: You can download tensorqtl using pip install. However, there seems to be a bug that makes tensorqtl incompatible with pandas plink 2.2.2. If you want to download tensorqtl using pip, then you have to downgrade pandas plink to 2.1.x so that it matches the version of pandas 1.1.x\n\nI installed tensorqtl straight from the Github repo https://github.com/broadinstitute/tensorqtl\n\n1) Activate the environment\n\n::: {.cell}\n\n```{.sh .cell-code}\nconda activate /gpfs/data/im-lab/nas40t2/bin/envs/tensorqtl\n```\n:::\n\n\n2) Clone the repo into your own directory in the labshare\n\n::: {.cell}\n\n```{.sh .cell-code}\ngit clone git@github.com:broadinstitute/tensorqtl.git\ncd tensorqtl\n```\n:::\n\n\n3) Install tensorqtl and its requirements\n\n::: {.cell}\n\n```{.sh .cell-code}\npip install -r install/requirements.txt\n```\n:::\n\n\n4) Run Tensorqtl\n\nRequirements: Tensorqtl requires a genotype, phenotype and covariate file. The genotype files must be in plink format. The phenotype file must be in a .bed.gz format and follow the UCSC bed formate (http://fastqtl.sourceforge.net) Finally, the covariate file must be in a .txt format and is in the setup covariates x samples. \n\nAlso make sure to set column names true for both the phenotype and covariate files. (Row names must also be present only for the covariate file)\n\nIt's also helpful to look at the example data provided by the repo. \n\nThis is the command I used to run tensorqtl. I ran a trans-qtl so start and end positions on the genes were not significant. \n\n\n::: {.cell}\n\n```{.sh .cell-code}\npython3 -m tensorqtl /gpfs/data/im-lab/nas40t2/Data/GTEx/V8/genotype/plink_files/GTEX_tensorqtl /gpfs/data/im-lab/nas40t2/natasha/tensorqtl/pheno-tensorqtl.bed.gz /gpfs/data/im-lab/nas40t2/natasha/GTEX_tensorqtl \\\n--covariates /gpfs/data/im-lab/nas40t2/natasha/tensorqtl/covariates.txt  \\\n--mode trans \n```\n:::\n\n\nThe command above will generate a parquet file in wherever you set the prefix to. The file can be read using pandas\n\n\n::: {.cell}\n\n```{.sh .cell-code}\nimport pandas as pd\ndf = pd.read_parquet(\"<path_to_filename>\")\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

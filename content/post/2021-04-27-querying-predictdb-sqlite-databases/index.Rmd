@@ -1,0 +1,44 @@
+---
+title: Querying PredictDB sqlite databases
+author: Haky Im
+date: '2021-04-27'
+slug: querying-predictdb-sqlite-databases
+categories:
+  - how_to
+tags: []
+---
+
+PredictDB databases are stored in simple sqlite files. You can programmatically query them via python, R, perl, etc (using appropriate libraries). Below is an example on how to query the database in R.
+
+
+Each has two tables the extra and the weights tables. 
+- extra table contains the list of available genes and some prediction performance information (for elastic net, not for the mashr models), 
+- weights table contains the weights for predicting the gene expression levels (or other mediating/molecular traits)
+
+```{r}
+## install.packages("RSQLite")
+library("RSQLite")
+sqlite <- dbDriver("SQLite")
+dbname <- "assets/en_Adipose_Subcutaneous.db" ## add full path if db file not in current directory
+## connect to db
+db = dbConnect(sqlite,dbname)
+## list tables
+dbListTables(db)
+dbListFields(db, "weights")
+dbListFields(db, "extra")
+## convenience query function
+query <- function(...) dbGetQuery(db, ...)
+## example queries
+query('select count(*) from weights')
+query('select * from weights where gene = "GATA6" ')
+query('select * from weights limit 10')
+## how many genes are available for given tissue?
+## dbname should be the name of the sqlite database for the tissue
+query('select count(*) from extra')
+## select genes with R2>0.01 (this is cor>0.1)
+## ths won't work for the latest MASHR-based GTEx V8 models
+## this only works for models where R2 is included. 
+#high.h2.genes <- query('select * from extra where R2 > 0.01')
+```
+
+

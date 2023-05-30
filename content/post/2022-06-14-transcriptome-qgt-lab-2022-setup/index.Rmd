@@ -1,0 +1,83 @@
+---
+title: Transcriptome QGT Lab 2022 Setup
+author: ''
+date: '2022-06-14'
+slug: transcriptome-qgt-lab-2022-setup
+categories: []
+tags:
+  - lab
+  - QGT
+  - how to
+---
+
+The instructions in this blog were written to set up the lab in Rstudio cloud
+
+## Setting up your own system 
+
+Linux is the operating system of choice to run bioinformatics software. You will need either a computer running linux or or mac os, which has a linux-like environment. 
+
+- [ ] install anaconda/miniconda 
+- [ ] define imlabtools conda environment [how to here](https://github.com/hakyimlab/MetaXcan/blob/master/README.md#example-conda-environment-setup), which will install all the python modules needed for this analysis session
+- [ ] download data and software [from Box](https://uchicago.box.com/s/zhapf2zfxcpj7thvq4sjnqale3emleum).
+  This will have copies of all the software repositories and the models
+- [ ] download software 
+  - download metaxcan repo
+- [ ] download prediction models from predictdb.org 
+- [ ] install R/RStudio/tidyverse package
+- [ ] install R packages
+- [ ] git clone https://github.com/hakyimlab/QGT-Columbia-HKI.git
+- [ ] start Rstudio (if you installed workflowr, you can just open the QGT-Columbia-HKI.Rproj)
+
+# R setup
+
+```{r, eval=FALSE}
+#install R packages 
+install.packages("remotes")
+library(remotes)
+remotes::install_github("stephenslab/susieR") #gives the most up to date SusieR 
+install.packages("coloc")
+install.packages("tidyverse")
+install.packages("R.utils")
+install.packages("remotes")
+remotes::install_github("simingz/ctwas", ref = "develop")
+
+
+#cTWAS install
+install.packages("R.utils")
+install.packages("remotes")
+remotes::install_github("simingz/ctwas", ref = "develop")
+library(ctwas)
+
+
+## make sure these are installed
+# library(data.table)
+# library(BEDMatrix)
+# library(Rfast)
+# library(susieR)
+# library(coloc)
+
+#installing base miniconda
+install.packages("keras")
+reticulate::install_miniconda("miniconda")
+```
+
+# Setting up Conda Environment
+```{bash, eval=FALSE}
+#adding path
+export PATH=$PATH:/cloud/project/miniconda/bin
+# adding repos/data
+git clone https://github.com/hakyimlab/QGT-Columbia-HKI-repo.git
+git clone https://github.com/hakyimlab/MetaXcan.git
+conda config --append channels conda-forge
+conda config --append channels bioconda
+conda env create -f /cloud/project/MetaXcan/software/conda_env.yaml
+conda activate imlabtools
+```
+Set the Ram to 5gb in order to create the environment. 
+
+# Box Data
+To upload the data. I first downloaded the box folder onto a local machine and then compressed the folders in the box folder to upload onto the server. 
+
+Notes:
+For some reason setting up the environment and uploading the data will continue to use a lot of background RAM set sure to close the project and reopen to close extraneous programs. 
+

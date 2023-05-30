@@ -1,0 +1,176 @@
+---
+title: 'Hands-On Training: Command Line'
+author: Laura Vairus
+date: '2020-07-02'
+slug: hands-on-training-command-line
+categories:
+  - how_to
+tags: []
+---
+
+## Command Line Basics - Terminal
+
+In this tutorial, we will learn some basic Unix/Linux commands to perform tasks in the command line. <br/> The command line is an interface that allows you to store, manage, and process data. <br/> Terminal is an app that gives you access to the command line. <br/>
+
+(Note: This tutorial was made for Mac users. For Windows users, follow the tutorial [here](file:///Users/homeuser/Github/Hands-on-Training/docs/commandline.html#For_Windows_Users)) (WIP) <br/>
+
+To start, open Terminal using the computer's search button. <br/> Whenever you're in Terminal, you are "standing" in a certain file on your computer. <br/> From there, you can move around folders, create files, and much more. <br/>
+
+For now, here are a few basic commands and their functions to get you started:
+
+| Command    | Denotation                    | Function                                               |
+|----------------|--------------------|------------------------------------|
+| **pwd**    | (present working directory)   | shows you the folder you are currently in              |
+| **ls**     | (list files)                  | lists all of the items in your current folder          |
+| **cd**     | (change directory)            | move from folder to folder                             |
+| **mkdir**  | (make directory)              | creates a folder in your current folder                |
+| **touch**  | (touch)                       | creates a file                                         |
+| **mv**     | (move/rename)                 | moves or renames files/folders                         |
+| **cp**     | (copy)                        | copies a file to a new location                        |
+| **cp -r**  | (copy recursive)              | copies a folder and everything in it to a new location |
+| **rm**     | (remove here)                 | deletes a file                                         |
+| **rm -rf** | (remove here recursive force) | deletes a folder                                       |
+
+## Hands-On Practice
+
+-   Follow along the commands on Terminal to practice\
+    <br/>
+
+First, find out what folder you are currently in
+
+```
+pwd
+```
+
+<br/>
+
+Find out what files/folders you have in that folder
+
+```
+ls
+```
+
+<br/>
+
+Go back one folder
+
+```
+cd ..
+```
+
+-   *cd ..* will take you back to the parent folder of the one you are currently in\
+    <br/>
+
+Go to your home directory
+
+```
+cd
+```
+
+-   *cd \~* will have the same effect\
+    <br/>
+
+Go into your Desktop folder
+
+```
+cd ~/Desktop/
+```
+
+-   The command line is case sensitive, so capitals are important!\
+    <br/>
+
+Make a folder named "Folder" in your Desktop
+
+```
+mkdir Folder
+```
+
+<br/>
+
+Make a text file named "file.txt"
+
+```
+touch file.txt
+```
+
+<br/>
+
+Move "file.txt" into "Folder"
+
+```
+mv file.txt Folder/
+```
+
+-   *mv* works for moving both files and folders\
+    <br/>
+
+Rename the file to "file2.txt"
+
+```
+mv file.txt file2.txt
+```
+
+-   Remember you have to enter "Folder" to work with your file\
+    <br/>
+
+Make a copy of "file2.txt" and move it to your Documents
+
+```
+cp file2.txt ~/Documents/file2.txt
+```
+
+-   To copy files, you must enter the name of the file you want to copy, a space, and then the path to where you want to move it.
+-   the *..* takes the file from the Desktop to the home directory, it's parent folder; into the Documents folder; and drops it inside\
+    <br/>
+
+Copy "Folder" and the file inside it to your Documents
+
+```
+cp -r Folder ../Documents/Folder
+```
+
+-   Remember you have to go to your Desktop to work with "Folder"
+-   The *-r* (recursive) copies everything inside the folder
+-   If you don't use *-r*, the command line will give you an error saying "Folder is a directory (not copied)"\
+    <br/>
+
+Delete the file2.txt that you copied into Documents
+
+```
+rm file2.txt
+```
+
+<br/>
+
+Delete the "Folder" that you copied into Documents
+
+```
+rm -rf Folder
+```
+
+-   *-rf* stands for "recusive" and "force"
+-   Recursive deletes everything inside the folder
+-   Force forces the system to delete the folder. This is a safety feature to make sure you don't accidentally delete anything
+-   REMEMBER: Be careful whenever you delete a file/folder because you can't undo it; Once it's gone, it's gone\
+    <br/>
+
+## Extra Notes
+
+-   Paths
+    -   When moving to a folder, you must type out the full "path" to it
+    -   For example, let's say you want to go to a folder (named "Folder") in your Desktop.
+    -   Right now, you are in your "home directory." If you type *cd Folder*, Terminal will give you an error, saying "there is no such file or directory." This is because the command line only looks in your current folder, and there is no "Folder" in your home directory
+    -   Instead, you have to type *cd Desktop/Folder*. The command line looks for "Desktop" in your home directory, then for "Folder" in your Desktop. <br/>
+-   Tab (auto-completion)
+    -   Pressing tab can be extremely helpful and time-saving
+    -   After typing in the first few letters of a file/folder you want to interact with, pressing tab will autocomplete the name of it
+    -   In the case of mutiple files/folders with similar starting letters, pressing tab twice will print a list of the possiblilities
+    -   If tab doesn't seem to work, that might indicate that you're in the wrong folder <br/>
+-   Arrow Keys
+    -   This is another time-saving trick
+    -   You can use the up and down keys to copy in previous commands into you current line
+    -   This can be helpful if you had just a one-letter typo in a long, complicated, previous command
+
+## For Windows Users
+
+## Quiz

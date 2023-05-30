@@ -1,0 +1,53 @@
+---
+title: Get list of predictor SNPs and weights in predictdb
+author: Haky Im
+date: '2021-07-19'
+slug: get-list-of-predictor-snps-and-weights-in-predictdb
+categories:
+  - how_to
+tags: []
+editor_options: 
+  chunk_output_type: console
+---
+
+To get a list of SNPs and the corresponding weights to predict expression levels (or splicing) of a given gene, you will first need to download the databases where the prediction models are stored. For example, you can download them from [here](https://zenodo.org/record/3518299#.YPXA4G5Olqs) more specifically [from this tar file](https://zenodo.org/record/3518299/files/mashr_eqtl.tar?download=1)
+
+On CRI they are located in `/gpfs/data/im-lab/nas40t2/Data/PredictDB/GTEx_v8/models_v1/eqtl/mashr/`
+
+Here I will mount the drive to my local machine following [these instructions](https://lab-notes.hakyimlab.org/post/2021/07/12/map-cri-storage-to-your-computer/)
+
+```{r}
+library(tidyverse)
+model_dir = "/Volumes/im-lab/nas40t2/Data/PredictDB/GTEx_v8/models_v1/eqtl/mashr"
+```
+
+
+Get ensemblid for the gene. For example GSDMA's ensid is ENSG00000167914
+
+```{r}
+## install.packages("RSQLite")
+library("RSQLite")
+sqlite <- dbDriver("SQLite")
+df = data.frame()
+dbnamelist= list.files(model_dir,pattern = "*.db")
+for(dbname in dbnamelist)
+{
+  print("--")
+  print(dbname)
+  ## connect to db
+  db = dbConnect(sqlite,glue::glue("{model_dir}/{dbname}"))
+  ## list tables
+  tempo <- dbGetQuery(db,"select * from weights where gene like 'ENSG00000167914%'") ## % is wildcard, to avoid dealing with ENSG version number
+  if(nrow(tempo)>0) 
+  {
+    tempo$tissue <- gsub("mashr_","",gsub(".db","",dbname))
+    df = rbind(df,tempo)
+  }
+}
+df %>% count(rsid,varID) %>% arrange(desc( n))
+write_csv(df,"~/Downloads/GSDMA-weights.csv")
+
+```
+
+
+Also checkout [this post](https://lab-notes.hakyimlab.org/post/2021/04/27/querying-predictdb-sqlite-databases/)

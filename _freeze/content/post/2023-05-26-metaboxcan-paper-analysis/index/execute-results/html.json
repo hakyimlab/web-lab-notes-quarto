@@ -1,0 +1,14 @@
+{
+  "hash": "439f356dd6bfff83cff3d199c79174de",
+  "result": {
+    "markdown": "---\ntitle: \"Miscel MetaboXcan paper analysis\"\nauthor: \"Haky Im\"\ndate: \"2023-05-26\"\ncategories: [analysis]\n---\n\n\n## Data and results location\n\n\n::: {.cell}\n\n```{.r .cell-code}\n#gene2metabo Metsim - `/gpfs/data/im-lab/nas40t2/festus/metabolomics/paper-data/gene2metabo-metsim-softimpute-all.db`\n\n#gene2metabo Guardian - `/gpfs/data/im-lab/nas40t2/festus/metabolomics/paper-data/gene2metabo-guardian-irasfs-all.db`\n\n#Metsim-lasso-model - `/gpfs/data/im-lab/nas40t2/festus/metabolomics/paper-data/metsim-lasso-softimpute.db`\n\n#Guardian-lasso-model (abit older) - `/gpfs/data/im-lab/nas40t2/festus/metabolomics/paper-data/guardian-irasfs-lasso.db`\n\n#Guardian-bslmm-model - `/gpfs/data/im-lab/nas40t2/festus/metabolomics/paper-data/guardian-irasfs-bslmm.db`\n\n#Hybrid best model (cor > 0.1) - `/gpfs/data/im-lab/nas40t2/festus/metabolomics/paper-data/hybrid-model-best-cor0.1.db`\n\n#Hybrid all models (guardian, omicspred, metsim) - `/gpfs/data/im-lab/nas40t2/festus/metabolomics/paper-data/hybrid-model-all-metabolon.db`\n\n#Metaboxcan reports (v1) using the Hybrid-models - `/Users/user/Box/imlab-data/Metaboxcan/old-summaries` - the metaboxcan_best contains the results from the best models above and pvalue corrected while the metaboxcan_all contains the results from all of the hybrid models combined without filtering. The metsim model used in the hybrid was the one generated using PRScs from the summary stats.\n\n#Metaboxcan reports (v2) using the Metsim lasso models - `/Users/user/Box/imlab-data/Metaboxcan/summaries` - the metaboxcan_best and metaboxcan_all sheet contain same results only one difference is best contains pvalues corrected by bacon.\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

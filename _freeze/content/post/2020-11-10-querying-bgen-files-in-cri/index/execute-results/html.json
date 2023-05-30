@@ -1,0 +1,14 @@
+{
+  "hash": "ee47615ca608a1482dcd7f45082429ff",
+  "result": {
+    "markdown": "---\ntitle: Querying bgen files in CRI\nauthor: Sabrina Mi\ndate: '2020-11-10'\nslug: querying-bgen-files-in-cri\ncategories: []\ntags: [how to]\ndescription: ''\ntopics: []\n---\n\n## BGEN format\n\nA bgen file has a header block with information about the file, including number of samples, the number of variant data blocks, and flags which describe how data is stores. A variant data block contains data for a single snp, including ID, position, and alleles. bgens from UKBiobank also have a sample identifier block with has an identifier for each sample. \n\n## Querying a subset of a bgen genotype\n\nStart an interactive job, `qsub -I`. We can query data for a region of a chromosome in a bgen file:\n\n::: {.cell}\n\n```{.bash .cell-code}\nmodule load gcc/6.2.0; module load bgen/1.1.3\nbgenix -g /gpfs/data/ukb-share/genotypes/v3/ukb_imp_chr17_v3.bgen -incl-range 17:46018872-46026674 > pnpo_37.bgen\n\n```\n:::\n\n\nThis outputs a bgen containing data only for snps on chromosome 17, between positions 46018872 46026674.\n\nBefore querying it, we need to create an index file:\n\n::: {.cell}\n\n```{.bash .cell-code}\nbgenix -g pnpo_37.bgen -index\n\n```\n:::\n\n\nMore documentation is [here](https://enkre.net/cgi-bin/code/bgen/wiki/bgenix).\n\n## Convert to VCF\nFor some reason, using the bgenix -vcf argument to convert the bgen output to a vcf is unreliable, so we use qctool to convert instead. qctool is installed in /gpfs/data/im-lab/nas40t2/bin. Note that qctool requires gcc, so this will need to be run in a job with the gcc module loaded.\n\n::: {.cell}\n\n```{.bash .cell-code}\nexport PATH=$PATH:/gpfs/data/im-lab/nas40t2/bin/software\n\nbgenix -g pnpo_37.bgen | qctool -g - -filetype bgen -s /gpfs/data/ukb-share/genotypes/ukb19526_imp_chr1_v3_s487395.sample -og ~/PNPO_37.vcf\n\n```\n:::\n\n\nRun `qctool -help` for a list of options, or for more documentation, [https://www.well.ox.ac.uk/~gav/qctool_v2/index.html](https://www.well.ox.ac.uk/~gav/qctool_v2/index.html).\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

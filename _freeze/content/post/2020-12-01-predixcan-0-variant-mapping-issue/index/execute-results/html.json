@@ -1,0 +1,14 @@
+{
+  "hash": "90db161ee28894965d1bc40e5666db27",
+  "result": {
+    "markdown": "---\ntitle: PrediXcan 0% variant mapping issue\nauthor: Haky Im\ndate: '2020-12-01T18:05:51-05:00'\nslug: predixcan-0-variant-mapping-issue\ncategories: []\ntags: []\ndescription: ''\ntopics: []\n---\n\n\nMany users had difficulties matching the genotype variant id to the prediction model variant id.\n\nHere is one example added to the PrediXcan tutorial where the matching was failing because of the `on the fly` option not taking into account that in the GTEx v8 vcf file, chromosomes are names as chr# whereas in other vcf's (more common in hg19?) chromosomes are indicated by their number or letter (no chr prefix). \n\nA working example for the GTEx genotype data with GTEx v8 mashr models is shown below.\n\n\n::: {.cell}\n\n```{.bash .cell-code}\n\nexport PRE=/gpfs/data/im-lab/nas40t2/Data/test-PrediXcan-GTEx\nexport DATA=$PRE/data\nexport MODEL=$PRE/models\nexport RESULTS=$PRE/results/\nexport METAXCAN=$PRE/repos/MetaXcan-master/software\nexport VCFSMALL=$PRE/data/gtex-small-common-test.vcf.gz\n\nprintf \"Predict expression\\n\\n\"\n\npython3   $METAXCAN/Predict.py \\\n--model_db_path $PRE/models/gtex_v8_mashr/mashr_Whole_Blood.db \\\n--model_db_snp_key varID \\\n--vcf_genotypes  $VCFSMALL \\\n--vcf_mode genotyped \\\n--prediction_output $RESULTS/Whole_Blood__predict.txt  \\\n--prediction_summary_output $RESULTS/Whole_Blood__summary.txt \\\n--verbosity  \\\n--throw \\\n--on_the_fly_mapping METADATA \"{}_{}_{}_{}_b38\" \n\n```\n:::\n\n\n** Thank you, Yanyu, for solving the mystery **\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

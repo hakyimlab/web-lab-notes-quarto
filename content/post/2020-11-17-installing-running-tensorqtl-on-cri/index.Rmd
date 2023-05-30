@@ -1,0 +1,55 @@
+---
+title: Installing/Running Tensorqtl on CRI
+author: Natasha
+date: '2020-11-17'
+slug: installing-running-tensorqtl-on-cri
+categories: []
+tags: []
+description: ''
+topics: []
+---
+Note: You can download tensorqtl using pip install. However, there seems to be a bug that makes tensorqtl incompatible with pandas plink 2.2.2. If you want to download tensorqtl using pip, then you have to downgrade pandas plink to 2.1.x so that it matches the version of pandas 1.1.x
+
+I installed tensorqtl straight from the Github repo https://github.com/broadinstitute/tensorqtl
+
+1) Activate the environment
+```{sh, eval=FALSE}
+conda activate /gpfs/data/im-lab/nas40t2/bin/envs/tensorqtl
+```
+
+2) Clone the repo into your own directory in the labshare
+```{sh, eval=FALSE}
+git clone git@github.com:broadinstitute/tensorqtl.git
+cd tensorqtl
+```
+
+3) Install tensorqtl and its requirements
+```{sh, eval=FALSE}
+pip install -r install/requirements.txt
+```
+
+4) Run Tensorqtl
+
+Requirements: Tensorqtl requires a genotype, phenotype and covariate file. The genotype files must be in plink format. The phenotype file must be in a .bed.gz format and follow the UCSC bed formate (http://fastqtl.sourceforge.net) Finally, the covariate file must be in a .txt format and is in the setup covariates x samples. 
+
+Also make sure to set column names true for both the phenotype and covariate files. (Row names must also be present only for the covariate file)
+
+It's also helpful to look at the example data provided by the repo. 
+
+This is the command I used to run tensorqtl. I ran a trans-qtl so start and end positions on the genes were not significant. 
+
+```{sh, eval=FALSE}
+python3 -m tensorqtl /gpfs/data/im-lab/nas40t2/Data/GTEx/V8/genotype/plink_files/GTEX_tensorqtl /gpfs/data/im-lab/nas40t2/natasha/tensorqtl/pheno-tensorqtl.bed.gz /gpfs/data/im-lab/nas40t2/natasha/GTEX_tensorqtl \
+--covariates /gpfs/data/im-lab/nas40t2/natasha/tensorqtl/covariates.txt  \
+--mode trans 
+```
+
+The command above will generate a parquet file in wherever you set the prefix to. The file can be read using pandas
+
+```{sh, eval=FALSE}
+import pandas as pd
+df = pd.read_parquet("<path_to_filename>")
+```
+
+
+

@@ -1,0 +1,3 @@
+sftp -i ~/.ssh/id_rsa -P 443 scmi@jga-gw.ddbj.nig.ac.jp
+cd controlled-access/download/jga/
+get -r J-DU000138/JGAS000114/JGAD000123
