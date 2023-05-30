@@ -9,7 +9,7 @@ website:
       - icon: github
         href: https://github.com/hakyimlab/
       - icon: twitter
-        href: https://twitter.com
+        href: https://twitter.com/hakyim
 format:
   html:
     theme: cosmo
