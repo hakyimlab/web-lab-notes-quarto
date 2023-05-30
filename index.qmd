@@ -1,5 +1,5 @@
 ---
-title: "Lab Notes - with quarto - to be merged with lab-notes"
+title: "Lab Notes"
 listing:
   contents: content
   sort: "date desc"
@@ -11,4 +11,4 @@ page-layout: full
 title-block-banner: false
 ---
 
-## We will merge all the lab notes shortly
+Now generated with quarto
