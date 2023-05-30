@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "web-lab-notes-quarto"
+  title: "Hakyimlab Notes"
   navbar:
     right:
       - about.qmd
