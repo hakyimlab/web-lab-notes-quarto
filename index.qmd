@@ -11,4 +11,4 @@ page-layout: full
 title-block-banner: false
 ---
 
-Now generated with quarto.
+Now generated with quarto. [Add or edit posts on github here](https://github.com/hakyimlab/web-lab-notes-quarto)

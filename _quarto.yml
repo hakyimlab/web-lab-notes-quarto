@@ -4,6 +4,8 @@ project:
 website:
   title: "Hakyimlab Notes"
   navbar:
+    background: "#A9A9A9"
+    google-analytics: "G-8SL8WKCMYZ"
     right:
       - about.qmd
       - icon: github
