@@ -1,7 +1,7 @@
 ---
 title: "Public Notes"
 listing:
-  contents: content
+  contents: post
   sort: "date desc"
   type: default
   categories: true

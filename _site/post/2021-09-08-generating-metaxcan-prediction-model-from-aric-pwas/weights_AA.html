@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Sabrina Mi">
+<meta name="dcterms.date" content="2021-09-08">
+
+<title>Hakyimlab Notes – Weights AA</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Hakyimlab Notes</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">Miscel</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/hakyimlab/"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/hakyim"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Weights AA</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Sabrina Mi </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 8, 2021</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p>::: {.container-fluid .main-container} ::: {#header .fluid-row} # generate weights {#generate-weights .title .toc-ignore}</p>
+<section id="sabrina-mi" class="level4 author">
+<h4 class="author anchored" data-anchor-id="sabrina-mi">sabrina-mi</h4>
+</section>
+<section id="section" class="level4 date">
+<h4 class="date anchored" data-anchor-id="section">2020-06-22</h4>
+<p>:::</p>
+<p>workflowr</p>
+<div id="workflowr-report" class="collapse">
+<ul>
+<li><a href="#summary" data-toggle="tab">Summary</a></li>
+<li><a href="#checks" data-toggle="tab">Checks</a></li>
+<li><a href="#versions" data-toggle="tab">Past versions</a></li>
+</ul>
+<p>::: tab-content ::: {#summary .tab-pane .fade .in .active} <strong>Last updated:</strong> 2021-10-01</p>
+<p><strong>Checks:</strong> 5 2</p>
+<p><strong>Knit directory:</strong> <code>~/Github/ARIC/</code></p>
+<p>This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p><a href="#strongRMarkdownfilestronguncommittedchanges" data-toggle="collapse" data-parent="#workflowr-checks"><strong>R Markdown file:</strong> uncommitted changes</a></p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p><a href="#strongEnvironmentstrongempty" data-toggle="collapse" data-parent="#workflowr-checks"><strong>Environment:</strong> empty</a></p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p><a href="#strongSeedstrongcodesetseed12345code" data-toggle="collapse" data-parent="#workflowr-checks"><strong>Seed:</strong> <code>set.seed(12345)</code></a></p>
+</div>
+<div id="strongSeedstrongcodesetseed12345code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(12345)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g.&nbsp;subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p><a href="#strongSessioninformationstrongrecorded" data-toggle="collapse" data-parent="#workflowr-checks"><strong>Session information:</strong> recorded</a></p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p><a href="#strongCachestrongnone" data-toggle="collapse" data-parent="#workflowr-checks"><strong>Cache:</strong> none</a></p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p><a href="#strongFilepathsstrongabsolute" data-toggle="collapse" data-parent="#workflowr-checks"><strong>File paths:</strong> absolute</a></p>
+</div>
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.</p>
+<table class="table">
+<colgroup>
+<col style="width: 63%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">absolute</th>
+<th style="text-align: left;">relative</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">/Users/sabrinami/Github/ARIC/PWAS/PWAS_AA/Plasma_Protein_AA_hg38.pos</td>
+<td style="text-align: left;">PWAS/PWAS_AA/Plasma_Protein_AA_hg38.pos</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">/Users/sabrinami/Github/ARIC/PWAS/PWAS_AA/Plasma_Protein_weights_AA</td>
+<td style="text-align: left;">PWAS/PWAS_AA/Plasma_Protein_weights_AA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">/Users/sabrinami/Github/ARIC/models/ARIC_AA_hg38.db</td>
+<td style="text-align: left;">models/ARIC_AA_hg38.db</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p><a href="#strongRepositoryversionstrongNocommitsyet" data-toggle="collapse" data-parent="#workflowr-checks"><strong>Repository version:</strong> No commits yet</a></p>
+</div>
+<div id="strongRepositoryversionstrongNocommitsyet" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.</p>
+<p>Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:</p>
+<pre><code>Untracked files:
+    Untracked:  .DS_Store
+    Untracked:  .Rhistory
+    Untracked:  1000G_AFR_individuals.csv
+    Untracked:  ARIC_AA_hg38_validation_CAD.Rmd
+    Untracked:  ARIC_AA_hg38_validation_CAD.html
+    Untracked:  ARIC_EA_hg38_validation.Rmd
+    Untracked:  ARIC_EA_hg38_validation.html
+    Untracked:  ARIC_EA_hg38_validation_height.Rmd
+    Untracked:  ARIC_EA_hg38_validation_height.html
+    Untracked:  PWAS/
+    Untracked:  code/
+    Untracked:  covariances_EA_hg38.Rmd
+    Untracked:  covariances_EA_hg38.html
+    Untracked:  dosage_to_parquet.py
+    Untracked:  figure/
+    Untracked:  models/
+    Untracked:  results/
+    Untracked:  subset_parquet.py
+    Untracked:  test_data/
+    Untracked:  vcf_to_parquet.py
+    Untracked:  vcf_to_parquet.sh
+    Untracked:  weights_AA.Rmd
+    Untracked:  weights_EA.Rmd
+    Untracked:  weights_EA.html</code></pre>
+<p>Note that any generated files, e.g.&nbsp;HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.</p>
+<table class="table">
+<colgroup>
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">:::</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">title: Weights AA author: Sabrina Mi date: ‘2021-09-08’</td>
+</tr>
+</tbody>
+</table>
+<div class="container-fluid main-container">
+<div id="header" class="fluid-row">
+<section id="generate-weights" class="level1 title toc-ignore">
+<h1 class="title toc-ignore">generate weights</h1>
+<section id="sabrina-mi" class="level4 author">
+<h4 class="author anchored" data-anchor-id="sabrina-mi">sabrina-mi</h4>
+</section>
+<section id="section" class="level4 date">
+<h4 class="date anchored" data-anchor-id="section">2020-06-22</h4>
+</section>
+</section>
+</div>
+<p>workflowr</p>
+<div id="workflowr-report" class="collapse">
+<ul>
+<li><a href="#summary" data-toggle="tab">Summary</a></li>
+<li><a href="#checks" data-toggle="tab">Checks</a></li>
+<li><a href="#versions" data-toggle="tab">Past versions</a></li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p><strong>Last updated:</strong> 2021-10-01</p>
+<p><strong>Checks:</strong> 5 2</p>
+<p><strong>Knit directory:</strong> <code>~/Github/ARIC/</code></p>
+<p>This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p><a href="#strongRMarkdownfilestronguncommittedchanges" data-toggle="collapse" data-parent="#workflowr-checks"><strong>R Markdown file:</strong> uncommitted changes</a></p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p><a href="#strongEnvironmentstrongempty" data-toggle="collapse" data-parent="#workflowr-checks"><strong>Environment:</strong> empty</a></p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p><a href="#strongSeedstrongcodesetseed12345code" data-toggle="collapse" data-parent="#workflowr-checks"><strong>Seed:</strong> <code>set.seed(12345)</code></a></p>
+</div>
+<div id="strongSeedstrongcodesetseed12345code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(12345)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g.&nbsp;subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p><a href="#strongSessioninformationstrongrecorded" data-toggle="collapse" data-parent="#workflowr-checks"><strong>Session information:</strong> recorded</a></p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p><a href="#strongCachestrongnone" data-toggle="collapse" data-parent="#workflowr-checks"><strong>Cache:</strong> none</a></p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p><a href="#strongFilepathsstrongabsolute" data-toggle="collapse" data-parent="#workflowr-checks"><strong>File paths:</strong> absolute</a></p>
+</div>
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.</p>
+<table class="table">
+<colgroup>
+<col style="width: 63%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">absolute</th>
+<th style="text-align: left;">relative</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">/Users/sabrinami/Github/ARIC/PWAS/PWAS_AA/Plasma_Protein_AA_hg38.pos</td>
+<td style="text-align: left;">PWAS/PWAS_AA/Plasma_Protein_AA_hg38.pos</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">/Users/sabrinami/Github/ARIC/PWAS/PWAS_AA/Plasma_Protein_weights_AA</td>
+<td style="text-align: left;">PWAS/PWAS_AA/Plasma_Protein_weights_AA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">/Users/sabrinami/Github/ARIC/models/ARIC_AA_hg38.db</td>
+<td style="text-align: left;">models/ARIC_AA_hg38.db</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p><a href="#strongRepositoryversionstrongNocommitsyet" data-toggle="collapse" data-parent="#workflowr-checks"><strong>Repository version:</strong> No commits yet</a></p>
+</div>
+<div id="strongRepositoryversionstrongNocommitsyet" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.</p>
+<p>Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:</p>
+<pre><code>Untracked files:
+    Untracked:  .DS_Store
+    Untracked:  .Rhistory
+    Untracked:  1000G_AFR_individuals.csv
+    Untracked:  ARIC_AA_hg38_validation_CAD.Rmd
+    Untracked:  ARIC_AA_hg38_validation_CAD.html
+    Untracked:  ARIC_EA_hg38_validation.Rmd
+    Untracked:  ARIC_EA_hg38_validation.html
+    Untracked:  ARIC_EA_hg38_validation_height.Rmd
+    Untracked:  ARIC_EA_hg38_validation_height.html
+    Untracked:  PWAS/
+    Untracked:  code/
+    Untracked:  covariances_EA_hg38.Rmd
+    Untracked:  covariances_EA_hg38.html
+    Untracked:  dosage_to_parquet.py
+    Untracked:  figure/
+    Untracked:  models/
+    Untracked:  results/
+    Untracked:  subset_parquet.py
+    Untracked:  test_data/
+    Untracked:  vcf_to_parquet.py
+    Untracked:  vcf_to_parquet.sh
+    Untracked:  weights_AA.Rmd
+    Untracked:  weights_EA.Rmd
+    Untracked:  weights_EA.html</code></pre>
+<p>Note that any generated files, e.g.&nbsp;HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.</p>
+<hr>
+</div>
+</div>
+</div>
+<section id="pwas-schema" class="level1">
+<h1>PWAS Schema</h1>
+<p><code>Plasma_Protein_EA_hg38.pos</code> is a text file with proteins (ID) and locations on their encoding genes, (CHR, P0, P1), as well as pointers to their weights files (WGT).</p>
+<p>The weights file for each protein is in <code>Plasma_Protein_weights_EA</code>, in TWAS/Fusion format. When loaded, each .RDat file contains snps (snp info), wgt.matrix (weights), and cv.performance (cross validation) data. The columns of the snps table are chromosome (V1), rsid (V2), position (V4), effect allele (V5) and reference allele (V6). In the wgt.matrix table, the rownames are the rsids, and the columns are the weights derived from elastic net and top1 methods for each snp.</p>
+</section>
+<section id="load-libraries" class="level1">
+<h1>Load Libraries</h1>
+<p>Run in R:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(RSQLite))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(tidyverse))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(data.table))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(biomaRt))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="initialize-extra-table" class="level1">
+<h1>Initialize Extra Table</h1>
+<p>The file <code>Plasma_Protein_EA_hg38.pos</code> points to the TWAS/FUSION files that contains the weights for each gene. We create a dictionary file that joins gene name, TWAS/FUSION file name, and Ensembl ID.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ensembl <span class="ot">=</span> <span class="fu">useEnsembl</span>(<span class="at">biomart =</span> <span class="st">"genes"</span>, <span class="at">dataset =</span> <span class="st">"hsapiens_gene_ensembl"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Ensembl site unresponsive, trying useast mirror</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gene_annot <span class="ot">=</span> <span class="fu">getBM</span>( <span class="at">attributes=</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">c</span>(<span class="st">"ensembl_gene_id"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"hgnc_symbol"</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">values =</span><span class="cn">TRUE</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">mart =</span> ensembl)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>gene_annot <span class="ot">=</span> gene_annot[<span class="sc">!</span><span class="fu">duplicated</span>(gene_annot<span class="sc">$</span>hgnc_symbol),]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>gene_list <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"/Users/sabrinami/Github/ARIC/PWAS/PWAS_AA/Plasma_Protein_AA_hg38.pos"</span>, <span class="at">head=</span><span class="cn">TRUE</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>gene_list <span class="ot">=</span> gene_list[<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Some of the genes in the PWAS do not have an Ensembl ID annotation, so we use HGNC symbol in its place.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>extra <span class="ot">=</span> <span class="fu">left_join</span>(gene_list, gene_annot, <span class="at">by=</span><span class="fu">c</span>(<span class="st">"ID"</span><span class="ot">=</span><span class="st">"hgnc_symbol"</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>extra <span class="ot">=</span> extra <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">ensembl_gene_id =</span> <span class="fu">coalesce</span>(ensembl_gene_id,ID))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then add columns to match PrediXcan format.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>extra<span class="sc">$</span>pred.perf.R2 <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>extra<span class="sc">$</span>pred.perf.pval <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>extra<span class="sc">$</span>pred.perf.qval <span class="ot">&lt;-</span> <span class="cn">NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="convert-file-to-dataframe" class="level1">
+<h1>Convert File to Dataframe</h1>
+<p>make_df will load a file and store its data as a dataframe. This is only for a single gene, so later will be repeated for all genes. The input is the name of the .RDat file, and it returns returns dataframe with gene, position, chromosome, ref allele, eff allele, and non-zero enet weights.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>make_df <span class="ot">&lt;-</span> <span class="cf">function</span>(file) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (file <span class="sc">%in%</span> extra<span class="sc">$</span>WGT) {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">load</span>(file)  </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    weights <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(wgt.matrix) </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    snps <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(snps) </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    index <span class="ot">=</span> <span class="fu">which</span>(extra<span class="sc">$</span>WGT <span class="sc">==</span> file)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    weights<span class="sc">$</span>gene <span class="ot">&lt;-</span> extra<span class="sc">$</span>ensembl_gene_id[index]</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    weights<span class="sc">$</span>rsid <span class="ot">&lt;-</span> <span class="fu">rownames</span>(weights)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    weights<span class="sc">$</span>varID <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"chr"</span>,<span class="fu">paste</span>(snps<span class="sc">$</span>V1,snps<span class="sc">$</span>V4,snps<span class="sc">$</span>V6,snps<span class="sc">$</span>V5,<span class="st">"b38"</span>, <span class="at">sep=</span><span class="st">"_"</span>), <span class="at">sep=</span><span class="st">""</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    weights<span class="sc">$</span>ref_allele <span class="ot">&lt;-</span> snps<span class="sc">$</span>V6</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    weights<span class="sc">$</span>eff_allele <span class="ot">&lt;-</span> snps<span class="sc">$</span>V5</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    weights <span class="ot">=</span> <span class="fu">filter</span>(weights, enet <span class="sc">!=</span> <span class="dv">0</span>)[,<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">1</span>)]</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rownames</span>(weights) <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    weights <span class="ot">=</span> <span class="fu">rename</span>(weights, <span class="fu">c</span>(<span class="st">"weight"</span><span class="ot">=</span><span class="st">"enet"</span>))</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    rsq <span class="ot">=</span> cv.performance[<span class="dv">1</span>,<span class="dv">1</span>]</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    pval <span class="ot">=</span> cv.performance[<span class="dv">2</span>,<span class="dv">1</span>]</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    extra<span class="sc">$</span>pred.perf.R2[index] <span class="ot">=</span> rsq</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    extra<span class="sc">$</span>pred.perf.pval[index] <span class="ot">=</span> pval</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">assign</span>(<span class="st">'extra'</span>,extra,<span class="at">envir=</span>.GlobalEnv)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(weights)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="make-weights-table" class="level1">
+<h1>Make Weights Table</h1>
+<p>First, combine .RDat file names in a vector. Then convert each of them to a dataframe in PrediXcan format, appending them in a weights table.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/Users/sabrinami/Github/ARIC/PWAS/PWAS_AA/Plasma_Protein_weights_AA"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.RDat"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>weights <span class="ot">=</span> <span class="fu">data.frame</span>()</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(files)) {</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  weights <span class="ot">&lt;-</span> <span class="fu">rbind</span>(weights, <span class="fu">make_df</span>(files[i]))</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="make-extra-table" class="level1">
+<h1>Make Extra Table</h1>
+<p>Generate number of snps for each gene from the weights table.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>extra <span class="ot">=</span> <span class="fu">rename</span>(extra, <span class="fu">c</span>(<span class="st">"genename"</span><span class="ot">=</span><span class="st">"ID"</span>, <span class="st">"gene"</span><span class="ot">=</span><span class="st">"ensembl_gene_id"</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>n.snps <span class="ot">=</span> weights <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(gene) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">n.snps.in.model =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>`summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>extra <span class="ot">=</span> <span class="fu">inner_join</span>(extra, n.snps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Joining, by = "gene"</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>extra <span class="ot">&lt;-</span> extra[,<span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">10</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="write-to-sqlite-database" class="level1">
+<h1>Write to SQLite Database</h1>
+<p>Create database connection, and write the weights and extra tables to database.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model_db <span class="ot">=</span> <span class="st">"/Users/sabrinami/Github/ARIC/models/ARIC_AA_hg38.db"</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>conn <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), model_db)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(conn, <span class="st">"weights"</span>, weights, <span class="at">overwrite=</span><span class="cn">TRUE</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(conn, <span class="st">"extra"</span>, extra, <span class="at">overwrite=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To double check, confirm there is a weights and extra table, and show their contents.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbListTables</span>(conn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[1] "extra"   "weights"</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(conn, <span class="st">'SELECT * FROM weights'</span>) <span class="sc">%&gt;%</span> head</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>             gene       rsid                  varID ref_allele eff_allele
+1 ENSG00000254521  rs3752135 chr19_51497370_T_G_b38          T          G
+2 ENSG00000254521  rs3826667 chr19_51500820_C_T_b38          C          T
+3 ENSG00000254521  rs3810114 chr19_51503097_T_C_b38          T          C
+4 ENSG00000254521 rs10418495 chr19_51503534_G_A_b38          G          A
+5 ENSG00000254521  rs8113048 chr19_51503888_T_G_b38          T          G
+6 ENSG00000254521  rs8112579 chr19_51504162_C_T_b38          C          T
+        weight
+1 -0.083643830
+2 -0.076623212
+3 -0.031837335
+4 -0.008567506
+5 -0.031837782
+6 -0.008003640</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(conn, <span class="st">'SELECT * FROM extra'</span>) <span class="sc">%&gt;%</span> head</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>             gene genename n.snps.in.model  pred.perf.R2 pred.perf.pval
+1 ENSG00000254521 SIGLEC12               8  0.1066109691   6.020845e-48
+2 ENSG00000111361   EIF2B1              20  0.0473916727   9.995404e-22
+3 ENSG00000198931     APRT              54  0.1955522022   1.229389e-90
+4 ENSG00000111674     ENO2             103  0.0253777708   2.520872e-12
+5 ENSG00000168610    STAT3              23  0.0901864931   1.617896e-40
+6 ENSG00000089127     OAS1              14 -0.0005060883   8.161129e-01
+  pred.perf.qval
+1             NA
+2             NA
+3             NA
+4             NA
+5             NA
+6             NA</code></pre>
+<p>Lastly, disconnect from database connection</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(conn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br>
+</p>
+<p>Session information</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>R version 4.0.3 (2020-10-10)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur 10.16
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] biomaRt_2.44.4    data.table_1.13.2 forcats_0.5.0     stringr_1.4.0    
+ [5] dplyr_1.0.2       purrr_0.3.4       readr_1.4.0       tidyr_1.1.2      
+ [9] tibble_3.0.4      ggplot2_3.3.2     tidyverse_1.3.0   RSQLite_2.2.1    
+
+loaded via a namespace (and not attached):
+ [1] Biobase_2.48.0       httr_1.4.2           bit64_4.0.5         
+ [4] jsonlite_1.7.1       modelr_0.1.8         assertthat_0.2.1    
+ [7] askpass_1.1          BiocFileCache_1.12.1 highr_0.8           
+[10] stats4_4.0.3         blob_1.2.1           cellranger_1.1.0    
+[13] yaml_2.2.1           progress_1.2.2       pillar_1.4.6        
+[16] backports_1.1.10     glue_1.4.2           digest_0.6.27       
+[19] promises_1.1.1       rvest_0.3.6          colorspace_1.4-1    
+[22] htmltools_0.5.0      httpuv_1.5.4         XML_3.99-0.5        
+[25] pkgconfig_2.0.3      broom_0.7.2          haven_2.3.1         
+[28] scales_1.1.1         later_1.1.0.1        git2r_0.27.1        
+[31] openssl_1.4.3        generics_0.0.2       IRanges_2.22.2      
+[34] ellipsis_0.3.1       withr_2.3.0          BiocGenerics_0.34.0 
+[37] cli_2.1.0            magrittr_1.5         crayon_1.3.4        
+[40] readxl_1.3.1         memoise_1.1.0        evaluate_0.14       
+[43] fs_1.5.0             fansi_0.4.1          xml2_1.3.2          
+[46] tools_4.0.3          prettyunits_1.1.1    hms_0.5.3           
+[49] lifecycle_0.2.0      S4Vectors_0.26.1     munsell_0.5.0       
+[52] reprex_0.3.0         AnnotationDbi_1.50.3 compiler_4.0.3      
+[55] rlang_0.4.8          grid_4.0.3           rstudioapi_0.11     
+[58] rappdirs_0.3.1       rmarkdown_2.5        gtable_0.3.0        
+[61] curl_4.3             DBI_1.1.0            R6_2.4.1            
+[64] lubridate_1.7.9      knitr_1.30           bit_4.0.4           
+[67] workflowr_1.6.2      rprojroot_1.3-2      stringi_1.5.3       
+[70] parallel_4.0.3       Rcpp_1.0.5           vctrs_0.3.4         
+[73] dbplyr_1.4.4         tidyselect_1.1.0     xfun_0.18           </code></pre>
+</div>
+</section>
+</div>
+<p>```````````````````</p>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
