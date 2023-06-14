@@ -23,7 +23,11 @@ format:
  
 # Inital Remarks 
 
-- We ask you to actively participate in today's hands on activities. **Notice that we may ask you to share your screen for pedagogic purposes.**
+- We ask you to actively participate in today's hands on activities. 
+
+::: {.callout-note}
+Notice that we may ask you to share your screen for pedagogic purposes.
+:::
 
 - If you have any concerns about this, please ask me or one of the TAs for assistance. We are here to help you learn.
 
