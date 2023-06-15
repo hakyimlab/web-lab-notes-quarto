@@ -1,0 +1,78 @@
+---
+title: "gwas-catalog"
+author: "Hae Kyung Im"
+date: "2020-08-02"
+date-modified: last-modified
+editor_options: 
+  chunk_output_type: console
+---
+
+## GWAS catalog
+
+```{r preliminary}
+
+suppressMessages(library(tidyverse))
+
+suppressMessages(library(tidyverse))
+suppressMessages(library(glue))
+PRE = "/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"
+
+SLUG="gwas-catalog" ## copy the slug from the header
+bDATE='2020-08-02' ## copy the date from the blog's header here
+DATA = glue("{PRE}/{bDATE}-{SLUG}")
+if(!file.exists(DATA)) system(glue::glue("mkdir {DATA}"))
+WORK=DATA
+
+##  system(glue("open {DATA}")) ## this will open the folder 
+
+```
+
+
+```{r get the gwas catalog}
+
+## download fron https://www.ebi.ac.uk/gwas/api/search/downloads/alternative
+
+## DATA = "/Users/haekyungim/Box/LargeFiles/imlab-data/data-Github/analysis-hki"
+gwascat = read_tsv(glue("{DATA}/gwas_catalog_v1.0.2-associations_e109_r2023-06-03.tsv.gz"), guess_max = 100000)
+                  
+##"gwas_catalog_v1.0.2-associations_e100_r2020-08-05.tsv"
+##"gwas_catalog_v1.0.2-associations_e100_r2020-07-14.tsv"
+##"gwas_catalog_v1.0.2-associations_e100_r2020-08-05.tsv"
+
+dim(gwascat)
+glimpse(gwascat)
+
+gwascat %>% count(MAPPED_TRAIT,CHR_POS) %>% dim()
+length(unique(gwascat$MAPPED_TRAIT))
+length(unique(gwascat$CHR_POS))
+## 2023-06-14 256855 distinct trait/variants
+## 2023-06-14 8723 distinct traits
+## 2020 146,359 distinct trait/variant
+## 2020 3,758 distinct traits
+
+gwascat_sig = gwascat %>% mutate(year=as.factor(lubridate::year(lubridate::as_date(`DATE ADDED TO CATALOG`)))) %>% filter(`P-VALUE`<5e-8)
+
+gwascat_sig %>% filter(year!="2023") %>% ggplot(aes(year)) + geom_bar() + theme_bw(base_size = 15) + scale_x_discrete(breaks=c("2008","2012","2016","2020","2022")) + xlab("year") + ylab("GWAS loci reported p<5e-8") + ggtitle("GWAS Catalog Downloaded 2023-06-14")
+##ggsave(glue::glue("{DATA}/gwas-catalog/gwas-catalog-by-year.pdf"))
+
+```
+
+- [ ] number of significant SNPs
+```{r}
+gwascat_sig %>% count(CHR_POS) %>% dim()
+```
+
+- [ ] number of significant trait/SNP pairs
+```{r}
+gwascat_sig %>% count(CHR_POS,MAPPED_TRAIT) %>% dim()
+```
+in 2020 [1] 94664     3
+
+- [ ] number of traits with significant SNPs
+```{r}
+gwascat_sig %>% count(MAPPED_TRAIT) %>% dim()
+```
+in 2020 [1] 2584    2
+
+
+

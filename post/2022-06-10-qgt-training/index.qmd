@@ -11,50 +11,45 @@ format:
     code-overflow: wrap
 ---
 
-# Goals of Lab 
- - Predict whole blood expression
- - Check how well the prediction works with GEUVADIS expression data
- - Run association between predicted expression and a phenotype
- - Calculate association between expression levels and coronary artery disease risk using s-predixcan
- - Fine-map the coronary artery disease gwas results using torus
- - Calculate colocalization probability using fastenloc
- - (skip) Run transcriptome-wide mendelian randomization in one locus of interest
- - Run cTWAS (fine-map SNPs and genes jointly)
- 
-# Inital Remarks 
+# Goals of Lab
 
-- We ask you to actively participate in today's hands on activities. 
+-   Predict whole blood expression from genotype
+-   Check how well the prediction works with GEUVADIS expression data
+-   Run association between predicted expression and a phenotype
+-   Calculate association between expression levels and coronary artery disease risk using s-predixcan
+-   Fine-map the coronary artery disease gwas results using torus
+-   Calculate colocalization probability using fastenloc
+-   Run cTWAS (fine-map SNPs and genes jointly)
 
-::: {.callout-note}
+# Inital Remarks
+
+-   We ask you to actively participate in today's hands on activities.
+
+::: callout-note
 Notice that we may ask you to share your screen for pedagogic purposes.
 :::
 
-- If you have any concerns about this, please ask me or one of the TAs for assistance. We are here to help you learn.
+-   Send Haky a private message if you really don't want to be called to share your screen.
 
-- Open these forms at the beginning of each section and answer the questions as you go along
-- 01 Preliminary https://forms.gle/fhNJAyjx7MJTy3yt8
-- 02 Prediction https://forms.gle/T6kAHvFTxYfcQguW7 
-- 03 PrediXcan https://forms.gle/3H319knWbLgnynNs9
-- 04 S-PrediXcan https://forms.gle/xJs2U66cnrqdb5cj6
-- 05 Colocalization https://forms.gle/NfH2MSdy4UyJzGAp7
-- 06 cTWAS https://forms.gle/A4evWkbhR7cXLy36A 
+-   If you have any concerns about this, please ask me or one of the TAs for assistance. We are here to help you learn.
 
+-   Open the questionnaire forms at the beginning of each section and answer the questions as you go along
 
-  - Name is a mandatory field. You can use your name or a pseudonymn. Just keep using the same name for each submission
-  - We will ask you to submit partial set of answers so that we can get a sense of where people are
+    -   Name is a mandatory field. You can use your name or a pseudonymn. Just keep using the same name for each submission
+    -   We will ask you to submit partial set of answers so that we can get a sense of where people are
 
--  Through out the lab you will see code chucks that are written with bash, eval=FALSE in place of R. These chunks are meant to be run in your Rstudio terminal and not in the Rmarkdown file itself.
+-   Through out the lab you will see code chucks that are written with bash, eval=FALSE in place of R. These chunks are meant to be run in your Rstudio terminal and not in the Rmarkdown file itself.
 
-- R code chunks also have "eval=FALSE". When you click on the green triangle, the code will run in the R console but not when we knit the document. This just happened to be more convenient for us to generate a knitted html to be shared [here](https://lab-notes.hakyimlab.org/post/2022/06/10/qgt-training/).
+-   R code chunks also have "eval=FALSE". When you click on the green triangle, the code will run in the R console but not when we knit the document. This just happened to be more convenient for us to generate a knitted html.
 
-
-
-# Set Up 
+# Set Up
 
 ## Questionnaire 01
-- [ ]  Open and start filling questionnaire 01 Preliminary questionnaire https://forms.gle/fhNJAyjx7MJTy3yt8
 
-- [ ] Install packages as needed
+-   [ ] Open and start filling questionnaire 01 Preliminary questionnaire https://forms.gle/fhNJAyjx7MJTy3yt8
+
+-   [ ] Install packages as needed
+
 ```{r, eval=FALSE}
 # List of packages you want to install
 packages <- c("tidyverse", "data.table", "BEDMatrix", "Rfast", "susieR", "coloc")
@@ -72,7 +67,8 @@ sapply(packages, check_and_install)
 
 ```
 
-- [ ] Load Rstudio Libraries 
+-   [ ] Load Rstudio Libraries
+
 ```{r,eval=FALSE}
 library(tidyverse)
 
@@ -87,18 +83,19 @@ library(coloc)
 
 ```
 
-- [ ] Navigate to starting directory
+-   [ ] Navigate to starting directory
+
 ```{bash, eval=FALSE}
 cd "/cloud/project/"
 ```
 
-- [ ] activate the the imlabtools environment, which will make sure that the right version of python modules are available
+-   [ ] activate the the imlabtools environment, which will make sure that the right version of python modules are available
 
 ```{bash,eval=FALSE}
 conda activate imlabtools
 ```
 
-- [ ] To define some variables to access the data more easily within the R session, run the following r chunk
+-   [ ] To define some variables to access the data more easily within the R session, run the following r chunk
 
 ```{r,eval=FALSE}
 print(getwd())
@@ -120,7 +117,8 @@ gencode_df = load_gencode_df()
 
 ```
 
-- [ ] check the values of the variables you just defined in R
+-   [ ] check the values of the variables you just defined in R
+
 ```{r, eval=FALSE}
 
 MODEL
@@ -129,8 +127,8 @@ DATA
 
 ```
 
+-   [ ] define some variables to access the data more easily in the terminal. Remember we are running R code in the R console and command line code in the terminal.
 
-- [ ] define some variables to access the data more easily in the terminal. Remember we are running R code in the R console and command line code in the terminal.
 ```{bash, eval=FALSE}
 export PRE="/cloud/project/QGT-Columbia-HKI-repo/box_files"
 export LAB="/cloud/project/QGT-Columbia-HKI-repo/"
@@ -141,7 +139,7 @@ export RESULTS=$PRE/results
 export METAXCAN=$PRE/repos/MetaXcan-master/software
 ```
 
-- [ ] check the values of the variables you just defined 
+-   [ ] check the values of the variables you just defined
 
 ```{bash, eval=FALSE}
 
@@ -150,27 +148,28 @@ echo $RESULTS
 
 ```
 
-# Transcriptome-wide association (Review) 
-Now we will perform a transcriptome-wide association analysis using the PrediXcan suite of tools.
-![Transcriptome-wide association methods](https://raw.githubusercontent.com/hakyimlab/QGT-Columbia-HKI/master/extras/figures/Association-Methods.png)
+# Transcriptome-wide association (Review)
+
+Now we will perform a transcriptome-wide association analysis using the PrediXcan suite of tools. ![Transcriptome-wide association methods](https://raw.githubusercontent.com/hakyimlab/QGT-Columbia-HKI/master/extras/figures/Association-Methods.png)
 
 We start by predicting the expression levels of genes using the genotype data and the prediction weights and then perform an association between the predicted expression and the phenotype (denoted trait in the figure below).
 
 ![](https://raw.githubusercontent.com/hakyimlab/QGT-Columbia-HKI/master/extras/figures/PrediXcan-run.png)
 
 ## Questionnaire 02
-- [ ] Open and start filling questionnaire 02 Prediction https://forms.gle/T6kAHvFTxYfcQguW7
+
+-   [ ] Open and start filling questionnaire 02 Prediction https://forms.gle/T6kAHvFTxYfcQguW7
 
 # Predict Expression from genotype
 
 In this section we will predict expression of genes in whole blood using the Predict.py code in the METAXCAN folder.
 
-- Prediction models (weights) are located in the MODEL folder. Additional models for different tissues and transcriptome studies can be downloaded from [predictdb.org](http://predictdb.org).
+-   Prediction models (weights) are located in the MODEL folder. Additional models for different tissues and transcriptome studies can be downloaded from [predictdb.org](http://predictdb.org).
 
-- This run should take about one minute.
+-   This run should take about one minute.
 
-- [ ] run the following code in the terminal.
- 
+-   [ ] run the following code in the terminal.
+
 ```{bash, eval=FALSE}
 printf "Predict expression\n\n"
 python3 $METAXCAN/Predict.py \
@@ -185,9 +184,9 @@ python3 $METAXCAN/Predict.py \
 --throw
 ```
 
-> Note we are only predicting chromosome 22 here (check by running "predicted_expression %>% count(chromosome)" in the console)
+> Note we are only predicting chromosome 22 here (check by running "predicted_expression %\>% count(chromosome)" in the console)
 
-- [ ] run following code in the console to get information on reported prediction performance.
+-   [ ] run following code in the console to get information on reported prediction performance.
 
 > Find additional information [in this wiki](https://github.com/hakyimlab/MetaXcan/wiki/Individual-level-PrediXcan:-introduction,-tutorials-and-manual)
 
@@ -276,16 +275,15 @@ fullset %>% filter(gene_id==geneid) %>% ggplot(aes(observed_expression, predicte
 
 ```
 
-
 # Run PrediXcan association
 
 ## Questionnaire 03
-- [ ] Open and start filling questionnaire 03 PrediXcan  https://forms.gle/3H319knWbLgnynNs9
 
+-   [ ] Open and start filling questionnaire 03 PrediXcan https://forms.gle/3H319knWbLgnynNs9
 
 We are going to use a simulated phenotype for which only UPK3A has an effect on the phenotype ($\beta=-0.9887378$)
 
-$Y = \sum_k T_k \beta_k + \epsilon$ 
+$Y = \sum_k T_k \beta_k + \epsilon$
 
 with random effects $\beta_k \sim (1-\pi)\cdot \delta_0 + \pi\cdot N(0,1)$
 
@@ -304,9 +302,9 @@ python3 $METAXCAN/PrediXcanAssociation.py \
 
 ```
 
-More predicted phenotypes can be found in $DATA/predixcan/phenotype/. The naming of the phenotypes provides information about the genetic architecture: the number after pve is the proportion of variance of Y explained by the genetic component of expression. The number after spike_n_slab represents the probability that a gene is causal π (i.e. prob β≠0)
+More predicted phenotypes can be found in \$DATA/predixcan/phenotype/. The naming of the phenotypes provides information about the genetic architecture: the number after pve is the proportion of variance of Y explained by the genetic component of expression. The number after spike_n\_slab represents the probability that a gene is causal π (i.e. prob β≠0)
 
-## Looking at Association Results 
+## Looking at Association Results
 
 ```{r,eval=FALSE}
 ## read association results
@@ -346,19 +344,19 @@ betas %>% mutate(causal= true_beta!=0) %>% ggplot(aes(estimated_beta, true_beta,
 
 Hint: correlation between the genes
 
-
 # Run Summary PrediXcan
 
 Now we will use the summary results from a GWAS of coronary artery disease to calculate the association between the genetic component of the expression of genes and coronary artery disease risk. We will use the SPrediXcan.py.
 
 ![](https://uchicago.box.com/shared/static/m45nnkeskzh88ifnv8td5e3fntdfzhjs.png)
 
-The GWAS results (harmonized and imputed) for coronary artery disease are available in $PRE/spredixcan/data/
+The GWAS results (harmonized and imputed) for coronary artery disease are available in \$PRE/spredixcan/data/
 
 ## Questionnaire 04
-- [ ]  Open and start filling questionnaire 04 S-PrediXcan https://forms.gle/xJs2U66cnrqdb5cj6
 
-## Running S-PrediXcan 
+-   [ ] Open and start filling questionnaire 04 S-PrediXcan https://forms.gle/xJs2U66cnrqdb5cj6
+
+## Running S-PrediXcan
 
 ```{bash, eval=FALSE}
 
@@ -380,7 +378,7 @@ python $METAXCAN/SPrediXcan.py \
 
 > We can run the full genome because the summary statistics based PrediXcan is much faster than individual level one.
 
-## Plot and Interpret Results 
+## Plot and Interpret Results
 
 ```{r,eval=FALSE}
 spredixcan_association = load_spredixcan_association(glue::glue("{RESULTS}/spredixcan/eqtl/CARDIoGRAM_C4D_CAD_ADDITIVE__PM__Whole_Blood.csv"), gencode_df)
@@ -391,14 +389,16 @@ spredixcan_association %>% arrange(pvalue) %>% ggplot(aes(pvalue)) + geom_histog
 gg_qqplot(spredixcan_association$pvalue)
 ```
 
-- *Question:* SORT1, considered to be a causal gene for LDL cholesterol and as a consequence of coronary artery disease, is not found here. Why?
- 
- - [ ] check whether SORT1 is expressed in whole blood [GTEx portal](https://gtexportal.org/home/gene/SORT1)
- 
- - [ ] check whether SORT1 has eQTL in whole blood [GTEx portal](https://gtexportal.org/home/gene/SORT1)
+-   *Question:* SORT1, considered to be a causal gene for LDL cholesterol and as a consequence of coronary artery disease, is not found here. Why?
+
+-   [ ] check whether SORT1 is expressed in whole blood [GTEx portal](https://gtexportal.org/home/gene/SORT1)
+
+-   [ ] check whether SORT1 has eQTL in whole blood [GTEx portal](https://gtexportal.org/home/gene/SORT1)
 
 ## Run S-PrediXcan using gene expression predicted in liver
- -[] Run s-predixcan with liver model, do you find SORT1? Is it significant?
+
+-\[\] Run s-predixcan with liver model, do you find SORT1? Is it significant?
+
 ```{bash, eval=FALSE}
 #loction Liver models 
 #/cloud/project/QGT-Columbia-HKI-repo/box_files/models/gtex_v8_mashr/
@@ -447,11 +447,12 @@ cor.test(test$zscore,test$zscore_liver)
 ```
 
 ## (Optional) Run MultiXcan
-- multixcan aggregates information across multiple tissues to boost the power to detect association. It was developed movivated by the fact that eQTLs are shared across multiple tissues, i.e. many genetic variants that regulate expression are common across tissues.
 
-- before you run multixcan ensure you have run s-predixcan for all the tissues you want to multixcan. In this tutorial we have two tissues (liver and whole blood), ensure you have run s-predixcan with the two tissues before running multixcan. 
+-   multixcan aggregates information across multiple tissues to boost the power to detect association. It was developed movivated by the fact that eQTLs are shared across multiple tissues, i.e. many genetic variants that regulate expression are common across tissues.
 
-- One thing to note is to ensure similar naming pattern for the output files. This is to ensure the files are captured correctly when running multixcan's filter.
+-   before you run multixcan ensure you have run s-predixcan for all the tissues you want to multixcan. In this tutorial we have two tissues (liver and whole blood), ensure you have run s-predixcan with the two tissues before running multixcan.
+
+-   One thing to note is to ensure similar naming pattern for the output files. This is to ensure the files are captured correctly when running multixcan's filter.
 
 ```{bash, eval=FALSE}
 
@@ -478,7 +479,8 @@ Colocalization methods seek to estimate the probability that the complex trait a
 ![](https://raw.githubusercontent.com/hakyimlab/QGT-Columbia-HKI/master/extras/figures/colocalization-run.png)
 
 ## Questionnaire 5
-- [ ] Open and start filling questionnaire 05 Colocalization https://forms.gle/NfH2MSdy4UyJzGAp7
+
+-   [ ] Open and start filling questionnaire 05 Colocalization https://forms.gle/NfH2MSdy4UyJzGAp7
 
 ## Run colocalization
 
@@ -486,12 +488,13 @@ When you use coloc on your own data, you may want to check out coloc's documenta
 
 Due to time constraints, we will run one region and one gene only
 
-1. Finemap GWAS of CAD
-2. Finemap eQTL of SORT1
+1.  Finemap GWAS of CAD
+2.  Finemap eQTL of SORT1
 
 For finemapping, we need the summary statistics (effect size, standard errors, etc) and the correlation between SNPs (LD matrix)
 
 ## load the genotype to calculate the ld matrix
+
 ```{r, eval=FALSE}
 # load the genotype to calculate the ld matrix
 X_mat <- BEDMatrix(glue::glue("{DATA}/colocalization/geuvadis_chr1"))
@@ -505,6 +508,7 @@ snp_info$snp <- str_replace_all(snp_info$snp,":","_")
 ```
 
 ## Load the eqtl and gwas effect size files
+
 ```{r, eval=FALSE}
 # load the eqtl effect sizes
 gene_ss <- fread(glue::glue("{DATA}/colocalization/Liver_chr1.txt"))
@@ -520,6 +524,7 @@ ldblocks <-read_tsv(glue::glue("{DATA}/spredixcan/eur_ld.hg38.txt.gz"))
 ```
 
 ## Find regions with the strongest signal in the gwas
+
 ```{r, eval=FALSE}
 # get the loci where the significant snps are located
 for (n in 1:nrow(filtered_regions)){
@@ -551,6 +556,7 @@ d_loci <- all_loci %>%
 ```
 
 ## select a region to run coloc
+
 ```{r, eval=FALSE}
 # select regions to fine map. we are going to use regions in chromosome 1
 uniq_loci <- d_loci %>% dplyr::filter("chr1" == chr)
@@ -566,6 +572,7 @@ l_name = uniq_loci[n,]$locus_name
 ```
 
 ## Prepare gwas data for coloc
+
 ```{r, eval=FALSE}
 # select snps for the region from the summary stats
 ss <- gwas %>% 
@@ -605,6 +612,7 @@ check_dataset(ff)
 ```
 
 ## Prepare eqtl data for coloc
+
 ```{r, eval=FALSE}
 #Using SORT1 gene and liver tissue
 gene <- gene_ss %>% dplyr::filter(gene_id == "ENSG00000134243.11") %>% 
@@ -642,14 +650,18 @@ check_dataset(gg)
 ```
 
 ## run older version of coloc which assumes single causal variant
+
 *coloc.abf* makes the simplifying assumption that each trait has at most one causal variant in the region under consideration
+
 ```{r, eval=FALSE}
 my.res <- coloc.abf(dataset1=ff, dataset2=gg)
 sensitivity(my.res,"H4 > 0.9")
 ```
 
 ## run coloc allowing multiple causal variants
+
 Multiple causal variants, using SuSiE to separate the signals
+
 ```{r, eval=FALSE}
 # Run susie fine maooing
 S3 = runsusie(ff)
@@ -660,22 +672,24 @@ S4 = runsusie(gg)
 susie.res=coloc.susie(S3,S4)
 print(susie.res$summary)
 ```
+
 SuSiE can take a while to run on larger datasets, so it is best to run once per dataset with the =runsusie= function, store the results and feed those into subsequent analyses.
 
 plot the coloc result with the sensitivity function because weird effects are much easier to understand visually
+
 ```{r, eval=FALSE}
 sensitivity(susie.res,"H4 > 0.9",row=1,dataset1=ff,dataset2=gg,)
 ```
 
-
 # cTWAS
 
-cTWAS stands for causal TWAS and seeks to calculate the posterior inclusion probability of genes and SNPs in a given region to be causal. It's a modification of SUSIER that adds predicted gene expression levels in addition to SNPs in the analysis. It is not yet published, but the authors (Siming Zhao, Wesley Crouse, Matthew Stephens et al) have shared a vignette with us to try it out. 
+cTWAS stands for causal TWAS and seeks to calculate the posterior inclusion probability of genes and SNPs in a given region to be causal. It's a modification of SUSIER that adds predicted gene expression levels in addition to SNPs in the analysis. It is not yet published, but the authors (Siming Zhao, Wesley Crouse, Matthew Stephens et al) have shared a vignette with us to try it out.
 
 > Thank you, Wes, for creating this portion of the lab!
 
 ## Questionnaire 06
-- [ ] Open and start filling out questionnaire 06 cTWAS https://forms.gle/A4evWkbhR7cXLy36A
+
+-   [ ] Open and start filling out questionnaire 06 cTWAS https://forms.gle/A4evWkbhR7cXLy36A
 
 ```{r,eval=FALSE}
 #install.packages("R.utils")
@@ -757,16 +771,15 @@ head(ctwas_results[order(-ctwas_results$susie_pip),])
 
 ```
 
-
 # FAQ and frequent errors
 
-- conda environment may not load correctly after resuming the project in Rstudio cloud
+-   conda environment may not load correctly after resuming the project in Rstudio cloud
 
-- when inner joining by ensemble id of genes, make sure that both datasets have either the same versions or remove versions
+-   when inner joining by ensemble id of genes, make sure that both datasets have either the same versions or remove versions
 
-# Contributors 
-- Festus Nyasimi
-- Margaret Perry
-- Wes Crouse
-- Owen Melia
+# Contributors
 
+-   Festus Nyasimi
+-   Margaret Perry
+-   Wes Crouse
+-   Owen Melia
