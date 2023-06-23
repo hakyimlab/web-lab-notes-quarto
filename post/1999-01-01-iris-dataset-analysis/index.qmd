@@ -1,0 +1,60 @@
+---
+title: iris dataset analysis
+date: 1999-01-01
+author: Haky Im
+editor_options: 
+  chunk_output_type: console
+---
+
+## clasify iris data
+
+```{r}
+# Load the iris dataset
+data(iris)
+
+# Perform Fisher's discriminant analysis
+library(MASS)
+lda_model <- lda(Species ~ ., data = iris)
+
+# Print the summary of the analysis
+print(lda_model)
+
+# Predict the species using the model
+predicted_species <- predict(lda_model, iris)$class
+
+# Compare the predicted species with the actual species
+accuracy <- mean(predicted_species == iris$Species)
+cat("Accuracy:", accuracy * 100, "%\n")
+
+```
+
+## show performance
+
+```{r}
+# Load the iris dataset
+data(iris)
+
+# Perform Fisher's discriminant analysis
+library(MASS)
+lda_model <- lda(Species ~ ., data = iris)
+
+# Predict the species using the model
+predicted_species <- predict(lda_model, iris)$class
+
+# Create a confusion matrix
+library(caret)
+confusion <- confusionMatrix(predicted_species, iris$Species)
+print(confusion)
+
+# Create a classification plot
+library(ggplot2)
+iris_predicted <- data.frame(iris, Predicted_Species = predicted_species)
+ggplot(iris_predicted, aes(x = Species, fill = Predicted_Species)) +
+  geom_bar(position = "fill") +
+  labs(title = "LDA Classification Plot") +
+  scale_fill_manual(values = c("#E41A1C", "#377EB8", "#4DAF4A")) +
+  theme_minimal()
+
+```
+
+
