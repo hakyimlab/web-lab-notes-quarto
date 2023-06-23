@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/post/2023-06-16-qqunif-with-max-pvalue/index.html",
       "/post/2023-04-27-how-to-read-gencode-gff/index.html",
       "/post/2023-04-07-inflation-brainxcan/index.html",
       "/post/2023-03-28-cistromedb-data/index.html",
@@ -84,7 +85,9 @@
       "/post/2020-06-16-introstatgen-r-studio-servers-using-google-cloud/index.html",
       "/post/2001-07-30-gwas-on-anl-servers/index.html",
       "/post/2001-07-30-dbgap-project-renewal/index.html",
-      "/post/2001-07-30-how-to-download-the-data-from-the-uk-biobank/index.html"
+      "/post/2001-07-30-how-to-download-the-data-from-the-uk-biobank/index.html",
+      "/post/1999-01-01-iris-dataset-analysis/irisnet.html",
+      "/post/1999-01-01-iris-dataset-analysis/index.html"
     ]
   }
 ]
