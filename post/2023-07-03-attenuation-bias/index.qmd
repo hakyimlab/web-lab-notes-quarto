@@ -6,13 +6,20 @@ editor_options:
   chunk_output_type: console
 ---
 
+::: {.callout-tip}
+## Summary
+Uncertainty in predicted expression causes attenuation bias, and reduced significance of the association. Hence significance is underestimated.
+:::
+
 PrediXcan correlates genetically predicted expression levels with the phenotype to identify potentially causal genes. Let us assume that the phenotype $Y$ is a linear function of the genetic component of gene expression $T_g$:
 
 $$ Y = \beta \cdot T_g + \epsilon_Y$$ 
 And that the genetic component of gene expression has the form
 
 $$ T_g = \sum_k \omega_k \cdot X_k$$
-In practice, we don't have the exact value of $T_g$ but a noisy proxy for it, $\tilde{T_g} = T_g + \epsilon_T$
+In practice, we don't have the exact value of $T_g$ but a noisy proxy for it: 
+
+$$\tilde{T_g} = T_g + \epsilon_T$$
 
 So what is the effect of using this noisy version of the genetic component of gene expression?
 
@@ -60,7 +67,7 @@ One can also show that the standard error of $\tilde\beta$ is
 [See derivation here](https://econ.lse.ac.uk/staff/spischke/ec524/Merr_new.pdf)
  or [downloaded here in box](https://uchicago.box.com/s/iacrfxr9zxncwi7mwji8hcy8jj960ue9) where it is shown more rigurously using plim rather tha approx signs, that the estimated coefficient $\beta$ with error in the independent variable is underestimated and that the t-statistics is also underestimated, i.e. less significant than the association should be.
  
-Next, illustrate this by simulation
+## illustration of attenuation by simulation
 ```{r}
 
 nsim = 100

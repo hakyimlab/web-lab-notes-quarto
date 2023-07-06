@@ -4,4 +4,4 @@ title: "Miscel"
 
 Old blog
 
-#### [web-lab-notes-hakyimlab.netlify.app](https://web-lab-notes-hakyimlab.netlify.app "Open site in a new tab")
+#### <https://archived-web-lab-notes.hakyimlab.org>
