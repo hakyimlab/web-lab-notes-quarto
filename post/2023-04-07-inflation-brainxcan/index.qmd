@@ -5,9 +5,25 @@ date: "2023-04-07"
 categories: [analysis]
 editor_options: 
   chunk_output_type: console
+format:
+  html:
+    code-fold: false
+    code-summary: "Show the code"
+    code-tools: true
+    code-overflow: wrap
 ---
 
-Summary:
+
+::: {.callout-tip}
+## Summary
+When both $Y$ and a mediator IDP are polygenic, the regression test $Y$ on IDP is inflated with Var$(Z_\text{bxcan}) = 1 + N h_1^2 \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$. I'll use simulations to understand this relationship as functions of $h_Y$, $h_\text{IDP}$, $N$, $M_Y$, and $M_\text{IDP}$. 
+:::
+
+- $h_Y$ is the heritability of $Y$
+- $h_\text{IDP}$
+- $N$, is the sample size
+- $M_Y$ is the number of causal variants for Y
+- $M_\text{IDP}$ is the number of causal variants for the IDP
 
 ```{r}
 suppressMessages(library(tidyverse))
@@ -22,49 +38,61 @@ WORK=DATA
 ##system(glue("open {DATA}")) ## this will open the folder 
 ```
 
--   [ ] simulate Xk
-
-```{r simulate Xmat}
+```{r define parameters}
 nsam = 10000
 nsim = 100
 msnp = 1000
 
+h2Y = 0.5
+h2IDP = 0.4
+```
+
+-   [ ] simulate Xk
+
+```{r simulate Xmat}
 Xmat = matrix(rbinom(nsam*msnp, 2, 0.4), nsam, msnp)
 ```
 
--   [ ] simulate polygenic model: Y and IDP (nsam x nsim)
+-   [ ] simulate polygenic Y (nsam x nsim)
 
 ```{=tex}
 \begin{align}
-Y &= \beta \cdot \text{IDP} + \sum_k X_k \cdot b_k + \epsilon \\
-\text{IDP} &= \sum_k \gamma_k \cdot X_k + \epsilon',
+Y &= \beta \cdot \text{IDP} + \sum_k X_k \cdot b_k + \epsilon
 \end{align}
 ```
+
 ```{r simulate Y}
 ## betamat msnp x 1 
 betamat = matrix(rnorm(msnp),msnp, 1)
 epsimat = matrix(rnorm(nsam),nsam, 1)
+epsimat = scale(epsimat) * sqrt(1 - h2Y)
 gYmat = Xmat %*% betamat
+gYmat = scale(gYmat) * sqrt(h2Y)
 Ymat = gYmat + epsimat
-## Ymat = scale(Ymat)
+```
+
+-   [ ] simulate polygenic IDP (nsam x nsim)
+
+```{=tex}
+\begin{align}
+\text{IDP} &= \sum_k \gamma_k \cdot X_k + \epsilon',
+\end{align}
 ```
 
 ```{r simulate IDP}
 gammamat = matrix(rnorm(msnp * nsim),msnp, nsim)
 epsimat2 = matrix(rnorm(nsam * nsim),nsam, nsim)
+## epsimat2 = scale(epsimat2) * sqrt(1 - h2IDP)
 gIDPmat = Xmat %*% gammamat
+## gIDPmat = scale(gIDPmat) * sqrt(h2ID) ## %%HERE fix this scaling, allow multiple h2 for IDPs?
 IDPmat = gIDPmat + epsimat2
 ```
 
--   [ ] calculate pvec of Y \~ IDP
+-   [ ] calculate p-value of regression, Y \~ IDP
 
 ```{r fit Y on IDP}
-# ## load fast lm
-# devtools::source_gist("5d2251ea1a86009499e4ffdf47fe2735")
-
-## load fn_ratxcan: 115403f16bec0a0e871f3616d552ce9b
-devtools::source_gist("115403f16bec0a0e871f3616d552ce9b")
-devtools::source_gist("38431b74c6c0bf90c12f")
+suppressMessages(devtools::source_gist("115403f16bec0a0e871f3616d552ce9b") ) ## load fn_ratxcan, fast regression and other convenience functions to correlate subsets of columns of two matrices
+suppressMessages(devtools::source_gist("38431b74c6c0bf90c12f") ) ## load qqunif
 
 ## run fast_predixcan_assoc
 idnum=1:nsam

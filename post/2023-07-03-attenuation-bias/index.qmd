@@ -11,7 +11,18 @@ editor_options:
 Uncertainty in predicted expression causes attenuation bias, and reduced significance of the association. Hence significance is underestimated.
 :::
 
-PrediXcan correlates genetically predicted expression levels with the phenotype to identify potentially causal genes. Let us assume that the phenotype $Y$ is a linear function of the genetic component of gene expression $T_g$:
+PrediXcan seeks to test whether the genetically regulated expression levels (GReX=$T_g$) of a gene is associated with the phenotype of interest. However, in practice the the GReX is known only with some error. If the error in GReX is independent of the error in Y ($\epsilon_Y$) and the GReX, then 
+
+- the test is valid
+- the estimated effect size of the GReX on the phenotype is biased towards zero (attenuation bias)
+- the power of the test, $\beta=0$, is reduced
+- see Fuller, W. 1987 Measurement Error Models, Wiley & Sons pg.4.
+
+## Derivation of the attenuation
+
+Below, I show that the estimate is attenuated (biased towards zero) and provide a link to the proof that the t statistic (estimated beta divided by its standard error when using the noisy $=\tilde{T_g}$) is lower, i.e. less significant.
+
+Let us assume that the phenotype $Y$ is a linear function of the genetic component of gene expression $T_g$:
 
 $$ Y = \beta \cdot T_g + \epsilon_Y$$ 
 And that the genetic component of gene expression has the form
@@ -20,6 +31,12 @@ $$ T_g = \sum_k \omega_k \cdot X_k$$
 In practice, we don't have the exact value of $T_g$ but a noisy proxy for it: 
 
 $$\tilde{T_g} = T_g + \epsilon_T$$
+
+::: {.callout-tip}
+## Assumptions
+The assumption is that $\epsilon_T$, $T_g$, and $\epsilon_Y$ are independent. $~~~\epsilon_T \perp\!\!\!\!\perp T_g$ and $\epsilon_Y \perp\!\!\!\!\perp T_g$ are typical regression assumptions. $\epsilon_T \perp\!\!\!\!\perp \epsilon_Y$ is a reasonable assumption when the training of the expression predictors is independent of the GWAS sample, as is typical.  
+:::
+
 
 So what is the effect of using this noisy version of the genetic component of gene expression?
 
@@ -63,6 +80,8 @@ Therefore
 \end{align}
  
 One can also show that the standard error of $\tilde\beta$ is 
+
+## Link to proof that t statistics is smaller when using $\hat{T_g}$
 
 [See derivation here](https://econ.lse.ac.uk/staff/spischke/ec524/Merr_new.pdf)
  or [downloaded here in box](https://uchicago.box.com/s/iacrfxr9zxncwi7mwji8hcy8jj960ue9) where it is shown more rigurously using plim rather tha approx signs, that the estimated coefficient $\beta$ with error in the independent variable is underestimated and that the t-statistics is also underestimated, i.e. less significant than the association should be.
