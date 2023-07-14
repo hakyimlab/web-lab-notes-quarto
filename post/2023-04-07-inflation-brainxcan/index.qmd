@@ -64,8 +64,8 @@ Y &= \beta \cdot \text{IDP} + \sum_k X_k \cdot b_k + \epsilon
 
 ```{r simulate Y}
 ## betamat msnp x 1 
-betamat = matrix(rnorm(msnp),msnp, nsim)
-epsimat = matrix(rnorm(nsam),nsam, nsim)
+betamat = matrix(rnorm(msnp*nsim),msnp, nsim)
+epsimat = matrix(rnorm(nsam*nsim),nsam, nsim)
 epsimat = scale(epsimat) * sqrt(1 - h2Y)
 gYmat = Xmat %*% betamat
 gYmat = scale(gYmat) * sqrt(h2Y)
@@ -93,7 +93,6 @@ IDPmat = gIDPmat + epsimat2
 ```
 
 
-%%HERE continue here: TODO: make sure fast_predixcan is running nsim times: look at dimensions of matrices...
 
 -   [ ] calculate p-value of regression, Y \~ IDP
 
@@ -102,10 +101,47 @@ suppressMessages(devtools::source_gist("115403f16bec0a0e871f3616d552ce9b") ) ## 
 suppressMessages(devtools::source_gist("38431b74c6c0bf90c12f") ) ## load qqunif
 
 ## run fast_predixcan_assoc
-idnum=1:nsam
-idvec = glue("id-{idnum}")
-res <- fast_predixcan_assoc(data.frame(IID=idvec,IDPmat), data.frame(IID=idvec,Ymat), idlist=idvec)
-qqunif(res$pval)
+# idnum=1:nsam
+# idvec = glue("id-{idnum}")
+# res <- fast_predixcan_assoc(data.frame(IID=idvec,IDPmat), data.frame(IID=idvec,Ymat), idlist=idvec)
+# qqunif(res$pval)
+
+
+## scale Ymat
+Ymat = scale(Ymat)
+
+## scale IDPmat
+IDPmat = scale(IDPmat)
+
+## multiply t(Ymat) %*% IDPmat
+cormat = t(Ymat) %*% IDPmat
+cormat = cormat / nsam
+
+
+qqR2 <- function(corvec,nn,pad_neg_with_0 = FALSE,...)
+{
+## nn is the sample size, number of individuals used to compute correlation.
+## needs correlation vector as input.
+## nullcorvec generates a random sample from correlation distributions, under the null hypothesis of 0 correlation using Fisher's approximation.
+  if(pad_neg_with_0) corvec[corvec < 0 | is.na(corvec) ]=0
+  mm <- length(corvec)
+  nullcorvec = tanh(rnorm(mm)/sqrt(nn-3)) ## null correlation vector
+  qqplot(nullcorvec^2,corvec^2,...); abline(0,1); grid()
+}
+
+qqR <- function(corvec,nn,...)
+{
+## nn is the sample size, number of individuals used to compute correlation.
+## needs correlation vector as input.
+## nullcorvec generates a random sample from correlation distributions, under the null hypothesis of 0 correlation using Fisher's approximation.
+  mm <- length(corvec)
+  nullcorvec = tanh(rnorm(mm)/sqrt(nn-3)) ## null correlation vector
+  qqplot(nullcorvec,corvec,...); abline(0,1); grid()
+}
+
+
+## %%HERE continue here: TODO: calculate p values from correlation
+## pmat = 
 
 ```
 
