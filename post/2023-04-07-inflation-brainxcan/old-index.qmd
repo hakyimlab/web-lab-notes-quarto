@@ -1,0 +1,94 @@
+---
+title: "Old Inflation Brainxcan"
+author: "Haky Im"
+date: "2023-04-07"
+categories: [analysis]
+editor_options: 
+  chunk_output_type: console
+format:
+  html:
+    code-fold: false
+    code-summary: "Show the code"
+    code-tools: true
+    code-overflow: wrap
+---
+
+
+-   [ ] calculate pvec of cor(Y, IDP): this is the same as running linear regression
+
+```{r eval=FALSE}
+# > summary(lm(Ymat~ IDPmat[,32]))
+# 
+# Call:
+# lm(formula = Ymat ~ IDPmat[, 32])
+# 
+# Residuals:
+#      Min       1Q   Median       3Q      Max 
+# -201.069  -46.406   -0.164   46.472  205.379 
+# 
+# Coefficients:
+#               Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  -37.14480    4.61728  -8.045 2.44e-15 ***
+# IDPmat[, 32]  -0.08780    0.03051  -2.878  0.00409 ** 
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 68.63 on 998 degrees of freedom
+# Multiple R-squared:  0.008231,	Adjusted R-squared:  0.007237 
+# F-statistic: 8.282 on 1 and 998 DF,  p-value: 0.004088
+# 
+# > cor.test(Ymat, IDPmat[,32])
+# 
+# 	Pearson's product-moment correlation
+# 
+# data:  Ymat and IDPmat[, 32]
+# t = -2.8779, df = 998, p-value = 0.004088
+# alternative hypothesis: true correlation is not equal to 0
+# 95 percent confidence interval:
+#  -0.15186241 -0.02889285
+# sample estimates:
+#         cor 
+# -0.09072344 
+```
+
+<!-- -   [ ] calculate pvec of cor(sum bk Xk, sum gammak Xk) -->
+
+<!-- ```{r fit gY on gIDP} -->
+<!-- ## run fast_predixcan_assoc -->
+<!-- idnum=1:nsam -->
+<!-- idvec = glue("id-{idnum}") -->
+<!-- gres <- fast_predixcan_assoc(data.frame(IID=idvec,gIDPmat), data.frame(IID=idvec,gYmat), idlist=idvec) -->
+<!-- qqunif(gres$pval) -->
+
+<!-- ``` -->
+
+
+-   [ ] check FDR of BrainXcan schizophrenia associations
+
+```{r, eval=FALSE}
+## google sheets prepared by Yanyu for revision 4/7/2023
+s2 <- read_csv(glue("{DATA}/Table_S2.xlsx - ..csv"))
+s8 <- read_csv(glue("{DATA}/Table_S8-w-factor.xlsx - Table_S8-w-factor.csv"))
+
+tempo <- s8 %>% left_join(s2 %>% select(IDP,modality,notes,subtype),by=c("IDP")) %>% filter(model=="ridge",phenotype=="SCZ_PGC_2020") %>% filter(substr(subtype, 1, 2) != 'w-' | is.na(subtype) ) %>% filter(!grepl("ProbTrack-1",IDP))
+
+## qq <- tempo %>% filter(modality=="dMRI") %>% .[["pval_adj_perm_null"]] %>% qvalue::qvalue()
+
+qq <- tempo  %>% .[["pval_adj_perm_null"]] %>% qvalue::qvalue()
+
+
+```
+
+-   [ ] read hapmap file
+
+```{r, eval=FALSE}
+# if (!require("BiocManager", quietly = TRUE))
+#     install.packages("BiocManager")
+# BiocManager::install("snpStats")
+suppressMessages(library(snpStats))
+# Set the path to the binary files (without file extensions)
+plink_file_path <- "/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/Reference-Data/GWAS-tutorial-Marees/data_1_QC_GWAS/HapMap_3_r3_1"
+# Read the binary files into an object of class "snpMatrix"
+snp_matrix <- read.plink(plink_file_path)
+
+```

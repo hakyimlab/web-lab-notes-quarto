@@ -13,7 +13,6 @@ format:
     code-overflow: wrap
 ---
 
-
 ::: {.callout-tip}
 ## Summary
 When both $Y$ and a mediator IDP are polygenic, the regression test $Y$ on IDP is inflated with $\text{Var}(Z_\text{bxcan}) = 1 + N h_1^2 \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$. I'll use simulations to understand this relationship as functions of $h_Y$, $h_\text{IDP}$, $N$, $M_Y$, and $M_\text{IDP}$. 
@@ -38,86 +37,13 @@ WORK=DATA
 ##system(glue("open {DATA}")) ## this will open the folder 
 ```
 
-```{r define parameters}
-nsam = 10000
-nsim = 150
-midp = 100
-msnp = 1000
-
-h2Y = 0.5
-h2IDP = 0.1 + runif(midp) * 0.5
-```
-
--   [ ] simulate Xk
-
-```{r simulate Xmat}
-Xmat = matrix(rbinom(nsam*msnp, 2, 0.4), nsam, msnp)
-```
-
--   [ ] simulate polygenic Y (nsam x nsim)
-
-```{=tex}
-\begin{align}
-Y &= \beta \cdot \text{IDP} + \sum_k X_k \cdot b_k + \epsilon
-\end{align}
-```
-
-```{r simulate Y}
-## betamat msnp x 1 
-betamat = matrix(rnorm(msnp*nsim),msnp, nsim)
-epsimat = matrix(rnorm(nsam*nsim),nsam, nsim)
-epsimat = scale(epsimat) * sqrt(1 - h2Y)
-gYmat = Xmat %*% betamat
-gYmat = scale(gYmat) * sqrt(h2Y)
-Ymat = gYmat + epsimat
-```
-
--   [ ] simulate polygenic IDP (nsam x midp)
-
-```{=tex}
-\begin{align}
-\text{IDP} &= \sum_k \gamma_k \cdot X_k + \epsilon',
-\end{align}
-```
-
-```{r simulate IDP}
-gammamat = matrix(rnorm(msnp * midp),msnp, midp)
-epsimat2 = matrix(rnorm(nsam * midp),nsam, midp)
-epsimat2 = scale(epsimat2)
-epsimat2 = sweep(epsimat2, MARGIN=2, sqrt(1 - h2IDP), FUN="*" )
-
-gIDPmat = Xmat %*% gammamat
-gIDPmat = scale(gIDPmat) 
-gIDPmat = sweep(gIDPmat, MARGIN=2, sqrt(h2IDP), FUN="*" )
-IDPmat = gIDPmat + epsimat2
-```
-
-
-
--   [ ] calculate p-value of regression, Y \~ IDP
-
-```{r fit Y on IDP}
+## Load and Define Functions
+```{r}
 suppressMessages(devtools::source_gist("115403f16bec0a0e871f3616d552ce9b") ) ## load fn_ratxcan, fast regression and other convenience functions to correlate subsets of columns of two matrices
 suppressMessages(devtools::source_gist("38431b74c6c0bf90c12f") ) ## load qqunif
 
-## run fast_predixcan_assoc
-# idnum=1:nsam
-# idvec = glue("id-{idnum}")
-# res <- fast_predixcan_assoc(data.frame(IID=idvec,IDPmat), data.frame(IID=idvec,Ymat), idlist=idvec)
-# qqunif(res$pval)
 
-
-## scale Ymat
-Ymat = scale(Ymat)
-
-## scale IDPmat
-IDPmat = scale(IDPmat)
-
-## multiply t(Ymat) %*% IDPmat
-cormat = t(Ymat) %*% IDPmat
-cormat = cormat / nsam
-
-
+my_trace = function(mat) if(nrow(mat)==ncol(mat)) sum(diag(mat)) else error("matrix is not diagonal")
 qqR2 <- function(corvec,nn,pad_neg_with_0 = FALSE,...)
 {
 ## nn is the sample size, number of individuals used to compute correlation.
@@ -139,86 +65,244 @@ qqR <- function(corvec,nn,...)
   qqplot(nullcorvec,corvec,...); abline(0,1); grid()
 }
 
+## calculate p-value from correlation
+cor2zscore = function(cc,nn) 
+{
+  zz = atanh(cc) * sqrt(nn-3)
+}
 
-## %%HERE continue here: TODO: calculate p values from correlation
-## pmat = 
+cor2pval = function(cc,nn) 
+{
+  zz=cor2zscore(cc,nn)
+  pnorm(-abs(zz))*2
+}
+
+cor2chi2 = function(cc,nn)
+{
+  cor2zscore(cc,nn)^2
+}
+```
+
+
+
+```{r simulate study and calc varchi2}
+
+simulate_study = function(nsam,msnp,nsim,midp)
+{
+  ## simulate Xmat (nsam x msnp)
+  Xmat = matrix(rbinom(nsam*msnp, 2, 0.4), nsam, msnp)
+
+  ## calculate GRM or LD matrix depending on min(nsam, msnp) and trrtr
+  R = scale(Xmat) ## QUESTION: DO I NEED TO SCALE ACROSS SAMPLES AND ACROSS SNPS?
+  if(nsam >  msnp) 
+  {
+    R = t(R)
+    MM = nsam
+  } else MM = msnp
+  R = ( R %*% t(R) ) / MM
+  trrtr = my_trace( t(R) %*% R ) / my_trace(R)^2
+  
+  ## simulate IDPmat (nsam x mipd) 
+  gammamat = matrix(rnorm(msnp * midp),msnp, midp)
+  epsimat2 = matrix(rnorm(nsam * midp),nsam, midp)
+  epsimat2 = scale(epsimat2)
+  epsimat2 = sweep(epsimat2, MARGIN=2, sqrt(1 - h2IDP), FUN="*" )
+  gIDPmat = Xmat %*% gammamat
+  gIDPmat = scale(gIDPmat) 
+  gIDPmat = sweep(gIDPmat, MARGIN=2, sqrt(h2IDP), FUN="*" )
+  IDPmat = gIDPmat + epsimat2
+  
+  ## simulate Ymat (nsam x nsim) indep of IDPs
+  betamat = matrix(rnorm(msnp*nsim),msnp, nsim)
+  epsimat = matrix(rnorm(nsam*nsim),nsam, nsim)
+  epsimat = scale(epsimat) * sqrt(1 - h2Y)
+  gYmat = Xmat %*% betamat
+  gYmat = scale(gYmat) * sqrt(h2Y)
+  Ymat = gYmat + epsimat
+  
+  ## calc cor
+    ## scale Ymat & IDPmat
+  Ymat = scale(Ymat)
+  IDPmat = scale(IDPmat)
+    ## multiply t(Ymat) %*% IDPmat
+  cormat = t(Ymat) %*% IDPmat
+  cormat = cormat / nsam
+
+  ## calc varchi2
+  chi2mat = cor2chi2(cormat,nn=nsam)
+  varchi2 = apply(chi2mat,2,mean)
+
+  ## build result list
+  res = list()
+  res$varchi2 = varchi2
+  res$trrtr = trrtr
+  res
+}
+
 
 ```
 
--   [ ] calculate pvec of cor(Y, IDP): this is the same as running linear regression
+## simulate for multiple comb of nsam and msnp
+```{r}
+nsam = 10000
+nsim = 150
+midp = 100
+msnp = 1000
 
-```{r eval=FALSE}
-# > summary(lm(Ymat~ IDPmat[,32]))
-# 
-# Call:
-# lm(formula = Ymat ~ IDPmat[, 32])
-# 
-# Residuals:
-#      Min       1Q   Median       3Q      Max 
-# -201.069  -46.406   -0.164   46.472  205.379 
-# 
-# Coefficients:
-#               Estimate Std. Error t value Pr(>|t|)    
-# (Intercept)  -37.14480    4.61728  -8.045 2.44e-15 ***
-# IDPmat[, 32]  -0.08780    0.03051  -2.878  0.00409 ** 
-# ---
-# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-# 
-# Residual standard error: 68.63 on 998 degrees of freedom
-# Multiple R-squared:  0.008231,	Adjusted R-squared:  0.007237 
-# F-statistic: 8.282 on 1 and 998 DF,  p-value: 0.004088
-# 
-# > cor.test(Ymat, IDPmat[,32])
-# 
-# 	Pearson's product-moment correlation
-# 
-# data:  Ymat and IDPmat[, 32]
-# t = -2.8779, df = 998, p-value = 0.004088
-# alternative hypothesis: true correlation is not equal to 0
-# 95 percent confidence interval:
-#  -0.15186241 -0.02889285
-# sample estimates:
-#         cor 
-# -0.09072344 
-```
+h2Y = 0.5
+h2IDP = 0.1 + runif(midp) * 0.8
 
--   [ ] calculate pvec of cor(sum bk Xk, sum gammak Xk)
+nsamlist = c(100,1000,5000,10000); num_nsam=length(nsamlist)
+msnplist = c(99,999,4999); num_msnp=length(msnplist)
+varchi2mat = array(NA, dim=c(num_nsam, num_msnp, midp) )
+trrtrmat = matrix(NA,num_nsam, num_msnp)
 
-```{r fit gY on gIDP}
-## run fast_predixcan_assoc
-idnum=1:nsam
-idvec = glue("id-{idnum}")
-gres <- fast_predixcan_assoc(data.frame(IID=idvec,gIDPmat), data.frame(IID=idvec,gYmat), idlist=idvec)
-qqunif(gres$pval)
+for(ii in 1:num_nsam)
+{
+  for(jj in 1:num_msnp)
+  {
+    res=list()
+    print(ii)
+    print(jj)
+    print(nsamlist[ii])
+    print(msnplist[jj])
+    res = simulate_study(nsam=nsamlist[ii],msnplist[jj],nsim,midp)
+    varchi2mat[ii,jj,] = res$varchi2
+    trrtrmat[ii,jj] = res$trrtr
+  }
+}
 
 ```
 
--   [ ] check FDR of BrainXcan schizophrenia associations
+
+- [ ] TODO %%HERE 
 
 ```{r}
-## google sheets prepared by Yanyu for revision 4/7/2023
-s2 <- read_csv(glue("{DATA}/Table_S2.xlsx - ..csv"))
-s8 <- read_csv(glue("{DATA}/Table_S8-w-factor.xlsx - Table_S8-w-factor.csv"))
+varchi2 = varchi2mat[1,2,]
 
-tempo <- s8 %>% left_join(s2 %>% select(IDP,modality,notes,subtype),by=c("IDP")) %>% filter(model=="ridge",phenotype=="SCZ_PGC_2020") %>% filter(substr(subtype, 1, 2) != 'w-' | is.na(subtype) ) %>% filter(!grepl("ProbTrack-1",IDP))
+rangoy = range(c(0,varchi2-1))
+plot(h2IDP,varchi2-1,ylim=rangoy, xlim=c(0,1)); grid()
 
-## qq <- tempo %>% filter(modality=="dMRI") %>% .[["pval_adj_perm_null"]] %>% qvalue::qvalue()
-
-qq <- tempo  %>% .[["pval_adj_perm_null"]] %>% qvalue::qvalue()
+print("intercept should be close to 1 and slope proportional to nsam")
+summary(lm(varchi2 ~ h2IDP))
 
 
 ```
 
--   [ ] read hapmap file
 
-```{r, eval=FALSE}
-# if (!require("BiocManager", quietly = TRUE))
-#     install.packages("BiocManager")
-# BiocManager::install("snpStats")
-suppressMessages(library(snpStats))
-# Set the path to the binary files (without file extensions)
-plink_file_path <- "/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/Reference-Data/GWAS-tutorial-Marees/data_1_QC_GWAS/HapMap_3_r3_1"
-# Read the binary files into an object of class "snpMatrix"
-snp_matrix <- read.plink(plink_file_path)
+
+
+
+
+## Define Parameters
+
+```{r define parameters}
+nsam = 10000
+nsim = 150
+midp = 100
+msnp = 1000
+
+h2Y = 0.5
+h2IDP = 0.1 + runif(midp) * 0.8
+```
+
+## Simulate X Matrix
+
+This section simulates the X matrix, which is a matrix of binomial random numbers. The X matrix is then scaled, and a trace function is defined and used to calculate the trace of R.
+```{r simulate Xmat}
+Xmat = matrix(rbinom(nsam*msnp, 2, 0.4), nsam, msnp)
+
+R = scale(Xmat)
+if(nsam >  msnp) 
+{
+  R = t(R)
+  MM = nsam
+} else MM = msnp
+    
+R = ( R %*% t(R) ) / MM
+
+trrtr = my_trace( t(R) %*% R ) / my_trace(R)^2
 
 ```
+
+## Simulate Polygenic Y (nsam x nsim)
+
+This section simulates polygenic Y values based on the equation given.
+```{=tex}
+\begin{align}
+Y &= \beta \cdot \text{IDP} + \sum_k X_k \cdot b_k + \epsilon
+\end{align}
+```
+
+```{r simulate Y}
+betamat = matrix(rnorm(msnp*nsim),msnp, nsim)
+epsimat = matrix(rnorm(nsam*nsim),nsam, nsim)
+epsimat = scale(epsimat) * sqrt(1 - h2Y)
+gYmat = Xmat %*% betamat
+gYmat = scale(gYmat) * sqrt(h2Y)
+Ymat = gYmat + epsimat
+```
+
+- Simulate Polygenic IDP (nsam x midp)
+
+This section simulates polygenic IDP values based on the equation given.
+```{=tex}
+\begin{align}
+\text{IDP} &= \sum_k \gamma_k \cdot X_k + \epsilon',
+\end{align}
+```
+
+```{r simulate IDP}
+gammamat = matrix(rnorm(msnp * midp),msnp, midp)
+epsimat2 = matrix(rnorm(nsam * midp),nsam, midp)
+epsimat2 = scale(epsimat2)
+epsimat2 = sweep(epsimat2, MARGIN=2, sqrt(1 - h2IDP), FUN="*" )
+
+gIDPmat = Xmat %*% gammamat
+gIDPmat = scale(gIDPmat) 
+gIDPmat = sweep(gIDPmat, MARGIN=2, sqrt(h2IDP), FUN="*" )
+IDPmat = gIDPmat + epsimat2
+```
+
+
+## Calculate P-value of Regression, Y ~ IDP
+
+In this section, we calculate the p-value of the regression, Y ~ IDP. First, we load required functions, then scale the Y and IDP matrices. We compute the correlation matrix and calculate p-values from the correlation. Lastly, we visualize the results and print the summary of the linear regression.
+
+```{r fit Y on IDP}
+## scale Ymat
+Ymat = scale(Ymat)
+
+## scale IDPmat
+IDPmat = scale(IDPmat)
+
+## multiply t(Ymat) %*% IDPmat
+cormat = t(Ymat) %*% IDPmat
+cormat = cormat / nsam
+
+
+
+pmat = cor2pval(cormat,nn=nsam)
+
+chi2mat = cor2chi2(cormat,nn=nsam)
+varchi2 = apply(chi2mat,2,mean)
+
+rangoy = range(c(0,varchi2-1))
+plot(h2IDP,varchi2-1,ylim=rangoy, xlim=c(0,1)); grid()
+
+print("intercept should be close to 1 and slope proportional to nsam")
+summary(lm(varchi2 ~ h2IDP))
+```
+
+- [ ] run regression with multiple combination of sample sizes and number of SNPs
+
+```{r}
+nsam = 10000
+msnp = 1000
+nsim = 150
+midp = 100
+h2Y = 0.5
+h2IDP = 0.1 + runif(midp) * 0.8
+```
+
+
