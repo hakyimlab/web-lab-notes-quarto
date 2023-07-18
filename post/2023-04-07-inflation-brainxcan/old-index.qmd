@@ -14,6 +14,196 @@ format:
 ---
 
 
+```{r}
+suppressMessages(library(tidyverse))
+suppressMessages(library(glue))
+
+PRE = "/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"
+SLUG="inflation-brainxcan" ## copy the slug from the header
+bDATE='2023-04-07' ## copy the date from the blog's header here
+DATA = glue("{PRE}/{bDATE}-{SLUG}")
+if(!file.exists(DATA)) system(glue::glue("mkdir {DATA}"))
+WORK=DATA
+##system(glue("open {DATA}")) ## this will open the folder 
+```
+
+## Load and Define Functions
+```{r}
+suppressMessages(devtools::source_gist("115403f16bec0a0e871f3616d552ce9b") ) ## load fn_ratxcan, fast regression and other convenience functions to correlate subsets of columns of two matrices
+suppressMessages(devtools::source_gist("38431b74c6c0bf90c12f") ) ## load qqunif
+
+
+my_trace = function(mat) if(nrow(mat)==ncol(mat)) sum(diag(mat)) else error("matrix is not diagonal")
+qqR2 <- function(corvec,nn,pad_neg_with_0 = FALSE,...)
+{
+## nn is the sample size, number of individuals used to compute correlation.
+## needs correlation vector as input.
+## nullcorvec generates a random sample from correlation distributions, under the null hypothesis of 0 correlation using Fisher's approximation.
+  if(pad_neg_with_0) corvec[corvec < 0 | is.na(corvec) ]=0
+  mm <- length(corvec)
+  nullcorvec = tanh(rnorm(mm)/sqrt(nn-3)) ## null correlation vector
+  qqplot(nullcorvec^2,corvec^2,...); abline(0,1); grid()
+}
+
+qqR <- function(corvec,nn,...)
+{
+## nn is the sample size, number of individuals used to compute correlation.
+## needs correlation vector as input.
+## nullcorvec generates a random sample from correlation distributions, under the null hypothesis of 0 correlation using Fisher's approximation.
+  mm <- length(corvec)
+  nullcorvec = tanh(rnorm(mm)/sqrt(nn-3)) ## null correlation vector
+  qqplot(nullcorvec,corvec,...); abline(0,1); grid()
+}
+
+## calculate p-value from correlation
+cor2zscore = function(cc,nn) 
+{
+  zz = atanh(cc) * sqrt(nn-3)
+}
+
+cor2pval = function(cc,nn) 
+{
+  zz=cor2zscore(cc,nn)
+  pnorm(-abs(zz))*2
+}
+
+cor2chi2 = function(cc,nn)
+{
+  cor2zscore(cc,nn)^2
+}
+```
+
+
+
+
+# Analysis for one parameter set. See above for runs organized across multiple sample size and number of snps
+
+
+
+## Define Parameters
+
+```{r define parameters, eval=FALSE}
+nsam = 10000
+nsim = 150
+midp = 100
+msnp = 1000
+
+h2Y = 0.5
+h2IDP = 0.1 + runif(midp) * 0.8
+```
+
+## Simulate X Matrix
+
+This section simulates the X matrix, which is a matrix of binomial random numbers. The X matrix is then scaled, and a trace function is defined and used to calculate the trace of R.
+```{r simulate Xmat, eval=FALSE}
+Xmat = matrix(rbinom(nsam*msnp, 2, 0.4), nsam, msnp)
+
+R = scale(Xmat)
+if(nsam >  msnp) 
+{
+  R = t(R)
+  MM = nsam
+} else MM = msnp
+    
+R = ( R %*% t(R) ) / MM
+
+trrtr = my_trace( t(R) %*% R ) / my_trace(R)^2
+
+```
+
+## Simulate Polygenic Y (nsam x nsim)
+
+This section simulates polygenic Y values based on the equation given.
+```{=tex}
+\begin{align}
+Y &= \beta \cdot \text{IDP} + \sum_k X_k \cdot b_k + \epsilon
+\end{align}
+```
+
+```{r simulate Y, eval=FALSE}
+betamat = matrix(rnorm(msnp*nsim),msnp, nsim)
+epsimat = matrix(rnorm(nsam*nsim),nsam, nsim)
+epsimat = scale(epsimat) * sqrt(1 - h2Y)
+gYmat = Xmat %*% betamat
+gYmat = scale(gYmat) * sqrt(h2Y)
+Ymat = gYmat + epsimat
+```
+
+- Simulate Polygenic IDP (nsam x midp)
+
+This section simulates polygenic IDP values based on the equation given.
+```{=tex}
+\begin{align}
+\text{IDP} &= \sum_k \gamma_k \cdot X_k + \epsilon',
+\end{align}
+```
+
+```{r simulate IDP, eval=FALSE}
+gammamat = matrix(rnorm(msnp * midp),msnp, midp)
+epsimat2 = matrix(rnorm(nsam * midp),nsam, midp)
+epsimat2 = scale(epsimat2)
+epsimat2 = sweep(epsimat2, MARGIN=2, sqrt(1 - h2IDP), FUN="*" )
+
+gIDPmat = Xmat %*% gammamat
+gIDPmat = scale(gIDPmat) 
+gIDPmat = sweep(gIDPmat, MARGIN=2, sqrt(h2IDP), FUN="*" )
+IDPmat = gIDPmat + epsimat2
+```
+
+
+## Calculate P-value of Regression, Y ~ IDP
+
+In this section, we calculate the p-value of the regression, Y ~ IDP. First, we load required functions, then scale the Y and IDP matrices. We compute the correlation matrix and calculate p-values from the correlation. Lastly, we visualize the results and print the summary of the linear regression.
+
+```{r fit Y on IDP, eval=FALSE}
+## scale Ymat
+Ymat = scale(Ymat)
+
+## scale IDPmat
+IDPmat = scale(IDPmat)
+
+## multiply t(Ymat) %*% IDPmat
+cormat = t(Ymat) %*% IDPmat
+cormat = cormat / nsam
+
+
+
+pmat = cor2pval(cormat,nn=nsam)
+
+chi2mat = cor2chi2(cormat,nn=nsam)
+varchi2 = apply(chi2mat,2,mean)
+
+rangoy = range(c(0,varchi2-1))
+plot(h2IDP,varchi2-1,ylim=rangoy, xlim=c(0,1)); grid()
+
+print("intercept should be close to 1 and slope proportional to nsam")
+summary(lm(varchi2 ~ h2IDP))
+```
+
+- [ ] run regression with multiple combination of sample sizes and number of SNPs
+
+```{r, eval=FALSE}
+nsam = 10000
+msnp = 1000
+nsim = 150
+midp = 100
+h2Y = 0.5
+h2IDP = 0.1 + runif(midp) * 0.8
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -   [ ] calculate pvec of cor(Y, IDP): this is the same as running linear regression
 
 ```{r eval=FALSE}
