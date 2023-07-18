@@ -199,6 +199,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </div>
   </div>
   
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">July 18, 2023</p>
+    </div>
+  </div>
     
   </div>
   
@@ -221,10 +227,11 @@ Summary
 <ul>
 <li><span class="math inline">\(h_Y\)</span> is the heritability of <span class="math inline">\(Y\)</span></li>
 <li><span class="math inline">\(h_\text{IDP}\)</span></li>
-<li><span class="math inline">\(N\)</span>, is the sample size</li>
+<li><span class="math inline">\(N\)</span>, is the sample size = nsam</li>
 <li><span class="math inline">\(M_Y\)</span> is the number of causal variants for Y</li>
 <li><span class="math inline">\(M_\text{IDP}\)</span> is the number of causal variants for the IDP</li>
 </ul>
+<p>Here <span class="math inline">\(M_Y = M_\text{IDP}\)</span> = msnp.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(tidyverse))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(glue))</span>
@@ -348,8 +355,8 @@ Summary
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>msnplist <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">99</span>,<span class="dv">999</span>,<span class="dv">4999</span>); num_msnp<span class="ot">=</span><span class="fu">length</span>(msnplist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="simulate-and-plot-for-h2y0.8" class="level2">
-<h2 class="anchored" data-anchor-id="simulate-and-plot-for-h2y0.8">simulate and plot for h2Y=0.8</h2>
+<section id="simulate-and-plot-varz-vs-h2idp-by-h2y-msnp-nsam" class="level2">
+<h2 class="anchored" data-anchor-id="simulate-and-plot-varz-vs-h2idp-by-h2y-msnp-nsam">simulate and plot varZ vs h2IDP by h2Y, msnp, nsam</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rerun<span class="ot">=</span><span class="cn">TRUE</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(h2Y <span class="cf">in</span> h2Yvec)</span>
@@ -696,237 +703,240 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Haky Im"</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2023-04-07"</span></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [analysis]</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-summary: "Show the code"</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>When both $Y$ and a mediator IDP are polygenic, the regression test $Y$ on IDP is inflated with $\text{Var}(Z_\text{bxcan}) = 1 + N h_1^2 \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$. I'll use simulations to understand this relationship as functions of $h_Y$, $h_\text{IDP}$, $N$, $M_Y$, and $M_\text{IDP}$. </span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$h_Y$ is the heritability of $Y$</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$h_\text{IDP}$</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$N$, is the sample size</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$M_Y$ is the number of causal variants for Y</span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$M_\text{IDP}$ is the number of causal variants for the IDP</span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(tidyverse))</span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(glue))</span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>PRE <span class="ot">=</span> <span class="st">"/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"</span></span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>SLUG<span class="ot">=</span><span class="st">"inflation-brainxcan"</span> <span class="do">## copy the slug from the header</span></span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>bDATE<span class="ot">=</span><span class="st">'2023-04-07'</span> <span class="do">## copy the date from the blog's header here</span></span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>DATA <span class="ot">=</span> <span class="fu">glue</span>(<span class="st">"{PRE}/{bDATE}-{SLUG}"</span>)</span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(DATA)) <span class="fu">system</span>(glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"mkdir {DATA}"</span>))</span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>WORK<span class="ot">=</span>DATA</span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a><span class="do">##system(glue("open {DATA}")) ## this will open the folder </span></span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## Load and Define Functions</span></span>
-<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(devtools<span class="sc">::</span><span class="fu">source_gist</span>(<span class="st">"115403f16bec0a0e871f3616d552ce9b"</span>) ) <span class="do">## load fn_ratxcan, fast regression and other convenience functions to correlate subsets of columns of two matrices</span></span>
-<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(devtools<span class="sc">::</span><span class="fu">source_gist</span>(<span class="st">"38431b74c6c0bf90c12f"</span>) ) <span class="do">## load qqunif</span></span>
-<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>my_trace <span class="ot">=</span> <span class="cf">function</span>(mat) <span class="cf">if</span>(<span class="fu">nrow</span>(mat)<span class="sc">==</span><span class="fu">ncol</span>(mat)) <span class="fu">sum</span>(<span class="fu">diag</span>(mat)) <span class="cf">else</span> <span class="fu">error</span>(<span class="st">"matrix is not diagonal"</span>)</span>
-<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>qqR2 <span class="ot">&lt;-</span> <span class="cf">function</span>(corvec,nn,<span class="at">pad_neg_with_0 =</span> <span class="cn">FALSE</span>,...)</span>
-<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a><span class="do">## nn is the sample size, number of individuals used to compute correlation.</span></span>
-<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a><span class="do">## needs correlation vector as input.</span></span>
-<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a><span class="do">## nullcorvec generates a random sample from correlation distributions, under the null hypothesis of 0 correlation using Fisher's approximation.</span></span>
-<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(pad_neg_with_0) corvec[corvec <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">|</span> <span class="fu">is.na</span>(corvec) ]<span class="ot">=</span><span class="dv">0</span></span>
-<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>  mm <span class="ot">&lt;-</span> <span class="fu">length</span>(corvec)</span>
-<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>  nullcorvec <span class="ot">=</span> <span class="fu">tanh</span>(<span class="fu">rnorm</span>(mm)<span class="sc">/</span><span class="fu">sqrt</span>(nn<span class="dv">-3</span>)) <span class="do">## null correlation vector</span></span>
-<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">qqplot</span>(nullcorvec<span class="sc">^</span><span class="dv">2</span>,corvec<span class="sc">^</span><span class="dv">2</span>,...); <span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>); <span class="fu">grid</span>()</span>
-<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>qqR <span class="ot">&lt;-</span> <span class="cf">function</span>(corvec,nn,...)</span>
-<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a><span class="do">## nn is the sample size, number of individuals used to compute correlation.</span></span>
-<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a><span class="do">## needs correlation vector as input.</span></span>
-<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a><span class="do">## nullcorvec generates a random sample from correlation distributions, under the null hypothesis of 0 correlation using Fisher's approximation.</span></span>
-<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>  mm <span class="ot">&lt;-</span> <span class="fu">length</span>(corvec)</span>
-<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a>  nullcorvec <span class="ot">=</span> <span class="fu">tanh</span>(<span class="fu">rnorm</span>(mm)<span class="sc">/</span><span class="fu">sqrt</span>(nn<span class="dv">-3</span>)) <span class="do">## null correlation vector</span></span>
-<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">qqplot</span>(nullcorvec,corvec,...); <span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>); <span class="fu">grid</span>()</span>
-<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a><span class="do">## calculate p-value from correlation</span></span>
-<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a>cor2zscore <span class="ot">=</span> <span class="cf">function</span>(cc,nn) </span>
-<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a>  zz <span class="ot">=</span> <span class="fu">atanh</span>(cc) <span class="sc">*</span> <span class="fu">sqrt</span>(nn<span class="dv">-3</span>)</span>
-<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a>cor2pval <span class="ot">=</span> <span class="cf">function</span>(cc,nn) </span>
-<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a>  zz<span class="ot">=</span><span class="fu">cor2zscore</span>(cc,nn)</span>
-<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(zz))<span class="sc">*</span><span class="dv">2</span></span>
-<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-84"><a href="#cb15-84" aria-hidden="true" tabindex="-1"></a>cor2chi2 <span class="ot">=</span> <span class="cf">function</span>(cc,nn)</span>
-<span id="cb15-85"><a href="#cb15-85" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor2zscore</span>(cc,nn)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a><span class="in">```{r simulate study and calc varchi2}</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">    code-summary: "Show the code"</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>When both $Y$ and a mediator IDP are polygenic, the regression test $Y$ on IDP is inflated with $\text{Var}(Z_\text{bxcan}) = 1 + N h_1^2 \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$. I'll use simulations to understand this relationship as functions of $h_Y$, $h_\text{IDP}$, $N$, $M_Y$, and $M_\text{IDP}$. </span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$h_Y$ is the heritability of $Y$</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$h_\text{IDP}$</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$N$, is the sample size = nsam</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$M_Y$ is the number of causal variants for Y</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$M_\text{IDP}$ is the number of causal variants for the IDP</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>Here $M_Y = M_\text{IDP}$ = msnp.</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(tidyverse))</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(glue))</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>PRE <span class="ot">=</span> <span class="st">"/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"</span></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>SLUG<span class="ot">=</span><span class="st">"inflation-brainxcan"</span> <span class="do">## copy the slug from the header</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>bDATE<span class="ot">=</span><span class="st">'2023-04-07'</span> <span class="do">## copy the date from the blog's header here</span></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>DATA <span class="ot">=</span> <span class="fu">glue</span>(<span class="st">"{PRE}/{bDATE}-{SLUG}"</span>)</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(DATA)) <span class="fu">system</span>(glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"mkdir {DATA}"</span>))</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>WORK<span class="ot">=</span>DATA</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a><span class="do">##system(glue("open {DATA}")) ## this will open the folder </span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Load and Define Functions</span></span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(devtools<span class="sc">::</span><span class="fu">source_gist</span>(<span class="st">"115403f16bec0a0e871f3616d552ce9b"</span>) ) <span class="do">## load fn_ratxcan, fast regression and other convenience functions to correlate subsets of columns of two matrices</span></span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(devtools<span class="sc">::</span><span class="fu">source_gist</span>(<span class="st">"38431b74c6c0bf90c12f"</span>) ) <span class="do">## load qqunif</span></span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>my_trace <span class="ot">=</span> <span class="cf">function</span>(mat) <span class="cf">if</span>(<span class="fu">nrow</span>(mat)<span class="sc">==</span><span class="fu">ncol</span>(mat)) <span class="fu">sum</span>(<span class="fu">diag</span>(mat)) <span class="cf">else</span> <span class="fu">error</span>(<span class="st">"matrix is not diagonal"</span>)</span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>qqR2 <span class="ot">&lt;-</span> <span class="cf">function</span>(corvec,nn,<span class="at">pad_neg_with_0 =</span> <span class="cn">FALSE</span>,...)</span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a><span class="do">## nn is the sample size, number of individuals used to compute correlation.</span></span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a><span class="do">## needs correlation vector as input.</span></span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a><span class="do">## nullcorvec generates a random sample from correlation distributions, under the null hypothesis of 0 correlation using Fisher's approximation.</span></span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(pad_neg_with_0) corvec[corvec <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">|</span> <span class="fu">is.na</span>(corvec) ]<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>  mm <span class="ot">&lt;-</span> <span class="fu">length</span>(corvec)</span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>  nullcorvec <span class="ot">=</span> <span class="fu">tanh</span>(<span class="fu">rnorm</span>(mm)<span class="sc">/</span><span class="fu">sqrt</span>(nn<span class="dv">-3</span>)) <span class="do">## null correlation vector</span></span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">qqplot</span>(nullcorvec<span class="sc">^</span><span class="dv">2</span>,corvec<span class="sc">^</span><span class="dv">2</span>,...); <span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>); <span class="fu">grid</span>()</span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>qqR <span class="ot">&lt;-</span> <span class="cf">function</span>(corvec,nn,...)</span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a><span class="do">## nn is the sample size, number of individuals used to compute correlation.</span></span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a><span class="do">## needs correlation vector as input.</span></span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a><span class="do">## nullcorvec generates a random sample from correlation distributions, under the null hypothesis of 0 correlation using Fisher's approximation.</span></span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>  mm <span class="ot">&lt;-</span> <span class="fu">length</span>(corvec)</span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>  nullcorvec <span class="ot">=</span> <span class="fu">tanh</span>(<span class="fu">rnorm</span>(mm)<span class="sc">/</span><span class="fu">sqrt</span>(nn<span class="dv">-3</span>)) <span class="do">## null correlation vector</span></span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">qqplot</span>(nullcorvec,corvec,...); <span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>); <span class="fu">grid</span>()</span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a><span class="do">## calculate p-value from correlation</span></span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a>cor2zscore <span class="ot">=</span> <span class="cf">function</span>(cc,nn) </span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a>  zz <span class="ot">=</span> <span class="fu">atanh</span>(cc) <span class="sc">*</span> <span class="fu">sqrt</span>(nn<span class="dv">-3</span>)</span>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a>cor2pval <span class="ot">=</span> <span class="cf">function</span>(cc,nn) </span>
+<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a>  zz<span class="ot">=</span><span class="fu">cor2zscore</span>(cc,nn)</span>
+<span id="cb15-84"><a href="#cb15-84" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(zz))<span class="sc">*</span><span class="dv">2</span></span>
+<span id="cb15-85"><a href="#cb15-85" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a>cor2chi2 <span class="ot">=</span> <span class="cf">function</span>(cc,nn)</span>
+<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor2zscore</span>(cc,nn)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-93"><a href="#cb15-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-94"><a href="#cb15-94" aria-hidden="true" tabindex="-1"></a>simulate_study <span class="ot">=</span> <span class="cf">function</span>(nsam,msnp,nsim,midp,h2IDP,h2Y)</span>
-<span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a>  <span class="do">## simulate Xmat (nsam x msnp)</span></span>
-<span id="cb15-97"><a href="#cb15-97" aria-hidden="true" tabindex="-1"></a>  Xmat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rbinom</span>(nsam<span class="sc">*</span>msnp, <span class="dv">2</span>, <span class="fl">0.4</span>), nsam, msnp)</span>
-<span id="cb15-98"><a href="#cb15-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-99"><a href="#cb15-99" aria-hidden="true" tabindex="-1"></a>  <span class="do">## calculate GRM or LD matrix depending on min(nsam, msnp) and trrtr</span></span>
-<span id="cb15-100"><a href="#cb15-100" aria-hidden="true" tabindex="-1"></a>  R <span class="ot">=</span> <span class="fu">scale</span>(Xmat) <span class="do">## QUESTION: DO I NEED TO SCALE ACROSS SAMPLES AND ACROSS SNPS?</span></span>
-<span id="cb15-101"><a href="#cb15-101" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(nsam <span class="sc">&gt;</span>  msnp) </span>
-<span id="cb15-102"><a href="#cb15-102" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb15-103"><a href="#cb15-103" aria-hidden="true" tabindex="-1"></a>    R <span class="ot">=</span> <span class="fu">t</span>(R)</span>
-<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a>    MM <span class="ot">=</span> nsam</span>
-<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> MM <span class="ot">=</span> msnp</span>
-<span id="cb15-106"><a href="#cb15-106" aria-hidden="true" tabindex="-1"></a>  R <span class="ot">=</span> ( R <span class="sc">%*%</span> <span class="fu">t</span>(R) ) <span class="sc">/</span> MM</span>
-<span id="cb15-107"><a href="#cb15-107" aria-hidden="true" tabindex="-1"></a>  trrtr <span class="ot">=</span> <span class="fu">my_trace</span>( <span class="fu">t</span>(R) <span class="sc">%*%</span> R ) <span class="sc">/</span> <span class="fu">my_trace</span>(R)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb15-109"><a href="#cb15-109" aria-hidden="true" tabindex="-1"></a>  <span class="do">## simulate IDPmat (nsam x mipd) </span></span>
-<span id="cb15-110"><a href="#cb15-110" aria-hidden="true" tabindex="-1"></a>  gammamat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(msnp <span class="sc">*</span> midp),msnp, midp)</span>
-<span id="cb15-111"><a href="#cb15-111" aria-hidden="true" tabindex="-1"></a>  epsimat2 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(nsam <span class="sc">*</span> midp),nsam, midp)</span>
-<span id="cb15-112"><a href="#cb15-112" aria-hidden="true" tabindex="-1"></a>  epsimat2 <span class="ot">=</span> <span class="fu">scale</span>(epsimat2)</span>
-<span id="cb15-113"><a href="#cb15-113" aria-hidden="true" tabindex="-1"></a>  epsimat2 <span class="ot">=</span> <span class="fu">sweep</span>(epsimat2, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> h2IDP), <span class="at">FUN=</span><span class="st">"*"</span> )</span>
-<span id="cb15-114"><a href="#cb15-114" aria-hidden="true" tabindex="-1"></a>  gIDPmat <span class="ot">=</span> Xmat <span class="sc">%*%</span> gammamat</span>
-<span id="cb15-115"><a href="#cb15-115" aria-hidden="true" tabindex="-1"></a>  gIDPmat <span class="ot">=</span> <span class="fu">scale</span>(gIDPmat) </span>
-<span id="cb15-116"><a href="#cb15-116" aria-hidden="true" tabindex="-1"></a>  gIDPmat <span class="ot">=</span> <span class="fu">sweep</span>(gIDPmat, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="fu">sqrt</span>(h2IDP), <span class="at">FUN=</span><span class="st">"*"</span> )</span>
-<span id="cb15-117"><a href="#cb15-117" aria-hidden="true" tabindex="-1"></a>  IDPmat <span class="ot">=</span> gIDPmat <span class="sc">+</span> epsimat2</span>
-<span id="cb15-118"><a href="#cb15-118" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb15-119"><a href="#cb15-119" aria-hidden="true" tabindex="-1"></a>  <span class="do">## simulate Ymat (nsam x nsim) indep of IDPs</span></span>
-<span id="cb15-120"><a href="#cb15-120" aria-hidden="true" tabindex="-1"></a>  betamat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(msnp<span class="sc">*</span>nsim),msnp, nsim)</span>
-<span id="cb15-121"><a href="#cb15-121" aria-hidden="true" tabindex="-1"></a>  epsimat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(nsam<span class="sc">*</span>nsim),nsam, nsim)</span>
-<span id="cb15-122"><a href="#cb15-122" aria-hidden="true" tabindex="-1"></a>  epsimat <span class="ot">=</span> <span class="fu">scale</span>(epsimat) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> h2Y)</span>
-<span id="cb15-123"><a href="#cb15-123" aria-hidden="true" tabindex="-1"></a>  gYmat <span class="ot">=</span> Xmat <span class="sc">%*%</span> betamat</span>
-<span id="cb15-124"><a href="#cb15-124" aria-hidden="true" tabindex="-1"></a>  gYmat <span class="ot">=</span> <span class="fu">scale</span>(gYmat) <span class="sc">*</span> <span class="fu">sqrt</span>(h2Y)</span>
-<span id="cb15-125"><a href="#cb15-125" aria-hidden="true" tabindex="-1"></a>  Ymat <span class="ot">=</span> gYmat <span class="sc">+</span> epsimat</span>
-<span id="cb15-126"><a href="#cb15-126" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb15-127"><a href="#cb15-127" aria-hidden="true" tabindex="-1"></a>  <span class="do">## calc cor</span></span>
-<span id="cb15-128"><a href="#cb15-128" aria-hidden="true" tabindex="-1"></a>    <span class="do">## scale Ymat &amp; IDPmat</span></span>
-<span id="cb15-129"><a href="#cb15-129" aria-hidden="true" tabindex="-1"></a>  Ymat <span class="ot">=</span> <span class="fu">scale</span>(Ymat)</span>
-<span id="cb15-130"><a href="#cb15-130" aria-hidden="true" tabindex="-1"></a>  IDPmat <span class="ot">=</span> <span class="fu">scale</span>(IDPmat)</span>
-<span id="cb15-131"><a href="#cb15-131" aria-hidden="true" tabindex="-1"></a>    <span class="do">## multiply t(Ymat) %*% IDPmat</span></span>
-<span id="cb15-132"><a href="#cb15-132" aria-hidden="true" tabindex="-1"></a>  cormat <span class="ot">=</span> <span class="fu">t</span>(Ymat) <span class="sc">%*%</span> IDPmat</span>
-<span id="cb15-133"><a href="#cb15-133" aria-hidden="true" tabindex="-1"></a>  cormat <span class="ot">=</span> cormat <span class="sc">/</span> nsam</span>
-<span id="cb15-134"><a href="#cb15-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-135"><a href="#cb15-135" aria-hidden="true" tabindex="-1"></a>  <span class="do">## calc varchi2</span></span>
-<span id="cb15-136"><a href="#cb15-136" aria-hidden="true" tabindex="-1"></a>  chi2mat <span class="ot">=</span> <span class="fu">cor2chi2</span>(cormat,<span class="at">nn=</span>nsam)</span>
-<span id="cb15-137"><a href="#cb15-137" aria-hidden="true" tabindex="-1"></a>  varchi2 <span class="ot">=</span> <span class="fu">apply</span>(chi2mat,<span class="dv">2</span>,mean)</span>
-<span id="cb15-138"><a href="#cb15-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-139"><a href="#cb15-139" aria-hidden="true" tabindex="-1"></a>  <span class="do">## build result list</span></span>
-<span id="cb15-140"><a href="#cb15-140" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">=</span> <span class="fu">list</span>()</span>
-<span id="cb15-141"><a href="#cb15-141" aria-hidden="true" tabindex="-1"></a>  res<span class="sc">$</span>varchi2 <span class="ot">=</span> varchi2</span>
-<span id="cb15-142"><a href="#cb15-142" aria-hidden="true" tabindex="-1"></a>  res<span class="sc">$</span>trrtr <span class="ot">=</span> trrtr</span>
-<span id="cb15-143"><a href="#cb15-143" aria-hidden="true" tabindex="-1"></a>  res</span>
-<span id="cb15-144"><a href="#cb15-144" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-145"><a href="#cb15-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-146"><a href="#cb15-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-147"><a href="#cb15-147" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-94"><a href="#cb15-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{r simulate study and calc varchi2}</span></span>
+<span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-97"><a href="#cb15-97" aria-hidden="true" tabindex="-1"></a>simulate_study <span class="ot">=</span> <span class="cf">function</span>(nsam,msnp,nsim,midp,h2IDP,h2Y)</span>
+<span id="cb15-98"><a href="#cb15-98" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb15-99"><a href="#cb15-99" aria-hidden="true" tabindex="-1"></a>  <span class="do">## simulate Xmat (nsam x msnp)</span></span>
+<span id="cb15-100"><a href="#cb15-100" aria-hidden="true" tabindex="-1"></a>  Xmat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rbinom</span>(nsam<span class="sc">*</span>msnp, <span class="dv">2</span>, <span class="fl">0.4</span>), nsam, msnp)</span>
+<span id="cb15-101"><a href="#cb15-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-102"><a href="#cb15-102" aria-hidden="true" tabindex="-1"></a>  <span class="do">## calculate GRM or LD matrix depending on min(nsam, msnp) and trrtr</span></span>
+<span id="cb15-103"><a href="#cb15-103" aria-hidden="true" tabindex="-1"></a>  R <span class="ot">=</span> <span class="fu">scale</span>(Xmat) <span class="do">## QUESTION: DO I NEED TO SCALE ACROSS SAMPLES AND ACROSS SNPS?</span></span>
+<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(nsam <span class="sc">&gt;</span>  msnp) </span>
+<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb15-106"><a href="#cb15-106" aria-hidden="true" tabindex="-1"></a>    R <span class="ot">=</span> <span class="fu">t</span>(R)</span>
+<span id="cb15-107"><a href="#cb15-107" aria-hidden="true" tabindex="-1"></a>    MM <span class="ot">=</span> nsam</span>
+<span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> MM <span class="ot">=</span> msnp</span>
+<span id="cb15-109"><a href="#cb15-109" aria-hidden="true" tabindex="-1"></a>  R <span class="ot">=</span> ( R <span class="sc">%*%</span> <span class="fu">t</span>(R) ) <span class="sc">/</span> MM</span>
+<span id="cb15-110"><a href="#cb15-110" aria-hidden="true" tabindex="-1"></a>  trrtr <span class="ot">=</span> <span class="fu">my_trace</span>( <span class="fu">t</span>(R) <span class="sc">%*%</span> R ) <span class="sc">/</span> <span class="fu">my_trace</span>(R)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb15-111"><a href="#cb15-111" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-112"><a href="#cb15-112" aria-hidden="true" tabindex="-1"></a>  <span class="do">## simulate IDPmat (nsam x mipd) </span></span>
+<span id="cb15-113"><a href="#cb15-113" aria-hidden="true" tabindex="-1"></a>  gammamat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(msnp <span class="sc">*</span> midp),msnp, midp)</span>
+<span id="cb15-114"><a href="#cb15-114" aria-hidden="true" tabindex="-1"></a>  epsimat2 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(nsam <span class="sc">*</span> midp),nsam, midp)</span>
+<span id="cb15-115"><a href="#cb15-115" aria-hidden="true" tabindex="-1"></a>  epsimat2 <span class="ot">=</span> <span class="fu">scale</span>(epsimat2)</span>
+<span id="cb15-116"><a href="#cb15-116" aria-hidden="true" tabindex="-1"></a>  epsimat2 <span class="ot">=</span> <span class="fu">sweep</span>(epsimat2, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> h2IDP), <span class="at">FUN=</span><span class="st">"*"</span> )</span>
+<span id="cb15-117"><a href="#cb15-117" aria-hidden="true" tabindex="-1"></a>  gIDPmat <span class="ot">=</span> Xmat <span class="sc">%*%</span> gammamat</span>
+<span id="cb15-118"><a href="#cb15-118" aria-hidden="true" tabindex="-1"></a>  gIDPmat <span class="ot">=</span> <span class="fu">scale</span>(gIDPmat) </span>
+<span id="cb15-119"><a href="#cb15-119" aria-hidden="true" tabindex="-1"></a>  gIDPmat <span class="ot">=</span> <span class="fu">sweep</span>(gIDPmat, <span class="at">MARGIN=</span><span class="dv">2</span>, <span class="fu">sqrt</span>(h2IDP), <span class="at">FUN=</span><span class="st">"*"</span> )</span>
+<span id="cb15-120"><a href="#cb15-120" aria-hidden="true" tabindex="-1"></a>  IDPmat <span class="ot">=</span> gIDPmat <span class="sc">+</span> epsimat2</span>
+<span id="cb15-121"><a href="#cb15-121" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-122"><a href="#cb15-122" aria-hidden="true" tabindex="-1"></a>  <span class="do">## simulate Ymat (nsam x nsim) indep of IDPs</span></span>
+<span id="cb15-123"><a href="#cb15-123" aria-hidden="true" tabindex="-1"></a>  betamat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(msnp<span class="sc">*</span>nsim),msnp, nsim)</span>
+<span id="cb15-124"><a href="#cb15-124" aria-hidden="true" tabindex="-1"></a>  epsimat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(nsam<span class="sc">*</span>nsim),nsam, nsim)</span>
+<span id="cb15-125"><a href="#cb15-125" aria-hidden="true" tabindex="-1"></a>  epsimat <span class="ot">=</span> <span class="fu">scale</span>(epsimat) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> h2Y)</span>
+<span id="cb15-126"><a href="#cb15-126" aria-hidden="true" tabindex="-1"></a>  gYmat <span class="ot">=</span> Xmat <span class="sc">%*%</span> betamat</span>
+<span id="cb15-127"><a href="#cb15-127" aria-hidden="true" tabindex="-1"></a>  gYmat <span class="ot">=</span> <span class="fu">scale</span>(gYmat) <span class="sc">*</span> <span class="fu">sqrt</span>(h2Y)</span>
+<span id="cb15-128"><a href="#cb15-128" aria-hidden="true" tabindex="-1"></a>  Ymat <span class="ot">=</span> gYmat <span class="sc">+</span> epsimat</span>
+<span id="cb15-129"><a href="#cb15-129" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-130"><a href="#cb15-130" aria-hidden="true" tabindex="-1"></a>  <span class="do">## calc cor</span></span>
+<span id="cb15-131"><a href="#cb15-131" aria-hidden="true" tabindex="-1"></a>    <span class="do">## scale Ymat &amp; IDPmat</span></span>
+<span id="cb15-132"><a href="#cb15-132" aria-hidden="true" tabindex="-1"></a>  Ymat <span class="ot">=</span> <span class="fu">scale</span>(Ymat)</span>
+<span id="cb15-133"><a href="#cb15-133" aria-hidden="true" tabindex="-1"></a>  IDPmat <span class="ot">=</span> <span class="fu">scale</span>(IDPmat)</span>
+<span id="cb15-134"><a href="#cb15-134" aria-hidden="true" tabindex="-1"></a>    <span class="do">## multiply t(Ymat) %*% IDPmat</span></span>
+<span id="cb15-135"><a href="#cb15-135" aria-hidden="true" tabindex="-1"></a>  cormat <span class="ot">=</span> <span class="fu">t</span>(Ymat) <span class="sc">%*%</span> IDPmat</span>
+<span id="cb15-136"><a href="#cb15-136" aria-hidden="true" tabindex="-1"></a>  cormat <span class="ot">=</span> cormat <span class="sc">/</span> nsam</span>
+<span id="cb15-137"><a href="#cb15-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-138"><a href="#cb15-138" aria-hidden="true" tabindex="-1"></a>  <span class="do">## calc varchi2</span></span>
+<span id="cb15-139"><a href="#cb15-139" aria-hidden="true" tabindex="-1"></a>  chi2mat <span class="ot">=</span> <span class="fu">cor2chi2</span>(cormat,<span class="at">nn=</span>nsam)</span>
+<span id="cb15-140"><a href="#cb15-140" aria-hidden="true" tabindex="-1"></a>  varchi2 <span class="ot">=</span> <span class="fu">apply</span>(chi2mat,<span class="dv">2</span>,mean)</span>
+<span id="cb15-141"><a href="#cb15-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-142"><a href="#cb15-142" aria-hidden="true" tabindex="-1"></a>  <span class="do">## build result list</span></span>
+<span id="cb15-143"><a href="#cb15-143" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">=</span> <span class="fu">list</span>()</span>
+<span id="cb15-144"><a href="#cb15-144" aria-hidden="true" tabindex="-1"></a>  res<span class="sc">$</span>varchi2 <span class="ot">=</span> varchi2</span>
+<span id="cb15-145"><a href="#cb15-145" aria-hidden="true" tabindex="-1"></a>  res<span class="sc">$</span>trrtr <span class="ot">=</span> trrtr</span>
+<span id="cb15-146"><a href="#cb15-146" aria-hidden="true" tabindex="-1"></a>  res</span>
+<span id="cb15-147"><a href="#cb15-147" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb15-148"><a href="#cb15-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-149"><a href="#cb15-149" aria-hidden="true" tabindex="-1"></a><span class="fu">## define parameters for simulation multiple comb of nsam and msnp</span></span>
-<span id="cb15-152"><a href="#cb15-152" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb15-153"><a href="#cb15-153" aria-hidden="true" tabindex="-1"></a>nsim <span class="ot">=</span> <span class="dv">150</span></span>
-<span id="cb15-154"><a href="#cb15-154" aria-hidden="true" tabindex="-1"></a>midp <span class="ot">=</span> <span class="dv">100</span></span>
-<span id="cb15-155"><a href="#cb15-155" aria-hidden="true" tabindex="-1"></a>h2IDP <span class="ot">=</span> <span class="fl">0.1</span> <span class="sc">+</span> <span class="fl">0.8</span> <span class="sc">*</span> (<span class="dv">1</span><span class="sc">:</span>midp)<span class="sc">/</span>midp</span>
-<span id="cb15-156"><a href="#cb15-156" aria-hidden="true" tabindex="-1"></a>h2Yvec <span class="ot">=</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)<span class="sc">/</span><span class="dv">10</span></span>
-<span id="cb15-157"><a href="#cb15-157" aria-hidden="true" tabindex="-1"></a>nsamlist <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">1000</span>,<span class="dv">5000</span>,<span class="dv">10000</span>); num_nsam<span class="ot">=</span><span class="fu">length</span>(nsamlist)</span>
-<span id="cb15-158"><a href="#cb15-158" aria-hidden="true" tabindex="-1"></a>msnplist <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">99</span>,<span class="dv">999</span>,<span class="dv">4999</span>); num_msnp<span class="ot">=</span><span class="fu">length</span>(msnplist)</span>
-<span id="cb15-159"><a href="#cb15-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb15-160"><a href="#cb15-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-161"><a href="#cb15-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-162"><a href="#cb15-162" aria-hidden="true" tabindex="-1"></a><span class="fu">## simulate and plot for h2Y=0.8</span></span>
+<span id="cb15-149"><a href="#cb15-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-150"><a href="#cb15-150" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-151"><a href="#cb15-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-152"><a href="#cb15-152" aria-hidden="true" tabindex="-1"></a><span class="fu">## define parameters for simulation multiple comb of nsam and msnp</span></span>
+<span id="cb15-155"><a href="#cb15-155" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-156"><a href="#cb15-156" aria-hidden="true" tabindex="-1"></a>nsim <span class="ot">=</span> <span class="dv">150</span></span>
+<span id="cb15-157"><a href="#cb15-157" aria-hidden="true" tabindex="-1"></a>midp <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb15-158"><a href="#cb15-158" aria-hidden="true" tabindex="-1"></a>h2IDP <span class="ot">=</span> <span class="fl">0.1</span> <span class="sc">+</span> <span class="fl">0.8</span> <span class="sc">*</span> (<span class="dv">1</span><span class="sc">:</span>midp)<span class="sc">/</span>midp</span>
+<span id="cb15-159"><a href="#cb15-159" aria-hidden="true" tabindex="-1"></a>h2Yvec <span class="ot">=</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)<span class="sc">/</span><span class="dv">10</span></span>
+<span id="cb15-160"><a href="#cb15-160" aria-hidden="true" tabindex="-1"></a>nsamlist <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">1000</span>,<span class="dv">5000</span>,<span class="dv">10000</span>); num_nsam<span class="ot">=</span><span class="fu">length</span>(nsamlist)</span>
+<span id="cb15-161"><a href="#cb15-161" aria-hidden="true" tabindex="-1"></a>msnplist <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">99</span>,<span class="dv">999</span>,<span class="dv">4999</span>); num_msnp<span class="ot">=</span><span class="fu">length</span>(msnplist)</span>
+<span id="cb15-162"><a href="#cb15-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb15-163"><a href="#cb15-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-164"><a href="#cb15-164" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sim and plot with h2yvec}</span></span>
-<span id="cb15-165"><a href="#cb15-165" aria-hidden="true" tabindex="-1"></a>rerun<span class="ot">=</span><span class="cn">TRUE</span></span>
-<span id="cb15-166"><a href="#cb15-166" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(h2Y <span class="cf">in</span> h2Yvec)</span>
-<span id="cb15-167"><a href="#cb15-167" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb15-168"><a href="#cb15-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"---------------"</span>)</span>
-<span id="cb15-169"><a href="#cb15-169" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"h2Y is"</span>)</span>
-<span id="cb15-170"><a href="#cb15-170" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(h2Y)</span>
-<span id="cb15-171"><a href="#cb15-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-172"><a href="#cb15-172" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(rerun)</span>
-<span id="cb15-173"><a href="#cb15-173" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb15-174"><a href="#cb15-174" aria-hidden="true" tabindex="-1"></a>  varchi2mat <span class="ot">=</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim=</span><span class="fu">c</span>(num_nsam, num_msnp, midp) )</span>
-<span id="cb15-175"><a href="#cb15-175" aria-hidden="true" tabindex="-1"></a>  trrtrmat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,num_nsam, num_msnp)</span>
-<span id="cb15-176"><a href="#cb15-176" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_nsam)</span>
-<span id="cb15-177"><a href="#cb15-177" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb15-178"><a href="#cb15-178" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(jj <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_msnp)</span>
-<span id="cb15-179"><a href="#cb15-179" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb15-180"><a href="#cb15-180" aria-hidden="true" tabindex="-1"></a>      res<span class="ot">=</span><span class="fu">list</span>()</span>
-<span id="cb15-181"><a href="#cb15-181" aria-hidden="true" tabindex="-1"></a>      <span class="co">#print(ii)</span></span>
-<span id="cb15-182"><a href="#cb15-182" aria-hidden="true" tabindex="-1"></a>      <span class="co">#print(jj)</span></span>
-<span id="cb15-183"><a href="#cb15-183" aria-hidden="true" tabindex="-1"></a>      nsam<span class="ot">=</span>nsamlist[ii]</span>
-<span id="cb15-184"><a href="#cb15-184" aria-hidden="true" tabindex="-1"></a>      msnp<span class="ot">=</span>msnplist[jj]</span>
-<span id="cb15-185"><a href="#cb15-185" aria-hidden="true" tabindex="-1"></a>      <span class="co">#print(nsam)</span></span>
-<span id="cb15-186"><a href="#cb15-186" aria-hidden="true" tabindex="-1"></a>      <span class="co">#print(msnp)</span></span>
-<span id="cb15-187"><a href="#cb15-187" aria-hidden="true" tabindex="-1"></a>      noskip <span class="ot">=</span> <span class="sc">!</span>(msnp<span class="sc">==</span><span class="dv">4999</span> <span class="sc">&amp;</span> nsam <span class="sc">&gt;</span> <span class="dv">4999</span>)</span>
-<span id="cb15-188"><a href="#cb15-188" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(noskip) </span>
-<span id="cb15-189"><a href="#cb15-189" aria-hidden="true" tabindex="-1"></a>      {</span>
-<span id="cb15-190"><a href="#cb15-190" aria-hidden="true" tabindex="-1"></a>        res <span class="ot">=</span> <span class="fu">simulate_study</span>(nsam,msnp,nsim,midp,h2IDP,h2Y)</span>
-<span id="cb15-191"><a href="#cb15-191" aria-hidden="true" tabindex="-1"></a>        varchi2mat[ii,jj,] <span class="ot">=</span> res<span class="sc">$</span>varchi2</span>
-<span id="cb15-192"><a href="#cb15-192" aria-hidden="true" tabindex="-1"></a>        trrtrmat[ii,jj] <span class="ot">=</span> res<span class="sc">$</span>trrtr</span>
-<span id="cb15-193"><a href="#cb15-193" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb15-194"><a href="#cb15-194" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb15-195"><a href="#cb15-195" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb15-196"><a href="#cb15-196" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(trrtrmat) <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">"n"</span>,nsamlist)</span>
-<span id="cb15-197"><a href="#cb15-197" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(trrtrmat) <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">"m"</span>,msnplist)</span>
-<span id="cb15-198"><a href="#cb15-198" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dimnames</span>(varchi2mat) <span class="ot">=</span> <span class="fu">list</span>(<span class="fu">rownames</span>(trrtrmat), <span class="fu">colnames</span>(trrtrmat), <span class="fu">paste0</span>(<span class="st">"h2."</span>,h2IDP))</span>
-<span id="cb15-199"><a href="#cb15-199" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(varchi2mat,<span class="fu">glue</span>(<span class="st">"{DATA}/varchi2mat-h2Y{h2Y}.RDS"</span>))</span>
-<span id="cb15-200"><a href="#cb15-200" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(trrtrmat,<span class="fu">glue</span>(<span class="st">"{DATA}/trrtrmat-h2Y{h2Y}.RDS"</span>))</span>
-<span id="cb15-201"><a href="#cb15-201" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span></span>
-<span id="cb15-202"><a href="#cb15-202" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb15-203"><a href="#cb15-203" aria-hidden="true" tabindex="-1"></a>  varchi2mat <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/varchi2mat-h2Y{h2Y}.RDS"</span>))</span>
-<span id="cb15-204"><a href="#cb15-204" aria-hidden="true" tabindex="-1"></a>  trrtrmat <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/trrtrmat-h2Y{h2Y}.RDS"</span>))</span>
-<span id="cb15-205"><a href="#cb15-205" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-206"><a href="#cb15-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-207"><a href="#cb15-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-208"><a href="#cb15-208" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the margin size</span></span>
-<span id="cb15-209"><a href="#cb15-209" aria-hidden="true" tabindex="-1"></a>mar_size <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb15-164"><a href="#cb15-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-165"><a href="#cb15-165" aria-hidden="true" tabindex="-1"></a><span class="fu">## simulate and plot varZ vs h2IDP by h2Y, msnp, nsam</span></span>
+<span id="cb15-166"><a href="#cb15-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-167"><a href="#cb15-167" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sim and plot with h2yvec}</span></span>
+<span id="cb15-168"><a href="#cb15-168" aria-hidden="true" tabindex="-1"></a>rerun<span class="ot">=</span><span class="cn">TRUE</span></span>
+<span id="cb15-169"><a href="#cb15-169" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(h2Y <span class="cf">in</span> h2Yvec)</span>
+<span id="cb15-170"><a href="#cb15-170" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb15-171"><a href="#cb15-171" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"---------------"</span>)</span>
+<span id="cb15-172"><a href="#cb15-172" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"h2Y is"</span>)</span>
+<span id="cb15-173"><a href="#cb15-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(h2Y)</span>
+<span id="cb15-174"><a href="#cb15-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-175"><a href="#cb15-175" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(rerun)</span>
+<span id="cb15-176"><a href="#cb15-176" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb15-177"><a href="#cb15-177" aria-hidden="true" tabindex="-1"></a>  varchi2mat <span class="ot">=</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="at">dim=</span><span class="fu">c</span>(num_nsam, num_msnp, midp) )</span>
+<span id="cb15-178"><a href="#cb15-178" aria-hidden="true" tabindex="-1"></a>  trrtrmat <span class="ot">=</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,num_nsam, num_msnp)</span>
+<span id="cb15-179"><a href="#cb15-179" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_nsam)</span>
+<span id="cb15-180"><a href="#cb15-180" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb15-181"><a href="#cb15-181" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(jj <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_msnp)</span>
+<span id="cb15-182"><a href="#cb15-182" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb15-183"><a href="#cb15-183" aria-hidden="true" tabindex="-1"></a>      res<span class="ot">=</span><span class="fu">list</span>()</span>
+<span id="cb15-184"><a href="#cb15-184" aria-hidden="true" tabindex="-1"></a>      <span class="co">#print(ii)</span></span>
+<span id="cb15-185"><a href="#cb15-185" aria-hidden="true" tabindex="-1"></a>      <span class="co">#print(jj)</span></span>
+<span id="cb15-186"><a href="#cb15-186" aria-hidden="true" tabindex="-1"></a>      nsam<span class="ot">=</span>nsamlist[ii]</span>
+<span id="cb15-187"><a href="#cb15-187" aria-hidden="true" tabindex="-1"></a>      msnp<span class="ot">=</span>msnplist[jj]</span>
+<span id="cb15-188"><a href="#cb15-188" aria-hidden="true" tabindex="-1"></a>      <span class="co">#print(nsam)</span></span>
+<span id="cb15-189"><a href="#cb15-189" aria-hidden="true" tabindex="-1"></a>      <span class="co">#print(msnp)</span></span>
+<span id="cb15-190"><a href="#cb15-190" aria-hidden="true" tabindex="-1"></a>      noskip <span class="ot">=</span> <span class="sc">!</span>(msnp<span class="sc">==</span><span class="dv">4999</span> <span class="sc">&amp;</span> nsam <span class="sc">&gt;</span> <span class="dv">4999</span>)</span>
+<span id="cb15-191"><a href="#cb15-191" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(noskip) </span>
+<span id="cb15-192"><a href="#cb15-192" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb15-193"><a href="#cb15-193" aria-hidden="true" tabindex="-1"></a>        res <span class="ot">=</span> <span class="fu">simulate_study</span>(nsam,msnp,nsim,midp,h2IDP,h2Y)</span>
+<span id="cb15-194"><a href="#cb15-194" aria-hidden="true" tabindex="-1"></a>        varchi2mat[ii,jj,] <span class="ot">=</span> res<span class="sc">$</span>varchi2</span>
+<span id="cb15-195"><a href="#cb15-195" aria-hidden="true" tabindex="-1"></a>        trrtrmat[ii,jj] <span class="ot">=</span> res<span class="sc">$</span>trrtr</span>
+<span id="cb15-196"><a href="#cb15-196" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb15-197"><a href="#cb15-197" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb15-198"><a href="#cb15-198" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-199"><a href="#cb15-199" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(trrtrmat) <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">"n"</span>,nsamlist)</span>
+<span id="cb15-200"><a href="#cb15-200" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(trrtrmat) <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">"m"</span>,msnplist)</span>
+<span id="cb15-201"><a href="#cb15-201" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dimnames</span>(varchi2mat) <span class="ot">=</span> <span class="fu">list</span>(<span class="fu">rownames</span>(trrtrmat), <span class="fu">colnames</span>(trrtrmat), <span class="fu">paste0</span>(<span class="st">"h2."</span>,h2IDP))</span>
+<span id="cb15-202"><a href="#cb15-202" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(varchi2mat,<span class="fu">glue</span>(<span class="st">"{DATA}/varchi2mat-h2Y{h2Y}.RDS"</span>))</span>
+<span id="cb15-203"><a href="#cb15-203" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(trrtrmat,<span class="fu">glue</span>(<span class="st">"{DATA}/trrtrmat-h2Y{h2Y}.RDS"</span>))</span>
+<span id="cb15-204"><a href="#cb15-204" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span></span>
+<span id="cb15-205"><a href="#cb15-205" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb15-206"><a href="#cb15-206" aria-hidden="true" tabindex="-1"></a>  varchi2mat <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/varchi2mat-h2Y{h2Y}.RDS"</span>))</span>
+<span id="cb15-207"><a href="#cb15-207" aria-hidden="true" tabindex="-1"></a>  trrtrmat <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/trrtrmat-h2Y{h2Y}.RDS"</span>))</span>
+<span id="cb15-208"><a href="#cb15-208" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-209"><a href="#cb15-209" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-210"><a href="#cb15-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-211"><a href="#cb15-211" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust the plot margins</span></span>
-<span id="cb15-212"><a href="#cb15-212" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(num_nsam, num_msnp), <span class="at">mar =</span> <span class="fu">c</span>(mar_size, mar_size, mar_size, mar_size) <span class="sc">+</span> <span class="fl">0.1</span>)</span>
+<span id="cb15-211"><a href="#cb15-211" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the margin size</span></span>
+<span id="cb15-212"><a href="#cb15-212" aria-hidden="true" tabindex="-1"></a>mar_size <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
 <span id="cb15-213"><a href="#cb15-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-214"><a href="#cb15-214" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the plots</span></span>
-<span id="cb15-215"><a href="#cb15-215" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_nsam) {</span>
-<span id="cb15-216"><a href="#cb15-216" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (jj <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_msnp) {</span>
-<span id="cb15-217"><a href="#cb15-217" aria-hidden="true" tabindex="-1"></a>    nsam <span class="ot">&lt;-</span> nsamlist[ii]</span>
-<span id="cb15-218"><a href="#cb15-218" aria-hidden="true" tabindex="-1"></a>    msnp <span class="ot">&lt;-</span> msnplist[jj]</span>
-<span id="cb15-219"><a href="#cb15-219" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(h2IDP, (varchi2mat[ii, jj, ] <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> trrtrmat[ii, jj] <span class="sc">/</span> nsamlist[ii], </span>
-<span id="cb15-220"><a href="#cb15-220" aria-hidden="true" tabindex="-1"></a>         <span class="at">xlab =</span> <span class="st">"h2IDP"</span>, </span>
-<span id="cb15-221"><a href="#cb15-221" aria-hidden="true" tabindex="-1"></a>         <span class="at">ylab =</span> <span class="st">"(varz-1) / N / trrtr"</span>, </span>
-<span id="cb15-222"><a href="#cb15-222" aria-hidden="true" tabindex="-1"></a>         <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), </span>
-<span id="cb15-223"><a href="#cb15-223" aria-hidden="true" tabindex="-1"></a>         <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span>
-<span id="cb15-224"><a href="#cb15-224" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add nsam and msnp information as text</span></span>
-<span id="cb15-225"><a href="#cb15-225" aria-hidden="true" tabindex="-1"></a>    noskip <span class="ot">=</span> <span class="sc">!</span>(msnp<span class="sc">==</span><span class="dv">4999</span> <span class="sc">&amp;</span> nsam <span class="sc">&gt;</span> <span class="dv">4999</span>)</span>
-<span id="cb15-226"><a href="#cb15-226" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(noskip) </span>
-<span id="cb15-227"><a href="#cb15-227" aria-hidden="true" tabindex="-1"></a>      <span class="fu">text</span>(<span class="at">x =</span> <span class="fl">0.5</span>, <span class="at">y =</span> <span class="fl">0.9</span>, <span class="at">labels =</span> <span class="fu">paste</span>(<span class="st">"nsam ="</span>, nsam, <span class="st">", msnp ="</span>, msnp), <span class="at">adj =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)) <span class="cf">else</span> <span class="fu">text</span>(<span class="at">x =</span> <span class="fl">0.5</span>, <span class="at">y =</span> <span class="fl">0.9</span>, <span class="at">labels =</span> <span class="st">"skipped simulation for speed"</span>) </span>
-<span id="cb15-228"><a href="#cb15-228" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb15-229"><a href="#cb15-229" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abline</span>(<span class="dv">0</span>, h2Y, <span class="at">col =</span> <span class="st">'blue'</span>)</span>
-<span id="cb15-230"><a href="#cb15-230" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grid</span>()</span>
-<span id="cb15-231"><a href="#cb15-231" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb15-232"><a href="#cb15-232" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-233"><a href="#cb15-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-234"><a href="#cb15-234" aria-hidden="true" tabindex="-1"></a><span class="co"># Reset plotting parameters to defaults</span></span>
-<span id="cb15-235"><a href="#cb15-235" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb15-214"><a href="#cb15-214" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust the plot margins</span></span>
+<span id="cb15-215"><a href="#cb15-215" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(num_nsam, num_msnp), <span class="at">mar =</span> <span class="fu">c</span>(mar_size, mar_size, mar_size, mar_size) <span class="sc">+</span> <span class="fl">0.1</span>)</span>
+<span id="cb15-216"><a href="#cb15-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-217"><a href="#cb15-217" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the plots</span></span>
+<span id="cb15-218"><a href="#cb15-218" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_nsam) {</span>
+<span id="cb15-219"><a href="#cb15-219" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (jj <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_msnp) {</span>
+<span id="cb15-220"><a href="#cb15-220" aria-hidden="true" tabindex="-1"></a>    nsam <span class="ot">&lt;-</span> nsamlist[ii]</span>
+<span id="cb15-221"><a href="#cb15-221" aria-hidden="true" tabindex="-1"></a>    msnp <span class="ot">&lt;-</span> msnplist[jj]</span>
+<span id="cb15-222"><a href="#cb15-222" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(h2IDP, (varchi2mat[ii, jj, ] <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> trrtrmat[ii, jj] <span class="sc">/</span> nsamlist[ii], </span>
+<span id="cb15-223"><a href="#cb15-223" aria-hidden="true" tabindex="-1"></a>         <span class="at">xlab =</span> <span class="st">"h2IDP"</span>, </span>
+<span id="cb15-224"><a href="#cb15-224" aria-hidden="true" tabindex="-1"></a>         <span class="at">ylab =</span> <span class="st">"(varz-1) / N / trrtr"</span>, </span>
+<span id="cb15-225"><a href="#cb15-225" aria-hidden="true" tabindex="-1"></a>         <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), </span>
+<span id="cb15-226"><a href="#cb15-226" aria-hidden="true" tabindex="-1"></a>         <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb15-227"><a href="#cb15-227" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add nsam and msnp information as text</span></span>
+<span id="cb15-228"><a href="#cb15-228" aria-hidden="true" tabindex="-1"></a>    noskip <span class="ot">=</span> <span class="sc">!</span>(msnp<span class="sc">==</span><span class="dv">4999</span> <span class="sc">&amp;</span> nsam <span class="sc">&gt;</span> <span class="dv">4999</span>)</span>
+<span id="cb15-229"><a href="#cb15-229" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(noskip) </span>
+<span id="cb15-230"><a href="#cb15-230" aria-hidden="true" tabindex="-1"></a>      <span class="fu">text</span>(<span class="at">x =</span> <span class="fl">0.5</span>, <span class="at">y =</span> <span class="fl">0.9</span>, <span class="at">labels =</span> <span class="fu">paste</span>(<span class="st">"nsam ="</span>, nsam, <span class="st">", msnp ="</span>, msnp), <span class="at">adj =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>)) <span class="cf">else</span> <span class="fu">text</span>(<span class="at">x =</span> <span class="fl">0.5</span>, <span class="at">y =</span> <span class="fl">0.9</span>, <span class="at">labels =</span> <span class="st">"skipped simulation for speed"</span>) </span>
+<span id="cb15-231"><a href="#cb15-231" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb15-232"><a href="#cb15-232" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abline</span>(<span class="dv">0</span>, h2Y, <span class="at">col =</span> <span class="st">'blue'</span>)</span>
+<span id="cb15-233"><a href="#cb15-233" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grid</span>()</span>
+<span id="cb15-234"><a href="#cb15-234" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-235"><a href="#cb15-235" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb15-236"><a href="#cb15-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-237"><a href="#cb15-237" aria-hidden="true" tabindex="-1"></a><span class="co"># Add title to the entire plot</span></span>
-<span id="cb15-238"><a href="#cb15-238" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="fu">glue</span>(<span class="st">"(varZ - 1 ) /nsam/tRRt2R vs h2IDP - blue line has slope h2Y {h2Y}"</span>), <span class="at">outer =</span> <span class="cn">TRUE</span>, <span class="at">line =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb15-237"><a href="#cb15-237" aria-hidden="true" tabindex="-1"></a><span class="co"># Reset plotting parameters to defaults</span></span>
+<span id="cb15-238"><a href="#cb15-238" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
 <span id="cb15-239"><a href="#cb15-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-240"><a href="#cb15-240" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-241"><a href="#cb15-241" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-240"><a href="#cb15-240" aria-hidden="true" tabindex="-1"></a><span class="co"># Add title to the entire plot</span></span>
+<span id="cb15-241"><a href="#cb15-241" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="fu">glue</span>(<span class="st">"(varZ - 1 ) /nsam/tRRt2R vs h2IDP - blue line has slope h2Y {h2Y}"</span>), <span class="at">outer =</span> <span class="cn">TRUE</span>, <span class="at">line =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
 <span id="cb15-242"><a href="#cb15-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-243"><a href="#cb15-243" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-244"><a href="#cb15-244" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-245"><a href="#cb15-245" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

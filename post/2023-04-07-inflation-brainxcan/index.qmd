@@ -3,6 +3,7 @@ title: "Inflation Brainxcan"
 author: "Haky Im"
 date: "2023-04-07"
 categories: [analysis]
+date-modified: last-modified
 editor_options: 
   chunk_output_type: console
 format:
@@ -20,9 +21,11 @@ When both $Y$ and a mediator IDP are polygenic, the regression test $Y$ on IDP i
 
 - $h_Y$ is the heritability of $Y$
 - $h_\text{IDP}$
-- $N$, is the sample size
+- $N$, is the sample size = nsam
 - $M_Y$ is the number of causal variants for Y
 - $M_\text{IDP}$ is the number of causal variants for the IDP
+
+Here $M_Y = M_\text{IDP}$ = msnp.
 
 ```{r}
 suppressMessages(library(tidyverse))
@@ -153,7 +156,7 @@ msnplist = c(99,999,4999); num_msnp=length(msnplist)
 ```
 
 
-## simulate and plot for h2Y=0.8
+## simulate and plot varZ vs h2IDP by h2Y, msnp, nsam
 
 ```{r sim and plot with h2yvec}
 rerun=TRUE
