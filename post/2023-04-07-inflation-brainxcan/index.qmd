@@ -88,7 +88,7 @@ cor2chi2 = function(cc,nn)
 
 
 
-```{r simulate study and calc varchi2}
+```{r simulate study and calc varZ}
 
 simulate_study = function(nsam,msnp,nsim,midp,h2IDP,h2Y)
 {
@@ -131,13 +131,13 @@ simulate_study = function(nsam,msnp,nsim,midp,h2IDP,h2Y)
   cormat = t(Ymat) %*% IDPmat
   cormat = cormat / nsam
 
-  ## calc varchi2
+  ## calc varZ
   chi2mat = cor2chi2(cormat,nn=nsam)
-  varchi2 = apply(chi2mat,2,mean)
+  varZ = apply(chi2mat,2,mean)
 
   ## build result list
   res = list()
-  res$varchi2 = varchi2
+  res$varZ = varZ
   res$trrtr = trrtr
   res
 }
@@ -168,7 +168,7 @@ for(h2Y in h2Yvec)
 
 if(rerun)
 {
-  varchi2mat = array(NA, dim=c(num_nsam, num_msnp, midp) )
+  varZmat = array(NA, dim=c(num_nsam, num_msnp, midp) )
   trrtrmat = matrix(NA,num_nsam, num_msnp)
   for(ii in 1:num_nsam)
   {
@@ -185,19 +185,19 @@ if(rerun)
       if(noskip) 
       {
         res = simulate_study(nsam,msnp,nsim,midp,h2IDP,h2Y)
-        varchi2mat[ii,jj,] = res$varchi2
+        varZmat[ii,jj,] = res$varZ
         trrtrmat[ii,jj] = res$trrtr
       }
     }
   }
   rownames(trrtrmat) = paste0("n",nsamlist)
   colnames(trrtrmat) = paste0("m",msnplist)
-  dimnames(varchi2mat) = list(rownames(trrtrmat), colnames(trrtrmat), paste0("h2.",h2IDP))
-  saveRDS(varchi2mat,glue("{DATA}/varchi2mat-h2Y{h2Y}.RDS"))
+  dimnames(varZmat) = list(rownames(trrtrmat), colnames(trrtrmat), paste0("h2.",h2IDP))
+  saveRDS(varZmat,glue("{DATA}/varZmat-h2Y{h2Y}.RDS"))
   saveRDS(trrtrmat,glue("{DATA}/trrtrmat-h2Y{h2Y}.RDS"))
 } else
 {
-  varchi2mat = readRDS(glue("{DATA}/varchi2mat-h2Y{h2Y}.RDS"))
+  varZmat = readRDS(glue("{DATA}/varZmat-h2Y{h2Y}.RDS"))
   trrtrmat = readRDS(glue("{DATA}/trrtrmat-h2Y{h2Y}.RDS"))
 }
 
@@ -213,7 +213,7 @@ for (ii in 1:num_nsam) {
   for (jj in 1:num_msnp) {
     nsam <- nsamlist[ii]
     msnp <- msnplist[jj]
-    plot(h2IDP, (varchi2mat[ii, jj, ] - 1) / trrtrmat[ii, jj] / nsamlist[ii], 
+    plot(h2IDP, (varZmat[ii, jj, ] - 1) / trrtrmat[ii, jj] / nsamlist[ii], 
          xlab = "h2IDP", 
          ylab = "(varz-1) / N / trrtr", 
          xlim = c(0, 1), 
