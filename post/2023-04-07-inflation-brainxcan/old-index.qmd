@@ -13,6 +13,99 @@ format:
     code-overflow: wrap
 ---
 
+## define parameters for simulation multiple comb of nsam and msnp
+```{r eval=FALSE}
+nsam = 10000
+nsim = 150
+midp = 100
+msnp = 1000
+
+h2Y = 0.5
+##h2IDP = 0.1 + runif(midp) * 0.8
+h2IDP = 0.1 + 0.8 * (1:midp)/midp
+
+nsamlist = c(100,1000,5000,10000); num_nsam=length(nsamlist)
+msnplist = c(99,999,4999); num_msnp=length(msnplist)
+```
+
+
+## perform simulation
+this should be ran in parallel
+```{r run simulation, eval=FALSE}
+
+rerun=FALSE
+
+if(rerun)
+{
+  varchi2mat = array(NA, dim=c(num_nsam, num_msnp, midp) )
+  trrtrmat = matrix(NA,num_nsam, num_msnp)
+  for(ii in 1:num_nsam)
+  {
+    for(jj in 1:num_msnp)
+    {
+      res=list()
+      print(ii)
+      print(jj)
+      print(nsamlist[ii])
+      print(msnplist[jj])
+      res = simulate_study(nsam=nsamlist[ii],msnp=msnplist[jj],nsim,midp,h2IDP,h2Y)
+      varchi2mat[ii,jj,] = res$varchi2
+      trrtrmat[ii,jj] = res$trrtr
+    }
+  }
+  rownames(trrtrmat) = paste0("n",nsamlist)
+  colnames(trrtrmat) = paste0("m",msnplist)
+  dimnames(varchi2mat) = list(rownames(trrtrmat), colnames(trrtrmat), paste0("h2.",h2IDP))
+  saveRDS(varchi2mat,glue("{DATA}/varchi2mat-h2Y{h2Y}.RDS"))
+  saveRDS(trrtrmat,glue("{DATA}/trrtrmat-h2Y{h2Y}.RDS"))
+} else
+{
+  varchi2mat = readRDS(glue("{DATA}/varchi2mat-h2Y{h2Y}.RDS"))
+  trrtrmat = readRDS(glue("{DATA}/trrtrmat-h2Y{h2Y}.RDS"))
+}
+
+```
+
+## plotting varZ - 1 divided by nsam and tr(RR')/tr(R)^2
+
+```{r eval=FALSE}
+
+# Set the margin size
+mar_size <- 0.5
+
+# Adjust the plot margins
+par(mfrow = c(num_nsam, num_msnp), mar = c(mar_size, mar_size, mar_size, mar_size) + 0.1)
+
+# Create the plots
+for (ii in 1:num_nsam) {
+  for (jj in 1:num_msnp) {
+    nsam <- nsamlist[ii]
+    msnp <- msnplist[jj]
+    plot(h2IDP, (varchi2mat[ii, jj, ] - 1) / trrtrmat[ii, jj] / nsamlist[ii], 
+         xlab = "h2IDP", 
+         ylab = "(varz-1) / N / trrtr", 
+         xlim = c(0, 1), 
+         ylim = c(0, 1))
+    # Add nsam and msnp information as text
+    text(x = 0.5, y = 0.9, labels = paste("nsam =", nsam, ", msnp =", msnp), adj = c(0.5, 0.5))
+    abline(0, 1)
+    abline(0, h2Y, col = 'blue')
+    grid()
+  }
+}
+
+# Reset plotting parameters to defaults
+par(mfrow = c(1, 1))
+
+# Add title to the entire plot
+title("(varZ - 1 ) /nsam/tRRt2R vs h2IDP - blue line has slope h2Y", outer = TRUE, line = -1)
+
+
+
+```
+
+
+
 
 ```{r}
 suppressMessages(library(tidyverse))

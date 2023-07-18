@@ -87,7 +87,7 @@ cor2chi2 = function(cc,nn)
 
 ```{r simulate study and calc varchi2}
 
-simulate_study = function(nsam,msnp,nsim,midp)
+simulate_study = function(nsam,msnp,nsim,midp,h2IDP,h2Y)
 {
   ## simulate Xmat (nsam x msnp)
   Xmat = matrix(rbinom(nsam*msnp, 2, 0.4), nsam, msnp)
@@ -144,59 +144,94 @@ simulate_study = function(nsam,msnp,nsim,midp)
 
 ## define parameters for simulation multiple comb of nsam and msnp
 ```{r}
-nsam = 10000
 nsim = 150
 midp = 100
-msnp = 1000
-
-h2Y = 0.5
-h2IDP = 0.1 + runif(midp) * 0.8
-
+h2IDP = 0.1 + 0.8 * (1:midp)/midp
+h2Yvec = (1:9)/10
 nsamlist = c(100,1000,5000,10000); num_nsam=length(nsamlist)
 msnplist = c(99,999,4999); num_msnp=length(msnplist)
 ```
 
-## perform simulation
-```{r eval=FALSE}
-varchi2mat = array(NA, dim=c(num_nsam, num_msnp, midp) )
-trrtrmat = matrix(NA,num_nsam, num_msnp)
 
-for(ii in 1:num_nsam)
+## simulate and plot for h2Y=0.8
+
+```{r sim and plot with h2yvec}
+rerun=TRUE
+for(h2Y in h2Yvec)
 {
-  for(jj in 1:num_msnp)
+  print("---------------")
+  print("h2Y is")
+  print(h2Y)
+
+if(rerun)
+{
+  varchi2mat = array(NA, dim=c(num_nsam, num_msnp, midp) )
+  trrtrmat = matrix(NA,num_nsam, num_msnp)
+  for(ii in 1:num_nsam)
   {
-    res=list()
-    print(ii)
-    print(jj)
-    print(nsamlist[ii])
-    print(msnplist[jj])
-    res = simulate_study(nsam=nsamlist[ii],msnplist[jj],nsim,midp)
-    varchi2mat[ii,jj,] = res$varchi2
-    trrtrmat[ii,jj] = res$trrtr
+    for(jj in 1:num_msnp)
+    {
+      res=list()
+      #print(ii)
+      #print(jj)
+      nsam=nsamlist[ii]
+      msnp=msnplist[jj]
+      #print(nsam)
+      #print(msnp)
+      noskip = !(msnp==4999 & nsam > 4999)
+      if(noskip) 
+      {
+        res = simulate_study(nsam,msnp,nsim,midp,h2IDP,h2Y)
+        varchi2mat[ii,jj,] = res$varchi2
+        trrtrmat[ii,jj] = res$trrtr
+      }
+    }
+  }
+  rownames(trrtrmat) = paste0("n",nsamlist)
+  colnames(trrtrmat) = paste0("m",msnplist)
+  dimnames(varchi2mat) = list(rownames(trrtrmat), colnames(trrtrmat), paste0("h2.",h2IDP))
+  saveRDS(varchi2mat,glue("{DATA}/varchi2mat-h2Y{h2Y}.RDS"))
+  saveRDS(trrtrmat,glue("{DATA}/trrtrmat-h2Y{h2Y}.RDS"))
+} else
+{
+  varchi2mat = readRDS(glue("{DATA}/varchi2mat-h2Y{h2Y}.RDS"))
+  trrtrmat = readRDS(glue("{DATA}/trrtrmat-h2Y{h2Y}.RDS"))
+}
+
+
+# Set the margin size
+mar_size <- 0.5
+
+# Adjust the plot margins
+par(mfrow = c(num_nsam, num_msnp), mar = c(mar_size, mar_size, mar_size, mar_size) + 0.1)
+
+# Create the plots
+for (ii in 1:num_nsam) {
+  for (jj in 1:num_msnp) {
+    nsam <- nsamlist[ii]
+    msnp <- msnplist[jj]
+    plot(h2IDP, (varchi2mat[ii, jj, ] - 1) / trrtrmat[ii, jj] / nsamlist[ii], 
+         xlab = "h2IDP", 
+         ylab = "(varz-1) / N / trrtr", 
+         xlim = c(0, 1), 
+         ylim = c(0, 1))
+    # Add nsam and msnp information as text
+    noskip = !(msnp==4999 & nsam > 4999)
+    if(noskip) 
+      text(x = 0.5, y = 0.9, labels = paste("nsam =", nsam, ", msnp =", msnp), adj = c(0.5, 0.5)) else text(x = 0.5, y = 0.9, labels = "skipped simulation for speed") 
+    abline(0, 1)
+    abline(0, h2Y, col = 'blue')
+    grid()
   }
 }
-##saveRDS(varchi2mat,glue("{DATA}/varchi2mat.RDS"))
 
+# Reset plotting parameters to defaults
+par(mfrow = c(1, 1))
+
+# Add title to the entire plot
+title(glue("(varZ - 1 ) /nsam/tRRt2R vs h2IDP - blue line has slope h2Y {h2Y}"), outer = TRUE, line = -1)
+
+}
 ```
-
-- [ ] TODO %%HERE read varchi2mat and analyze the dependence on h2, nsam, and msnp
-
-```{r}
-
-varchi2mat = readRDS(glue("{DATA}/varchi2mat.RDS"))
-
-varchi2 = varchi2mat[1,2,]
-
-rangoy = range(c(0,varchi2-1))
-plot(h2IDP,varchi2-1,ylim=rangoy, xlim=c(0,1)); grid()
-
-print("intercept should be close to 1 and slope proportional to nsam")
-summary(lm(varchi2 ~ h2IDP))
-
-
-```
-
-
-
 
 
