@@ -16,20 +16,23 @@ format:
 
 ::: {.callout-tip}
 ## Summary
-When both $Y$ and a mediator IDP are polygenic, the regression test $Y$ on IDP is inflated with $\text{Var}(Z_\text{bxcan}) = 1 + N h_Y^2 \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$. I'll use simulations to understand this relationship as functions of $h_Y$, $h_\text{IDP}$, $N$, $M_Y$, and $M_\text{IDP}$. 
+When both $Y$ and a mediator IDP are polygenic, the regression test $Y$ on IDP is inflated with $\text{Var}(Z_\text{bxcan}) = 1 + N h_Y^2 \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$. I'll use simulations to understand this relationship as functions of $h_Y$, $h_\text{IDP}$, $N$, $M_Y$, and $M_\text{IDP}$. The IDP has been assumed to be known without error in this derivation, i.e. $h_\text{IDP}=1$. 
 :::
 
 - $h^2_Y$ is the heritability of $Y$
-- $h^2_\text{IDP}$
+- 1 - $h^2_\text{IDP}$ is the uncertainty in prediction of IDP
 - $N$, is the sample size = nsam
 - $M_Y$ is the number of causal variants for Y
 - $M_\text{IDP}$ is the number of causal variants for the IDP
 
+$h^2_\text{IDP}$ is the proportion of variance in the predicted IDP explained by the genetic component of the IDP. In other words, 1 - $h^2_\text{IDP}$ is a measure of the uncertainty in our prediction of IDP.
+
 Here $M_Y = M_\text{IDP}$ = msnp.
 
+
 ::: {.callout-tip}
-## Take Home
-Should $\text{Var}(Z_\text{bxcan}) = 1 + N  \cdot h_Y^2 \cdot h^2_\text{IDP} \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$.
+## Inflation estimate with uncertainty in IDP prediction
+$\text{Var}(Z_\text{bxcan}) = 1 + N  \cdot h_Y^2 \cdot h^2_\text{IDP} \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$
 :::
 
 
@@ -165,7 +168,7 @@ msnplist = c(99,999,4999); num_msnp=length(msnplist)
 ## simulate and plot varZ vs h2IDP by h2Y, msnp, nsam
 
 ```{r sim and plot with h2yvec}
-rerun=TRUE
+rerun=FALSE
 for(h2Y in h2Yvec)
 {
   print("---------------")
