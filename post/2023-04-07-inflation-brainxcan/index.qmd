@@ -41,7 +41,11 @@ In practice, we will estimate the factor
 $$h^2_\text{IDP} \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$$ 
 by simulating traits Y with different heritability and different sample sizes, calculating the Z-scores of the association with IDPs, and regressing the mean Z-score squared across multiple simulations of Y on $h^2_Y$.
 
-## -[ ] TODO: show that this inflation does not affect sparse traits like the cis components of gene expression
+## - [ ] TODO: show that this inflation does not affect sparse traits like the cis components of gene expression
+
+## - [ ] TODO: test whether more sparse architectures can be accounted for in the variance formula by calculating
+$$\frac{\text{tr}(R'R)}{\text{tr}^2(R)}$$ 
+using only SNPs that are causal for both? Or some function of $M_\text{IDP}$, $M_Y$, and $M$ of the intersection. 
 
 ```{r}
 suppressMessages(library(tidyverse))

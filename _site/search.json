@@ -1774,7 +1774,14 @@
     "objectID": "post/2023-04-07-inflation-brainxcan/index.html#todo-show-that-this-inflation-does-not-affect-sparse-traits-like-the-cis-components-of-gene-expression",
     "href": "post/2023-04-07-inflation-brainxcan/index.html#todo-show-that-this-inflation-does-not-affect-sparse-traits-like-the-cis-components-of-gene-expression",
     "title": "Polygenicity Driven Inflation in Brainxcan",
-    "section": "-[ ] TODO: show that this inflation does not affect sparse traits like the cis components of gene expression",
-    "text": "-[ ] TODO: show that this inflation does not affect sparse traits like the cis components of gene expression\n\nsuppressMessages(library(tidyverse))\nsuppressMessages(library(glue))\n\nPRE = \"/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data\"\nSLUG=\"inflation-brainxcan\" ## copy the slug from the header\nbDATE='2023-04-07' ## copy the date from the blog's header here\nDATA = glue(\"{PRE}/{bDATE}-{SLUG}\")\nif(!file.exists(DATA)) system(glue::glue(\"mkdir {DATA}\"))\nWORK=DATA\n##system(glue(\"open {DATA}\")) ## this will open the folder"
+    "section": "- [ ] TODO: show that this inflation does not affect sparse traits like the cis components of gene expression",
+    "text": "- [ ] TODO: show that this inflation does not affect sparse traits like the cis components of gene expression"
+  },
+  {
+    "objectID": "post/2023-04-07-inflation-brainxcan/index.html#todo-test-whether-more-sparse-architectures-can-be-accounted-for-in-the-variance-formula-by-calculating",
+    "href": "post/2023-04-07-inflation-brainxcan/index.html#todo-test-whether-more-sparse-architectures-can-be-accounted-for-in-the-variance-formula-by-calculating",
+    "title": "Polygenicity Driven Inflation in Brainxcan",
+    "section": "- [ ] TODO: test whether more sparse architectures can be accounted for in the variance formula by calculating",
+    "text": "- [ ] TODO: test whether more sparse architectures can be accounted for in the variance formula by calculating\n\\[\\frac{\\text{tr}(R'R)}{\\text{tr}^2(R)}\\] using only SNPs that are causal for both? Or some function of \\(M_\\text{IDP}\\), \\(M_Y\\), and \\(M\\) of the intersection.\n\nsuppressMessages(library(tidyverse))\nsuppressMessages(library(glue))\n\nPRE = \"/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data\"\nSLUG=\"inflation-brainxcan\" ## copy the slug from the header\nbDATE='2023-04-07' ## copy the date from the blog's header here\nDATA = glue(\"{PRE}/{bDATE}-{SLUG}\")\nif(!file.exists(DATA)) system(glue::glue(\"mkdir {DATA}\"))\nWORK=DATA\n##system(glue(\"open {DATA}\")) ## this will open the folder"
   }
 ]
