@@ -1,5 +1,5 @@
 ---
-title: "Inflation Brainxcan"
+title: "Polygenicity Driven Inflation in Brainxcan"
 author: "Haky Im"
 date: "2023-04-07"
 categories: [analysis]
@@ -16,25 +16,32 @@ format:
 
 ::: {.callout-tip}
 ## Summary
-When both $Y$ and a mediator IDP are polygenic, the regression test $Y$ on IDP is inflated with $\text{Var}(Z_\text{bxcan}) = 1 + N h_Y^2 \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$. I'll use simulations to understand this relationship as functions of $h_Y$, $h_\text{IDP}$, $N$, $M_Y$, and $M_\text{IDP}$. The IDP has been assumed to be known without error in this derivation, i.e. $h_\text{IDP}=1$. 
+When both $Y$ and a mediator IDP are polygenic, the regression test $Y$ on IDP is inflated with $\text{Var}(Z_\text{bxcan}) = 1 + h_Y^2 \cdot N \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$. I'll use simulations to understand this relationship as functions of $h_Y$, $h_\text{IDP}$, $N$, $M_Y$, and $M_\text{IDP}$. The IDP has been assumed to be known without error in this derivation, i.e. $h_\text{IDP}=1$. 
 :::
 
 - $h^2_Y$ is the heritability of $Y$
-- 1 - $h^2_\text{IDP}$ is the uncertainty in prediction of IDP
+- $h^2_\text{IDP}$ is a measure of how close the predicted IDP is to the genetic component of the IDP
 - $N$, is the sample size = nsam
 - $M_Y$ is the number of causal variants for Y
 - $M_\text{IDP}$ is the number of causal variants for the IDP
 
-$h^2_\text{IDP}$ is the proportion of variance in the predicted IDP explained by the genetic component of the IDP. In other words, 1 - $h^2_\text{IDP}$ is a measure of the uncertainty in our prediction of IDP.
 
 Here $M_Y = M_\text{IDP}$ = msnp.
 
 
 ::: {.callout-tip}
 ## Inflation estimate with uncertainty in IDP prediction
-$\text{Var}(Z_\text{bxcan}) = 1 + N  \cdot h_Y^2 \cdot h^2_\text{IDP} \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$
+$\text{Var}(Z_\text{bxcan}) = 1 + h_Y^2 \cdot N  \cdot  h^2_\text{IDP} \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$
 :::
 
+## how to correct the inflation
+
+We will correct the inflation by dividing the association Z-score with the $\sqrt{\text{Var}(Z_\text{bxcan})}$. 
+In practice, we will estimate the factor 
+$$h^2_\text{IDP} \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$$ 
+by simulating traits Y with different heritability and different sample sizes, calculating the Z-scores of the association with IDPs, and regressing the mean Z-score squared across multiple simulations of Y on $h^2_Y$.
+
+## -[ ] TODO: show that this inflation does not affect sparse traits like the cis components of gene expression
 
 ```{r}
 suppressMessages(library(tidyverse))
@@ -49,7 +56,7 @@ WORK=DATA
 ##system(glue("open {DATA}")) ## this will open the folder 
 ```
 
-## Load and Define Functions
+## load and define Functions
 ```{r}
 suppressMessages(devtools::source_gist("115403f16bec0a0e871f3616d552ce9b") ) ## load fn_ratxcan, fast regression and other convenience functions to correlate subsets of columns of two matrices
 suppressMessages(devtools::source_gist("38431b74c6c0bf90c12f") ) ## load qqunif
