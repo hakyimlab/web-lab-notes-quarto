@@ -225,8 +225,8 @@ Summary
 </div>
 </div>
 <ul>
-<li><span class="math inline">\(h_Y\)</span> is the heritability of <span class="math inline">\(Y\)</span></li>
-<li><span class="math inline">\(h_\text{IDP}\)</span></li>
+<li><span class="math inline">\(h^2_Y\)</span> is the heritability of <span class="math inline">\(Y\)</span></li>
+<li><span class="math inline">\(h^2_\text{IDP}\)</span></li>
 <li><span class="math inline">\(N\)</span>, is the sample size = nsam</li>
 <li><span class="math inline">\(M_Y\)</span> is the number of causal variants for Y</li>
 <li><span class="math inline">\(M_\text{IDP}\)</span> is the number of causal variants for the IDP</li>
@@ -732,8 +732,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>When both $Y$ and a mediator IDP are polygenic, the regression test $Y$ on IDP is inflated with $\text{Var}(Z_\text{bxcan}) = 1 + N h_Y^2 \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$. I'll use simulations to understand this relationship as functions of $h_Y$, $h_\text{IDP}$, $N$, $M_Y$, and $M_\text{IDP}$. </span>
 <span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$h_Y$ is the heritability of $Y$</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$h_\text{IDP}$</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$h^2_Y$ is the heritability of $Y$</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$h^2_\text{IDP}$</span>
 <span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$N$, is the sample size = nsam</span>
 <span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$M_Y$ is the number of causal variants for Y</span>
 <span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$M_\text{IDP}$ is the number of causal variants for the IDP</span>
