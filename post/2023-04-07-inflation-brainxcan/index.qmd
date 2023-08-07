@@ -14,38 +14,34 @@ format:
     code-overflow: wrap
 ---
 
-::: {.callout-tip}
+::: callout-tip
 ## Summary
-When both $Y$ and a mediator IDP are polygenic, the regression test $Y$ on IDP is inflated with $\text{Var}(Z_\text{bxcan}) = 1 + h_Y^2 \cdot N \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$. I'll use simulations to understand this relationship as functions of $h_Y$, $h_\text{IDP}$, $N$, $M_Y$, and $M_\text{IDP}$. The IDP has been assumed to be known without error in this derivation, i.e. $h_\text{IDP}=1$. 
+
+When both $Y$ and a mediator IDP are polygenic, the regression test $Y$ on IDP is inflated with $\text{Var}(Z_\text{bxcan}) = 1 + h_Y^2 \cdot N \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$. I'll use simulations to understand this relationship as functions of $h_Y$, $h_\text{IDP}$, $N$, $M_Y$, and $M_\text{IDP}$. The IDP has been assumed to be known without error in this derivation, i.e. $h_\text{IDP}=1$.
 :::
 
-- $h^2_Y$ is the heritability of $Y$
-- $h^2_\text{IDP}$ is a measure of how close the predicted IDP is to the genetic component of the IDP
-- $N$, is the sample size = nsam
-- $M_Y$ is the number of causal variants for Y
-- $M_\text{IDP}$ is the number of causal variants for the IDP
-
+-   $h^2_Y$ is the heritability of $Y$
+-   $h^2_\text{IDP}$ is a measure of how close the predicted IDP is to the genetic component of the IDP
+-   $N$, is the sample size = nsam
+-   $M_Y$ is the number of causal variants for Y
+-   $M_\text{IDP}$ is the number of causal variants for the IDP
 
 Here $M_Y = M_\text{IDP}$ = msnp.
 
-
-::: {.callout-tip}
+::: callout-tip
 ## Inflation estimate with uncertainty in IDP prediction
-$\text{Var}(Z_\text{bxcan}) = 1 + h_Y^2 \cdot N  \cdot  h^2_\text{IDP} \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$
+
+$\text{Var}(Z_\text{bxcan}) = 1 + h_Y^2 \cdot N \cdot h^2_\text{IDP} \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$
 :::
 
 ## how to correct the inflation
 
-We will correct the inflation by dividing the association Z-score with the $\sqrt{\text{Var}(Z_\text{bxcan})}$. 
-In practice, we will estimate the factor 
-$$h^2_\text{IDP} \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$$ 
-by simulating traits Y with different heritability and different sample sizes, calculating the Z-scores of the association with IDPs, and regressing the mean Z-score squared across multiple simulations of Y on $h^2_Y$.
+We will correct the inflation by dividing the association Z-score with the $\sqrt{\text{Var}(Z_\text{bxcan})}$. In practice, we will estimate the factor $$h^2_\text{IDP} \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$$ by simulating traits Y with different heritability and different sample sizes, calculating the Z-scores of the association with IDPs, and regressing the mean Z-score squared across multiple simulations of Y on $h^2_Y$.
 
-## - [ ] TODO: show that this inflation does not affect sparse traits like the cis components of gene expression
 
 ## - [ ] TODO: test whether more sparse architectures can be accounted for in the variance formula by calculating
-$$\frac{\text{tr}(R'R)}{\text{tr}^2(R)}$$ 
-using only SNPs that are causal for both? Or some function of $M_\text{IDP}$, $M_Y$, and $M$ of the intersection. 
+
+$$\frac{\text{tr}(R'R)}{\text{tr}^2(R)}$$ using only SNPs that are causal for both? Or some function of $M_\text{IDP}$, $M_Y$, and $M$ of the intersection.
 
 ```{r}
 suppressMessages(library(tidyverse))
@@ -61,6 +57,7 @@ WORK=DATA
 ```
 
 ## load and define Functions
+
 ```{r}
 suppressMessages(devtools::source_gist("115403f16bec0a0e871f3616d552ce9b") ) ## load fn_ratxcan, fast regression and other convenience functions to correlate subsets of columns of two matrices
 suppressMessages(devtools::source_gist("38431b74c6c0bf90c12f") ) ## load qqunif
@@ -106,11 +103,9 @@ cor2chi2 = function(cc,nn)
 }
 ```
 
-
-
 ```{r simulate study and calc varZ}
 
-simulate_study = function(nsam,msnp,nsim,midp,h2IDP,h2Y)
+simulate_study = function(nsam,msnp,nsim,midp,h2IDP,h2Y,prop_causal)
 {
   ## simulate Xmat (nsam x msnp)
   Xmat = matrix(rbinom(nsam*msnp, 2, 0.4), nsam, msnp)
@@ -127,6 +122,8 @@ simulate_study = function(nsam,msnp,nsim,midp,h2IDP,h2Y)
   
   ## simulate IDPmat (nsam x mipd) 
   gammamat = matrix(rnorm(msnp * midp),msnp, midp)
+  is_causal = rbinom(msnp,1,prop_causal)
+  gammamat = sweep(gammamat,MARGIN=1,is_causal,FUN="*")
   epsimat2 = matrix(rnorm(nsam * midp),nsam, midp)
   epsimat2 = scale(epsimat2)
   epsimat2 = sweep(epsimat2, MARGIN=2, sqrt(1 - h2IDP), FUN="*" )
@@ -166,6 +163,7 @@ simulate_study = function(nsam,msnp,nsim,midp,h2IDP,h2Y)
 ```
 
 ## define parameters for simulation multiple comb of nsam and msnp
+
 ```{r}
 nsim = 150
 midp = 100
@@ -173,13 +171,13 @@ h2IDP = 0.1 + 0.8 * (1:midp)/midp
 h2Yvec = (1:9)/10
 nsamlist = c(100,1000,5000,10000); num_nsam=length(nsamlist)
 msnplist = c(99,999,4999); num_msnp=length(msnplist)
+prop_causal=0.10
 ```
-
 
 ## simulate and plot varZ vs h2IDP by h2Y, msnp, nsam
 
 ```{r sim and plot with h2yvec}
-rerun=FALSE
+rerun=TRUE
 for(h2Y in h2Yvec)
 {
   print("---------------")
@@ -204,7 +202,7 @@ if(rerun)
       noskip = !(msnp==4999 & nsam > 4999)
       if(noskip) 
       {
-        res = simulate_study(nsam,msnp,nsim,midp,h2IDP,h2Y)
+        res = simulate_study(nsam,msnp,nsim,midp,h2IDP,h2Y,prop_causal)
         varZmat[ii,jj,] = res$varZ
         trrtrmat[ii,jj] = res$trrtr
       }
@@ -213,12 +211,12 @@ if(rerun)
   rownames(trrtrmat) = paste0("n",nsamlist)
   colnames(trrtrmat) = paste0("m",msnplist)
   dimnames(varZmat) = list(rownames(trrtrmat), colnames(trrtrmat), paste0("h2.",h2IDP))
-  saveRDS(varZmat,glue("{DATA}/varZmat-h2Y{h2Y}.RDS"))
-  saveRDS(trrtrmat,glue("{DATA}/trrtrmat-h2Y{h2Y}.RDS"))
+  saveRDS(varZmat,glue("{DATA}/varZmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
+  saveRDS(trrtrmat,glue("{DATA}/trrtrmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
 } else
 {
-  varZmat = readRDS(glue("{DATA}/varZmat-h2Y{h2Y}.RDS"))
-  trrtrmat = readRDS(glue("{DATA}/trrtrmat-h2Y{h2Y}.RDS"))
+  varZmat = readRDS(glue("{DATA}/varZmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
+  trrtrmat = readRDS(glue("{DATA}/trrtrmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
 }
 
 
@@ -257,4 +255,11 @@ title(glue("(varZ - 1 ) /nsam/tRRt2R vs h2IDP - blue line has slope h2Y {h2Y}"),
 }
 ```
 
+## - [ ] TODO: show that this inflation does not affect sparse traits like the cis components of gene expression
+
+```{r inflation with cis predicted gene expression}
+
+
+
+```
 

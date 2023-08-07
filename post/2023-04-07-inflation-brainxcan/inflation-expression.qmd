@@ -1,0 +1,225 @@
+---
+title: "Generate var(Z) for gene expression associations"
+author: "Festus"
+date: "2023-07-25"
+---
+
+## Set up
+
+```{r}
+library(data.table)
+library(tidyverse)
+in.dir <- "/Volumes/im-lab/nas40t2/festus/metabolomics/metsim"
+data.dir <- "/Volumes/im-lab/nas40t2/Data/1000G/vcf_hg38/"
+set.seed(2023)
+```
+
+In this analysis I predict the expression in the 1000G HapMap3 only SNPs which results into about 47% of the SNPs used
+
+```{bash}
+#| eval: false
+db=/gpfs/data/im-lab/nas40t2/Data/PredictDB/GTEx_v8/models_v1/eqtl/elastic_net_models/en_Whole_Blood.db
+python /home/fnyasimi1/MetaXcan/software/Predict.py \
+  --model_db_path ${db} \
+  --model_db_snp_key rsid \
+  --vcf_genotypes /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/data/${size}/geuvadis_eur.vcf.gz \
+  --vcf_mode genotyped \
+  --prediction_output /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/predictions/${name}-${size}-hapmap.txt \
+  --prediction_summary_output /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/predictions/${name}-${size}-hapmap_summary.txt \
+  --skip_palindromic \
+  --verbosity 9 \
+  --throw
+
+Rscript /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/gen_null.R \
+   --predicted_traits /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/predictions/${name}-${size}-hapmap.txt \
+   --plink_genotype /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/data/${size}/geuvadis_eur \
+   --output_file /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/results/nullchi2/${name}-${size}.txt
+
+```
+
+## Load the null chi2
+
+```{r}
+samp_400 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-400.txt"))
+samp_800 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-800.txt"))
+samp_1200 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-1200.txt"))
+samp_1600 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-1600.txt"))
+samp_2000 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-2000.txt"))
+samp_2500 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-2500.txt"))
+
+
+df_long <- reshape::melt(samp_400) %>% 
+  mutate(samp = "Sample size: 400") %>% 
+  bind_rows(reshape::melt(samp_800) %>% 
+              mutate(samp = "Sample size: 800")) %>%
+  bind_rows(reshape::melt(samp_1200) %>% 
+              mutate(samp = "Sample size: 1200")) %>%
+  bind_rows(reshape::melt(samp_1600) %>% 
+              mutate(samp = "Sample size: 1600")) %>%
+  bind_rows(reshape::melt(samp_2000) %>% 
+              mutate(samp = "Sample size: 2000")) %>%
+  bind_rows(reshape::melt(samp_2500) %>% 
+              mutate(samp = "Sample size: 2500")) 
+```
+
+```{r}
+samps <- c("Sample size: 400","Sample size: 800","Sample size: 1200","Sample size: 1600","Sample size: 2000", "Sample size: 2500")
+
+for (sel_samp in samps) {
+  pt <- df_long %>% 
+    filter(samp %in% sel_samp) %>% 
+    ggplot(., aes(x = variable, y = value)) +
+      geom_boxplot() +
+      geom_hline(yintercept = 1, color = "grey") +
+      theme_bw() +
+      facet_wrap(~samp, ncol = 1) +
+      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+            plot.title = element_text(hjust = 0.5, face = "bold")) +
+      labs(x = expression(italic(h[2])), 
+           y = expression(paste(italic(chi[2]))),
+           title = expression(paste("Distribution of ",italic(chi[2])," for each ", italic(h[2]))))
+  
+  print(pt)
+  
+}
+```
+
+```{r}
+herits <- c("h2_0.25","h2_0.5","h2_0.75","h2_0.99","h2_0.01","h2_0.9")
+
+df_long %>% 
+  filter(variable %in% herits) %>% 
+  mutate(samp = as.numeric(str_remove(samp, "Sample size: "))) %>% 
+  mutate(samp = factor(samp, levels = c(400,800,1200,1600,2000,2500))) %>% 
+  ggplot(., aes(x = samp, y = value)) +
+    geom_boxplot() +
+    geom_hline(yintercept = 1, color = "grey") +
+    theme_bw() +
+    facet_wrap(~variable, ncol = 3) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+          plot.title = element_text(hjust = 0.5, face = "bold")) +
+    labs(x = "Sample size", 
+         y = expression(paste(italic(chi[2]))),
+         title = expression(paste("Distribution of ",italic(chi[2])," for each ", italic(h[2]))))
+```
+
+## Use whole genome for prediction
+
+In the previous analysis I used about 47% of the SNPs for prediction. In my intution I thought this brings about alot of noise hence the reason we are getting higher avg chi^2^ under the null.
+
+In this approach I will use all of the SNPs for prediction of gene expression but use HapMap3 SNPs for simulating the null. This approach will reduce the amount of noise in the predicted gene expression and hopefully give us more realistic results as we expect.
+
+```{bash}
+#| eval: false
+db=/gpfs/data/im-lab/nas40t2/Data/PredictDB/GTEx_v8/models_v1/eqtl/elastic_net_models/en_Whole_Blood.db
+python /home/fnyasimi1/MetaXcan/software/Predict.py \
+  --model_db_path ${db} \
+  --model_db_snp_key varID \
+  --on_the_fly_mapping METADATA "{}_{}_{}_{}_b38" \
+  --vcf_genotypes /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis_eur/tmp_vcf/ALL.chr*.shapeit2_integrated_v1a.GRCh38.20181129.phased.vcf.gz \
+  --text_sample_ids /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/data/${size}/samples.txt \
+  --vcf_mode genotyped \
+  --prediction_output /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/predictions/${name}-${size}-full.txt \
+  --prediction_summary_output /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/predictions/${name}-${size}-full_summary.txt \
+  --skip_palindromic \
+  --verbosity 9 \
+  --throw
+
+Rscript /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/gen_null.R \
+   --predicted_traits /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/predictions/${name}-${size}-full.txt \
+   --plink_genotype /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/data/${size}/geuvadis_eur \
+   --output_file /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/results/nullchi2/${name}-${size}-full.txt
+```
+
+**INFO - 86 % of models' snps used** which is better compared to what we had before.
+
+Since I don't predict for all samples remove the NAs from the predicted expression
+
+```{r}
+#| eval: false
+
+for (samp in c(400,800,1200,1600,2000,2500)) {
+  infile = glue::glue("{in.dir}/geuvadis/predictions/en_Whole_Blood-{samp}-full.txt")
+  df <- fread(infile)
+  df <- df %>% filter(!is.na(IID))
+  fwrite(df, infile, sep = "\t")
+}
+```
+
+Load the data
+
+```{r}
+samp_400 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-400-full.txt"))
+samp_800 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-800-full.txt"))
+samp_1200 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-1200-full.txt"))
+samp_1600 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-1600-full.txt"))
+samp_2000 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-2000-full.txt"))
+samp_2500 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-2500-full.txt"))
+
+
+df_long_full <- reshape::melt(samp_400) %>% 
+  mutate(samp = "Sample size: 400") %>% 
+  bind_rows(reshape::melt(samp_800) %>% 
+              mutate(samp = "Sample size: 800")) %>%
+  bind_rows(reshape::melt(samp_1200) %>% 
+              mutate(samp = "Sample size: 1200")) %>%
+  bind_rows(reshape::melt(samp_1600) %>% 
+              mutate(samp = "Sample size: 1600")) %>%
+  bind_rows(reshape::melt(samp_2000) %>% 
+              mutate(samp = "Sample size: 2000")) %>%
+  bind_rows(reshape::melt(samp_2500) %>% 
+              mutate(samp = "Sample size: 2500")) 
+```
+
+Let's see the results we get with this one
+
+```{r}
+for (sel_samp in samps) {
+  pt <- df_long_full %>% 
+    filter(samp %in% sel_samp) %>% 
+    ggplot(., aes(x = variable, y = value)) +
+      geom_boxplot() +
+      geom_hline(yintercept = 1, color = "grey") +
+      theme_bw() +
+      facet_wrap(~samp, ncol = 1) +
+      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+            plot.title = element_text(hjust = 0.5, face = "bold")) +
+      labs(x = expression(italic(h[2])), 
+           y = expression(paste(italic(chi[2]))),
+           title = expression(paste("Distribution of ",italic(chi[2])," for each ", italic(h[2]))))
+  
+  print(pt)
+  
+}
+```
+
+The average chi2 are very close to one compared to the previous approach where by we were getting very extreme results.
+
+I will have to figure out why at n =2500 we are getting the huge avg chi2 but the rest look good so far
+
+```{r}
+df_long_full %>% 
+  filter(variable %in% herits) %>% 
+  mutate(samp = as.numeric(str_remove(samp, "Sample size: "))) %>% 
+  mutate(samp = factor(samp, levels = c(400,800,1200,1600,2000,2500))) %>% 
+  ggplot(., aes(x = samp, y = value)) +
+    geom_boxplot() +
+    geom_hline(yintercept = 1, color = "grey") +
+    theme_bw() +
+    facet_wrap(~variable, ncol = 3) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+          plot.title = element_text(hjust = 0.5, face = "bold")) +
+    labs(x = "Sample size", 
+         y = expression(paste(italic(chi[2]))),
+         title = expression(paste("Distribution of ",italic(chi[2])," for each ", italic(h[2]))))
+```
+
+From the results we dont see inflation across different sample sizes under the null. Except for n=2500 not sure what is causing this.
+
+::: callout-note
+## results
+
+Now we are getting the results we expected in the prediction. This works when we use an appropriate number of SNPs from the model compared with what we had before.
+
+The more SNPs used in the prediction, the more noise you reduce hence reduced inflation in the final results
+:::
