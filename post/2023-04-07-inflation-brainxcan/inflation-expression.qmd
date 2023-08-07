@@ -6,7 +6,7 @@ date: "2023-07-25"
 
 ## Set up
 
-```{r}
+```{r eval=FALSE}
 library(data.table)
 library(tidyverse)
 in.dir <- "/Volumes/im-lab/nas40t2/festus/metabolomics/metsim"
@@ -16,7 +16,7 @@ set.seed(2023)
 
 In this analysis I predict the expression in the 1000G HapMap3 only SNPs which results into about 47% of the SNPs used
 
-```{bash}
+```{bash eval=FALSE}
 #| eval: false
 db=/gpfs/data/im-lab/nas40t2/Data/PredictDB/GTEx_v8/models_v1/eqtl/elastic_net_models/en_Whole_Blood.db
 python /home/fnyasimi1/MetaXcan/software/Predict.py \
@@ -39,7 +39,7 @@ Rscript /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/gen_null.R
 
 ## Load the null chi2
 
-```{r}
+```{r eval=FALSE}
 samp_400 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-400.txt"))
 samp_800 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-800.txt"))
 samp_1200 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-1200.txt"))
@@ -62,7 +62,7 @@ df_long <- reshape::melt(samp_400) %>%
               mutate(samp = "Sample size: 2500")) 
 ```
 
-```{r}
+```{r eval=FALSE}
 samps <- c("Sample size: 400","Sample size: 800","Sample size: 1200","Sample size: 1600","Sample size: 2000", "Sample size: 2500")
 
 for (sel_samp in samps) {
@@ -84,7 +84,7 @@ for (sel_samp in samps) {
 }
 ```
 
-```{r}
+```{r eval=FALSE}
 herits <- c("h2_0.25","h2_0.5","h2_0.75","h2_0.99","h2_0.01","h2_0.9")
 
 df_long %>% 
@@ -135,7 +135,7 @@ Rscript /gpfs/data/im-lab/nas40t2/festus/metabolomics/metsim/geuvadis/gen_null.R
 
 Since I don't predict for all samples remove the NAs from the predicted expression
 
-```{r}
+```{r eval=FALSE}
 #| eval: false
 
 for (samp in c(400,800,1200,1600,2000,2500)) {
@@ -148,7 +148,7 @@ for (samp in c(400,800,1200,1600,2000,2500)) {
 
 Load the data
 
-```{r}
+```{r eval=FALSE}
 samp_400 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-400-full.txt"))
 samp_800 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-800-full.txt"))
 samp_1200 <- fread(glue::glue("{in.dir}/geuvadis/results/nullchi2/en_Whole_Blood-1200-full.txt"))
@@ -173,7 +173,7 @@ df_long_full <- reshape::melt(samp_400) %>%
 
 Let's see the results we get with this one
 
-```{r}
+```{r eval=FALSE}
 for (sel_samp in samps) {
   pt <- df_long_full %>% 
     filter(samp %in% sel_samp) %>% 
@@ -197,7 +197,7 @@ The average chi2 are very close to one compared to the previous approach where b
 
 I will have to figure out why at n =2500 we are getting the huge avg chi2 but the rest look good so far
 
-```{r}
+```{r eval=FALSE}
 df_long_full %>% 
   filter(variable %in% herits) %>% 
   mutate(samp = as.numeric(str_remove(samp, "Sample size: "))) %>% 
