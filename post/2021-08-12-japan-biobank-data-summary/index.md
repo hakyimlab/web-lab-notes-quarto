@@ -1,5 +1,5 @@
 ---
-title: Japan Biobank Data Summary
+title: Japan Biobank Data Summary (closed)
 author: Sabrina Mi
 date: '2021-08-12'
 slug: japan-biobank-data-summary
