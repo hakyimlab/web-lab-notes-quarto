@@ -1,13 +1,47 @@
 ---
-title: "Inflation Brainxcan"
+title: "Polygenicity Driven Inflation in Brainxcan"
 author: "Haky Im"
 date: "2023-04-07"
 categories: [analysis]
+date-modified: last-modified
 editor_options: 
   chunk_output_type: console
+format:
+  html:
+    code-fold: false
+    code-summary: "Show the code"
+    code-tools: true
+    code-overflow: wrap
 ---
 
-Summary:
+::: callout-tip
+## Summary
+
+When both $Y$ and a mediator IDP are polygenic, the regression test $Y$ on IDP is inflated with $\text{Var}(Z_\text{bxcan}) = 1 + h_Y^2 \cdot N \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$. I'll use simulations to understand this relationship as functions of $h_Y$, $h_\text{IDP}$, $N$, $M_Y$, and $M_\text{IDP}$. The IDP has been assumed to be known without error in this derivation, i.e. $h_\text{IDP}=1$.
+:::
+
+-   $h^2_Y$ is the heritability of $Y$
+-   $h^2_\text{IDP}$ is a measure of how close the predicted IDP is to the genetic component of the IDP
+-   $N$, is the sample size = nsam
+-   $M_Y$ is the number of causal variants for Y
+-   $M_\text{IDP}$ is the number of causal variants for the IDP
+
+Here $M_Y = M_\text{IDP}$ = msnp.
+
+::: callout-tip
+## Inflation estimate with uncertainty in IDP prediction
+
+$\text{Var}(Z_\text{bxcan}) = 1 + h_Y^2 \cdot N \cdot h^2_\text{IDP} \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$
+:::
+
+## how to correct the inflation
+
+We will correct the inflation by dividing the association Z-score with the $\sqrt{\text{Var}(Z_\text{bxcan})}$. In practice, we will estimate the factor $$h^2_\text{IDP} \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$$ by simulating traits Y with different heritability and different sample sizes, calculating the Z-scores of the association with IDPs, and regressing the mean Z-score squared across multiple simulations of Y on $h^2_Y$.
+
+
+## - [ ] TODO: test whether more sparse architectures can be accounted for in the variance formula by calculating
+
+$$\frac{\text{tr}(R'R)}{\text{tr}^2(R)}$$ using only SNPs that are causal for both? Or some function of $M_\text{IDP}$, $M_Y$, and $M$ of the intersection.
 
 ```{r}
 suppressMessages(library(tidyverse))
@@ -22,132 +56,210 @@ WORK=DATA
 ##system(glue("open {DATA}")) ## this will open the folder 
 ```
 
--   [ ] simulate Xk
-
-```{r simulate Xmat}
-nsam = 10000
-nsim = 100
-msnp = 1000
-
-Xmat = matrix(rbinom(nsam*msnp, 2, 0.4), nsam, msnp)
-```
-
--   [ ] simulate polygenic model: Y and IDP (nsam x nsim)
-
-```{=tex}
-\begin{align}
-Y &= \beta \cdot \text{IDP} + \sum_k X_k \cdot b_k + \epsilon \\
-\text{IDP} &= \sum_k \gamma_k \cdot X_k + \epsilon',
-\end{align}
-```
-```{r simulate Y}
-## betamat msnp x 1 
-betamat = matrix(rnorm(msnp),msnp, 1)
-epsimat = matrix(rnorm(nsam),nsam, 1)
-gYmat = Xmat %*% betamat
-Ymat = gYmat + epsimat
-## Ymat = scale(Ymat)
-```
-
-```{r simulate IDP}
-gammamat = matrix(rnorm(msnp * nsim),msnp, nsim)
-epsimat2 = matrix(rnorm(nsam * nsim),nsam, nsim)
-gIDPmat = Xmat %*% gammamat
-IDPmat = gIDPmat + epsimat2
-```
-
--   [ ] calculate pvec of Y \~ IDP
-
-```{r fit Y on IDP}
-# ## load fast lm
-# devtools::source_gist("5d2251ea1a86009499e4ffdf47fe2735")
-
-## load fn_ratxcan: 115403f16bec0a0e871f3616d552ce9b
-devtools::source_gist("115403f16bec0a0e871f3616d552ce9b")
-devtools::source_gist("38431b74c6c0bf90c12f")
-
-## run fast_predixcan_assoc
-idnum=1:nsam
-idvec = glue("id-{idnum}")
-res <- fast_predixcan_assoc(data.frame(IID=idvec,IDPmat), data.frame(IID=idvec,Ymat), idlist=idvec)
-qqunif(res$pval)
-
-```
-
--   [ ] calculate pvec of cor(Y, IDP): this is the same as running linear regression
-
-```{r eval=FALSE}
-# > summary(lm(Ymat~ IDPmat[,32]))
-# 
-# Call:
-# lm(formula = Ymat ~ IDPmat[, 32])
-# 
-# Residuals:
-#      Min       1Q   Median       3Q      Max 
-# -201.069  -46.406   -0.164   46.472  205.379 
-# 
-# Coefficients:
-#               Estimate Std. Error t value Pr(>|t|)    
-# (Intercept)  -37.14480    4.61728  -8.045 2.44e-15 ***
-# IDPmat[, 32]  -0.08780    0.03051  -2.878  0.00409 ** 
-# ---
-# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-# 
-# Residual standard error: 68.63 on 998 degrees of freedom
-# Multiple R-squared:  0.008231,	Adjusted R-squared:  0.007237 
-# F-statistic: 8.282 on 1 and 998 DF,  p-value: 0.004088
-# 
-# > cor.test(Ymat, IDPmat[,32])
-# 
-# 	Pearson's product-moment correlation
-# 
-# data:  Ymat and IDPmat[, 32]
-# t = -2.8779, df = 998, p-value = 0.004088
-# alternative hypothesis: true correlation is not equal to 0
-# 95 percent confidence interval:
-#  -0.15186241 -0.02889285
-# sample estimates:
-#         cor 
-# -0.09072344 
-```
-
--   [ ] calculate pvec of cor(sum bk Xk, sum gammak Xk)
-
-```{r fit gY on gIDP}
-## run fast_predixcan_assoc
-idnum=1:nsam
-idvec = glue("id-{idnum}")
-gres <- fast_predixcan_assoc(data.frame(IID=idvec,gIDPmat), data.frame(IID=idvec,gYmat), idlist=idvec)
-qqunif(gres$pval)
-
-```
-
--   [ ] check FDR of BrainXcan schizophrenia associations
+## load and define Functions
 
 ```{r}
-## google sheets prepared by Yanyu for revision 4/7/2023
-s2 <- read_csv(glue("{DATA}/Table_S2.xlsx - ..csv"))
-s8 <- read_csv(glue("{DATA}/Table_S8-w-factor.xlsx - Table_S8-w-factor.csv"))
+suppressMessages(devtools::source_gist("115403f16bec0a0e871f3616d552ce9b") ) ## load fn_ratxcan, fast regression and other convenience functions to correlate subsets of columns of two matrices
+suppressMessages(devtools::source_gist("38431b74c6c0bf90c12f") ) ## load qqunif
 
-tempo <- s8 %>% left_join(s2 %>% select(IDP,modality,notes,subtype),by=c("IDP")) %>% filter(model=="ridge",phenotype=="SCZ_PGC_2020") %>% filter(substr(subtype, 1, 2) != 'w-' | is.na(subtype) ) %>% filter(!grepl("ProbTrack-1",IDP))
 
-## qq <- tempo %>% filter(modality=="dMRI") %>% .[["pval_adj_perm_null"]] %>% qvalue::qvalue()
+my_trace = function(mat) if(nrow(mat)==ncol(mat)) sum(diag(mat)) else error("matrix is not diagonal")
+qqR2 <- function(corvec,nn,pad_neg_with_0 = FALSE,...)
+{
+## nn is the sample size, number of individuals used to compute correlation.
+## needs correlation vector as input.
+## nullcorvec generates a random sample from correlation distributions, under the null hypothesis of 0 correlation using Fisher's approximation.
+  if(pad_neg_with_0) corvec[corvec < 0 | is.na(corvec) ]=0
+  mm <- length(corvec)
+  nullcorvec = tanh(rnorm(mm)/sqrt(nn-3)) ## null correlation vector
+  qqplot(nullcorvec^2,corvec^2,...); abline(0,1); grid()
+}
 
-qq <- tempo  %>% .[["pval_adj_perm_null"]] %>% qvalue::qvalue()
+qqR <- function(corvec,nn,...)
+{
+## nn is the sample size, number of individuals used to compute correlation.
+## needs correlation vector as input.
+## nullcorvec generates a random sample from correlation distributions, under the null hypothesis of 0 correlation using Fisher's approximation.
+  mm <- length(corvec)
+  nullcorvec = tanh(rnorm(mm)/sqrt(nn-3)) ## null correlation vector
+  qqplot(nullcorvec,corvec,...); abline(0,1); grid()
+}
+
+## calculate p-value from correlation
+cor2zscore = function(cc,nn) 
+{
+  zz = atanh(cc) * sqrt(nn-3)
+}
+
+cor2pval = function(cc,nn) 
+{
+  zz=cor2zscore(cc,nn)
+  pnorm(-abs(zz))*2
+}
+
+cor2chi2 = function(cc,nn)
+{
+  cor2zscore(cc,nn)^2
+}
+```
+
+```{r simulate study and calc varZ}
+
+simulate_study = function(nsam,msnp,nsim,midp,h2IDP,h2Y,prop_causal)
+{
+  ## simulate Xmat (nsam x msnp)
+  Xmat = matrix(rbinom(nsam*msnp, 2, 0.4), nsam, msnp)
+
+  ## calculate GRM or LD matrix depending on min(nsam, msnp) and trrtr
+  R = scale(Xmat) ## QUESTION: DO I NEED TO SCALE ACROSS SAMPLES AND ACROSS SNPS?
+  if(nsam >  msnp) 
+  {
+    R = t(R)
+    MM = nsam
+  } else MM = msnp
+  R = ( R %*% t(R) ) / MM
+  trrtr = my_trace( t(R) %*% R ) / my_trace(R)^2
+  
+  ## simulate IDPmat (nsam x mipd) 
+  gammamat = matrix(rnorm(msnp * midp),msnp, midp)
+  is_causal = rbinom(msnp,1,prop_causal)
+  gammamat = sweep(gammamat,MARGIN=1,is_causal,FUN="*")
+  epsimat2 = matrix(rnorm(nsam * midp),nsam, midp)
+  epsimat2 = scale(epsimat2)
+  epsimat2 = sweep(epsimat2, MARGIN=2, sqrt(1 - h2IDP), FUN="*" )
+  gIDPmat = Xmat %*% gammamat
+  gIDPmat = scale(gIDPmat) 
+  gIDPmat = sweep(gIDPmat, MARGIN=2, sqrt(h2IDP), FUN="*" )
+  IDPmat = gIDPmat + epsimat2
+  
+  ## simulate Ymat (nsam x nsim) indep of IDPs
+  betamat = matrix(rnorm(msnp*nsim),msnp, nsim)
+  epsimat = matrix(rnorm(nsam*nsim),nsam, nsim)
+  epsimat = scale(epsimat) * sqrt(1 - h2Y)
+  gYmat = Xmat %*% betamat
+  gYmat = scale(gYmat) * sqrt(h2Y)
+  Ymat = gYmat + epsimat
+  
+  ## calc cor
+    ## scale Ymat & IDPmat
+  Ymat = scale(Ymat)
+  IDPmat = scale(IDPmat)
+    ## multiply t(Ymat) %*% IDPmat
+  cormat = t(Ymat) %*% IDPmat
+  cormat = cormat / nsam
+
+  ## calc varZ
+  chi2mat = cor2chi2(cormat,nn=nsam)
+  varZ = apply(chi2mat,2,mean)
+
+  ## build result list
+  res = list()
+  res$varZ = varZ
+  res$trrtr = trrtr
+  res
+}
 
 
 ```
 
--   [ ] read hapmap file
+## define parameters for simulation multiple comb of nsam and msnp
 
-```{r, eval=FALSE}
-# if (!require("BiocManager", quietly = TRUE))
-#     install.packages("BiocManager")
-# BiocManager::install("snpStats")
-suppressMessages(library(snpStats))
-# Set the path to the binary files (without file extensions)
-plink_file_path <- "/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/Reference-Data/GWAS-tutorial-Marees/data_1_QC_GWAS/HapMap_3_r3_1"
-# Read the binary files into an object of class "snpMatrix"
-snp_matrix <- read.plink(plink_file_path)
+```{r}
+nsim = 150
+midp = 100
+h2IDP = 0.1 + 0.8 * (1:midp)/midp
+h2Yvec = (1:9)/10
+nsamlist = c(100,1000,5000,10000); num_nsam=length(nsamlist)
+msnplist = c(99,999,4999); num_msnp=length(msnplist)
+prop_causal=0.10
+```
+
+## simulate and plot varZ vs h2IDP by h2Y, msnp, nsam
+
+```{r sim and plot with h2yvec}
+rerun=TRUE
+for(h2Y in h2Yvec)
+{
+  print("---------------")
+  print("h2Y is")
+  print(h2Y)
+
+if(rerun)
+{
+  varZmat = array(NA, dim=c(num_nsam, num_msnp, midp) )
+  trrtrmat = matrix(NA,num_nsam, num_msnp)
+  for(ii in 1:num_nsam)
+  {
+    for(jj in 1:num_msnp)
+    {
+      res=list()
+      #print(ii)
+      #print(jj)
+      nsam=nsamlist[ii]
+      msnp=msnplist[jj]
+      #print(nsam)
+      #print(msnp)
+      noskip = !(msnp==4999 & nsam > 4999)
+      if(noskip) 
+      {
+        res = simulate_study(nsam,msnp,nsim,midp,h2IDP,h2Y,prop_causal)
+        varZmat[ii,jj,] = res$varZ
+        trrtrmat[ii,jj] = res$trrtr
+      }
+    }
+  }
+  rownames(trrtrmat) = paste0("n",nsamlist)
+  colnames(trrtrmat) = paste0("m",msnplist)
+  dimnames(varZmat) = list(rownames(trrtrmat), colnames(trrtrmat), paste0("h2.",h2IDP))
+  saveRDS(varZmat,glue("{DATA}/varZmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
+  saveRDS(trrtrmat,glue("{DATA}/trrtrmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
+} else
+{
+  varZmat = readRDS(glue("{DATA}/varZmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
+  trrtrmat = readRDS(glue("{DATA}/trrtrmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
+}
+
+
+# Set the margin size
+mar_size <- 0.5
+
+# Adjust the plot margins
+par(mfrow = c(num_nsam, num_msnp), mar = c(mar_size, mar_size, mar_size, mar_size) + 0.1)
+
+# Create the plots
+for (ii in 1:num_nsam) {
+  for (jj in 1:num_msnp) {
+    nsam <- nsamlist[ii]
+    msnp <- msnplist[jj]
+    plot(h2IDP, (varZmat[ii, jj, ] - 1) / trrtrmat[ii, jj] / nsamlist[ii], 
+         xlab = "h2IDP", 
+         ylab = "(varz-1) / N / trrtr", 
+         xlim = c(0, 1), 
+         ylim = c(0, 1))
+    # Add nsam and msnp information as text
+    noskip = !(msnp==4999 & nsam > 4999)
+    if(noskip) 
+      text(x = 0.5, y = 0.9, labels = paste("nsam =", nsam, ", msnp =", msnp), adj = c(0.5, 0.5)) else text(x = 0.5, y = 0.9, labels = "skipped simulation for speed") 
+    abline(0, 1)
+    abline(0, h2Y, col = 'blue')
+    grid()
+  }
+}
+
+# Reset plotting parameters to defaults
+par(mfrow = c(1, 1))
+
+# Add title to the entire plot
+title(glue("(varZ - 1 ) /nsam/tRRt2R vs h2IDP - blue line has slope h2Y {h2Y}"), outer = TRUE, line = -1)
+
+}
+```
+
+## - [ ] TODO: show that this inflation does not affect sparse traits like the cis components of gene expression
+
+```{r inflation with cis predicted gene expression}
+
+
 
 ```
+

@@ -2,7 +2,10 @@
   {
     "listing": "/index.html",
     "items": [
-      "/post/2023-05-26-metaboxcan-paper-analysis/index.html",
+      "/post/1999-01-01-iris-dataset-analysis/delete.html",
+      "/post/2023-04-07-inflation-brainxcan/inflation-expression.html",
+      "/post/2023-07-03-attenuation-bias/index.html",
+      "/post/2023-06-16-qqunif-with-max-pvalue/index.html",
       "/post/2023-04-27-how-to-read-gencode-gff/index.html",
       "/post/2023-04-07-inflation-brainxcan/index.html",
       "/post/2023-03-28-cistromedb-data/index.html",
@@ -22,6 +25,7 @@
       "/post/2022-06-10-qgt-training/index.html",
       "/post/2022-05-22-how-to-query-eqtl-info-from-gtex-api-a-simple-way/index.html",
       "/post/2022-05-17-how-to-open-jupyter-notebook-on-cri-or-rcc/index.html",
+      "/post/2022-04-13-calculate-z-score-p-value-chi2-stat-from-gwas/index.html",
       "/post/2022-03-07-publishing-a-shinyapp/index.html",
       "/post/2022-01-02-biobank-japan-data-in-cri/index.html",
       "/post/2021-09-08-generating-metaxcan-prediction-model-from-aric-pwas/delete/index.html",
@@ -65,6 +69,7 @@
       "/post/2020-11-04-exploration-on-regressing-out-pcs/index.html",
       "/post/2020-11-02-gtex-reaction-rates/index.html",
       "/post/2020-08-10-windows-wsl/index.html",
+      "/post/2023-06-14-gwas-catalog/index.html",
       "/post/2020-07-30-how-to-prepare-a-post-implementation-report/index.html",
       "/post/2020-07-30-computing-on-anl-servers/index.html",
       "/post/2020-07-30-how-to-use-aws/index.html",
@@ -85,7 +90,12 @@
       "/post/2001-07-30-gwas-on-anl-servers/index.html",
       "/post/2001-07-30-dbgap-project-renewal/index.html",
       "/post/2001-07-30-how-to-download-the-data-from-the-uk-biobank/index.html",
+<<<<<<< HEAD
       "/post/1999-test/test.html"
+=======
+      "/post/1999-01-01-iris-dataset-analysis/irisnet.html",
+      "/post/1999-01-01-iris-dataset-analysis/index.html"
+>>>>>>> 1bf0b1d15927b6ac057e8c81d98594fab2e15bd5
     ]
   }
 ]

@@ -1,5 +1,5 @@
 ---
-title: Creating a new post
+title: Creating a new post (deprecated)
 author: Haky Im
 date: '2021-06-16'
 slug: creating-a-new-post

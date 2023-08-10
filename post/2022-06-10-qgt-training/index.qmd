@@ -3,49 +3,70 @@ title: Transcriptome QGT Training 2023
 author: Haky Im
 date: '2022-06-10'
 date-modified: last-modified
+format:
+  html:
+    code-fold: false
+    code-summary: "Show the code"
+    code-tools: true
+    code-overflow: wrap
 ---
 
 # Goals of Lab
 
--   Predict whole blood expression
+-   Predict whole blood expression from genotype
 -   Check how well the prediction works with GEUVADIS expression data
--   Run association between predicted expression and a simulated phenotype
+-   Run association between predicted expression and a phenotype
 -   Calculate association between expression levels and coronary artery disease risk using s-predixcan
 -   Fine-map the coronary artery disease gwas results using torus
 -   Calculate colocalization probability using fastenloc
--   (skip) Run transcriptome-wide mendelian randomization in one locus of interest
 -   Run cTWAS (fine-map SNPs and genes jointly)
 
 # Inital Remarks
 
--   We ask you to actively participate in today's hands on activities. **Notice that we may ask you to share your screen for pedagogic purposes.**
+-   We ask you to actively participate in today's hands on activities.
+
+::: callout-note
+Notice that we may ask you to share your screen for pedagogic purposes.
+:::
+
+-   Send Haky a private message if you really don't want to be called to share your screen.
 
 -   If you have any concerns about this, please ask me or one of the TAs for assistance. We are here to help you learn.
 
--   After each section, we ask you to fill out the questionnaires
-
--   01 Preliminary https://forms.gle/FDwPcjLFynqQP7Fd8
-
--   02 Prediction https://forms.gle/CZYGyNdfNVH2W9QF7
-
--   03 PrediXcan https://forms.gle/Z8YdYjgYs2zQY5cP6
-
--   04 S-PrediXcan https://forms.gle/VVMYsP7u5Fh18fSY7
-
--   05 Colocalization https://forms.gle/8fiYqfiqv31XHsUz9
-
--   06 cTWAS https://forms.gle/ZpuEuv8Xmxw1eDPf6
+-   Open the questionnaire forms at the beginning of each section and answer the questions as you go along
 
     -   Name is a mandatory field. You can use your name or a pseudonymn. Just keep using the same name for each submission
     -   We will ask you to submit partial set of answers so that we can get a sense of where people are
 
 -   Through out the lab you will see code chucks that are written with bash, eval=FALSE in place of R. These chunks are meant to be run in your Rstudio terminal and not in the Rmarkdown file itself.
 
--   R code chunks also have "eval=FALSE". When you click on the green triangle, the code will run in the R console but not when we knit the document. This just happened to be more convenient for us to generate a knitted html to be shared [here](https://lab-notes.hakyimlab.org/post/2022/06/10/qgt-training/).
+-   R code chunks also have "eval=FALSE". When you click on the green triangle, the code will run in the R console but not when we knit the document. This just happened to be more convenient for us to generate a knitted html.
 
 # Set Up
 
--   [ ] Open the RStudio cloud project [here](https://posit.cloud/spaces/369987/content/5901085)
+## Questionnaire 01
+
+-   [ ] Open and start filling questionnaire 01 Preliminary questionnaire https://forms.gle/fhNJAyjx7MJTy3yt8
+
+-   [ ] Install packages as needed
+
+```{r, eval=FALSE}
+# List of packages you want to install
+packages <- c("tidyverse", "data.table", "BEDMatrix", "Rfast", "susieR", "coloc")
+
+# Function to check and install any missing packages
+check_and_install <- function(pkg){
+  if (!require(pkg, character.only = TRUE)) {
+    install.packages(pkg, dependencies = TRUE)
+    library(pkg, character.only = TRUE)
+  }
+}
+
+# Use the function to check and install packages
+sapply(packages, check_and_install)
+
+```
+
 -   [ ] Load Rstudio Libraries
 
 ```{r,eval=FALSE}
@@ -62,7 +83,7 @@ library(coloc)
 
 ```
 
--\[ \] Navigate to starting directory
+-   [ ] Navigate to starting directory
 
 ```{bash, eval=FALSE}
 cd "/cloud/project/"
@@ -127,10 +148,6 @@ echo $RESULTS
 
 ```
 
-# Questionnaire 01
-
-[Fill out this form](https://forms.gle/FDwPcjLFynqQP7Fd8)
-
 # Transcriptome-wide association (Review)
 
 Now we will perform a transcriptome-wide association analysis using the PrediXcan suite of tools. ![Transcriptome-wide association methods](https://raw.githubusercontent.com/hakyimlab/QGT-Columbia-HKI/master/extras/figures/Association-Methods.png)
@@ -138,6 +155,10 @@ Now we will perform a transcriptome-wide association analysis using the PrediXca
 We start by predicting the expression levels of genes using the genotype data and the prediction weights and then perform an association between the predicted expression and the phenotype (denoted trait in the figure below).
 
 ![](https://raw.githubusercontent.com/hakyimlab/QGT-Columbia-HKI/master/extras/figures/PrediXcan-run.png)
+
+## Questionnaire 02
+
+-   [ ] Open and start filling questionnaire 02 Prediction https://forms.gle/T6kAHvFTxYfcQguW7
 
 # Predict Expression from genotype
 
@@ -254,11 +275,11 @@ fullset %>% filter(gene_id==geneid) %>% ggplot(aes(observed_expression, predicte
 
 ```
 
-# Questionnaire 02
-
-Prediction [Fill out this form](https://forms.gle/CZYGyNdfNVH2W9QF7)
-
 # Run PrediXcan association
+
+## Questionnaire 03
+
+-   [ ] Open and start filling questionnaire 03 PrediXcan https://forms.gle/3H319knWbLgnynNs9
 
 We are going to use a simulated phenotype for which only UPK3A has an effect on the phenotype ($\beta=-0.9887378$)
 
@@ -323,17 +344,19 @@ betas %>% mutate(causal= true_beta!=0) %>% ggplot(aes(estimated_beta, true_beta,
 
 Hint: correlation between the genes
 
-# Questionnaire 03
-
-PrediXcan Association \[Fill out this form\] (https://forms.gle/Z8YdYjgYs2zQY5cP6)
-
 # Run Summary PrediXcan
 
 Now we will use the summary results from a GWAS of coronary artery disease to calculate the association between the genetic component of the expression of genes and coronary artery disease risk. We will use the SPrediXcan.py.
 
 ![](https://uchicago.box.com/shared/static/m45nnkeskzh88ifnv8td5e3fntdfzhjs.png)
 
-The GWAS results (harmonized and imputed) for coronary artery disease are available in \$PRE/spredixcan/data/ \## Running S-PrediXcan
+The GWAS results (harmonized and imputed) for coronary artery disease are available in \$PRE/spredixcan/data/
+
+## Questionnaire 04
+
+-   [ ] Open and start filling questionnaire 04 S-PrediXcan https://forms.gle/xJs2U66cnrqdb5cj6
+
+## Running S-PrediXcan
 
 ```{bash, eval=FALSE}
 
@@ -449,17 +472,17 @@ python $METAXCAN/SMulTiXcan.py \
 
 ```
 
-## Questionnaire 04
-
-04 S-PrediXcan [Fill out this form](https://forms.gle/VVMYsP7u5Fh18fSY7)
-
 # Colocalization Methods (Review)
 
 Colocalization methods seek to estimate the probability that the complex trait and expression causal variants are the same. We favor methods that calculate the probability of causality for each trait (posterior inclusion probability), called fine-mapping methods. Here we use susie for fine-mapping and coloc for colocalization.
 
 ![](https://raw.githubusercontent.com/hakyimlab/QGT-Columbia-HKI/master/extras/figures/colocalization-run.png)
 
-# Run colocalization
+## Questionnaire 5
+
+-   [ ] Open and start filling questionnaire 05 Colocalization https://forms.gle/NfH2MSdy4UyJzGAp7
+
+## Run colocalization
 
 When you use coloc on your own data, you may want to check out coloc's documentation, with good advice and tips on avoiding common mistakes https://cran.r-project.org/web/packages/coloc/vignettes
 
@@ -658,23 +681,15 @@ plot the coloc result with the sensitivity function because weird effects are mu
 sensitivity(susie.res,"H4 > 0.9",row=1,dataset1=ff,dataset2=gg,)
 ```
 
-# Questionnaire 05
-
-Colocalization [Fill out this form](https://forms.gle/8fiYqfiqv31XHsUz9)
-
-------------------------------------------------------------------------
-
-# Mendelian Randomization Methods
-
-## TWMR (for a locus)
-
-![TWMR](https://raw.githubusercontent.com/hakyimlab/QGT-Columbia-HKI/master/extras/figures/TWMR.png)
-
 # cTWAS
 
 cTWAS stands for causal TWAS and seeks to calculate the posterior inclusion probability of genes and SNPs in a given region to be causal. It's a modification of SUSIER that adds predicted gene expression levels in addition to SNPs in the analysis. It is not yet published, but the authors (Siming Zhao, Wesley Crouse, Matthew Stephens et al) have shared a vignette with us to try it out.
 
 > Thank you, Wes, for creating this portion of the lab!
+
+## Questionnaire 06
+
+-   [ ] Open and start filling out questionnaire 06 cTWAS https://forms.gle/A4evWkbhR7cXLy36A
 
 ```{r,eval=FALSE}
 #install.packages("R.utils")
@@ -755,10 +770,6 @@ ctwas_results <- ctwas_results[, ..col_order_2]
 head(ctwas_results[order(-ctwas_results$susie_pip),])
 
 ```
-
-# Questionnaire 06
-
-cTWAS [Fill out this form](https://forms.gle/ZpuEuv8Xmxw1eDPf6)
 
 # FAQ and frequent errors
 
