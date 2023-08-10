@@ -4,8 +4,6 @@ subtitle: ""
 description: ""
 author: "Haky Im"
 date: "2023-08-10"
-image: ""
-image-alt: ""
 categories: [test]
 date-modified: "2023-08-10"
 draft: FALSE
@@ -18,7 +16,8 @@ You can install the development version of quartopost from GitHub with
 devtools::install_github("petzi53/quartopost")
 ```
 
-How to run
+from the command line at the root of the blog folder (e.g. '/Users/haekyungim/Github/web-lab-notes-quarto') run the following
+
 ```{r eval=FALSE}
 library(quartopost)
 
