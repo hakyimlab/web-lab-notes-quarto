@@ -1,0 +1,28 @@
+---
+title: "testing quarto post app"
+subtitle: ""
+description: ""
+author: "Haky Im"
+date: "2023-08-10"
+image: ""
+image-alt: ""
+categories: [test]
+date-modified: "2023-08-10"
+draft: FALSE
+---
+
+You can install the development version of quartopost from GitHub with
+
+```{r eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("petzi53/quartopost")
+```
+
+How to run
+```{r eval=FALSE}
+library(quartopost)
+
+if (interactive()) {
+  quartopost()
+}
+```
