@@ -177,6 +177,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Summary
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Trying to get a sense of what we have in the supplementary tables.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Table S6 has results from brainxcan in 9 ukb phenotypes</p>
+</div>
+</div>
+</div>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -189,160 +218,843 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(DATA)) <span class="fu">system</span>(glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"mkdir {DATA}"</span>))</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>WORK<span class="ot">=</span>DATA</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">##system(glue("open {DATA}")) ## this will open the folder </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">##system(glue("open {DATA}")) ## this will open the folder </span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="do">## load qqunif</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">source_gist</span>(<span class="st">"38431b74c6c0bf90c12f"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Sourcing gist "38431b74c6c0bf90c12f"
+ℹ SHA-1 hash of file is "7534a04652d34154de13d2fa2ac042adb0d1f564"</code></pre>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="fu">glue</span>(<span class="st">"ls -r {DATA}/*"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="fu">glue</span>(<span class="st">"ls -r {DATA}/*"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>stab2 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S2.xlsx"</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>stab3 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S3.xlsx"</span>))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>stab4 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S4.xlsx"</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>stab5 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S5.xlsx"</span>))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>stab6 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S6.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Coercing text to numeric in F1625 / R1625C6: '-Inf'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Coercing text to numeric in F1626 / R1626C6: '-Inf'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Coercing text to numeric in F1705 / R1705C6: 'Inf'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Coercing text to numeric in F1706 / R1706C6: 'Inf'</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>stab7 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S7.xlsx"</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>stab8 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S8.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Coercing text to numeric in F3746 / R3746C6: 'Inf'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Coercing text to numeric in F3747 / R3747C6: '-Inf'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Coercing text to numeric in F3748 / R3748C6: 'Inf'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Coercing text to numeric in F3749 / R3749C6: '-Inf'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Coercing text to numeric in F3750 / R3750C6: 'Inf'</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>stab8factor <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S8-w-factor.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Coercing text to numeric in F3746 / R3746C6: 'Inf'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Coercing text to numeric in F3747 / R3747C6: '-Inf'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Coercing text to numeric in F3748 / R3748C6: 'Inf'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Coercing text to numeric in F3749 / R3749C6: '-Inf'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Coercing text to numeric in F3750 / R3750C6: 'Inf'</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>stab9 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S9.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode latex code-with-copy"><code class="sourceCode latex"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">table</span>}[H]</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">\centering</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">tabular</span>}{lll}</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\toprule</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>{<span class="fu">\textbf</span>{variable}} <span class="op">&amp;</span> {<span class="fu">\textbf</span>{information}} <span class="op">&amp;</span> {<span class="fu">\textbf</span>{detail}} <span class="fu">\\</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\midrule</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>age <span class="op">&amp;</span> 54.9 (7.34) <span class="op">&amp;</span> range: 40--70 <span class="fu">\\</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  sex <span class="op">&amp;</span> 52.5<span class="fu">\%</span>/47.5<span class="fu">\%</span> <span class="op">&amp;</span> raw count: 12814/11595 <span class="fu">\\</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">\bottomrule</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">tabular</span>}</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">\caption</span>[Demographic information of the IDP cohort]{<span class="fu">\textbf</span>{Demographic information of the IDP cohort.} A summary of age and sex of the selected 24,409 individuals (IDP cohort) is shown. For age, <span class="fu">\textbf</span>{information} shows the average age with standard deviation of age in parentheses and <span class="fu">\textbf</span>{detail} shows the range of the age (min and max). For sex, <span class="fu">\textbf</span>{information} shows the fraction of each age among the cohort and <span class="fu">\textbf</span>{detail} shows the raw counts (female's is listed first and followed by male's)}</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">\label</span>{<span class="ex">S-tab:ukb_cohort</span>}</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">table</span>}</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">table</span>}[H]</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">% \begin{footnotesize}</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\caption</span>[UK Biobank brain IDPs being analyzed]{<span class="fu">\textbf</span>{UK Biobank brain IDPs being analyzed.} </span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">% The table is available at \url{https://docs.google.com/spreadsheets/d/1xzLvwtIshyX10orGnGVyDNuyDHU-zgoYhGYemf-6I10}. </span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    This table contains the detailed information about the brain IDPs analyzed in this paper. </span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    The columns are listed below.</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{IDP} shows the IDP identifier used in this paper which uses the format of ``IDP-XXXXX'' with XXXXX being the Field ID in UK Biobank;</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{modality} indicates whether the IDP is from T1 MRI or diffusion MRI;</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{subtype} lists the name of the IDP subtypes which is used in the paper to refer to different types of brain IDPs;</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{pc1<span class="fu">\_</span>name} shows the name of the corresponding principal component of the subtype (this will be used as the IDP identifier for the IDP PC1); </span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{region} shows the anatomical region of the MRI measurement;</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{side} indicates whether the measurement is from the left or right part of the brain; </span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{measurement<span class="fu">\_</span>type} shows the details of the measurement and the image processing procedure;</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{dmri<span class="fu">\_</span>measure} indicates the type of statistic extracted from the dMRI measurement;</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{t1<span class="fu">\_</span>anatomy<span class="fu">\_</span>group} indicates the anatomical grouping for T1 MRI;</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{notes} shows the description of the IDP extracted from the UK Biobank database;</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{ukb<span class="fu">\_</span>link} lists the link to the Data Field in UK Biobank website.</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  <span class="kw">\label</span>{<span class="ex">S-tab:idp_table</span>}</span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">% \end{footnotesize}</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">table</span>}</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">table</span>}[H]</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  <span class="co">% \begin{footnotesize}</span></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\caption</span>[The heritability and polygenicity estimates of brain IDPs]{<span class="fu">\textbf</span>{The heritability and poligenicity estimates of brain IDPs.} </span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{IDP}: IDP identifier;</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{h2} and <span class="fu">\textbf</span>{h2<span class="fu">\_</span>SE}: The estimated heritability and the corresponding standard error;</span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{Me} and <span class="fu">\textbf</span>{Me<span class="fu">\_</span>SE}: The estimated polygenicity (defined as <span class="ss">$M_e$</span> in <span class="kw">\cite</span>{<span class="ex">oconnor:2019</span>}) and the corresponding standard error.</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  <span class="kw">\label</span>{<span class="ex">S-tab:gen_arch</span>}</span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>  <span class="co">% \end{footnotesize}</span></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">table</span>}</span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">table</span>}[H]</span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>  <span class="co">% \begin{footnotesize}</span></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\caption</span>[The prediction performance of the ridge and elastic net predictors]{<span class="fu">\textbf</span>{The prediction performance of the ridge and elastic net predictors.} </span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>    It contains prediction performance (via cross-validation scheme) of the ridge regression and elastic net based genetic predictors of brain IDPs.</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{IDP}: IDP identifier;</span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{model<span class="fu">\_</span>name}: The type of prediction model being used (ridge regression or elastic net);</span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{Spearman}: The Spearman correlation between the predicted and observed IDP values;</span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{Pearson}: The Pearson correlation between the predicted and observed IDP values;</span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{R2}: The <span class="ss">$R^2$</span> measured from the predicted and observed IDP values;</span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{is<span class="fu">\_</span>kept}: An indicator showing whether the genetic predictor passes the quality control filter (e.g. Spearman correlation <span class="ss">$&gt;0.1$</span>) so that will be included in BrainXcan software.</span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>  <span class="kw">\label</span>{<span class="ex">S-tab:cv_perf</span>}</span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>  <span class="co">% \end{footnotesize}</span></span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">table</span>}</span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">table</span>}[H]</span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>  <span class="co">% \begin{footnotesize}</span></span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\caption</span>[The list of 9 UK Biobank based phenotypes being analyzed by individual-level BrainXcan]{<span class="fu">\textbf</span>{The list of 9 UK Biobank based phenotypes analyzed by individual-level BrainXcan.} </span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>  <span class="co">% The table is available at \url{https://docs.google.com/spreadsheets/d/150mFxAV1p_IK1l36GKjazBt0pIb5eSC0LO7JeFaTS1I}. </span></span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>    It contains the definition of the 9 UK Biobank phenotypes used for individual-level BrainXcan.</span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>    For some phenotypes, they were constructed from multiple UK Biobank fields and the aggregation method across these fields was either taking the sum (`sum') or taking logical OR (`or').</span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>    For binary phenotype, we defined its value as 1 if the field takes the desired values indicated in <span class="fu">\textbf</span>{target<span class="fu">\_</span>value}. </span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>    Missing values were either treated as 0 or removed.   </span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{phenotype} shows the name of the defined phenotype;</span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{ukb<span class="fu">\_</span>field} shows UK Biobank fields from which the phenotype was constructed;</span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{target<span class="fu">\_</span>value}: For binary phenotypes, we defined its value as 1 if the field takes the desired value. For quantitative traits, we used the value as it is (labeled as `asis');</span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{aggregate<span class="fu">\_</span>method}: For some phenotypes, they were constructed from multiple UK Biobank fields and the aggregation method across these fields was either taking the sum (`sum') or taking the logical OR (`or');</span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{missing<span class="fu">\_</span>values} shows how missing values in a field were handled (either treated as 0 or removed).   </span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>  <span class="kw">\label</span>{<span class="ex">S-tab:indiv_bxcan_phenotype</span>}</span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>  <span class="co">% \end{footnotesize}</span></span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">table</span>}</span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a><span class="co">% \begin{table}[H]</span></span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="co">%   % \begin{footnotesize}</span></span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a><span class="co">%   \caption[Individual-level BrainXcan results on 9 UK Biobank phenotypes]{\textbf{Individual-level BrainXcan results on 9 UK Biobank phenotypes.} </span></span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a><span class="co">%     \textbf{model}: The prediction model type of the IDP predictor (either ridge or elastic net);</span></span>
-<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a><span class="co">%     \textbf{IDP}: IDP identifier; </span></span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a><span class="co">%     \textbf{phenotype}: The name of the phenotype (defined in table~\ref{S-tab:indiv_bxcan_phenotype});</span></span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a><span class="co">%     \textbf{bhat}: BrainXcan effect size estimate, $\hat\beta$;</span></span>
-<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="co">%     \textbf{pval}: BrainXcan p-value (without adjustment by permutation);</span></span>
-<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a><span class="co">%     \textbf{zscore}: BrainXcan z-score (without adjustment by permutation).   </span></span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="co">%   }</span></span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a><span class="co">%   \label{S-tab:indiv_bxcan_results}</span></span>
-<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a><span class="co">%   % \end{footnotesize}</span></span>
-<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a><span class="co">% \end{table}</span></span>
-<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">table</span>}[H]</span>
-<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>  <span class="co">% \begin{footnotesize}</span></span>
-<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\caption</span>[The list of 35 GWASs being analyzed by S-BrainXcan]{<span class="fu">\textbf</span>{The list of 35 GWAS  analyzed by S-BrainXcan.} </span>
-<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>  <span class="co">% The table is available at \url{https://docs.google.com/spreadsheets/d/1jjDZZBsRNTvgidXXfJqXNOvFQ1U9Ree0G-WFcXtWGAg}. </span></span>
-<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>    It contains the information about the 35 GWASs used in S-BrainXcan analysis. </span>
-<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{phenotype}: The name of the phenotype;</span>
-<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{phenotype<span class="fu">\_</span>id}: The phenotype identifiers;</span>
-<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{short<span class="fu">\_</span>name}: The short names of the phenotypes;</span>
-<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{sample<span class="fu">\_</span>size}: The sample size of the GWAS. If there are different sample sizes for different SNPs, the mean sample size is shown;</span>
-<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{portal}: The website from which the GWAS was downloaded;</span>
-<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{filename}: The name of the raw GWAS file being downloaded.   </span>
-<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>  <span class="kw">\label</span>{<span class="ex">S-tab:s_bxcan_phenotype</span>}</span>
-<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>  <span class="co">% \end{footnotesize}</span></span>
-<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">table</span>}</span>
-<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">table</span>}[H]</span>
-<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a>  <span class="co">% \begin{footnotesize}</span></span>
-<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\caption</span>[S-BrainXcan results for 35 GWASs]{<span class="fu">\textbf</span>{S-BrainXcan results for 35 GWASs.} </span>
-<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{model}: The prediction model type of the IDP predictor (either ridge or elastic net);</span>
-<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{IDP}: IDP identifier; </span>
-<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{phenotype}: The name of the phenotype (defined in table~<span class="kw">\ref</span>{<span class="ex">S-tab:s_bxcan_phenotype</span>});</span>
-<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{bhat}: BrainXcan effect size estimate, <span class="ss">$</span><span class="sc">\hat\beta</span><span class="ss">$</span>;</span>
-<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{pval}: BrainXcan p-value (without adjustment by permutation);</span>
-<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{zscore}: BrainXcan z-score (without adjustment by permutation);</span>
-<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{nsnp<span class="fu">\_</span>used}: The number of variants used in S-BrainXcan computation;</span>
-<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{nsnp<span class="fu">\_</span>total}: The number of variants in the prediction model (<span class="fu">\textbf</span>{nsnp<span class="fu">\_</span>used} should be no larger than <span class="fu">\textbf</span>{nsnp<span class="fu">\_</span>total} but the closer the better since the difference is the number of variants being missed by the GWAS);</span>
-<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{z<span class="fu">\_</span>adj<span class="fu">\_</span>perm<span class="fu">\_</span>null}: BrainXcan z-score with adjustment by permutation;</span>
-<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{pval<span class="fu">\_</span>adj<span class="fu">\_</span>perm<span class="fu">\_</span>null}: The corresponding p-value computed from the adjusted BrainXcan z-score (<span class="fu">\textbf</span>{z<span class="fu">\_</span>adj<span class="fu">\_</span>perm<span class="fu">\_</span>null}).</span>
-<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a>  <span class="kw">\label</span>{<span class="ex">S-tab:s_bxcan_results</span>}</span>
-<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a>  <span class="co">% \end{footnotesize}</span></span>
-<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">table</span>}</span>
-<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">table</span>}[H]</span>
-<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>  <span class="co">% \begin{footnotesize}</span></span>
-<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\caption</span>[LDSC based genetic correlation results for 35 GWASs]{<span class="fu">\textbf</span>{LDSC based genetic correlation results for 35 GWASs.} </span>
-<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{IDP}: IDP identifier; </span>
-<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{phenotype}: The name of the phenotype (defined in table~<span class="kw">\ref</span>{<span class="ex">S-tab:s_bxcan_phenotype</span>});</span>
-<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{rg}: Genetic correlation;</span>
-<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{pval}: Genetic correlation p-value (null hypothesis: <span class="fu">\textbf</span>{rg} is zero);</span>
-<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\textbf</span>{zscore}: The corresponding z-score calculated from <span class="fu">\textbf</span>{pval}.</span>
-<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a>  <span class="kw">\label</span>{<span class="ex">S-tab:gencor_results</span>}</span>
-<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a>  <span class="co">% \end{footnotesize}</span></span>
-<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">table</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>phenolist <span class="ot">=</span> <span class="fu">unique</span>(stab8factor<span class="sc">$</span>phenotype)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>mydata<span class="ot">=</span>stab8factor</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(pheno <span class="cf">in</span> phenolist)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">qqunif</span>(mydata<span class="sc">$</span>pval_adj_perm_null[mydata<span class="sc">$</span>model<span class="sc">==</span><span class="st">"ridge"</span> <span class="sc">&amp;</span> mydata<span class="sc">$</span>phenotype<span class="sc">==</span> pheno],<span class="at">main=</span>pheno)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="st">"perm and factor adjusted"</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-5.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-6.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in qqunif(mydata$pval_adj_perm_null[mydata$model == "ridge" &amp;
+mydata$phenotype == : thresholding p to 1e-30</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-7.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in qqunif(mydata$pval_adj_perm_null[mydata$model == "ridge" &amp;
+mydata$phenotype == : thresholding p to 1e-30</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-8.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-9.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-10.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-11.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in qqunif(mydata$pval_adj_perm_null[mydata$model == "ridge" &amp;
+mydata$phenotype == : thresholding p to 1e-30</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-12.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-13.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-14.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-15.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-16.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-17.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-18.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-19.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-20.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-21.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-22.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-23.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-24.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-25.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-26.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-27.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-28.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-29.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-30.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-31.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-32.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-33.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-34.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/qqunif of 35 traits-35.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="do">## install.packages("Hmisc")</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="do">## install.packages("rms")</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>stab2 
+
+ 11  Variables      459  Observations
+--------------------------------------------------------------------------------
+IDP 
+       n  missing distinct 
+     459        0      459 
+
+lowest : IDP-25002 IDP-25004 IDP-25006 IDP-25008 IDP-25010
+highest: IDP-25916 IDP-25917 IDP-25918 IDP-25919 IDP-25920
+--------------------------------------------------------------------------------
+modality 
+       n  missing distinct 
+     459        0        2 
+                      
+Value       dMRI    T1
+Frequency    300   159
+Proportion 0.654 0.346
+--------------------------------------------------------------------------------
+subtype 
+       n  missing distinct 
+     459        0       15 
+
+lowest : Brainstem       FA              Gray-Brainstem  Gray-Cerebellum Gray-Cortical  
+highest: Total           w-FA            w-ICVF          w-ISOVF         w-OD           
+--------------------------------------------------------------------------------
+pc1_name 
+       n  missing distinct 
+     459        0       13 
+
+lowest : NA                     PC-Cerebellum-1        PC-Cortical-1          PC-FA-ProbTrack-1      PC-FA-TBSS-1          
+highest: PC-ISOVF-TBSS-1        PC-OD-ProbTrack-1      PC-OD-TBSS-1           PC-Subcortical_GMvol-1 PC-Subcortical_vol-1  
+--------------------------------------------------------------------------------
+region 
+       n  missing distinct 
+     459        0      109 
+
+lowest : accumbens               acoustic radiation      amygdala                angular gyrus           anterior corona radiata
+highest: viib cerebellum         viiia cerebellum        viiib cerebellum        white matter            x cerebellum           
+--------------------------------------------------------------------------------
+side 
+       n  missing distinct 
+     459        0        4 
+                                      
+Value        left     NA  right vermis
+Frequency     204     43    204      8
+Proportion  0.444  0.094  0.444  0.017
+--------------------------------------------------------------------------------
+measurement_type 
+       n  missing distinct 
+     459        0        5 
+
+lowest : dMRI skeleton (TBSS-style measurement)                             dMRI weighted means (probabilistic-tractography-based measurement) Other T1 measurements                                              Regional grey matter volumes (FAST)                                Subcortical volumes (FIRST)                                       
+highest: dMRI skeleton (TBSS-style measurement)                             dMRI weighted means (probabilistic-tractography-based measurement) Other T1 measurements                                              Regional grey matter volumes (FAST)                                Subcortical volumes (FIRST)                                       
+--------------------------------------------------------------------------------
+dmri_measure 
+       n  missing distinct 
+     459        0        5 
+                                        
+Value         FA  ICVF ISOVF    NA    OD
+Frequency     75    75    75   159    75
+Proportion 0.163 0.163 0.163 0.346 0.163
+--------------------------------------------------------------------------------
+t1_anatomy_group 
+       n  missing distinct 
+     459        0        6 
+                                                                      
+Value        Brainstem  Cerebellum    Cortical          NA Subcortical
+Frequency            2          28          96         300          28
+Proportion       0.004       0.061       0.209       0.654       0.061
+                      
+Value            Total
+Frequency            5
+Proportion       0.011
+--------------------------------------------------------------------------------
+notes 
+       n  missing distinct 
+     459        0      459 
+
+lowest : Mean FA (fractional anisotropy) in anterior corona radiata (left) on FA skeleton (from dMRI data)                Mean FA (fractional anisotropy) in anterior corona radiata (right) on FA skeleton (from dMRI data)               Mean FA (fractional anisotropy) in anterior limb of internal capsule (left) on FA skeleton (from dMRI data)      Mean FA (fractional anisotropy) in anterior limb of internal capsule (right) on FA skeleton (from dMRI data)     Mean FA (fractional anisotropy) in body of corpus callosum on FA skeleton (from dMRI data)                      
+highest: Weighted-mean OD (orientation dispersion index) in tract right parahippocampal part of cingulum (from dMRI data) Weighted-mean OD (orientation dispersion index) in tract right posterior thalamic radiation (from dMRI data)     Weighted-mean OD (orientation dispersion index) in tract right superior longitudinal fasciculus (from dMRI data) Weighted-mean OD (orientation dispersion index) in tract right superior thalamic radiation (from dMRI data)      Weighted-mean OD (orientation dispersion index) in tract right uncinate fasciculus (from dMRI data)             
+--------------------------------------------------------------------------------
+ukb_link 
+       n  missing distinct 
+     459        0      459 
+
+lowest : http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25002 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25004 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25006 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25008 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25010
+highest: http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25916 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25917 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25918 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25919 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25920
+--------------------------------------------------------------------------------</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>stab3 
+
+ 5  Variables      471  Observations
+--------------------------------------------------------------------------------
+IDP 
+       n  missing distinct 
+     471        0      471 
+
+lowest : IDP-25002              IDP-25004              IDP-25006              IDP-25008              IDP-25010             
+highest: PC-ISOVF-TBSS-1        PC-OD-ProbTrack-1      PC-OD-TBSS-1           PC-Subcortical_GMvol-1 PC-Subcortical_vol-1  
+--------------------------------------------------------------------------------
+h2 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     471        0      471        1   0.2144   0.0896  0.08849  0.10892 
+     .25      .50      .75      .90      .95 
+ 0.15314  0.21967  0.27439  0.31220  0.33609 
+
+lowest : 0.0479836 0.048201  0.0498917 0.0499944 0.0584361
+highest: 0.38282   0.384817  0.400786  0.428678  0.432927 
+--------------------------------------------------------------------------------
+h2_SE 
+        n   missing  distinct      Info      Mean       Gmd       .05       .10 
+      471         0       471         1   0.01433 0.0005071   0.01341   0.01362 
+      .25       .50       .75       .90       .95 
+  0.01403   0.01444   0.01468   0.01484   0.01490 
+
+lowest : 0.0127144 0.01317   0.0131823 0.013197  0.0131985
+highest: 0.0150302 0.0150366 0.0150451 0.0151357 0.0151663
+--------------------------------------------------------------------------------
+Me 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     471        0      471        1     8235    11082    778.6   1821.5 
+     .25      .50      .75      .90      .95 
+  4035.0   6635.6  10601.7  18431.7  24749.7 
+
+lowest : -141352  -96318.6 -46848.7 -36191.8 -36129  
+highest: 60073.8  61536    87458.8  91112.5  152397  
+--------------------------------------------------------------------------------
+Me_SE 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     471        0      471        1    85090   164246    712.9    860.1 
+     .25      .50      .75      .90      .95 
+  1234.9   2250.3   4664.0  17069.2  44526.3 
+
+0 (430, 0.913), 20000 (14, 0.030), 40000 (5, 0.011), 60000 (5, 0.011), 80000
+(1, 0.002), 120000 (3, 0.006), 180000 (1, 0.002), 320000 (1, 0.002), 360000 (1,
+0.002), 4e+05 (1, 0.002), 5e+05 (1, 0.002), 6e+05 (2, 0.004), 1760000 (1,
+0.002), 2740000 (1, 0.002), 5300000 (1, 0.002), 5980000 (1, 0.002), 8900000 (1,
+0.002), 9420000 (1, 0.002)
+
+For the frequency table, variable is rounded to the nearest 20000
+--------------------------------------------------------------------------------</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>stab4 
+
+ 6  Variables      942  Observations
+--------------------------------------------------------------------------------
+IDP 
+       n  missing distinct 
+     942        0      471 
+
+lowest : IDP-25002              IDP-25004              IDP-25006              IDP-25008              IDP-25010             
+highest: PC-ISOVF-TBSS-1        PC-OD-ProbTrack-1      PC-OD-TBSS-1           PC-Subcortical_GMvol-1 PC-Subcortical_vol-1  
+--------------------------------------------------------------------------------
+model_name 
+       n  missing distinct 
+     942        0        2 
+                                  
+Value      elastic net       ridge
+Frequency          471         471
+Proportion         0.5         0.5
+--------------------------------------------------------------------------------
+Spearman 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     942        0      942        1  0.09811  0.06449 0.004573 0.019793 
+     .25      .50      .75      .90      .95 
+0.056297 0.099578 0.142485 0.170990 0.184643 
+
+lowest : -0.0233838 -0.0179963 -0.0179528 -0.0176974 -0.0157014
+highest: 0.242499   0.244034   0.24677    0.272147   0.27938   
+--------------------------------------------------------------------------------
+Pearson 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     942        0      942        1   0.1007  0.06631 0.006071 0.019963 
+     .25      .50      .75      .90      .95 
+0.057662 0.102281 0.145341 0.176408 0.189794 
+
+lowest : -0.0218353 -0.0204234 -0.0182523 -0.015216  -0.0142222
+highest: 0.246684   0.251223   0.252715   0.278046   0.286634  
+--------------------------------------------------------------------------------
+R2 
+         n    missing   distinct       Info       Mean        Gmd        .05 
+       942          0        942          1    0.01319    0.01328 -4.862e-05 
+       .10        .25        .50        .75        .90        .95 
+ 3.857e-04  3.182e-03  1.014e-02  2.085e-02  3.098e-02  3.513e-02 
+
+lowest : -0.00129598  -0.000710178 -0.000563922 -0.000517986 -0.000463191
+highest: 0.0608335    0.0608347    0.0610134    0.0736031    0.080077    
+--------------------------------------------------------------------------------
+is_kept 
+       n  missing distinct 
+     942        0        2 
+                      
+Value      FALSE  TRUE
+Frequency    474   468
+Proportion 0.503 0.497
+--------------------------------------------------------------------------------</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>stab5 
+
+ 5  Variables      18  Observations
+--------------------------------------------------------------------------------
+phenotype 
+       n  missing distinct 
+      18        0        9 
+
+lowest : bmi                           daily_cigarettes              daily_coffee                  handedness                    height                       
+highest: height                        parent_AD                     parent_depression             recurrent_depressive_disorder weekly_alcohol               
+--------------------------------------------------------------------------------
+ukb_field 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+      18        0       16    0.998    13257    14460     1281     1547 
+     .25      .50      .75      .90      .95 
+    1590    11729    20110    27061    41202 
+                                                                         
+Value         50.00  1284.62  1696.16  3342.32 19803.92 20627.00 40792.46
+Frequency         1        6        1        1        6        1        1
+Proportion    0.056    0.333    0.056    0.056    0.333    0.056    0.056
+                   
+Value      41204.00
+Frequency         1
+Proportion    0.056
+
+For the frequency table, variable is rounded to the nearest 411.54
+--------------------------------------------------------------------------------
+target_value 
+       n  missing distinct 
+      18        0        7 
+
+1.0 (1, 0.056), 10.0 (2, 0.111), 12.0 (2, 0.111), 1286.0 (1, 0.056), 2.0 (1,
+0.056), asis (9, 0.500), F330 ~ F334 and F338 F339 (2, 0.111)
+--------------------------------------------------------------------------------
+aggregate_method 
+       n  missing distinct 
+      18        0        3 
+                            
+Value       none    or   sum
+Frequency      5     8     5
+Proportion 0.278 0.444 0.278
+--------------------------------------------------------------------------------
+missing_values 
+       n  missing distinct 
+      18        0        2 
+                        
+Value         0.0 remove
+Frequency      11      7
+Proportion  0.611  0.389
+--------------------------------------------------------------------------------</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in tabulate(ix): NAs introduced by coercion to integer range</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in xrange[freq != 0] &lt;- xrnz: number of items to replace is not a
+multiple of replacement length</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>stab6 
+
+ 6  Variables      4212  Observations
+--------------------------------------------------------------------------------
+model 
+       n  missing distinct 
+    4212        0        2 
+                                  
+Value      elastic net       ridge
+Frequency         1269        2943
+Proportion       0.301       0.699
+--------------------------------------------------------------------------------
+IDP 
+       n  missing distinct 
+    4212        0      327 
+
+lowest : IDP-25002              IDP-25004              IDP-25006              IDP-25008              IDP-25010             
+highest: PC-ISOVF-TBSS-1        PC-OD-ProbTrack-1      PC-OD-TBSS-1           PC-Subcortical_GMvol-1 PC-Subcortical_vol-1  
+--------------------------------------------------------------------------------
+phenotype 
+       n  missing distinct 
+    4212        0        9 
+
+lowest : bmi                           daily_cigarettes              daily_coffee                  handedness                    height                       
+highest: height                        parent_AD                     parent_depression             recurrent_depressive_disorder weekly_alcohol               
+--------------------------------------------------------------------------------
+bhat 
+         n    missing   distinct       Info       Mean        Gmd        .05 
+      4212          0       4212          1   -0.01078     0.2313 -0.3863530 
+       .10        .25        .50        .75        .90        .95 
+-0.1873140 -0.0179453 -0.0001391  0.0141919  0.1601949  0.3483677 
+
+lowest : -2.71465 -2.65532 -2.62257 -2.2778  -2.27008
+highest: 2.08027  2.11084  2.12096  3.33721  3.78204 
+--------------------------------------------------------------------------------
+pval 
+        n   missing  distinct      Info      Mean       Gmd       .05       .10 
+     4212         0      4209         1    0.3007    0.3415 3.379e-21 1.898e-07 
+      .25       .50       .75       .90       .95 
+1.284e-02 1.873e-01 5.411e-01 8.067e-01 9.061e-01 
+
+lowest : 0            1.00687e-258 5.70564e-167 7.88877e-161 4.13305e-156
+highest: 0.998594     0.998797     0.999078     0.999443     0.999871    
+--------------------------------------------------------------------------------
+zscore 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+    4212        0     4210        1      NaN        0  -5.5915  -3.0817 
+     .25      .50      .75      .90      .95 
+ -1.3424  -0.0243   1.2959   2.8116   4.8590 
+
+lowest : -Inf     -27.5408 -27.0232 -26.6186 -25.9548
+highest: 23.9489  24.2762  25.0172  34.3598  Inf     
+--------------------------------------------------------------------------------</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab7)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>stab7 
+
+ 6  Variables      35  Observations
+--------------------------------------------------------------------------------
+phenotype 
+       n  missing distinct 
+      35        0       34 
+
+lowest : Alcohol Dependence                             Alzheimer                                      Alzheimer's Disease                            Attention deficit hyperactivity disorder - EUR Autism spectrum disorder - CEU                
+highest: Sleep duration                                 Sleep Duration                                 Sleeplessness / insomnia                       Standing height                                Tobacco Ever Smoker vs Never Smoker           
+--------------------------------------------------------------------------------
+phenotype_id 
+       n  missing distinct 
+      35        0       35 
+
+lowest : AD_Jansen_2019                        AlcDep_PGC_2018                       BIP_PGC_2020                          CNCR_Insomnia_all                     EA_Lee_2018                          
+highest: UKB_20002_1265_self_reported_migraine UKB_20016_Fluid_intelligence_score    UKB_20127_Neuroticism_score           UKB_21001_Body_mass_index_BMI         UKB_50_Standing_height               
+--------------------------------------------------------------------------------
+short_name 
+       n  missing distinct 
+      35        0       35 
+
+lowest : AD              AD_Jansen_2019  ADHD            AlcDep_PGC_2018 ASD            
+highest: SCZ             SCZ_PGC_2020    SLEEP           SLEEP_UKB       SMOKE          
+--------------------------------------------------------------------------------
+sample_size 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+      35        0       26    0.983   236614   199418    21495    35242 
+     .25      .50      .75      .90      .95 
+   71930   253288   337119   400836   524693 
+
+lowest :  15954  17375  23261  28763  44960, highest: 383873 412144 455284 686648 766345
+--------------------------------------------------------------------------------
+portal 
+       n  missing distinct 
+      35        0       15 
+
+lowest : http://portals.broadinstitute.org/collaboration/giant                                   http://web.pasteur-lille.fr/en/recherche/u744/igap/igap_download.php                    http://www.broadinstitute.org/collaboration/giant/index.php/GIANT_consortium_data_files http://www.epigad.org/gwas_ilae2014/                                                    http://www.nealelab.is/uk-biobank                                                      
+highest: https://www.med.unc.edu/                                                                https://www.med.unc.edu/pgc/downloads                                                   https://www.med.unc.edu/pgc/results-and-downloads                                       https://www.thessgac.org                                                                https://www.thessgac.org/data                                                          
+--------------------------------------------------------------------------------
+filename 
+       n  missing distinct 
+      35        0       35 
+
+lowest : 1160.assoc.tsv.gz                                                           1180.assoc.tsv.gz                                                           1200.assoc.tsv.gz                                                           20002_1261.assoc.tsv.gz                                                     20002_1265.assoc.tsv.gz                                                    
+highest: scz2.snp.results.txt.gz                                                     Sleep_Duration_SIN_BOLT.output_plus.metrics_MAF0.001_HWE1E-5_qual0.4.txt.gz SNP_gwas_mc_merge_nogc.tbl.uniq.gz                                          sumstats_neuroticism_ctg_format.txt.gz                                      tag.evrsmk.tbl.gz                                                          
+--------------------------------------------------------------------------------</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab8factor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in tabulate(ix): NAs introduced by coercion to integer range
+
+Warning in tabulate(ix): number of items to replace is not a multiple of
+replacement length</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>stab8factor 
+
+ 10  Variables      16380  Observations
+--------------------------------------------------------------------------------
+model 
+       n  missing distinct 
+   16380        0        2 
+                                  
+Value      elastic net       ridge
+Frequency         4935       11445
+Proportion       0.301       0.699
+--------------------------------------------------------------------------------
+IDP 
+       n  missing distinct 
+   16380        0      327 
+
+lowest : IDP-25002              IDP-25004              IDP-25006              IDP-25008              IDP-25010             
+highest: PC-ISOVF-TBSS-1        PC-OD-ProbTrack-1      PC-OD-TBSS-1           PC-Subcortical_GMvol-1 PC-Subcortical_vol-1  
+--------------------------------------------------------------------------------
+phenotype 
+       n  missing distinct 
+   16380        0       35 
+
+lowest : AD_Jansen_2019                        AlcDep_PGC_2018                       BIP_PGC_2020                          CNCR_Insomnia_all                     EA_Lee_2018                          
+highest: UKB_20002_1265_self_reported_migraine UKB_20016_Fluid_intelligence_score    UKB_20127_Neuroticism_score           UKB_21001_Body_mass_index_BMI         UKB_50_Standing_height               
+--------------------------------------------------------------------------------
+bhat 
+         n    missing   distinct       Info       Mean        Gmd        .05 
+     16380          0      16380          1 -0.0001635    0.06938 -1.058e-01 
+       .10        .25        .50        .75        .90        .95 
+-6.905e-02 -2.846e-02  8.725e-05  2.816e-02  6.726e-02  1.048e-01 
+
+lowest : -0.546949 -0.540895 -0.524013 -0.485499 -0.458464
+highest: 0.465124  0.468907  0.469631  0.665207  0.743975 
+--------------------------------------------------------------------------------
+pval 
+        n   missing  distinct      Info      Mean       Gmd       .05       .10 
+    16380         0     16163         1    0.2996    0.3418 1.089e-12 3.501e-06 
+      .25       .50       .75       .90       .95 
+1.147e-02 1.845e-01 5.413e-01 8.116e-01 9.053e-01 
+
+lowest : 0         6.64e-268 5.9e-243  1.2e-224  1.18e-223
+highest: 0.99959   0.999602  0.999739  0.99974   0.999986 
+--------------------------------------------------------------------------------
+zscore 
+        n   missing  distinct      Info      Mean       Gmd       .05       .10 
+    16380         0     16377         1       NaN         0 -4.869895 -3.029239 
+      .25       .50       .75       .90       .95 
+-1.343203  0.005566  1.310723  2.937274  4.454994 
+
+lowest : -Inf     -34.9691 -33.2873 -31.9969 -31.9255
+highest: 27.1688  27.2621  29.6268  30.7502  Inf     
+--------------------------------------------------------------------------------
+nsnp_used 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+   16380        0     1752    0.994   740065   449280     1522     1867 
+     .25      .50      .75      .90      .95 
+    3152  1055827  1061871  1067235  1069786 
+                                                          
+Value            0 1020000 1040000 1050000 1060000 1070000
+Frequency     4935     654     327    4905    4905     654
+Proportion   0.301   0.040   0.020   0.299   0.299   0.040
+
+For the frequency table, variable is rounded to the nearest 10000
+--------------------------------------------------------------------------------
+nsnp_total 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+   16380        0      140    0.659   749280   450191     1540     1878 
+     .25      .50      .75      .90      .95 
+    3192  1071343  1071343  1071343  1071343 
+
+lowest :     332     344     423     615     671
+highest:    4674    4776    5284    5750 1071343
+--------------------------------------------------------------------------------
+z_adj_perm_null 
+        n   missing  distinct      Info      Mean       Gmd       .05       .10 
+    16380         0     16380         1  -0.03535     1.991 -2.979781 -2.061315 
+      .25       .50       .75       .90       .95 
+-0.987054  0.002173  0.966907  1.994812  2.769813 
+
+lowest : -19.8403 -18.9717 -12.8442 -12.3615 -11.767 
+highest: 12.4433  13.015   15.1293  16.5187  18.4889 
+--------------------------------------------------------------------------------
+pval_adj_perm_null 
+        n   missing  distinct      Info      Mean       Gmd       .05       .10 
+    16380         0     16380         1    0.3801    0.3579 0.0001201 0.0041790 
+      .25       .50       .75       .90       .95 
+0.0754038 0.3277050 0.6432783 0.8547452 0.9281441 
+
+lowest : 1.3354e-87  2.9218e-80  2.5353e-76  2.69021e-61 1.03865e-51
+highest: 0.999663    0.999705    0.999799    0.999827    0.999988   
+--------------------------------------------------------------------------------</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab9)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>stab9 
+
+ 5  Variables      16485  Observations
+--------------------------------------------------------------------------------
+IDP 
+       n  missing distinct 
+   16485        0      471 
+
+lowest : IDP-25002              IDP-25004              IDP-25006              IDP-25008              IDP-25010             
+highest: PC-ISOVF-TBSS-1        PC-OD-ProbTrack-1      PC-OD-TBSS-1           PC-Subcortical_GMvol-1 PC-Subcortical_vol-1  
+--------------------------------------------------------------------------------
+phenotype 
+       n  missing distinct 
+   16485        0       35 
+
+lowest : AD_Jansen_2019                        AlcDep_PGC_2018                       BIP_PGC_2020                          CNCR_Insomnia_all                     EA_Lee_2018                          
+highest: UKB_20002_1265_self_reported_migraine UKB_20016_Fluid_intelligence_score    UKB_20127_Neuroticism_score           UKB_21001_Body_mass_index_BMI         UKB_50_Standing_height               
+--------------------------------------------------------------------------------
+rg 
+         n    missing   distinct       Info       Mean        Gmd        .05 
+     16485          0       7306          1 -0.0003535    0.08694    -0.1265 
+       .10        .25        .50        .75        .90        .95 
+   -0.0935    -0.0465    -0.0014     0.0460     0.0955     0.1271 
+
+lowest : -0.5884  -0.58739 -0.4948  -0.4718  -0.4662 
+highest: 0.423    0.4263   0.4288   0.4648   0.6635  
+--------------------------------------------------------------------------------
+pval 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+   16485        0    12018        1   0.4316   0.3526 0.006504 0.031514 
+     .25      .50      .75      .90      .95 
+0.146400 0.404100 0.695600 0.878576 0.935662 
+
+lowest : 4.2436e-25 7.8274e-24 1.2668e-18 1.6461e-17 3.0717e-15
+highest: 0.9993     0.9994     0.9995     0.9997     0.99989   
+--------------------------------------------------------------------------------
+zscore 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+   16485        0    13834        1 -0.01632    1.496  -2.1439  -1.6394 
+     .25      .50      .75      .90      .95 
+ -0.8402  -0.0253   0.8288   1.6145   2.1550 
+
+lowest : -10.3487 -10.0658 -8.8086  -8.5164  -6.8338 
+highest: 6.8568   6.8785   7.2864   7.4991   7.888   
+--------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<pre class="text cell-code"><code>Sure, here are the extracted captions from the provided LaTeX code:
+
+1. **Demographic information of the IDP cohort**
+   A summary of age and sex of the selected 24,409 individuals (IDP cohort) is shown. For age, **information** shows the average age with standard deviation of age in parentheses and **detail** shows the range of the age (min and max). For sex, **information** shows the fraction of each age among the cohort and **detail** shows the raw counts (female's is listed first and followed by male's)
+   \label{S-tab:ukb_cohort}
+
+2. **UK Biobank brain IDPs being analyzed**
+   This table contains the detailed information about the brain IDPs analyzed in this paper. The columns are listed below.
+   **IDP** shows the IDP identifier used in this paper which uses the format of "IDP-XXXXX" with XXXXX being the Field ID in UK Biobank;
+   **modality** indicates whether the IDP is from T1 MRI or diffusion MRI;
+   **subtype** lists the name of the IDP subtypes which is used in the paper to refer to different types of brain IDPs;
+   **pc1\_name** shows the name of the corresponding principal component of the subtype (this will be used as the IDP identifier for the IDP PC1);
+   **region** shows the anatomical region of the MRI measurement;
+   **side** indicates whether the measurement is from the left or right part of the brain;
+   **measurement\_type** shows the details of the measurement and the image processing procedure;
+   **dmri\_measure** indicates the type of statistic extracted from the dMRI measurement;
+   **t1\_anatomy\_group** indicates the anatomical grouping for T1 MRI;
+   **notes** shows the description of the IDP extracted from the UK Biobank database;
+   **ukb\_link** lists the link to the Data Field in UK Biobank website.
+   \label{S-tab:idp_table}
+
+3. **The heritability and polygenicity estimates of brain IDPs**
+   **IDP**: IDP identifier;
+   **h2** and **h2\_SE**: The estimated heritability and the corresponding standard error;
+   **Me** and **Me\_SE**: The estimated polygenicity (defined as $M_e$ in \cite{oconnor:2019}) and the corresponding standard error.
+   \label{S-tab:gen_arch}
+
+4. **The prediction performance of the ridge and elastic net predictors**
+   It contains prediction performance (via cross-validation scheme) of the ridge regression and elastic net based genetic predictors of brain IDPs.
+   **IDP**: IDP identifier;
+   **model\_name**: The type of prediction model being used (ridge regression or elastic net);
+   **Spearman**: The Spearman correlation between the predicted and observed IDP values;
+   **Pearson**: The Pearson correlation between the predicted and observed IDP values;
+   **R2**: The $R^2$ measured from the predicted and observed IDP values;
+   **is\_kept**: An indicator showing whether the genetic predictor passes the quality control filter (e.g. Spearman correlation $&gt;0.1$) so that will be included in BrainXcan software.
+   \label{S-tab:cv_perf}
+
+5. **The list of 9 UK Biobank based phenotypes being analyzed by individual-level BrainXcan**
+   It contains the definition of the 9 UK Biobank phenotypes used for individual-level BrainXcan. For some phenotypes, they were constructed from multiple UK Biobank fields and the aggregation method across these fields was either taking the sum ('sum') or taking logical OR ('or'). For binary phenotype, we defined its value as 1 if the field takes the desired values indicated in **target\_value**. Missing values were either treated as 0 or removed.
+   **phenotype** shows the name of the defined phenotype;
+   **ukb\_field** shows UK Biobank fields from which the phenotype was constructed;
+   **target\_value**: For binary phenotypes, we defined its value as 1 if the field takes the desired value. For quantitative traits, we used the value as it is (labeled as 'asis');
+   **aggregate\_method**: For some phenotypes, they were constructed from multiple UK Biobank fields and the aggregation method across these fields was either taking the sum ('sum') or taking the logical OR ('or');
+   **missing\_values** shows how missing values in a field were handled (either treated as 0 or removed).
+   \label{S-tab:indiv_bxcan_phenotype}
+
+6. **The list of 35 GWASs being analyzed by S-BrainXcan**
+   It contains the information about the 35 GWASs used in S-BrainXcan analysis.
+   **phenotype**: The name of the phenotype;
+   **phenotype\_id**: The phenotype identifiers;
+   **short\_name**: The short names of the phenotypes;
+   **sample\_size**: The sample size of the GWAS. If there are different sample sizes for different SNPs, the mean sample size is shown;
+   **portal**: The website from which the GWAS was downloaded;
+   **filename**: The name of the raw GWAS file being downloaded.
+   \label{S-tab:s_bxcan_phenotype}
+
+7. **S-BrainXcan results for 35 GWASs**
+   **model**: The prediction model type of the IDP predictor (either ridge or elastic net);
+   **IDP**: IDP identifier;
+   **phenotype**: The name of the phenotype (defined in table~\ref{S-tab:s_bxcan_phenotype});
+   **bhat**: BrainXcan effect size estimate, $\hat\beta$;
+   **pval**: BrainXcan p-value (without adjustment by permutation);
+   **zscore**: BrainXcan z-score (without adjustment by permutation);
+   **nsnp\_used**: The number of variants used in S-BrainXcan computation;
+   **nsnp\_total**: The number of variants in the prediction model (**nsnp\_used** should be no larger than **nsnp\_total** but the closer the better since the difference is the number of variants being missed by the GWAS);
+   **z\_adj\_perm\_null**: BrainXcan z-score with adjustment by permutation;
+   **pval\_adj\_perm\_null**: The corresponding p-value computed from the adjusted BrainXcan z-score (**z\_adj\_perm\_null**).
+   \label{S-tab:s_bxcan_results}
+
+8. **LDSC based genetic correlation results for 35 GWASs**
+   **IDP**: IDP identifier;
+   **phenotype**: The name of the phenotype (defined in table~\ref{S-tab:s_bxcan_phenotype});
+   **rg**: Genetic correlation;
+   **pval**: Genetic correlation p-value (null hypothesis: **rg** is zero);
+   **zscore**: The corresponding z-score calculated from **pval**.
+   \label{S-tab:gencor_results}
+</code></pre>
 </details>
 </div>
 
@@ -635,180 +1347,172 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "BrainXcan supplementary tables content"</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Haky Im"</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2023-08-09"</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(tidyverse))</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(glue))</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>PRE <span class="ot">=</span> <span class="st">"/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>SLUG<span class="ot">=</span><span class="st">"brainxcan-supplementary-tables-content"</span> <span class="do">## copy the slug from the header</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>bDATE<span class="ot">=</span><span class="st">'2023-08-09'</span> <span class="do">## copy the date from the blog's header here</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>DATA <span class="ot">=</span> <span class="fu">glue</span>(<span class="st">"{PRE}/{bDATE}-{SLUG}"</span>)</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(DATA)) <span class="fu">system</span>(glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"mkdir {DATA}"</span>))</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>WORK<span class="ot">=</span>DATA</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="do">##system(glue("open {DATA}")) ## this will open the folder </span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="fu">glue</span>(<span class="st">"ls -r {DATA}/*"</span>))</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="in">```{latex}</span></span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="in">\begin{table}[H]</span></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="in">\centering</span></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="in">\begin{tabular}{lll}</span></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="in">  \toprule</span></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="in">{\textbf{variable}} &amp; {\textbf{information}} &amp; {\textbf{detail}} \\</span></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="in">  \midrule</span></span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="in">age &amp; 54.9 (7.34) &amp; range: 40--70 \\</span></span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="in">  sex &amp; 52.5\%/47.5\% &amp; raw count: 12814/11595 \\</span></span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="in">   \bottomrule</span></span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="in">\end{tabular}</span></span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="in">\caption[Demographic information of the IDP cohort]{\textbf{Demographic information of the IDP cohort.} A summary of age and sex of the selected 24,409 individuals (IDP cohort) is shown. For age, \textbf{information} shows the average age with standard deviation of age in parentheses and \textbf{detail} shows the range of the age (min and max). For sex, \textbf{information} shows the fraction of each age among the cohort and \textbf{detail} shows the raw counts (female's is listed first and followed by male's)}</span></span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="in">\label{S-tab:ukb_cohort}</span></span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="in">\end{table}</span></span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="in">\begin{table}[H]</span></span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="in">  % \begin{footnotesize}</span></span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="in">  \caption[UK Biobank brain IDPs being analyzed]{\textbf{UK Biobank brain IDPs being analyzed.} </span></span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="in">  % The table is available at \url{https://docs.google.com/spreadsheets/d/1xzLvwtIshyX10orGnGVyDNuyDHU-zgoYhGYemf-6I10}. </span></span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="in">    This table contains the detailed information about the brain IDPs analyzed in this paper. </span></span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="in">    The columns are listed below.</span></span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{IDP} shows the IDP identifier used in this paper which uses the format of ``IDP-XXXXX'' with XXXXX being the Field ID in UK Biobank;</span></span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{modality} indicates whether the IDP is from T1 MRI or diffusion MRI;</span></span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{subtype} lists the name of the IDP subtypes which is used in the paper to refer to different types of brain IDPs;</span></span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{pc1\_name} shows the name of the corresponding principal component of the subtype (this will be used as the IDP identifier for the IDP PC1); </span></span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{region} shows the anatomical region of the MRI measurement;</span></span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{side} indicates whether the measurement is from the left or right part of the brain; </span></span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{measurement\_type} shows the details of the measurement and the image processing procedure;</span></span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{dmri\_measure} indicates the type of statistic extracted from the dMRI measurement;</span></span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{t1\_anatomy\_group} indicates the anatomical grouping for T1 MRI;</span></span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{notes} shows the description of the IDP extracted from the UK Biobank database;</span></span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{ukb\_link} lists the link to the Data Field in UK Biobank website.</span></span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a><span class="in">  \label{S-tab:idp_table}</span></span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a><span class="in">  % \end{footnotesize}</span></span>
-<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a><span class="in">\end{table}</span></span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="in">\begin{table}[H]</span></span>
-<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="in">  % \begin{footnotesize}</span></span>
-<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a><span class="in">  \caption[The heritability and polygenicity estimates of brain IDPs]{\textbf{The heritability and poligenicity estimates of brain IDPs.} </span></span>
-<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{IDP}: IDP identifier;</span></span>
-<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{h2} and \textbf{h2\_SE}: The estimated heritability and the corresponding standard error;</span></span>
-<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{Me} and \textbf{Me\_SE}: The estimated polygenicity (defined as $M_e$ in \cite{oconnor:2019}) and the corresponding standard error.</span></span>
-<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
-<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a><span class="in">  \label{S-tab:gen_arch}</span></span>
-<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a><span class="in">  % \end{footnotesize}</span></span>
-<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a><span class="in">\end{table}</span></span>
-<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a><span class="in">\begin{table}[H]</span></span>
-<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a><span class="in">  % \begin{footnotesize}</span></span>
-<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a><span class="in">  \caption[The prediction performance of the ridge and elastic net predictors]{\textbf{The prediction performance of the ridge and elastic net predictors.} </span></span>
-<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a><span class="in">    It contains prediction performance (via cross-validation scheme) of the ridge regression and elastic net based genetic predictors of brain IDPs.</span></span>
-<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{IDP}: IDP identifier;</span></span>
-<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{model\_name}: The type of prediction model being used (ridge regression or elastic net);</span></span>
-<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{Spearman}: The Spearman correlation between the predicted and observed IDP values;</span></span>
-<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{Pearson}: The Pearson correlation between the predicted and observed IDP values;</span></span>
-<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{R2}: The $R^2$ measured from the predicted and observed IDP values;</span></span>
-<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{is\_kept}: An indicator showing whether the genetic predictor passes the quality control filter (e.g. Spearman correlation $&gt;0.1$) so that will be included in BrainXcan software.</span></span>
-<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
-<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a><span class="in">  \label{S-tab:cv_perf}</span></span>
-<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a><span class="in">  % \end{footnotesize}</span></span>
-<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a><span class="in">\end{table}</span></span>
-<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a><span class="in">\begin{table}[H]</span></span>
-<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a><span class="in">  % \begin{footnotesize}</span></span>
-<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a><span class="in">  \caption[The list of 9 UK Biobank based phenotypes being analyzed by individual-level BrainXcan]{\textbf{The list of 9 UK Biobank based phenotypes analyzed by individual-level BrainXcan.} </span></span>
-<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a><span class="in">  % The table is available at \url{https://docs.google.com/spreadsheets/d/150mFxAV1p_IK1l36GKjazBt0pIb5eSC0LO7JeFaTS1I}. </span></span>
-<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a><span class="in">    It contains the definition of the 9 UK Biobank phenotypes used for individual-level BrainXcan.</span></span>
-<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a><span class="in">    For some phenotypes, they were constructed from multiple UK Biobank fields and the aggregation method across these fields was either taking the sum (`sum') or taking logical OR (`or').</span></span>
-<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a><span class="in">    For binary phenotype, we defined its value as 1 if the field takes the desired values indicated in \textbf{target\_value}. </span></span>
-<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a><span class="in">    Missing values were either treated as 0 or removed.   </span></span>
-<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{phenotype} shows the name of the defined phenotype;</span></span>
-<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{ukb\_field} shows UK Biobank fields from which the phenotype was constructed;</span></span>
-<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{target\_value}: For binary phenotypes, we defined its value as 1 if the field takes the desired value. For quantitative traits, we used the value as it is (labeled as `asis');</span></span>
-<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{aggregate\_method}: For some phenotypes, they were constructed from multiple UK Biobank fields and the aggregation method across these fields was either taking the sum (`sum') or taking the logical OR (`or');</span></span>
-<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{missing\_values} shows how missing values in a field were handled (either treated as 0 or removed).   </span></span>
-<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
-<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a><span class="in">  \label{S-tab:indiv_bxcan_phenotype}</span></span>
-<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a><span class="in">  % \end{footnotesize}</span></span>
-<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a><span class="in">\end{table}</span></span>
-<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a><span class="in">% \begin{table}[H]</span></span>
-<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a><span class="in">%   % \begin{footnotesize}</span></span>
-<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a><span class="in">%   \caption[Individual-level BrainXcan results on 9 UK Biobank phenotypes]{\textbf{Individual-level BrainXcan results on 9 UK Biobank phenotypes.} </span></span>
-<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a><span class="in">%     \textbf{model}: The prediction model type of the IDP predictor (either ridge or elastic net);</span></span>
-<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a><span class="in">%     \textbf{IDP}: IDP identifier; </span></span>
-<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a><span class="in">%     \textbf{phenotype}: The name of the phenotype (defined in table~\ref{S-tab:indiv_bxcan_phenotype});</span></span>
-<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a><span class="in">%     \textbf{bhat}: BrainXcan effect size estimate, $\hat\beta$;</span></span>
-<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a><span class="in">%     \textbf{pval}: BrainXcan p-value (without adjustment by permutation);</span></span>
-<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a><span class="in">%     \textbf{zscore}: BrainXcan z-score (without adjustment by permutation).   </span></span>
-<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a><span class="in">%   }</span></span>
-<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a><span class="in">%   \label{S-tab:indiv_bxcan_results}</span></span>
-<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a><span class="in">%   % \end{footnotesize}</span></span>
-<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a><span class="in">% \end{table}</span></span>
-<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a><span class="in">\begin{table}[H]</span></span>
-<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a><span class="in">  % \begin{footnotesize}</span></span>
-<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a><span class="in">  \caption[The list of 35 GWASs being analyzed by S-BrainXcan]{\textbf{The list of 35 GWAS  analyzed by S-BrainXcan.} </span></span>
-<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a><span class="in">  % The table is available at \url{https://docs.google.com/spreadsheets/d/1jjDZZBsRNTvgidXXfJqXNOvFQ1U9Ree0G-WFcXtWGAg}. </span></span>
-<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a><span class="in">    It contains the information about the 35 GWASs used in S-BrainXcan analysis. </span></span>
-<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{phenotype}: The name of the phenotype;</span></span>
-<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{phenotype\_id}: The phenotype identifiers;</span></span>
-<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{short\_name}: The short names of the phenotypes;</span></span>
-<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{sample\_size}: The sample size of the GWAS. If there are different sample sizes for different SNPs, the mean sample size is shown;</span></span>
-<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{portal}: The website from which the GWAS was downloaded;</span></span>
-<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{filename}: The name of the raw GWAS file being downloaded.   </span></span>
-<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
-<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a><span class="in">  \label{S-tab:s_bxcan_phenotype}</span></span>
-<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a><span class="in">  % \end{footnotesize}</span></span>
-<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a><span class="in">\end{table}</span></span>
-<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a><span class="in">\begin{table}[H]</span></span>
-<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a><span class="in">  % \begin{footnotesize}</span></span>
-<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a><span class="in">  \caption[S-BrainXcan results for 35 GWASs]{\textbf{S-BrainXcan results for 35 GWASs.} </span></span>
-<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{model}: The prediction model type of the IDP predictor (either ridge or elastic net);</span></span>
-<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{IDP}: IDP identifier; </span></span>
-<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{phenotype}: The name of the phenotype (defined in table~\ref{S-tab:s_bxcan_phenotype});</span></span>
-<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{bhat}: BrainXcan effect size estimate, $\hat\beta$;</span></span>
-<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{pval}: BrainXcan p-value (without adjustment by permutation);</span></span>
-<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{zscore}: BrainXcan z-score (without adjustment by permutation);</span></span>
-<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{nsnp\_used}: The number of variants used in S-BrainXcan computation;</span></span>
-<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{nsnp\_total}: The number of variants in the prediction model (\textbf{nsnp\_used} should be no larger than \textbf{nsnp\_total} but the closer the better since the difference is the number of variants being missed by the GWAS);</span></span>
-<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{z\_adj\_perm\_null}: BrainXcan z-score with adjustment by permutation;</span></span>
-<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{pval\_adj\_perm\_null}: The corresponding p-value computed from the adjusted BrainXcan z-score (\textbf{z\_adj\_perm\_null}).</span></span>
-<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
-<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a><span class="in">  \label{S-tab:s_bxcan_results}</span></span>
-<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a><span class="in">  % \end{footnotesize}</span></span>
-<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a><span class="in">\end{table}</span></span>
-<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a><span class="in">\begin{table}[H]</span></span>
-<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a><span class="in">  % \begin{footnotesize}</span></span>
-<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a><span class="in">  \caption[LDSC based genetic correlation results for 35 GWASs]{\textbf{LDSC based genetic correlation results for 35 GWASs.} </span></span>
-<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{IDP}: IDP identifier; </span></span>
-<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{phenotype}: The name of the phenotype (defined in table~\ref{S-tab:s_bxcan_phenotype});</span></span>
-<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{rg}: Genetic correlation;</span></span>
-<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{pval}: Genetic correlation p-value (null hypothesis: \textbf{rg} is zero);</span></span>
-<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a><span class="in">    \textbf{zscore}: The corresponding z-score calculated from \textbf{pval}.</span></span>
-<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a><span class="in">  }</span></span>
-<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a><span class="in">  \label{S-tab:gencor_results}</span></span>
-<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a><span class="in">  % \end{footnotesize}</span></span>
-<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a><span class="in">\end{table}</span></span>
-<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="sourceCode" id="cb46" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "BrainXcan supplementary tables content"</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Haky Im"</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2023-08-09"</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>:::{.callout-tip}</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>Trying to get a sense of what we have in the supplementary tables.</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>:::{.callout-warning collapse="true"}</span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Note</span></span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>Table S6 has results from brainxcan in 9 ukb phenotypes</span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(tidyverse))</span>
+<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(glue))</span>
+<span id="cb46-25"><a href="#cb46-25" aria-hidden="true" tabindex="-1"></a>PRE <span class="ot">=</span> <span class="st">"/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"</span></span>
+<span id="cb46-26"><a href="#cb46-26" aria-hidden="true" tabindex="-1"></a>SLUG<span class="ot">=</span><span class="st">"brainxcan-supplementary-tables-content"</span> <span class="do">## copy the slug from the header</span></span>
+<span id="cb46-27"><a href="#cb46-27" aria-hidden="true" tabindex="-1"></a>bDATE<span class="ot">=</span><span class="st">'2023-08-09'</span> <span class="do">## copy the date from the blog's header here</span></span>
+<span id="cb46-28"><a href="#cb46-28" aria-hidden="true" tabindex="-1"></a>DATA <span class="ot">=</span> <span class="fu">glue</span>(<span class="st">"{PRE}/{bDATE}-{SLUG}"</span>)</span>
+<span id="cb46-29"><a href="#cb46-29" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(DATA)) <span class="fu">system</span>(glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"mkdir {DATA}"</span>))</span>
+<span id="cb46-30"><a href="#cb46-30" aria-hidden="true" tabindex="-1"></a>WORK<span class="ot">=</span>DATA</span>
+<span id="cb46-31"><a href="#cb46-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-32"><a href="#cb46-32" aria-hidden="true" tabindex="-1"></a><span class="do">##system(glue("open {DATA}")) ## this will open the folder </span></span>
+<span id="cb46-33"><a href="#cb46-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-34"><a href="#cb46-34" aria-hidden="true" tabindex="-1"></a><span class="do">## load qqunif</span></span>
+<span id="cb46-35"><a href="#cb46-35" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">source_gist</span>(<span class="st">"38431b74c6c0bf90c12f"</span>)</span>
+<span id="cb46-36"><a href="#cb46-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-37"><a href="#cb46-37" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb46-38"><a href="#cb46-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-41"><a href="#cb46-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb46-42"><a href="#cb46-42" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="fu">glue</span>(<span class="st">"ls -r {DATA}/*"</span>))</span>
+<span id="cb46-43"><a href="#cb46-43" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb46-44"><a href="#cb46-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-47"><a href="#cb46-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb46-48"><a href="#cb46-48" aria-hidden="true" tabindex="-1"></a>stab2 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S2.xlsx"</span>))</span>
+<span id="cb46-49"><a href="#cb46-49" aria-hidden="true" tabindex="-1"></a>stab3 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S3.xlsx"</span>))</span>
+<span id="cb46-50"><a href="#cb46-50" aria-hidden="true" tabindex="-1"></a>stab4 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S4.xlsx"</span>))</span>
+<span id="cb46-51"><a href="#cb46-51" aria-hidden="true" tabindex="-1"></a>stab5 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S5.xlsx"</span>))</span>
+<span id="cb46-52"><a href="#cb46-52" aria-hidden="true" tabindex="-1"></a>stab6 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S6.xlsx"</span>))</span>
+<span id="cb46-53"><a href="#cb46-53" aria-hidden="true" tabindex="-1"></a>stab7 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S7.xlsx"</span>))</span>
+<span id="cb46-54"><a href="#cb46-54" aria-hidden="true" tabindex="-1"></a>stab8 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S8.xlsx"</span>))</span>
+<span id="cb46-55"><a href="#cb46-55" aria-hidden="true" tabindex="-1"></a>stab8factor <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S8-w-factor.xlsx"</span>))</span>
+<span id="cb46-56"><a href="#cb46-56" aria-hidden="true" tabindex="-1"></a>stab9 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S9.xlsx"</span>))</span>
+<span id="cb46-57"><a href="#cb46-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-58"><a href="#cb46-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-59"><a href="#cb46-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-60"><a href="#cb46-60" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb46-61"><a href="#cb46-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-62"><a href="#cb46-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-63"><a href="#cb46-63" aria-hidden="true" tabindex="-1"></a><span class="in">```{r qqunif of 35 traits}</span></span>
+<span id="cb46-64"><a href="#cb46-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-65"><a href="#cb46-65" aria-hidden="true" tabindex="-1"></a>phenolist <span class="ot">=</span> <span class="fu">unique</span>(stab8factor<span class="sc">$</span>phenotype)</span>
+<span id="cb46-66"><a href="#cb46-66" aria-hidden="true" tabindex="-1"></a>mydata<span class="ot">=</span>stab8factor</span>
+<span id="cb46-67"><a href="#cb46-67" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(pheno <span class="cf">in</span> phenolist)</span>
+<span id="cb46-68"><a href="#cb46-68" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb46-69"><a href="#cb46-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">qqunif</span>(mydata<span class="sc">$</span>pval_adj_perm_null[mydata<span class="sc">$</span>model<span class="sc">==</span><span class="st">"ridge"</span> <span class="sc">&amp;</span> mydata<span class="sc">$</span>phenotype<span class="sc">==</span> pheno],<span class="at">main=</span>pheno)</span>
+<span id="cb46-70"><a href="#cb46-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="st">"perm and factor adjusted"</span>)</span>
+<span id="cb46-71"><a href="#cb46-71" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb46-72"><a href="#cb46-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-73"><a href="#cb46-73" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb46-74"><a href="#cb46-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-75"><a href="#cb46-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-76"><a href="#cb46-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-79"><a href="#cb46-79" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb46-80"><a href="#cb46-80" aria-hidden="true" tabindex="-1"></a><span class="do">## install.packages("Hmisc")</span></span>
+<span id="cb46-81"><a href="#cb46-81" aria-hidden="true" tabindex="-1"></a><span class="do">## install.packages("rms")</span></span>
+<span id="cb46-82"><a href="#cb46-82" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab2)</span>
+<span id="cb46-83"><a href="#cb46-83" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab3)</span>
+<span id="cb46-84"><a href="#cb46-84" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab4)</span>
+<span id="cb46-85"><a href="#cb46-85" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab5)</span>
+<span id="cb46-86"><a href="#cb46-86" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab6)</span>
+<span id="cb46-87"><a href="#cb46-87" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab7)</span>
+<span id="cb46-88"><a href="#cb46-88" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab8factor)</span>
+<span id="cb46-89"><a href="#cb46-89" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab9)</span>
+<span id="cb46-90"><a href="#cb46-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-91"><a href="#cb46-91" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb46-92"><a href="#cb46-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-93"><a href="#cb46-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-94"><a href="#cb46-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-97"><a href="#cb46-97" aria-hidden="true" tabindex="-1"></a><span class="in">```{text}</span></span>
+<span id="cb46-98"><a href="#cb46-98" aria-hidden="true" tabindex="-1"></a><span class="in">Sure, here are the extracted captions from the provided LaTeX code:</span></span>
+<span id="cb46-99"><a href="#cb46-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-100"><a href="#cb46-100" aria-hidden="true" tabindex="-1"></a><span class="in">1. **Demographic information of the IDP cohort**</span></span>
+<span id="cb46-101"><a href="#cb46-101" aria-hidden="true" tabindex="-1"></a><span class="in">   A summary of age and sex of the selected 24,409 individuals (IDP cohort) is shown. For age, **information** shows the average age with standard deviation of age in parentheses and **detail** shows the range of the age (min and max). For sex, **information** shows the fraction of each age among the cohort and **detail** shows the raw counts (female's is listed first and followed by male's)</span></span>
+<span id="cb46-102"><a href="#cb46-102" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:ukb_cohort}</span></span>
+<span id="cb46-103"><a href="#cb46-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-104"><a href="#cb46-104" aria-hidden="true" tabindex="-1"></a><span class="in">2. **UK Biobank brain IDPs being analyzed**</span></span>
+<span id="cb46-105"><a href="#cb46-105" aria-hidden="true" tabindex="-1"></a><span class="in">   This table contains the detailed information about the brain IDPs analyzed in this paper. The columns are listed below.</span></span>
+<span id="cb46-106"><a href="#cb46-106" aria-hidden="true" tabindex="-1"></a><span class="in">   **IDP** shows the IDP identifier used in this paper which uses the format of "IDP-XXXXX" with XXXXX being the Field ID in UK Biobank;</span></span>
+<span id="cb46-107"><a href="#cb46-107" aria-hidden="true" tabindex="-1"></a><span class="in">   **modality** indicates whether the IDP is from T1 MRI or diffusion MRI;</span></span>
+<span id="cb46-108"><a href="#cb46-108" aria-hidden="true" tabindex="-1"></a><span class="in">   **subtype** lists the name of the IDP subtypes which is used in the paper to refer to different types of brain IDPs;</span></span>
+<span id="cb46-109"><a href="#cb46-109" aria-hidden="true" tabindex="-1"></a><span class="in">   **pc1\_name** shows the name of the corresponding principal component of the subtype (this will be used as the IDP identifier for the IDP PC1);</span></span>
+<span id="cb46-110"><a href="#cb46-110" aria-hidden="true" tabindex="-1"></a><span class="in">   **region** shows the anatomical region of the MRI measurement;</span></span>
+<span id="cb46-111"><a href="#cb46-111" aria-hidden="true" tabindex="-1"></a><span class="in">   **side** indicates whether the measurement is from the left or right part of the brain;</span></span>
+<span id="cb46-112"><a href="#cb46-112" aria-hidden="true" tabindex="-1"></a><span class="in">   **measurement\_type** shows the details of the measurement and the image processing procedure;</span></span>
+<span id="cb46-113"><a href="#cb46-113" aria-hidden="true" tabindex="-1"></a><span class="in">   **dmri\_measure** indicates the type of statistic extracted from the dMRI measurement;</span></span>
+<span id="cb46-114"><a href="#cb46-114" aria-hidden="true" tabindex="-1"></a><span class="in">   **t1\_anatomy\_group** indicates the anatomical grouping for T1 MRI;</span></span>
+<span id="cb46-115"><a href="#cb46-115" aria-hidden="true" tabindex="-1"></a><span class="in">   **notes** shows the description of the IDP extracted from the UK Biobank database;</span></span>
+<span id="cb46-116"><a href="#cb46-116" aria-hidden="true" tabindex="-1"></a><span class="in">   **ukb\_link** lists the link to the Data Field in UK Biobank website.</span></span>
+<span id="cb46-117"><a href="#cb46-117" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:idp_table}</span></span>
+<span id="cb46-118"><a href="#cb46-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-119"><a href="#cb46-119" aria-hidden="true" tabindex="-1"></a><span class="in">3. **The heritability and polygenicity estimates of brain IDPs**</span></span>
+<span id="cb46-120"><a href="#cb46-120" aria-hidden="true" tabindex="-1"></a><span class="in">   **IDP**: IDP identifier;</span></span>
+<span id="cb46-121"><a href="#cb46-121" aria-hidden="true" tabindex="-1"></a><span class="in">   **h2** and **h2\_SE**: The estimated heritability and the corresponding standard error;</span></span>
+<span id="cb46-122"><a href="#cb46-122" aria-hidden="true" tabindex="-1"></a><span class="in">   **Me** and **Me\_SE**: The estimated polygenicity (defined as $M_e$ in \cite{oconnor:2019}) and the corresponding standard error.</span></span>
+<span id="cb46-123"><a href="#cb46-123" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:gen_arch}</span></span>
+<span id="cb46-124"><a href="#cb46-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-125"><a href="#cb46-125" aria-hidden="true" tabindex="-1"></a><span class="in">4. **The prediction performance of the ridge and elastic net predictors**</span></span>
+<span id="cb46-126"><a href="#cb46-126" aria-hidden="true" tabindex="-1"></a><span class="in">   It contains prediction performance (via cross-validation scheme) of the ridge regression and elastic net based genetic predictors of brain IDPs.</span></span>
+<span id="cb46-127"><a href="#cb46-127" aria-hidden="true" tabindex="-1"></a><span class="in">   **IDP**: IDP identifier;</span></span>
+<span id="cb46-128"><a href="#cb46-128" aria-hidden="true" tabindex="-1"></a><span class="in">   **model\_name**: The type of prediction model being used (ridge regression or elastic net);</span></span>
+<span id="cb46-129"><a href="#cb46-129" aria-hidden="true" tabindex="-1"></a><span class="in">   **Spearman**: The Spearman correlation between the predicted and observed IDP values;</span></span>
+<span id="cb46-130"><a href="#cb46-130" aria-hidden="true" tabindex="-1"></a><span class="in">   **Pearson**: The Pearson correlation between the predicted and observed IDP values;</span></span>
+<span id="cb46-131"><a href="#cb46-131" aria-hidden="true" tabindex="-1"></a><span class="in">   **R2**: The $R^2$ measured from the predicted and observed IDP values;</span></span>
+<span id="cb46-132"><a href="#cb46-132" aria-hidden="true" tabindex="-1"></a><span class="in">   **is\_kept**: An indicator showing whether the genetic predictor passes the quality control filter (e.g. Spearman correlation $&gt;0.1$) so that will be included in BrainXcan software.</span></span>
+<span id="cb46-133"><a href="#cb46-133" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:cv_perf}</span></span>
+<span id="cb46-134"><a href="#cb46-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-135"><a href="#cb46-135" aria-hidden="true" tabindex="-1"></a><span class="in">5. **The list of 9 UK Biobank based phenotypes being analyzed by individual-level BrainXcan**</span></span>
+<span id="cb46-136"><a href="#cb46-136" aria-hidden="true" tabindex="-1"></a><span class="in">   It contains the definition of the 9 UK Biobank phenotypes used for individual-level BrainXcan. For some phenotypes, they were constructed from multiple UK Biobank fields and the aggregation method across these fields was either taking the sum ('sum') or taking logical OR ('or'). For binary phenotype, we defined its value as 1 if the field takes the desired values indicated in **target\_value**. Missing values were either treated as 0 or removed.</span></span>
+<span id="cb46-137"><a href="#cb46-137" aria-hidden="true" tabindex="-1"></a><span class="in">   **phenotype** shows the name of the defined phenotype;</span></span>
+<span id="cb46-138"><a href="#cb46-138" aria-hidden="true" tabindex="-1"></a><span class="in">   **ukb\_field** shows UK Biobank fields from which the phenotype was constructed;</span></span>
+<span id="cb46-139"><a href="#cb46-139" aria-hidden="true" tabindex="-1"></a><span class="in">   **target\_value**: For binary phenotypes, we defined its value as 1 if the field takes the desired value. For quantitative traits, we used the value as it is (labeled as 'asis');</span></span>
+<span id="cb46-140"><a href="#cb46-140" aria-hidden="true" tabindex="-1"></a><span class="in">   **aggregate\_method**: For some phenotypes, they were constructed from multiple UK Biobank fields and the aggregation method across these fields was either taking the sum ('sum') or taking the logical OR ('or');</span></span>
+<span id="cb46-141"><a href="#cb46-141" aria-hidden="true" tabindex="-1"></a><span class="in">   **missing\_values** shows how missing values in a field were handled (either treated as 0 or removed).</span></span>
+<span id="cb46-142"><a href="#cb46-142" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:indiv_bxcan_phenotype}</span></span>
+<span id="cb46-143"><a href="#cb46-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-144"><a href="#cb46-144" aria-hidden="true" tabindex="-1"></a><span class="in">6. **The list of 35 GWASs being analyzed by S-BrainXcan**</span></span>
+<span id="cb46-145"><a href="#cb46-145" aria-hidden="true" tabindex="-1"></a><span class="in">   It contains the information about the 35 GWASs used in S-BrainXcan analysis.</span></span>
+<span id="cb46-146"><a href="#cb46-146" aria-hidden="true" tabindex="-1"></a><span class="in">   **phenotype**: The name of the phenotype;</span></span>
+<span id="cb46-147"><a href="#cb46-147" aria-hidden="true" tabindex="-1"></a><span class="in">   **phenotype\_id**: The phenotype identifiers;</span></span>
+<span id="cb46-148"><a href="#cb46-148" aria-hidden="true" tabindex="-1"></a><span class="in">   **short\_name**: The short names of the phenotypes;</span></span>
+<span id="cb46-149"><a href="#cb46-149" aria-hidden="true" tabindex="-1"></a><span class="in">   **sample\_size**: The sample size of the GWAS. If there are different sample sizes for different SNPs, the mean sample size is shown;</span></span>
+<span id="cb46-150"><a href="#cb46-150" aria-hidden="true" tabindex="-1"></a><span class="in">   **portal**: The website from which the GWAS was downloaded;</span></span>
+<span id="cb46-151"><a href="#cb46-151" aria-hidden="true" tabindex="-1"></a><span class="in">   **filename**: The name of the raw GWAS file being downloaded.</span></span>
+<span id="cb46-152"><a href="#cb46-152" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:s_bxcan_phenotype}</span></span>
+<span id="cb46-153"><a href="#cb46-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-154"><a href="#cb46-154" aria-hidden="true" tabindex="-1"></a><span class="in">7. **S-BrainXcan results for 35 GWASs**</span></span>
+<span id="cb46-155"><a href="#cb46-155" aria-hidden="true" tabindex="-1"></a><span class="in">   **model**: The prediction model type of the IDP predictor (either ridge or elastic net);</span></span>
+<span id="cb46-156"><a href="#cb46-156" aria-hidden="true" tabindex="-1"></a><span class="in">   **IDP**: IDP identifier;</span></span>
+<span id="cb46-157"><a href="#cb46-157" aria-hidden="true" tabindex="-1"></a><span class="in">   **phenotype**: The name of the phenotype (defined in table~\ref{S-tab:s_bxcan_phenotype});</span></span>
+<span id="cb46-158"><a href="#cb46-158" aria-hidden="true" tabindex="-1"></a><span class="in">   **bhat**: BrainXcan effect size estimate, $\hat\beta$;</span></span>
+<span id="cb46-159"><a href="#cb46-159" aria-hidden="true" tabindex="-1"></a><span class="in">   **pval**: BrainXcan p-value (without adjustment by permutation);</span></span>
+<span id="cb46-160"><a href="#cb46-160" aria-hidden="true" tabindex="-1"></a><span class="in">   **zscore**: BrainXcan z-score (without adjustment by permutation);</span></span>
+<span id="cb46-161"><a href="#cb46-161" aria-hidden="true" tabindex="-1"></a><span class="in">   **nsnp\_used**: The number of variants used in S-BrainXcan computation;</span></span>
+<span id="cb46-162"><a href="#cb46-162" aria-hidden="true" tabindex="-1"></a><span class="in">   **nsnp\_total**: The number of variants in the prediction model (**nsnp\_used** should be no larger than **nsnp\_total** but the closer the better since the difference is the number of variants being missed by the GWAS);</span></span>
+<span id="cb46-163"><a href="#cb46-163" aria-hidden="true" tabindex="-1"></a><span class="in">   **z\_adj\_perm\_null**: BrainXcan z-score with adjustment by permutation;</span></span>
+<span id="cb46-164"><a href="#cb46-164" aria-hidden="true" tabindex="-1"></a><span class="in">   **pval\_adj\_perm\_null**: The corresponding p-value computed from the adjusted BrainXcan z-score (**z\_adj\_perm\_null**).</span></span>
+<span id="cb46-165"><a href="#cb46-165" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:s_bxcan_results}</span></span>
+<span id="cb46-166"><a href="#cb46-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-167"><a href="#cb46-167" aria-hidden="true" tabindex="-1"></a><span class="in">8. **LDSC based genetic correlation results for 35 GWASs**</span></span>
+<span id="cb46-168"><a href="#cb46-168" aria-hidden="true" tabindex="-1"></a><span class="in">   **IDP**: IDP identifier;</span></span>
+<span id="cb46-169"><a href="#cb46-169" aria-hidden="true" tabindex="-1"></a><span class="in">   **phenotype**: The name of the phenotype (defined in table~\ref{S-tab:s_bxcan_phenotype});</span></span>
+<span id="cb46-170"><a href="#cb46-170" aria-hidden="true" tabindex="-1"></a><span class="in">   **rg**: Genetic correlation;</span></span>
+<span id="cb46-171"><a href="#cb46-171" aria-hidden="true" tabindex="-1"></a><span class="in">   **pval**: Genetic correlation p-value (null hypothesis: **rg** is zero);</span></span>
+<span id="cb46-172"><a href="#cb46-172" aria-hidden="true" tabindex="-1"></a><span class="in">   **zscore**: The corresponding z-score calculated from **pval**.</span></span>
+<span id="cb46-173"><a href="#cb46-173" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:gencor_results}</span></span>
+<span id="cb46-174"><a href="#cb46-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-175"><a href="#cb46-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-176"><a href="#cb46-176" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
