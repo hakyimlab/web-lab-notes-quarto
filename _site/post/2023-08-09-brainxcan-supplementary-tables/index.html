@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.2.335">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,10 +19,9 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -49,13 +48,43 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
+    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -91,8 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-submit-button-title": "Submit"
   }
 }</script>
 
@@ -111,29 +139,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <span class="navbar-title">Hakyimlab Notes</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
+    <a class="nav-link" href="../../about.html">
  <span class="menu-text">Miscel</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/hakyimlab/" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/hakyimlab/"><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/hakyim" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/hakyim"><i class="bi bi-twitter" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
+              <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -143,7 +169,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#load-2022-11-17-tables" id="toc-load-2022-11-17-tables" class="nav-link active" data-scroll-target="#load-2022-11-17-tables">load 2022-11-17 tables</a></li>
+  <li><a href="#load-2023-08-11-tables" id="toc-load-2023-08-11-tables" class="nav-link" data-scroll-target="#load-2023-08-11-tables">load 2023-08-11 tables</a></li>
+  <li><a href="#plot-zscores-for-dmri" id="toc-plot-zscores-for-dmri" class="nav-link" data-scroll-target="#plot-zscores-for-dmri">plot zscores for dMRI</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -177,12 +211,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
+<div class="callout-caption-container flex-fill">
 Summary
 </div>
 </div>
@@ -190,12 +224,12 @@ Summary
 <p>Trying to get a sense of what we have in the supplementary tables.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-warning callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
+<div class="callout-caption-container flex-fill">
 Note
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -208,7 +242,7 @@ Note
 </div>
 <div class="cell">
 <details>
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(tidyverse))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(glue))</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>PRE <span class="ot">=</span> <span class="st">"/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"</span></span>
@@ -230,35 +264,38 @@ Note
 </div>
 <div class="cell">
 <details>
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="fu">glue</span>(<span class="st">"ls -r {DATA}/*"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<section id="load-2022-11-17-tables" class="level2">
+<h2 class="anchored" data-anchor-id="load-2022-11-17-tables">load 2022-11-17 tables</h2>
 <div class="cell">
 <details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>stab2 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S2.xlsx"</span>))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>stab3 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S3.xlsx"</span>))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>stab4 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S4.xlsx"</span>))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>stab5 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S5.xlsx"</span>))</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>stab6 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S6.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># stab2 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S2.xlsx"))</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># stab3 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S3.xlsx"))</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># stab4 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S4.xlsx"))</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># stab5 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S5.xlsx"))</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># stab6 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S6.xlsx"))</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># stab7 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S7.xlsx"))</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># stab8 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S8.xlsx"))</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># stab8factor = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S8-w-factor.xlsx"))</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># stab9 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S9.xlsx"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Coercing text to numeric in F1625 / R1625C6: '-Inf'</code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Coercing text to numeric in F1626 / R1626C6: '-Inf'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Coercing text to numeric in F1705 / R1705C6: 'Inf'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Coercing text to numeric in F1706 / R1706C6: 'Inf'</code></pre>
-</div>
+</section>
+<section id="load-2023-08-11-tables" class="level2">
+<h2 class="anchored" data-anchor-id="load-2023-08-11-tables">load 2023-08-11 tables</h2>
+<div class="cell">
 <details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>stab7 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S7.xlsx"</span>))</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>stab8 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S8.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>stab2 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S2.xlsx"</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>stab3 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S3.xlsx"</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>stab4 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S4.xlsx"</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>stab5 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S5.xlsx"</span>))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>stab6 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S6.xlsx"</span>))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>stab7 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S7.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Coercing text to numeric in F3746 / R3746C6: 'Inf'</code></pre>
@@ -276,8 +313,8 @@ Note
 <pre><code>Warning: Coercing text to numeric in F3750 / R3750C6: 'Inf'</code></pre>
 </div>
 <details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>stab8factor <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S8-w-factor.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>stab7wofactor <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S7-wo-factor.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Coercing text to numeric in F3746 / R3746C6: 'Inf'</code></pre>
@@ -295,20 +332,20 @@ Note
 <pre><code>Warning: Coercing text to numeric in F3750 / R3750C6: 'Inf'</code></pre>
 </div>
 <details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>stab9 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S9.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>stab8 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S8.xlsx"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>phenolist <span class="ot">=</span> <span class="fu">unique</span>(stab8factor<span class="sc">$</span>phenotype)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>mydata<span class="ot">=</span>stab8factor</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(pheno <span class="cf">in</span> phenolist)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">qqunif</span>(mydata<span class="sc">$</span>pval_adj_perm_null[mydata<span class="sc">$</span>model<span class="sc">==</span><span class="st">"ridge"</span> <span class="sc">&amp;</span> mydata<span class="sc">$</span>phenotype<span class="sc">==</span> pheno],<span class="at">main=</span>pheno)</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="st">"perm and factor adjusted"</span>)</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>phenolist <span class="ot">=</span> <span class="fu">unique</span>(stab7<span class="sc">$</span>phenotype)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>mydata<span class="ot">=</span>stab7</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(pheno <span class="cf">in</span> phenolist)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">qqunif</span>(mydata<span class="sc">$</span>pval_adj_perm_null[mydata<span class="sc">$</span>model<span class="sc">==</span><span class="st">"ridge"</span> <span class="sc">&amp;</span> mydata<span class="sc">$</span>phenotype<span class="sc">==</span> pheno],<span class="at">main=</span>pheno)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="st">"perm and factor adjusted"</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/qqunif of 35 traits-1.png" class="img-fluid" width="672"></p>
@@ -428,639 +465,120 @@ mydata$phenotype == : thresholding p to 1e-30</code></pre>
 <p><img src="index_files/figure-html/qqunif of 35 traits-35.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+</section>
+<section id="plot-zscores-for-dmri" class="level2">
+<h2 class="anchored" data-anchor-id="plot-zscores-for-dmri">plot zscores for dMRI</h2>
 <div class="cell">
 <details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="do">## install.packages("Hmisc")</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="do">## install.packages("rms")</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(stab2<span class="sc">$</span>pc1_name,<span class="at">useNA=</span><span class="st">'always'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>stab2 
-
- 11  Variables      459  Observations
---------------------------------------------------------------------------------
-IDP 
-       n  missing distinct 
-     459        0      459 
-
-lowest : IDP-25002 IDP-25004 IDP-25006 IDP-25008 IDP-25010
-highest: IDP-25916 IDP-25917 IDP-25918 IDP-25919 IDP-25920
---------------------------------------------------------------------------------
-modality 
-       n  missing distinct 
-     459        0        2 
-                      
-Value       dMRI    T1
-Frequency    300   159
-Proportion 0.654 0.346
---------------------------------------------------------------------------------
-subtype 
-       n  missing distinct 
-     459        0       15 
-
-lowest : Brainstem       FA              Gray-Brainstem  Gray-Cerebellum Gray-Cortical  
-highest: Total           w-FA            w-ICVF          w-ISOVF         w-OD           
---------------------------------------------------------------------------------
-pc1_name 
-       n  missing distinct 
-     459        0       13 
-
-lowest : NA                     PC-Cerebellum-1        PC-Cortical-1          PC-FA-ProbTrack-1      PC-FA-TBSS-1          
-highest: PC-ISOVF-TBSS-1        PC-OD-ProbTrack-1      PC-OD-TBSS-1           PC-Subcortical_GMvol-1 PC-Subcortical_vol-1  
---------------------------------------------------------------------------------
-region 
-       n  missing distinct 
-     459        0      109 
-
-lowest : accumbens               acoustic radiation      amygdala                angular gyrus           anterior corona radiata
-highest: viib cerebellum         viiia cerebellum        viiib cerebellum        white matter            x cerebellum           
---------------------------------------------------------------------------------
-side 
-       n  missing distinct 
-     459        0        4 
-                                      
-Value        left     NA  right vermis
-Frequency     204     43    204      8
-Proportion  0.444  0.094  0.444  0.017
---------------------------------------------------------------------------------
-measurement_type 
-       n  missing distinct 
-     459        0        5 
-
-lowest : dMRI skeleton (TBSS-style measurement)                             dMRI weighted means (probabilistic-tractography-based measurement) Other T1 measurements                                              Regional grey matter volumes (FAST)                                Subcortical volumes (FIRST)                                       
-highest: dMRI skeleton (TBSS-style measurement)                             dMRI weighted means (probabilistic-tractography-based measurement) Other T1 measurements                                              Regional grey matter volumes (FAST)                                Subcortical volumes (FIRST)                                       
---------------------------------------------------------------------------------
-dmri_measure 
-       n  missing distinct 
-     459        0        5 
-                                        
-Value         FA  ICVF ISOVF    NA    OD
-Frequency     75    75    75   159    75
-Proportion 0.163 0.163 0.163 0.346 0.163
---------------------------------------------------------------------------------
-t1_anatomy_group 
-       n  missing distinct 
-     459        0        6 
-                                                                      
-Value        Brainstem  Cerebellum    Cortical          NA Subcortical
-Frequency            2          28          96         300          28
-Proportion       0.004       0.061       0.209       0.654       0.061
-                      
-Value            Total
-Frequency            5
-Proportion       0.011
---------------------------------------------------------------------------------
-notes 
-       n  missing distinct 
-     459        0      459 
-
-lowest : Mean FA (fractional anisotropy) in anterior corona radiata (left) on FA skeleton (from dMRI data)                Mean FA (fractional anisotropy) in anterior corona radiata (right) on FA skeleton (from dMRI data)               Mean FA (fractional anisotropy) in anterior limb of internal capsule (left) on FA skeleton (from dMRI data)      Mean FA (fractional anisotropy) in anterior limb of internal capsule (right) on FA skeleton (from dMRI data)     Mean FA (fractional anisotropy) in body of corpus callosum on FA skeleton (from dMRI data)                      
-highest: Weighted-mean OD (orientation dispersion index) in tract right parahippocampal part of cingulum (from dMRI data) Weighted-mean OD (orientation dispersion index) in tract right posterior thalamic radiation (from dMRI data)     Weighted-mean OD (orientation dispersion index) in tract right superior longitudinal fasciculus (from dMRI data) Weighted-mean OD (orientation dispersion index) in tract right superior thalamic radiation (from dMRI data)      Weighted-mean OD (orientation dispersion index) in tract right uncinate fasciculus (from dMRI data)             
---------------------------------------------------------------------------------
-ukb_link 
-       n  missing distinct 
-     459        0      459 
-
-lowest : http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25002 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25004 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25006 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25008 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25010
-highest: http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25916 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25917 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25918 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25919 http://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=25920
---------------------------------------------------------------------------------</code></pre>
+<pre><code>
+                    NA        PC-Cerebellum-1          PC-Cortical-1 
+                     7                     28                     96 
+     PC-FA-ProbTrack-1           PC-FA-TBSS-1    PC-ICVF-ProbTrack-1 
+                    27                     48                     27 
+        PC-ICVF-TBSS-1   PC-ISOVF-ProbTrack-1        PC-ISOVF-TBSS-1 
+                    48                     27                     48 
+     PC-OD-ProbTrack-1           PC-OD-TBSS-1 PC-Subcortical_GMvol-1 
+                    27                     48                     14 
+  PC-Subcortical_vol-1                   &lt;NA&gt; 
+                    14                      0 </code></pre>
 </div>
 <details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>stab3 
-
- 5  Variables      471  Observations
---------------------------------------------------------------------------------
-IDP 
-       n  missing distinct 
-     471        0      471 
-
-lowest : IDP-25002              IDP-25004              IDP-25006              IDP-25008              IDP-25010             
-highest: PC-ISOVF-TBSS-1        PC-OD-ProbTrack-1      PC-OD-TBSS-1           PC-Subcortical_GMvol-1 PC-Subcortical_vol-1  
---------------------------------------------------------------------------------
-h2 
-       n  missing distinct     Info     Mean      Gmd      .05      .10 
-     471        0      471        1   0.2144   0.0896  0.08849  0.10892 
-     .25      .50      .75      .90      .95 
- 0.15314  0.21967  0.27439  0.31220  0.33609 
-
-lowest : 0.0479836 0.048201  0.0498917 0.0499944 0.0584361
-highest: 0.38282   0.384817  0.400786  0.428678  0.432927 
---------------------------------------------------------------------------------
-h2_SE 
-        n   missing  distinct      Info      Mean       Gmd       .05       .10 
-      471         0       471         1   0.01433 0.0005071   0.01341   0.01362 
-      .25       .50       .75       .90       .95 
-  0.01403   0.01444   0.01468   0.01484   0.01490 
-
-lowest : 0.0127144 0.01317   0.0131823 0.013197  0.0131985
-highest: 0.0150302 0.0150366 0.0150451 0.0151357 0.0151663
---------------------------------------------------------------------------------
-Me 
-       n  missing distinct     Info     Mean      Gmd      .05      .10 
-     471        0      471        1     8235    11082    778.6   1821.5 
-     .25      .50      .75      .90      .95 
-  4035.0   6635.6  10601.7  18431.7  24749.7 
-
-lowest : -141352  -96318.6 -46848.7 -36191.8 -36129  
-highest: 60073.8  61536    87458.8  91112.5  152397  
---------------------------------------------------------------------------------
-Me_SE 
-       n  missing distinct     Info     Mean      Gmd      .05      .10 
-     471        0      471        1    85090   164246    712.9    860.1 
-     .25      .50      .75      .90      .95 
-  1234.9   2250.3   4664.0  17069.2  44526.3 
-
-0 (430, 0.913), 20000 (14, 0.030), 40000 (5, 0.011), 60000 (5, 0.011), 80000
-(1, 0.002), 120000 (3, 0.006), 180000 (1, 0.002), 320000 (1, 0.002), 360000 (1,
-0.002), 4e+05 (1, 0.002), 5e+05 (1, 0.002), 6e+05 (2, 0.004), 1760000 (1,
-0.002), 2740000 (1, 0.002), 5300000 (1, 0.002), 5980000 (1, 0.002), 8900000 (1,
-0.002), 9420000 (1, 0.002)
-
-For the frequency table, variable is rounded to the nearest 20000
---------------------------------------------------------------------------------</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>stab4 
-
- 6  Variables      942  Observations
---------------------------------------------------------------------------------
-IDP 
-       n  missing distinct 
-     942        0      471 
-
-lowest : IDP-25002              IDP-25004              IDP-25006              IDP-25008              IDP-25010             
-highest: PC-ISOVF-TBSS-1        PC-OD-ProbTrack-1      PC-OD-TBSS-1           PC-Subcortical_GMvol-1 PC-Subcortical_vol-1  
---------------------------------------------------------------------------------
-model_name 
-       n  missing distinct 
-     942        0        2 
-                                  
-Value      elastic net       ridge
-Frequency          471         471
-Proportion         0.5         0.5
---------------------------------------------------------------------------------
-Spearman 
-       n  missing distinct     Info     Mean      Gmd      .05      .10 
-     942        0      942        1  0.09811  0.06449 0.004573 0.019793 
-     .25      .50      .75      .90      .95 
-0.056297 0.099578 0.142485 0.170990 0.184643 
-
-lowest : -0.0233838 -0.0179963 -0.0179528 -0.0176974 -0.0157014
-highest: 0.242499   0.244034   0.24677    0.272147   0.27938   
---------------------------------------------------------------------------------
-Pearson 
-       n  missing distinct     Info     Mean      Gmd      .05      .10 
-     942        0      942        1   0.1007  0.06631 0.006071 0.019963 
-     .25      .50      .75      .90      .95 
-0.057662 0.102281 0.145341 0.176408 0.189794 
-
-lowest : -0.0218353 -0.0204234 -0.0182523 -0.015216  -0.0142222
-highest: 0.246684   0.251223   0.252715   0.278046   0.286634  
---------------------------------------------------------------------------------
-R2 
-         n    missing   distinct       Info       Mean        Gmd        .05 
-       942          0        942          1    0.01319    0.01328 -4.862e-05 
-       .10        .25        .50        .75        .90        .95 
- 3.857e-04  3.182e-03  1.014e-02  2.085e-02  3.098e-02  3.513e-02 
-
-lowest : -0.00129598  -0.000710178 -0.000563922 -0.000517986 -0.000463191
-highest: 0.0608335    0.0608347    0.0610134    0.0736031    0.080077    
---------------------------------------------------------------------------------
-is_kept 
-       n  missing distinct 
-     942        0        2 
-                      
-Value      FALSE  TRUE
-Frequency    474   468
-Proportion 0.503 0.497
---------------------------------------------------------------------------------</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>stab5 
-
- 5  Variables      18  Observations
---------------------------------------------------------------------------------
-phenotype 
-       n  missing distinct 
-      18        0        9 
-
-lowest : bmi                           daily_cigarettes              daily_coffee                  handedness                    height                       
-highest: height                        parent_AD                     parent_depression             recurrent_depressive_disorder weekly_alcohol               
---------------------------------------------------------------------------------
-ukb_field 
-       n  missing distinct     Info     Mean      Gmd      .05      .10 
-      18        0       16    0.998    13257    14460     1281     1547 
-     .25      .50      .75      .90      .95 
-    1590    11729    20110    27061    41202 
-                                                                         
-Value         50.00  1284.62  1696.16  3342.32 19803.92 20627.00 40792.46
-Frequency         1        6        1        1        6        1        1
-Proportion    0.056    0.333    0.056    0.056    0.333    0.056    0.056
-                   
-Value      41204.00
-Frequency         1
-Proportion    0.056
-
-For the frequency table, variable is rounded to the nearest 411.54
---------------------------------------------------------------------------------
-target_value 
-       n  missing distinct 
-      18        0        7 
-
-1.0 (1, 0.056), 10.0 (2, 0.111), 12.0 (2, 0.111), 1286.0 (1, 0.056), 2.0 (1,
-0.056), asis (9, 0.500), F330 ~ F334 and F338 F339 (2, 0.111)
---------------------------------------------------------------------------------
-aggregate_method 
-       n  missing distinct 
-      18        0        3 
-                            
-Value       none    or   sum
-Frequency      5     8     5
-Proportion 0.278 0.444 0.278
---------------------------------------------------------------------------------
-missing_values 
-       n  missing distinct 
-      18        0        2 
-                        
-Value         0.0 remove
-Frequency      11      7
-Proportion  0.611  0.389
---------------------------------------------------------------------------------</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>stab7 <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(stab2 <span class="sc">%&gt;%</span> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>               <span class="fu">filter</span>(modality<span class="sc">==</span><span class="st">"dMRI"</span>, </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                      measurement_type<span class="sc">==</span><span class="st">"dMRI skeleton (TBSS-style measurement)"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>               <span class="fu">select</span>(IDP,region,subtype)) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(model<span class="sc">==</span><span class="st">"ridge"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(subtype<span class="sc">==</span><span class="st">"ICVF"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(IDP,<span class="at">pheno=</span>phenotype,<span class="at">z=</span>z_adj_perm_null) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(IDP,pheno,<span class="at">fill=</span>z))  <span class="sc">+</span> <span class="fu">geom_tile</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning in tabulate(ix): NAs introduced by coercion to integer range</code></pre>
+<pre><code>Joining with `by = join_by(IDP)`</code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in xrange[freq != 0] &lt;- xrnz: number of items to replace is not a
-multiple of replacement length</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>stab6 
-
- 6  Variables      4212  Observations
---------------------------------------------------------------------------------
-model 
-       n  missing distinct 
-    4212        0        2 
-                                  
-Value      elastic net       ridge
-Frequency         1269        2943
-Proportion       0.301       0.699
---------------------------------------------------------------------------------
-IDP 
-       n  missing distinct 
-    4212        0      327 
-
-lowest : IDP-25002              IDP-25004              IDP-25006              IDP-25008              IDP-25010             
-highest: PC-ISOVF-TBSS-1        PC-OD-ProbTrack-1      PC-OD-TBSS-1           PC-Subcortical_GMvol-1 PC-Subcortical_vol-1  
---------------------------------------------------------------------------------
-phenotype 
-       n  missing distinct 
-    4212        0        9 
-
-lowest : bmi                           daily_cigarettes              daily_coffee                  handedness                    height                       
-highest: height                        parent_AD                     parent_depression             recurrent_depressive_disorder weekly_alcohol               
---------------------------------------------------------------------------------
-bhat 
-         n    missing   distinct       Info       Mean        Gmd        .05 
-      4212          0       4212          1   -0.01078     0.2313 -0.3863530 
-       .10        .25        .50        .75        .90        .95 
--0.1873140 -0.0179453 -0.0001391  0.0141919  0.1601949  0.3483677 
-
-lowest : -2.71465 -2.65532 -2.62257 -2.2778  -2.27008
-highest: 2.08027  2.11084  2.12096  3.33721  3.78204 
---------------------------------------------------------------------------------
-pval 
-        n   missing  distinct      Info      Mean       Gmd       .05       .10 
-     4212         0      4209         1    0.3007    0.3415 3.379e-21 1.898e-07 
-      .25       .50       .75       .90       .95 
-1.284e-02 1.873e-01 5.411e-01 8.067e-01 9.061e-01 
-
-lowest : 0            1.00687e-258 5.70564e-167 7.88877e-161 4.13305e-156
-highest: 0.998594     0.998797     0.999078     0.999443     0.999871    
---------------------------------------------------------------------------------
-zscore 
-       n  missing distinct     Info     Mean      Gmd      .05      .10 
-    4212        0     4210        1      NaN        0  -5.5915  -3.0817 
-     .25      .50      .75      .90      .95 
- -1.3424  -0.0243   1.2959   2.8116   4.8590 
-
-lowest : -Inf     -27.5408 -27.0232 -26.6186 -25.9548
-highest: 23.9489  24.2762  25.0172  34.3598  Inf     
---------------------------------------------------------------------------------</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab7)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>stab7 
-
- 6  Variables      35  Observations
---------------------------------------------------------------------------------
-phenotype 
-       n  missing distinct 
-      35        0       34 
-
-lowest : Alcohol Dependence                             Alzheimer                                      Alzheimer's Disease                            Attention deficit hyperactivity disorder - EUR Autism spectrum disorder - CEU                
-highest: Sleep duration                                 Sleep Duration                                 Sleeplessness / insomnia                       Standing height                                Tobacco Ever Smoker vs Never Smoker           
---------------------------------------------------------------------------------
-phenotype_id 
-       n  missing distinct 
-      35        0       35 
-
-lowest : AD_Jansen_2019                        AlcDep_PGC_2018                       BIP_PGC_2020                          CNCR_Insomnia_all                     EA_Lee_2018                          
-highest: UKB_20002_1265_self_reported_migraine UKB_20016_Fluid_intelligence_score    UKB_20127_Neuroticism_score           UKB_21001_Body_mass_index_BMI         UKB_50_Standing_height               
---------------------------------------------------------------------------------
-short_name 
-       n  missing distinct 
-      35        0       35 
-
-lowest : AD              AD_Jansen_2019  ADHD            AlcDep_PGC_2018 ASD            
-highest: SCZ             SCZ_PGC_2020    SLEEP           SLEEP_UKB       SMOKE          
---------------------------------------------------------------------------------
-sample_size 
-       n  missing distinct     Info     Mean      Gmd      .05      .10 
-      35        0       26    0.983   236614   199418    21495    35242 
-     .25      .50      .75      .90      .95 
-   71930   253288   337119   400836   524693 
-
-lowest :  15954  17375  23261  28763  44960, highest: 383873 412144 455284 686648 766345
---------------------------------------------------------------------------------
-portal 
-       n  missing distinct 
-      35        0       15 
-
-lowest : http://portals.broadinstitute.org/collaboration/giant                                   http://web.pasteur-lille.fr/en/recherche/u744/igap/igap_download.php                    http://www.broadinstitute.org/collaboration/giant/index.php/GIANT_consortium_data_files http://www.epigad.org/gwas_ilae2014/                                                    http://www.nealelab.is/uk-biobank                                                      
-highest: https://www.med.unc.edu/                                                                https://www.med.unc.edu/pgc/downloads                                                   https://www.med.unc.edu/pgc/results-and-downloads                                       https://www.thessgac.org                                                                https://www.thessgac.org/data                                                          
---------------------------------------------------------------------------------
-filename 
-       n  missing distinct 
-      35        0       35 
-
-lowest : 1160.assoc.tsv.gz                                                           1180.assoc.tsv.gz                                                           1200.assoc.tsv.gz                                                           20002_1261.assoc.tsv.gz                                                     20002_1265.assoc.tsv.gz                                                    
-highest: scz2.snp.results.txt.gz                                                     Sleep_Duration_SIN_BOLT.output_plus.metrics_MAF0.001_HWE1E-5_qual0.4.txt.gz SNP_gwas_mc_merge_nogc.tbl.uniq.gz                                          sumstats_neuroticism_ctg_format.txt.gz                                      tag.evrsmk.tbl.gz                                                          
---------------------------------------------------------------------------------</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab8factor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in tabulate(ix): NAs introduced by coercion to integer range
-
-Warning in tabulate(ix): number of items to replace is not a multiple of
-replacement length</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>stab8factor 
-
- 10  Variables      16380  Observations
---------------------------------------------------------------------------------
-model 
-       n  missing distinct 
-   16380        0        2 
-                                  
-Value      elastic net       ridge
-Frequency         4935       11445
-Proportion       0.301       0.699
---------------------------------------------------------------------------------
-IDP 
-       n  missing distinct 
-   16380        0      327 
-
-lowest : IDP-25002              IDP-25004              IDP-25006              IDP-25008              IDP-25010             
-highest: PC-ISOVF-TBSS-1        PC-OD-ProbTrack-1      PC-OD-TBSS-1           PC-Subcortical_GMvol-1 PC-Subcortical_vol-1  
---------------------------------------------------------------------------------
-phenotype 
-       n  missing distinct 
-   16380        0       35 
-
-lowest : AD_Jansen_2019                        AlcDep_PGC_2018                       BIP_PGC_2020                          CNCR_Insomnia_all                     EA_Lee_2018                          
-highest: UKB_20002_1265_self_reported_migraine UKB_20016_Fluid_intelligence_score    UKB_20127_Neuroticism_score           UKB_21001_Body_mass_index_BMI         UKB_50_Standing_height               
---------------------------------------------------------------------------------
-bhat 
-         n    missing   distinct       Info       Mean        Gmd        .05 
-     16380          0      16380          1 -0.0001635    0.06938 -1.058e-01 
-       .10        .25        .50        .75        .90        .95 
--6.905e-02 -2.846e-02  8.725e-05  2.816e-02  6.726e-02  1.048e-01 
-
-lowest : -0.546949 -0.540895 -0.524013 -0.485499 -0.458464
-highest: 0.465124  0.468907  0.469631  0.665207  0.743975 
---------------------------------------------------------------------------------
-pval 
-        n   missing  distinct      Info      Mean       Gmd       .05       .10 
-    16380         0     16163         1    0.2996    0.3418 1.089e-12 3.501e-06 
-      .25       .50       .75       .90       .95 
-1.147e-02 1.845e-01 5.413e-01 8.116e-01 9.053e-01 
-
-lowest : 0         6.64e-268 5.9e-243  1.2e-224  1.18e-223
-highest: 0.99959   0.999602  0.999739  0.99974   0.999986 
---------------------------------------------------------------------------------
-zscore 
-        n   missing  distinct      Info      Mean       Gmd       .05       .10 
-    16380         0     16377         1       NaN         0 -4.869895 -3.029239 
-      .25       .50       .75       .90       .95 
--1.343203  0.005566  1.310723  2.937274  4.454994 
-
-lowest : -Inf     -34.9691 -33.2873 -31.9969 -31.9255
-highest: 27.1688  27.2621  29.6268  30.7502  Inf     
---------------------------------------------------------------------------------
-nsnp_used 
-       n  missing distinct     Info     Mean      Gmd      .05      .10 
-   16380        0     1752    0.994   740065   449280     1522     1867 
-     .25      .50      .75      .90      .95 
-    3152  1055827  1061871  1067235  1069786 
-                                                          
-Value            0 1020000 1040000 1050000 1060000 1070000
-Frequency     4935     654     327    4905    4905     654
-Proportion   0.301   0.040   0.020   0.299   0.299   0.040
-
-For the frequency table, variable is rounded to the nearest 10000
---------------------------------------------------------------------------------
-nsnp_total 
-       n  missing distinct     Info     Mean      Gmd      .05      .10 
-   16380        0      140    0.659   749280   450191     1540     1878 
-     .25      .50      .75      .90      .95 
-    3192  1071343  1071343  1071343  1071343 
-
-lowest :     332     344     423     615     671
-highest:    4674    4776    5284    5750 1071343
---------------------------------------------------------------------------------
-z_adj_perm_null 
-        n   missing  distinct      Info      Mean       Gmd       .05       .10 
-    16380         0     16380         1  -0.03535     1.991 -2.979781 -2.061315 
-      .25       .50       .75       .90       .95 
--0.987054  0.002173  0.966907  1.994812  2.769813 
-
-lowest : -19.8403 -18.9717 -12.8442 -12.3615 -11.767 
-highest: 12.4433  13.015   15.1293  16.5187  18.4889 
---------------------------------------------------------------------------------
-pval_adj_perm_null 
-        n   missing  distinct      Info      Mean       Gmd       .05       .10 
-    16380         0     16380         1    0.3801    0.3579 0.0001201 0.0041790 
-      .25       .50       .75       .90       .95 
-0.0754038 0.3277050 0.6432783 0.8547452 0.9281441 
-
-lowest : 1.3354e-87  2.9218e-80  2.5353e-76  2.69021e-61 1.03865e-51
-highest: 0.999663    0.999705    0.999799    0.999827    0.999988   
---------------------------------------------------------------------------------</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab9)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>stab9 
-
- 5  Variables      16485  Observations
---------------------------------------------------------------------------------
-IDP 
-       n  missing distinct 
-   16485        0      471 
-
-lowest : IDP-25002              IDP-25004              IDP-25006              IDP-25008              IDP-25010             
-highest: PC-ISOVF-TBSS-1        PC-OD-ProbTrack-1      PC-OD-TBSS-1           PC-Subcortical_GMvol-1 PC-Subcortical_vol-1  
---------------------------------------------------------------------------------
-phenotype 
-       n  missing distinct 
-   16485        0       35 
-
-lowest : AD_Jansen_2019                        AlcDep_PGC_2018                       BIP_PGC_2020                          CNCR_Insomnia_all                     EA_Lee_2018                          
-highest: UKB_20002_1265_self_reported_migraine UKB_20016_Fluid_intelligence_score    UKB_20127_Neuroticism_score           UKB_21001_Body_mass_index_BMI         UKB_50_Standing_height               
---------------------------------------------------------------------------------
-rg 
-         n    missing   distinct       Info       Mean        Gmd        .05 
-     16485          0       7306          1 -0.0003535    0.08694    -0.1265 
-       .10        .25        .50        .75        .90        .95 
-   -0.0935    -0.0465    -0.0014     0.0460     0.0955     0.1271 
-
-lowest : -0.5884  -0.58739 -0.4948  -0.4718  -0.4662 
-highest: 0.423    0.4263   0.4288   0.4648   0.6635  
---------------------------------------------------------------------------------
-pval 
-       n  missing distinct     Info     Mean      Gmd      .05      .10 
-   16485        0    12018        1   0.4316   0.3526 0.006504 0.031514 
-     .25      .50      .75      .90      .95 
-0.146400 0.404100 0.695600 0.878576 0.935662 
-
-lowest : 4.2436e-25 7.8274e-24 1.2668e-18 1.6461e-17 3.0717e-15
-highest: 0.9993     0.9994     0.9995     0.9997     0.99989   
---------------------------------------------------------------------------------
-zscore 
-       n  missing distinct     Info     Mean      Gmd      .05      .10 
-   16485        0    13834        1 -0.01632    1.496  -2.1439  -1.6394 
-     .25      .50      .75      .90      .95 
- -0.8402  -0.0253   0.8288   1.6145   2.1550 
-
-lowest : -10.3487 -10.0658 -8.8086  -8.5164  -6.8338 
-highest: 6.8568   6.8785   7.2864   7.4991   7.888   
---------------------------------------------------------------------------------</code></pre>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
 <details>
-<summary>Code</summary>
-<pre class="text cell-code"><code>Sure, here are the extracted captions from the provided LaTeX code:
-
-1. **Demographic information of the IDP cohort**
-   A summary of age and sex of the selected 24,409 individuals (IDP cohort) is shown. For age, **information** shows the average age with standard deviation of age in parentheses and **detail** shows the range of the age (min and max). For sex, **information** shows the fraction of each age among the cohort and **detail** shows the raw counts (female's is listed first and followed by male's)
-   \label{S-tab:ukb_cohort}
-
-2. **UK Biobank brain IDPs being analyzed**
-   This table contains the detailed information about the brain IDPs analyzed in this paper. The columns are listed below.
-   **IDP** shows the IDP identifier used in this paper which uses the format of "IDP-XXXXX" with XXXXX being the Field ID in UK Biobank;
-   **modality** indicates whether the IDP is from T1 MRI or diffusion MRI;
-   **subtype** lists the name of the IDP subtypes which is used in the paper to refer to different types of brain IDPs;
-   **pc1\_name** shows the name of the corresponding principal component of the subtype (this will be used as the IDP identifier for the IDP PC1);
-   **region** shows the anatomical region of the MRI measurement;
-   **side** indicates whether the measurement is from the left or right part of the brain;
-   **measurement\_type** shows the details of the measurement and the image processing procedure;
-   **dmri\_measure** indicates the type of statistic extracted from the dMRI measurement;
-   **t1\_anatomy\_group** indicates the anatomical grouping for T1 MRI;
-   **notes** shows the description of the IDP extracted from the UK Biobank database;
-   **ukb\_link** lists the link to the Data Field in UK Biobank website.
-   \label{S-tab:idp_table}
-
-3. **The heritability and polygenicity estimates of brain IDPs**
-   **IDP**: IDP identifier;
-   **h2** and **h2\_SE**: The estimated heritability and the corresponding standard error;
-   **Me** and **Me\_SE**: The estimated polygenicity (defined as $M_e$ in \cite{oconnor:2019}) and the corresponding standard error.
-   \label{S-tab:gen_arch}
-
-4. **The prediction performance of the ridge and elastic net predictors**
-   It contains prediction performance (via cross-validation scheme) of the ridge regression and elastic net based genetic predictors of brain IDPs.
-   **IDP**: IDP identifier;
-   **model\_name**: The type of prediction model being used (ridge regression or elastic net);
-   **Spearman**: The Spearman correlation between the predicted and observed IDP values;
-   **Pearson**: The Pearson correlation between the predicted and observed IDP values;
-   **R2**: The $R^2$ measured from the predicted and observed IDP values;
-   **is\_kept**: An indicator showing whether the genetic predictor passes the quality control filter (e.g. Spearman correlation $&gt;0.1$) so that will be included in BrainXcan software.
-   \label{S-tab:cv_perf}
-
-5. **The list of 9 UK Biobank based phenotypes being analyzed by individual-level BrainXcan**
-   It contains the definition of the 9 UK Biobank phenotypes used for individual-level BrainXcan. For some phenotypes, they were constructed from multiple UK Biobank fields and the aggregation method across these fields was either taking the sum ('sum') or taking logical OR ('or'). For binary phenotype, we defined its value as 1 if the field takes the desired values indicated in **target\_value**. Missing values were either treated as 0 or removed.
-   **phenotype** shows the name of the defined phenotype;
-   **ukb\_field** shows UK Biobank fields from which the phenotype was constructed;
-   **target\_value**: For binary phenotypes, we defined its value as 1 if the field takes the desired value. For quantitative traits, we used the value as it is (labeled as 'asis');
-   **aggregate\_method**: For some phenotypes, they were constructed from multiple UK Biobank fields and the aggregation method across these fields was either taking the sum ('sum') or taking the logical OR ('or');
-   **missing\_values** shows how missing values in a field were handled (either treated as 0 or removed).
-   \label{S-tab:indiv_bxcan_phenotype}
-
-6. **The list of 35 GWASs being analyzed by S-BrainXcan**
-   It contains the information about the 35 GWASs used in S-BrainXcan analysis.
-   **phenotype**: The name of the phenotype;
-   **phenotype\_id**: The phenotype identifiers;
-   **short\_name**: The short names of the phenotypes;
-   **sample\_size**: The sample size of the GWAS. If there are different sample sizes for different SNPs, the mean sample size is shown;
-   **portal**: The website from which the GWAS was downloaded;
-   **filename**: The name of the raw GWAS file being downloaded.
-   \label{S-tab:s_bxcan_phenotype}
-
-7. **S-BrainXcan results for 35 GWASs**
-   **model**: The prediction model type of the IDP predictor (either ridge or elastic net);
-   **IDP**: IDP identifier;
-   **phenotype**: The name of the phenotype (defined in table~\ref{S-tab:s_bxcan_phenotype});
-   **bhat**: BrainXcan effect size estimate, $\hat\beta$;
-   **pval**: BrainXcan p-value (without adjustment by permutation);
-   **zscore**: BrainXcan z-score (without adjustment by permutation);
-   **nsnp\_used**: The number of variants used in S-BrainXcan computation;
-   **nsnp\_total**: The number of variants in the prediction model (**nsnp\_used** should be no larger than **nsnp\_total** but the closer the better since the difference is the number of variants being missed by the GWAS);
-   **z\_adj\_perm\_null**: BrainXcan z-score with adjustment by permutation;
-   **pval\_adj\_perm\_null**: The corresponding p-value computed from the adjusted BrainXcan z-score (**z\_adj\_perm\_null**).
-   \label{S-tab:s_bxcan_results}
-
-8. **LDSC based genetic correlation results for 35 GWASs**
-   **IDP**: IDP identifier;
-   **phenotype**: The name of the phenotype (defined in table~\ref{S-tab:s_bxcan_phenotype});
-   **rg**: Genetic correlation;
-   **pval**: Genetic correlation p-value (null hypothesis: **rg** is zero);
-   **zscore**: The corresponding z-score calculated from **pval**.
-   \label{S-tab:gencor_results}
-</code></pre>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ##install.packages("RColorBrewer")</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># suppressMessages(library("RColorBrewer"))</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>myplot <span class="ot">&lt;-</span> <span class="cf">function</span>(subtipo)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>{df <span class="ot">&lt;-</span> stab7 <span class="sc">%&gt;%</span> </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(stab2 <span class="sc">%&gt;%</span> </span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>               <span class="fu">filter</span>(modality<span class="sc">==</span><span class="st">"dMRI"</span>, </span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>                      measurement_type<span class="sc">==</span><span class="st">"dMRI skeleton (TBSS-style measurement)"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>               <span class="fu">select</span>(IDP,region,subtype)) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(model<span class="sc">==</span><span class="st">"ridge"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(subtype<span class="sc">==</span>subtipo) </span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Define significance labels</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(IDP, <span class="at">pheno =</span> phenotype, <span class="at">z =</span> z_adj_perm_null) <span class="sc">%&gt;%</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">significance =</span> <span class="fu">case_when</span>(</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abs</span>(z) <span class="sc">&gt;</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"*"</span>,</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abs</span>(z) <span class="sc">&lt;=</span> <span class="dv">4</span> <span class="sc">&amp;</span> <span class="fu">abs</span>(z) <span class="sc">&gt;</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"\u00B7"</span>,  <span class="co"># Use MIDDLE DOT</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">""</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>pp <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> IDP, <span class="at">y =</span> pheno)) <span class="sc">+</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill =</span> z)) <span class="sc">+</span> </span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> significance), <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"blue"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"red"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">"z-value"</span>) <span class="sc">+</span></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(subtipo)</span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pp)</span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(subtipo <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"FA"</span>,<span class="st">"ICVF"</span>,<span class="st">"OD"</span>,<span class="st">"ISOVF"</span>))</span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">myplot</span>(subtipo)</span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(IDP)`
+Joining with `by = join_by(IDP)`</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(IDP)`</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(IDP)`</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-4.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 
 
 <!-- -->
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1090,23 +608,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
+    target: function(trigger) {
+      return trigger.previousElementSibling;
     }
   });
   clipboard.on('success', function(e) {
@@ -1222,92 +726,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -1347,172 +765,148 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb46" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "BrainXcan supplementary tables content"</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Haky Im"</span></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2023-08-09"</span></span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>:::{.callout-tip}</span>
-<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
-<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>Trying to get a sense of what we have in the supplementary tables.</span>
-<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>:::{.callout-warning collapse="true"}</span>
-<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Note</span></span>
-<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>Table S6 has results from brainxcan in 9 ukb phenotypes</span>
-<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(tidyverse))</span>
-<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(glue))</span>
-<span id="cb46-25"><a href="#cb46-25" aria-hidden="true" tabindex="-1"></a>PRE <span class="ot">=</span> <span class="st">"/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"</span></span>
-<span id="cb46-26"><a href="#cb46-26" aria-hidden="true" tabindex="-1"></a>SLUG<span class="ot">=</span><span class="st">"brainxcan-supplementary-tables-content"</span> <span class="do">## copy the slug from the header</span></span>
-<span id="cb46-27"><a href="#cb46-27" aria-hidden="true" tabindex="-1"></a>bDATE<span class="ot">=</span><span class="st">'2023-08-09'</span> <span class="do">## copy the date from the blog's header here</span></span>
-<span id="cb46-28"><a href="#cb46-28" aria-hidden="true" tabindex="-1"></a>DATA <span class="ot">=</span> <span class="fu">glue</span>(<span class="st">"{PRE}/{bDATE}-{SLUG}"</span>)</span>
-<span id="cb46-29"><a href="#cb46-29" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(DATA)) <span class="fu">system</span>(glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"mkdir {DATA}"</span>))</span>
-<span id="cb46-30"><a href="#cb46-30" aria-hidden="true" tabindex="-1"></a>WORK<span class="ot">=</span>DATA</span>
-<span id="cb46-31"><a href="#cb46-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-32"><a href="#cb46-32" aria-hidden="true" tabindex="-1"></a><span class="do">##system(glue("open {DATA}")) ## this will open the folder </span></span>
-<span id="cb46-33"><a href="#cb46-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-34"><a href="#cb46-34" aria-hidden="true" tabindex="-1"></a><span class="do">## load qqunif</span></span>
-<span id="cb46-35"><a href="#cb46-35" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">source_gist</span>(<span class="st">"38431b74c6c0bf90c12f"</span>)</span>
-<span id="cb46-36"><a href="#cb46-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-37"><a href="#cb46-37" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb46-38"><a href="#cb46-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-41"><a href="#cb46-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb46-42"><a href="#cb46-42" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="fu">glue</span>(<span class="st">"ls -r {DATA}/*"</span>))</span>
-<span id="cb46-43"><a href="#cb46-43" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb46-44"><a href="#cb46-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-47"><a href="#cb46-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb46-48"><a href="#cb46-48" aria-hidden="true" tabindex="-1"></a>stab2 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S2.xlsx"</span>))</span>
-<span id="cb46-49"><a href="#cb46-49" aria-hidden="true" tabindex="-1"></a>stab3 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S3.xlsx"</span>))</span>
-<span id="cb46-50"><a href="#cb46-50" aria-hidden="true" tabindex="-1"></a>stab4 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S4.xlsx"</span>))</span>
-<span id="cb46-51"><a href="#cb46-51" aria-hidden="true" tabindex="-1"></a>stab5 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S5.xlsx"</span>))</span>
-<span id="cb46-52"><a href="#cb46-52" aria-hidden="true" tabindex="-1"></a>stab6 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S6.xlsx"</span>))</span>
-<span id="cb46-53"><a href="#cb46-53" aria-hidden="true" tabindex="-1"></a>stab7 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S7.xlsx"</span>))</span>
-<span id="cb46-54"><a href="#cb46-54" aria-hidden="true" tabindex="-1"></a>stab8 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S8.xlsx"</span>))</span>
-<span id="cb46-55"><a href="#cb46-55" aria-hidden="true" tabindex="-1"></a>stab8factor <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S8-w-factor.xlsx"</span>))</span>
-<span id="cb46-56"><a href="#cb46-56" aria-hidden="true" tabindex="-1"></a>stab9 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/revision_plos_gen_20221117/Table_S9.xlsx"</span>))</span>
-<span id="cb46-57"><a href="#cb46-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-58"><a href="#cb46-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-59"><a href="#cb46-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-60"><a href="#cb46-60" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb46-61"><a href="#cb46-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-62"><a href="#cb46-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-63"><a href="#cb46-63" aria-hidden="true" tabindex="-1"></a><span class="in">```{r qqunif of 35 traits}</span></span>
-<span id="cb46-64"><a href="#cb46-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-65"><a href="#cb46-65" aria-hidden="true" tabindex="-1"></a>phenolist <span class="ot">=</span> <span class="fu">unique</span>(stab8factor<span class="sc">$</span>phenotype)</span>
-<span id="cb46-66"><a href="#cb46-66" aria-hidden="true" tabindex="-1"></a>mydata<span class="ot">=</span>stab8factor</span>
-<span id="cb46-67"><a href="#cb46-67" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(pheno <span class="cf">in</span> phenolist)</span>
-<span id="cb46-68"><a href="#cb46-68" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb46-69"><a href="#cb46-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">qqunif</span>(mydata<span class="sc">$</span>pval_adj_perm_null[mydata<span class="sc">$</span>model<span class="sc">==</span><span class="st">"ridge"</span> <span class="sc">&amp;</span> mydata<span class="sc">$</span>phenotype<span class="sc">==</span> pheno],<span class="at">main=</span>pheno)</span>
-<span id="cb46-70"><a href="#cb46-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="st">"perm and factor adjusted"</span>)</span>
-<span id="cb46-71"><a href="#cb46-71" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb46-72"><a href="#cb46-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-73"><a href="#cb46-73" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb46-74"><a href="#cb46-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-75"><a href="#cb46-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-76"><a href="#cb46-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-79"><a href="#cb46-79" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb46-80"><a href="#cb46-80" aria-hidden="true" tabindex="-1"></a><span class="do">## install.packages("Hmisc")</span></span>
-<span id="cb46-81"><a href="#cb46-81" aria-hidden="true" tabindex="-1"></a><span class="do">## install.packages("rms")</span></span>
-<span id="cb46-82"><a href="#cb46-82" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab2)</span>
-<span id="cb46-83"><a href="#cb46-83" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab3)</span>
-<span id="cb46-84"><a href="#cb46-84" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab4)</span>
-<span id="cb46-85"><a href="#cb46-85" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab5)</span>
-<span id="cb46-86"><a href="#cb46-86" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab6)</span>
-<span id="cb46-87"><a href="#cb46-87" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab7)</span>
-<span id="cb46-88"><a href="#cb46-88" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab8factor)</span>
-<span id="cb46-89"><a href="#cb46-89" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(stab9)</span>
-<span id="cb46-90"><a href="#cb46-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-91"><a href="#cb46-91" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb46-92"><a href="#cb46-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-93"><a href="#cb46-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-94"><a href="#cb46-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-97"><a href="#cb46-97" aria-hidden="true" tabindex="-1"></a><span class="in">```{text}</span></span>
-<span id="cb46-98"><a href="#cb46-98" aria-hidden="true" tabindex="-1"></a><span class="in">Sure, here are the extracted captions from the provided LaTeX code:</span></span>
-<span id="cb46-99"><a href="#cb46-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-100"><a href="#cb46-100" aria-hidden="true" tabindex="-1"></a><span class="in">1. **Demographic information of the IDP cohort**</span></span>
-<span id="cb46-101"><a href="#cb46-101" aria-hidden="true" tabindex="-1"></a><span class="in">   A summary of age and sex of the selected 24,409 individuals (IDP cohort) is shown. For age, **information** shows the average age with standard deviation of age in parentheses and **detail** shows the range of the age (min and max). For sex, **information** shows the fraction of each age among the cohort and **detail** shows the raw counts (female's is listed first and followed by male's)</span></span>
-<span id="cb46-102"><a href="#cb46-102" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:ukb_cohort}</span></span>
-<span id="cb46-103"><a href="#cb46-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-104"><a href="#cb46-104" aria-hidden="true" tabindex="-1"></a><span class="in">2. **UK Biobank brain IDPs being analyzed**</span></span>
-<span id="cb46-105"><a href="#cb46-105" aria-hidden="true" tabindex="-1"></a><span class="in">   This table contains the detailed information about the brain IDPs analyzed in this paper. The columns are listed below.</span></span>
-<span id="cb46-106"><a href="#cb46-106" aria-hidden="true" tabindex="-1"></a><span class="in">   **IDP** shows the IDP identifier used in this paper which uses the format of "IDP-XXXXX" with XXXXX being the Field ID in UK Biobank;</span></span>
-<span id="cb46-107"><a href="#cb46-107" aria-hidden="true" tabindex="-1"></a><span class="in">   **modality** indicates whether the IDP is from T1 MRI or diffusion MRI;</span></span>
-<span id="cb46-108"><a href="#cb46-108" aria-hidden="true" tabindex="-1"></a><span class="in">   **subtype** lists the name of the IDP subtypes which is used in the paper to refer to different types of brain IDPs;</span></span>
-<span id="cb46-109"><a href="#cb46-109" aria-hidden="true" tabindex="-1"></a><span class="in">   **pc1\_name** shows the name of the corresponding principal component of the subtype (this will be used as the IDP identifier for the IDP PC1);</span></span>
-<span id="cb46-110"><a href="#cb46-110" aria-hidden="true" tabindex="-1"></a><span class="in">   **region** shows the anatomical region of the MRI measurement;</span></span>
-<span id="cb46-111"><a href="#cb46-111" aria-hidden="true" tabindex="-1"></a><span class="in">   **side** indicates whether the measurement is from the left or right part of the brain;</span></span>
-<span id="cb46-112"><a href="#cb46-112" aria-hidden="true" tabindex="-1"></a><span class="in">   **measurement\_type** shows the details of the measurement and the image processing procedure;</span></span>
-<span id="cb46-113"><a href="#cb46-113" aria-hidden="true" tabindex="-1"></a><span class="in">   **dmri\_measure** indicates the type of statistic extracted from the dMRI measurement;</span></span>
-<span id="cb46-114"><a href="#cb46-114" aria-hidden="true" tabindex="-1"></a><span class="in">   **t1\_anatomy\_group** indicates the anatomical grouping for T1 MRI;</span></span>
-<span id="cb46-115"><a href="#cb46-115" aria-hidden="true" tabindex="-1"></a><span class="in">   **notes** shows the description of the IDP extracted from the UK Biobank database;</span></span>
-<span id="cb46-116"><a href="#cb46-116" aria-hidden="true" tabindex="-1"></a><span class="in">   **ukb\_link** lists the link to the Data Field in UK Biobank website.</span></span>
-<span id="cb46-117"><a href="#cb46-117" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:idp_table}</span></span>
-<span id="cb46-118"><a href="#cb46-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-119"><a href="#cb46-119" aria-hidden="true" tabindex="-1"></a><span class="in">3. **The heritability and polygenicity estimates of brain IDPs**</span></span>
-<span id="cb46-120"><a href="#cb46-120" aria-hidden="true" tabindex="-1"></a><span class="in">   **IDP**: IDP identifier;</span></span>
-<span id="cb46-121"><a href="#cb46-121" aria-hidden="true" tabindex="-1"></a><span class="in">   **h2** and **h2\_SE**: The estimated heritability and the corresponding standard error;</span></span>
-<span id="cb46-122"><a href="#cb46-122" aria-hidden="true" tabindex="-1"></a><span class="in">   **Me** and **Me\_SE**: The estimated polygenicity (defined as $M_e$ in \cite{oconnor:2019}) and the corresponding standard error.</span></span>
-<span id="cb46-123"><a href="#cb46-123" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:gen_arch}</span></span>
-<span id="cb46-124"><a href="#cb46-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-125"><a href="#cb46-125" aria-hidden="true" tabindex="-1"></a><span class="in">4. **The prediction performance of the ridge and elastic net predictors**</span></span>
-<span id="cb46-126"><a href="#cb46-126" aria-hidden="true" tabindex="-1"></a><span class="in">   It contains prediction performance (via cross-validation scheme) of the ridge regression and elastic net based genetic predictors of brain IDPs.</span></span>
-<span id="cb46-127"><a href="#cb46-127" aria-hidden="true" tabindex="-1"></a><span class="in">   **IDP**: IDP identifier;</span></span>
-<span id="cb46-128"><a href="#cb46-128" aria-hidden="true" tabindex="-1"></a><span class="in">   **model\_name**: The type of prediction model being used (ridge regression or elastic net);</span></span>
-<span id="cb46-129"><a href="#cb46-129" aria-hidden="true" tabindex="-1"></a><span class="in">   **Spearman**: The Spearman correlation between the predicted and observed IDP values;</span></span>
-<span id="cb46-130"><a href="#cb46-130" aria-hidden="true" tabindex="-1"></a><span class="in">   **Pearson**: The Pearson correlation between the predicted and observed IDP values;</span></span>
-<span id="cb46-131"><a href="#cb46-131" aria-hidden="true" tabindex="-1"></a><span class="in">   **R2**: The $R^2$ measured from the predicted and observed IDP values;</span></span>
-<span id="cb46-132"><a href="#cb46-132" aria-hidden="true" tabindex="-1"></a><span class="in">   **is\_kept**: An indicator showing whether the genetic predictor passes the quality control filter (e.g. Spearman correlation $&gt;0.1$) so that will be included in BrainXcan software.</span></span>
-<span id="cb46-133"><a href="#cb46-133" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:cv_perf}</span></span>
-<span id="cb46-134"><a href="#cb46-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-135"><a href="#cb46-135" aria-hidden="true" tabindex="-1"></a><span class="in">5. **The list of 9 UK Biobank based phenotypes being analyzed by individual-level BrainXcan**</span></span>
-<span id="cb46-136"><a href="#cb46-136" aria-hidden="true" tabindex="-1"></a><span class="in">   It contains the definition of the 9 UK Biobank phenotypes used for individual-level BrainXcan. For some phenotypes, they were constructed from multiple UK Biobank fields and the aggregation method across these fields was either taking the sum ('sum') or taking logical OR ('or'). For binary phenotype, we defined its value as 1 if the field takes the desired values indicated in **target\_value**. Missing values were either treated as 0 or removed.</span></span>
-<span id="cb46-137"><a href="#cb46-137" aria-hidden="true" tabindex="-1"></a><span class="in">   **phenotype** shows the name of the defined phenotype;</span></span>
-<span id="cb46-138"><a href="#cb46-138" aria-hidden="true" tabindex="-1"></a><span class="in">   **ukb\_field** shows UK Biobank fields from which the phenotype was constructed;</span></span>
-<span id="cb46-139"><a href="#cb46-139" aria-hidden="true" tabindex="-1"></a><span class="in">   **target\_value**: For binary phenotypes, we defined its value as 1 if the field takes the desired value. For quantitative traits, we used the value as it is (labeled as 'asis');</span></span>
-<span id="cb46-140"><a href="#cb46-140" aria-hidden="true" tabindex="-1"></a><span class="in">   **aggregate\_method**: For some phenotypes, they were constructed from multiple UK Biobank fields and the aggregation method across these fields was either taking the sum ('sum') or taking the logical OR ('or');</span></span>
-<span id="cb46-141"><a href="#cb46-141" aria-hidden="true" tabindex="-1"></a><span class="in">   **missing\_values** shows how missing values in a field were handled (either treated as 0 or removed).</span></span>
-<span id="cb46-142"><a href="#cb46-142" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:indiv_bxcan_phenotype}</span></span>
-<span id="cb46-143"><a href="#cb46-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-144"><a href="#cb46-144" aria-hidden="true" tabindex="-1"></a><span class="in">6. **The list of 35 GWASs being analyzed by S-BrainXcan**</span></span>
-<span id="cb46-145"><a href="#cb46-145" aria-hidden="true" tabindex="-1"></a><span class="in">   It contains the information about the 35 GWASs used in S-BrainXcan analysis.</span></span>
-<span id="cb46-146"><a href="#cb46-146" aria-hidden="true" tabindex="-1"></a><span class="in">   **phenotype**: The name of the phenotype;</span></span>
-<span id="cb46-147"><a href="#cb46-147" aria-hidden="true" tabindex="-1"></a><span class="in">   **phenotype\_id**: The phenotype identifiers;</span></span>
-<span id="cb46-148"><a href="#cb46-148" aria-hidden="true" tabindex="-1"></a><span class="in">   **short\_name**: The short names of the phenotypes;</span></span>
-<span id="cb46-149"><a href="#cb46-149" aria-hidden="true" tabindex="-1"></a><span class="in">   **sample\_size**: The sample size of the GWAS. If there are different sample sizes for different SNPs, the mean sample size is shown;</span></span>
-<span id="cb46-150"><a href="#cb46-150" aria-hidden="true" tabindex="-1"></a><span class="in">   **portal**: The website from which the GWAS was downloaded;</span></span>
-<span id="cb46-151"><a href="#cb46-151" aria-hidden="true" tabindex="-1"></a><span class="in">   **filename**: The name of the raw GWAS file being downloaded.</span></span>
-<span id="cb46-152"><a href="#cb46-152" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:s_bxcan_phenotype}</span></span>
-<span id="cb46-153"><a href="#cb46-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-154"><a href="#cb46-154" aria-hidden="true" tabindex="-1"></a><span class="in">7. **S-BrainXcan results for 35 GWASs**</span></span>
-<span id="cb46-155"><a href="#cb46-155" aria-hidden="true" tabindex="-1"></a><span class="in">   **model**: The prediction model type of the IDP predictor (either ridge or elastic net);</span></span>
-<span id="cb46-156"><a href="#cb46-156" aria-hidden="true" tabindex="-1"></a><span class="in">   **IDP**: IDP identifier;</span></span>
-<span id="cb46-157"><a href="#cb46-157" aria-hidden="true" tabindex="-1"></a><span class="in">   **phenotype**: The name of the phenotype (defined in table~\ref{S-tab:s_bxcan_phenotype});</span></span>
-<span id="cb46-158"><a href="#cb46-158" aria-hidden="true" tabindex="-1"></a><span class="in">   **bhat**: BrainXcan effect size estimate, $\hat\beta$;</span></span>
-<span id="cb46-159"><a href="#cb46-159" aria-hidden="true" tabindex="-1"></a><span class="in">   **pval**: BrainXcan p-value (without adjustment by permutation);</span></span>
-<span id="cb46-160"><a href="#cb46-160" aria-hidden="true" tabindex="-1"></a><span class="in">   **zscore**: BrainXcan z-score (without adjustment by permutation);</span></span>
-<span id="cb46-161"><a href="#cb46-161" aria-hidden="true" tabindex="-1"></a><span class="in">   **nsnp\_used**: The number of variants used in S-BrainXcan computation;</span></span>
-<span id="cb46-162"><a href="#cb46-162" aria-hidden="true" tabindex="-1"></a><span class="in">   **nsnp\_total**: The number of variants in the prediction model (**nsnp\_used** should be no larger than **nsnp\_total** but the closer the better since the difference is the number of variants being missed by the GWAS);</span></span>
-<span id="cb46-163"><a href="#cb46-163" aria-hidden="true" tabindex="-1"></a><span class="in">   **z\_adj\_perm\_null**: BrainXcan z-score with adjustment by permutation;</span></span>
-<span id="cb46-164"><a href="#cb46-164" aria-hidden="true" tabindex="-1"></a><span class="in">   **pval\_adj\_perm\_null**: The corresponding p-value computed from the adjusted BrainXcan z-score (**z\_adj\_perm\_null**).</span></span>
-<span id="cb46-165"><a href="#cb46-165" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:s_bxcan_results}</span></span>
-<span id="cb46-166"><a href="#cb46-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-167"><a href="#cb46-167" aria-hidden="true" tabindex="-1"></a><span class="in">8. **LDSC based genetic correlation results for 35 GWASs**</span></span>
-<span id="cb46-168"><a href="#cb46-168" aria-hidden="true" tabindex="-1"></a><span class="in">   **IDP**: IDP identifier;</span></span>
-<span id="cb46-169"><a href="#cb46-169" aria-hidden="true" tabindex="-1"></a><span class="in">   **phenotype**: The name of the phenotype (defined in table~\ref{S-tab:s_bxcan_phenotype});</span></span>
-<span id="cb46-170"><a href="#cb46-170" aria-hidden="true" tabindex="-1"></a><span class="in">   **rg**: Genetic correlation;</span></span>
-<span id="cb46-171"><a href="#cb46-171" aria-hidden="true" tabindex="-1"></a><span class="in">   **pval**: Genetic correlation p-value (null hypothesis: **rg** is zero);</span></span>
-<span id="cb46-172"><a href="#cb46-172" aria-hidden="true" tabindex="-1"></a><span class="in">   **zscore**: The corresponding z-score calculated from **pval**.</span></span>
-<span id="cb46-173"><a href="#cb46-173" aria-hidden="true" tabindex="-1"></a><span class="in">   \label{S-tab:gencor_results}</span></span>
-<span id="cb46-174"><a href="#cb46-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-175"><a href="#cb46-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-176"><a href="#cb46-176" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="sourceCode" id="cb30" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "BrainXcan supplementary tables content"</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Haky Im"</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2023-08-09"</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>:::{.callout-tip}</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>Trying to get a sense of what we have in the supplementary tables.</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>:::{.callout-warning collapse="true"}</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Note</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>Table S6 has results from brainxcan in 9 ukb phenotypes</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(tidyverse))</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(glue))</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>PRE <span class="ot">=</span> <span class="st">"/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>SLUG<span class="ot">=</span><span class="st">"brainxcan-supplementary-tables-content"</span> <span class="do">## copy the slug from the header</span></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>bDATE<span class="ot">=</span><span class="st">'2023-08-09'</span> <span class="do">## copy the date from the blog's header here</span></span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>DATA <span class="ot">=</span> <span class="fu">glue</span>(<span class="st">"{PRE}/{bDATE}-{SLUG}"</span>)</span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(DATA)) <span class="fu">system</span>(glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"mkdir {DATA}"</span>))</span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>WORK<span class="ot">=</span>DATA</span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a><span class="do">##system(glue("open {DATA}")) ## this will open the folder </span></span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a><span class="do">## load qqunif</span></span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">source_gist</span>(<span class="st">"38431b74c6c0bf90c12f"</span>)</span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb30-42"><a href="#cb30-42" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="fu">glue</span>(<span class="st">"ls -r {DATA}/*"</span>))</span>
+<span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb30-44"><a href="#cb30-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-45"><a href="#cb30-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## load 2022-11-17 tables</span></span>
+<span id="cb30-46"><a href="#cb30-46" aria-hidden="true" tabindex="-1"></a><span class="in">```{r eval=FALSE}</span></span>
+<span id="cb30-47"><a href="#cb30-47" aria-hidden="true" tabindex="-1"></a><span class="co"># stab2 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S2.xlsx"))</span></span>
+<span id="cb30-48"><a href="#cb30-48" aria-hidden="true" tabindex="-1"></a><span class="co"># stab3 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S3.xlsx"))</span></span>
+<span id="cb30-49"><a href="#cb30-49" aria-hidden="true" tabindex="-1"></a><span class="co"># stab4 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S4.xlsx"))</span></span>
+<span id="cb30-50"><a href="#cb30-50" aria-hidden="true" tabindex="-1"></a><span class="co"># stab5 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S5.xlsx"))</span></span>
+<span id="cb30-51"><a href="#cb30-51" aria-hidden="true" tabindex="-1"></a><span class="co"># stab6 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S6.xlsx"))</span></span>
+<span id="cb30-52"><a href="#cb30-52" aria-hidden="true" tabindex="-1"></a><span class="co"># stab7 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S7.xlsx"))</span></span>
+<span id="cb30-53"><a href="#cb30-53" aria-hidden="true" tabindex="-1"></a><span class="co"># stab8 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S8.xlsx"))</span></span>
+<span id="cb30-54"><a href="#cb30-54" aria-hidden="true" tabindex="-1"></a><span class="co"># stab8factor = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S8-w-factor.xlsx"))</span></span>
+<span id="cb30-55"><a href="#cb30-55" aria-hidden="true" tabindex="-1"></a><span class="co"># stab9 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S9.xlsx"))</span></span>
+<span id="cb30-56"><a href="#cb30-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb30-57"><a href="#cb30-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-58"><a href="#cb30-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## load 2023-08-11 tables</span></span>
+<span id="cb30-61"><a href="#cb30-61" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb30-62"><a href="#cb30-62" aria-hidden="true" tabindex="-1"></a>stab2 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S2.xlsx"</span>))</span>
+<span id="cb30-63"><a href="#cb30-63" aria-hidden="true" tabindex="-1"></a>stab3 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S3.xlsx"</span>))</span>
+<span id="cb30-64"><a href="#cb30-64" aria-hidden="true" tabindex="-1"></a>stab4 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S4.xlsx"</span>))</span>
+<span id="cb30-65"><a href="#cb30-65" aria-hidden="true" tabindex="-1"></a>stab5 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S5.xlsx"</span>))</span>
+<span id="cb30-66"><a href="#cb30-66" aria-hidden="true" tabindex="-1"></a>stab6 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S6.xlsx"</span>))</span>
+<span id="cb30-67"><a href="#cb30-67" aria-hidden="true" tabindex="-1"></a>stab7 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S7.xlsx"</span>))</span>
+<span id="cb30-68"><a href="#cb30-68" aria-hidden="true" tabindex="-1"></a>stab7wofactor <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S7-wo-factor.xlsx"</span>))</span>
+<span id="cb30-69"><a href="#cb30-69" aria-hidden="true" tabindex="-1"></a>stab8 <span class="ot">=</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="fu">glue</span>(<span class="st">"{DATA}/updated-to-2023-08-11/Table_S8.xlsx"</span>))</span>
+<span id="cb30-70"><a href="#cb30-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-71"><a href="#cb30-71" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb30-72"><a href="#cb30-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-73"><a href="#cb30-73" aria-hidden="true" tabindex="-1"></a><span class="in">```{r qqunif of 35 traits}</span></span>
+<span id="cb30-74"><a href="#cb30-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-75"><a href="#cb30-75" aria-hidden="true" tabindex="-1"></a>phenolist <span class="ot">=</span> <span class="fu">unique</span>(stab7<span class="sc">$</span>phenotype)</span>
+<span id="cb30-76"><a href="#cb30-76" aria-hidden="true" tabindex="-1"></a>mydata<span class="ot">=</span>stab7</span>
+<span id="cb30-77"><a href="#cb30-77" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(pheno <span class="cf">in</span> phenolist)</span>
+<span id="cb30-78"><a href="#cb30-78" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb30-79"><a href="#cb30-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">qqunif</span>(mydata<span class="sc">$</span>pval_adj_perm_null[mydata<span class="sc">$</span>model<span class="sc">==</span><span class="st">"ridge"</span> <span class="sc">&amp;</span> mydata<span class="sc">$</span>phenotype<span class="sc">==</span> pheno],<span class="at">main=</span>pheno)</span>
+<span id="cb30-80"><a href="#cb30-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="st">"perm and factor adjusted"</span>)</span>
+<span id="cb30-81"><a href="#cb30-81" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-82"><a href="#cb30-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-83"><a href="#cb30-83" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb30-84"><a href="#cb30-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-85"><a href="#cb30-85" aria-hidden="true" tabindex="-1"></a><span class="fu">## plot zscores for dMRI</span></span>
+<span id="cb30-88"><a href="#cb30-88" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb30-89"><a href="#cb30-89" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(stab2<span class="sc">$</span>pc1_name,<span class="at">useNA=</span><span class="st">'always'</span>)</span>
+<span id="cb30-90"><a href="#cb30-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-91"><a href="#cb30-91" aria-hidden="true" tabindex="-1"></a>stab7 <span class="sc">%&gt;%</span> </span>
+<span id="cb30-92"><a href="#cb30-92" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(stab2 <span class="sc">%&gt;%</span> </span>
+<span id="cb30-93"><a href="#cb30-93" aria-hidden="true" tabindex="-1"></a>               <span class="fu">filter</span>(modality<span class="sc">==</span><span class="st">"dMRI"</span>, </span>
+<span id="cb30-94"><a href="#cb30-94" aria-hidden="true" tabindex="-1"></a>                      measurement_type<span class="sc">==</span><span class="st">"dMRI skeleton (TBSS-style measurement)"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-95"><a href="#cb30-95" aria-hidden="true" tabindex="-1"></a>               <span class="fu">select</span>(IDP,region,subtype)) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-96"><a href="#cb30-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(model<span class="sc">==</span><span class="st">"ridge"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-97"><a href="#cb30-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(subtype<span class="sc">==</span><span class="st">"ICVF"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-98"><a href="#cb30-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(IDP,<span class="at">pheno=</span>phenotype,<span class="at">z=</span>z_adj_perm_null) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-99"><a href="#cb30-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(IDP,pheno,<span class="at">fill=</span>z))  <span class="sc">+</span> <span class="fu">geom_tile</span>()</span>
+<span id="cb30-100"><a href="#cb30-100" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb30-101"><a href="#cb30-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-102"><a href="#cb30-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-105"><a href="#cb30-105" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb30-106"><a href="#cb30-106" aria-hidden="true" tabindex="-1"></a><span class="co"># ##install.packages("RColorBrewer")</span></span>
+<span id="cb30-107"><a href="#cb30-107" aria-hidden="true" tabindex="-1"></a><span class="co"># suppressMessages(library("RColorBrewer"))</span></span>
+<span id="cb30-108"><a href="#cb30-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-109"><a href="#cb30-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-110"><a href="#cb30-110" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-111"><a href="#cb30-111" aria-hidden="true" tabindex="-1"></a>myplot <span class="ot">&lt;-</span> <span class="cf">function</span>(subtipo)</span>
+<span id="cb30-112"><a href="#cb30-112" aria-hidden="true" tabindex="-1"></a>{df <span class="ot">&lt;-</span> stab7 <span class="sc">%&gt;%</span> </span>
+<span id="cb30-113"><a href="#cb30-113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(stab2 <span class="sc">%&gt;%</span> </span>
+<span id="cb30-114"><a href="#cb30-114" aria-hidden="true" tabindex="-1"></a>               <span class="fu">filter</span>(modality<span class="sc">==</span><span class="st">"dMRI"</span>, </span>
+<span id="cb30-115"><a href="#cb30-115" aria-hidden="true" tabindex="-1"></a>                      measurement_type<span class="sc">==</span><span class="st">"dMRI skeleton (TBSS-style measurement)"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-116"><a href="#cb30-116" aria-hidden="true" tabindex="-1"></a>               <span class="fu">select</span>(IDP,region,subtype)) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-117"><a href="#cb30-117" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(model<span class="sc">==</span><span class="st">"ridge"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-118"><a href="#cb30-118" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(subtype<span class="sc">==</span>subtipo) </span>
+<span id="cb30-119"><a href="#cb30-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-120"><a href="#cb30-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-121"><a href="#cb30-121" aria-hidden="true" tabindex="-1"></a><span class="co"># Define significance labels</span></span>
+<span id="cb30-122"><a href="#cb30-122" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb30-123"><a href="#cb30-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(IDP, <span class="at">pheno =</span> phenotype, <span class="at">z =</span> z_adj_perm_null) <span class="sc">%&gt;%</span></span>
+<span id="cb30-124"><a href="#cb30-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">significance =</span> <span class="fu">case_when</span>(</span>
+<span id="cb30-125"><a href="#cb30-125" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abs</span>(z) <span class="sc">&gt;</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"*"</span>,</span>
+<span id="cb30-126"><a href="#cb30-126" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abs</span>(z) <span class="sc">&lt;=</span> <span class="dv">4</span> <span class="sc">&amp;</span> <span class="fu">abs</span>(z) <span class="sc">&gt;</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"\u00B7"</span>,  <span class="co"># Use MIDDLE DOT</span></span>
+<span id="cb30-127"><a href="#cb30-127" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">""</span></span>
+<span id="cb30-128"><a href="#cb30-128" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb30-129"><a href="#cb30-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-130"><a href="#cb30-130" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb30-131"><a href="#cb30-131" aria-hidden="true" tabindex="-1"></a>pp <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> IDP, <span class="at">y =</span> pheno)) <span class="sc">+</span></span>
+<span id="cb30-132"><a href="#cb30-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill =</span> z)) <span class="sc">+</span> </span>
+<span id="cb30-133"><a href="#cb30-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> significance), <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb30-134"><a href="#cb30-134" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"blue"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"red"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb30-135"><a href="#cb30-135" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">"z-value"</span>) <span class="sc">+</span></span>
+<span id="cb30-136"><a href="#cb30-136" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb30-137"><a href="#cb30-137" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb30-138"><a href="#cb30-138" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(subtipo)</span>
+<span id="cb30-139"><a href="#cb30-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-140"><a href="#cb30-140" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pp)</span>
+<span id="cb30-141"><a href="#cb30-141" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-142"><a href="#cb30-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-143"><a href="#cb30-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-144"><a href="#cb30-144" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(subtipo <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"FA"</span>,<span class="st">"ICVF"</span>,<span class="st">"OD"</span>,<span class="st">"ISOVF"</span>))</span>
+<span id="cb30-145"><a href="#cb30-145" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb30-146"><a href="#cb30-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">myplot</span>(subtipo)</span>
+<span id="cb30-147"><a href="#cb30-147" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-148"><a href="#cb30-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-149"><a href="#cb30-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-150"><a href="#cb30-150" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb30-151"><a href="#cb30-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-152"><a href="#cb30-152" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

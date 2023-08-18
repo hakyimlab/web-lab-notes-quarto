@@ -38,26 +38,36 @@ devtools::source_gist("38431b74c6c0bf90c12f")
 system(glue("ls -r {DATA}/*"))
 ```
 
+## load 2022-11-17 tables
+```{r eval=FALSE}
+# stab2 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S2.xlsx"))
+# stab3 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S3.xlsx"))
+# stab4 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S4.xlsx"))
+# stab5 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S5.xlsx"))
+# stab6 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S6.xlsx"))
+# stab7 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S7.xlsx"))
+# stab8 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S8.xlsx"))
+# stab8factor = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S8-w-factor.xlsx"))
+# stab9 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S9.xlsx"))
+```
+
+## load 2023-08-11 tables
 ```{r}
-stab2 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S2.xlsx"))
-stab3 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S3.xlsx"))
-stab4 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S4.xlsx"))
-stab5 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S5.xlsx"))
-stab6 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S6.xlsx"))
-stab7 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S7.xlsx"))
-stab8 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S8.xlsx"))
-stab8factor = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S8-w-factor.xlsx"))
-stab9 = readxl::read_excel(glue("{DATA}/revision_plos_gen_20221117/Table_S9.xlsx"))
-
-
+stab2 = readxl::read_excel(glue("{DATA}/updated-to-2023-08-11/Table_S2.xlsx"))
+stab3 = readxl::read_excel(glue("{DATA}/updated-to-2023-08-11/Table_S3.xlsx"))
+stab4 = readxl::read_excel(glue("{DATA}/updated-to-2023-08-11/Table_S4.xlsx"))
+stab5 = readxl::read_excel(glue("{DATA}/updated-to-2023-08-11/Table_S5.xlsx"))
+stab6 = readxl::read_excel(glue("{DATA}/updated-to-2023-08-11/Table_S6.xlsx"))
+stab7 = readxl::read_excel(glue("{DATA}/updated-to-2023-08-11/Table_S7.xlsx"))
+stab7wofactor = readxl::read_excel(glue("{DATA}/updated-to-2023-08-11/Table_S7-wo-factor.xlsx"))
+stab8 = readxl::read_excel(glue("{DATA}/updated-to-2023-08-11/Table_S8.xlsx"))
 
 ```
 
-
 ```{r qqunif of 35 traits}
 
-phenolist = unique(stab8factor$phenotype)
-mydata=stab8factor
+phenolist = unique(stab7$phenotype)
+mydata=stab7
 for(pheno in phenolist)
 {
   qqunif(mydata$pval_adj_perm_null[mydata$model=="ridge" & mydata$phenotype== pheno],main=pheno)
@@ -66,102 +76,70 @@ for(pheno in phenolist)
 
 ```
 
+## plot zscores for dMRI
+```{r}
+
+table(stab2$pc1_name,useNA='always')
+
+stab7 %>% 
+  inner_join(stab2 %>% 
+               filter(modality=="dMRI", 
+                      measurement_type=="dMRI skeleton (TBSS-style measurement)") %>% 
+               select(IDP,region,subtype)) %>% 
+  filter(model=="ridge") %>% 
+  filter(subtype=="ICVF") %>% 
+  select(IDP,pheno=phenotype,z=z_adj_perm_null) %>% 
+  ggplot(aes(IDP,pheno,fill=z))  + geom_tile()
+```
 
 
 ```{r}
-## install.packages("Hmisc")
-## install.packages("rms")
-Hmisc::describe(stab2)
-Hmisc::describe(stab3)
-Hmisc::describe(stab4)
-Hmisc::describe(stab5)
-Hmisc::describe(stab6)
-Hmisc::describe(stab7)
-Hmisc::describe(stab8factor)
-Hmisc::describe(stab9)
 
-```
+# ##install.packages("RColorBrewer")
+# suppressMessages(library("RColorBrewer"))
 
 
+  
+myplot <- function(subtipo)
+{df <- stab7 %>% 
+  inner_join(stab2 %>% 
+               filter(modality=="dMRI", 
+                      measurement_type=="dMRI skeleton (TBSS-style measurement)") %>% 
+               select(IDP,region,subtype)) %>% 
+  filter(model=="ridge") %>% 
+  filter(subtype==subtipo) 
 
-```{text}
-Sure, here are the extracted captions from the provided LaTeX code:
 
-1. **Demographic information of the IDP cohort**
-   A summary of age and sex of the selected 24,409 individuals (IDP cohort) is shown. For age, **information** shows the average age with standard deviation of age in parentheses and **detail** shows the range of the age (min and max). For sex, **information** shows the fraction of each age among the cohort and **detail** shows the raw counts (female's is listed first and followed by male's)
-   \label{S-tab:ukb_cohort}
+# Define significance labels
+df <- df %>%
+  select(IDP, pheno = phenotype, z = z_adj_perm_null) %>%
+  mutate(significance = case_when(
+    abs(z) > 4 ~ "*",
+    abs(z) <= 4 & abs(z) > 2 ~ "\u00B7",  # Use MIDDLE DOT
+    TRUE ~ ""
+  ))
 
-2. **UK Biobank brain IDPs being analyzed**
-   This table contains the detailed information about the brain IDPs analyzed in this paper. The columns are listed below.
-   **IDP** shows the IDP identifier used in this paper which uses the format of "IDP-XXXXX" with XXXXX being the Field ID in UK Biobank;
-   **modality** indicates whether the IDP is from T1 MRI or diffusion MRI;
-   **subtype** lists the name of the IDP subtypes which is used in the paper to refer to different types of brain IDPs;
-   **pc1\_name** shows the name of the corresponding principal component of the subtype (this will be used as the IDP identifier for the IDP PC1);
-   **region** shows the anatomical region of the MRI measurement;
-   **side** indicates whether the measurement is from the left or right part of the brain;
-   **measurement\_type** shows the details of the measurement and the image processing procedure;
-   **dmri\_measure** indicates the type of statistic extracted from the dMRI measurement;
-   **t1\_anatomy\_group** indicates the anatomical grouping for T1 MRI;
-   **notes** shows the description of the IDP extracted from the UK Biobank database;
-   **ukb\_link** lists the link to the Data Field in UK Biobank website.
-   \label{S-tab:idp_table}
+# Plot
+pp <- ggplot(df, aes(x = IDP, y = pheno)) +
+  geom_tile(aes(fill = z)) + 
+  geom_text(aes(label = significance), vjust = 0.5, hjust = 0.5) +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  labs(fill = "z-value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
+  ggtitle(subtipo)
 
-3. **The heritability and polygenicity estimates of brain IDPs**
-   **IDP**: IDP identifier;
-   **h2** and **h2\_SE**: The estimated heritability and the corresponding standard error;
-   **Me** and **Me\_SE**: The estimated polygenicity (defined as $M_e$ in \cite{oconnor:2019}) and the corresponding standard error.
-   \label{S-tab:gen_arch}
+print(pp)
+}
 
-4. **The prediction performance of the ridge and elastic net predictors**
-   It contains prediction performance (via cross-validation scheme) of the ridge regression and elastic net based genetic predictors of brain IDPs.
-   **IDP**: IDP identifier;
-   **model\_name**: The type of prediction model being used (ridge regression or elastic net);
-   **Spearman**: The Spearman correlation between the predicted and observed IDP values;
-   **Pearson**: The Pearson correlation between the predicted and observed IDP values;
-   **R2**: The $R^2$ measured from the predicted and observed IDP values;
-   **is\_kept**: An indicator showing whether the genetic predictor passes the quality control filter (e.g. Spearman correlation $>0.1$) so that will be included in BrainXcan software.
-   \label{S-tab:cv_perf}
 
-5. **The list of 9 UK Biobank based phenotypes being analyzed by individual-level BrainXcan**
-   It contains the definition of the 9 UK Biobank phenotypes used for individual-level BrainXcan. For some phenotypes, they were constructed from multiple UK Biobank fields and the aggregation method across these fields was either taking the sum ('sum') or taking logical OR ('or'). For binary phenotype, we defined its value as 1 if the field takes the desired values indicated in **target\_value**. Missing values were either treated as 0 or removed.
-   **phenotype** shows the name of the defined phenotype;
-   **ukb\_field** shows UK Biobank fields from which the phenotype was constructed;
-   **target\_value**: For binary phenotypes, we defined its value as 1 if the field takes the desired value. For quantitative traits, we used the value as it is (labeled as 'asis');
-   **aggregate\_method**: For some phenotypes, they were constructed from multiple UK Biobank fields and the aggregation method across these fields was either taking the sum ('sum') or taking the logical OR ('or');
-   **missing\_values** shows how missing values in a field were handled (either treated as 0 or removed).
-   \label{S-tab:indiv_bxcan_phenotype}
-
-6. **The list of 35 GWASs being analyzed by S-BrainXcan**
-   It contains the information about the 35 GWASs used in S-BrainXcan analysis.
-   **phenotype**: The name of the phenotype;
-   **phenotype\_id**: The phenotype identifiers;
-   **short\_name**: The short names of the phenotypes;
-   **sample\_size**: The sample size of the GWAS. If there are different sample sizes for different SNPs, the mean sample size is shown;
-   **portal**: The website from which the GWAS was downloaded;
-   **filename**: The name of the raw GWAS file being downloaded.
-   \label{S-tab:s_bxcan_phenotype}
-
-7. **S-BrainXcan results for 35 GWASs**
-   **model**: The prediction model type of the IDP predictor (either ridge or elastic net);
-   **IDP**: IDP identifier;
-   **phenotype**: The name of the phenotype (defined in table~\ref{S-tab:s_bxcan_phenotype});
-   **bhat**: BrainXcan effect size estimate, $\hat\beta$;
-   **pval**: BrainXcan p-value (without adjustment by permutation);
-   **zscore**: BrainXcan z-score (without adjustment by permutation);
-   **nsnp\_used**: The number of variants used in S-BrainXcan computation;
-   **nsnp\_total**: The number of variants in the prediction model (**nsnp\_used** should be no larger than **nsnp\_total** but the closer the better since the difference is the number of variants being missed by the GWAS);
-   **z\_adj\_perm\_null**: BrainXcan z-score with adjustment by permutation;
-   **pval\_adj\_perm\_null**: The corresponding p-value computed from the adjusted BrainXcan z-score (**z\_adj\_perm\_null**).
-   \label{S-tab:s_bxcan_results}
-
-8. **LDSC based genetic correlation results for 35 GWASs**
-   **IDP**: IDP identifier;
-   **phenotype**: The name of the phenotype (defined in table~\ref{S-tab:s_bxcan_phenotype});
-   **rg**: Genetic correlation;
-   **pval**: Genetic correlation p-value (null hypothesis: **rg** is zero);
-   **zscore**: The corresponding z-score calculated from **pval**.
-   \label{S-tab:gencor_results}
+for(subtipo in c("FA","ICVF","OD","ISOVF"))
+{
+  myplot(subtipo)
+}
 
 
 ```
+
+
 
