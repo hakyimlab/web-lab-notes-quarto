@@ -1,7 +1,7 @@
 ---
-title: "Polygenicity Driven Inflation in Brainxcan"
+title: "Polygenicity Driven Inflation in Brainxcan II"
 author: "Haky Im"
-date: "2023-04-07"
+date: "2023-08-23"
 categories: [analysis]
 date-modified: last-modified
 editor_options: 
@@ -12,48 +12,38 @@ format:
     code-summary: "Show the code"
     code-tools: true
     code-overflow: wrap
+description: to investigate the functional form of var(Z_TWAS)(N, h_Y, M)
 ---
 
-::: callout-tip
-## Summary
 
-When both $Y$ and a mediator IDP are polygenic, the regression test $Y$ on IDP is inflated with $\text{Var}(Z_\text{bxcan}) = 1 + h_Y^2 \cdot N \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$. I'll use simulations to understand this relationship as functions of $h_Y$, $h_\text{IDP}$, $N$, $M_Y$, and $M_\text{IDP}$. The IDP has been assumed to be known without error in this derivation, i.e. $h_\text{IDP}=1$.
-:::
+Investigate this expression
+$\text{Var}(Z_\text{bxcan}) = 1 + h_Y^2 \cdot N \cdot \Phi(\cdots)$
 
--   $h^2_Y$ is the heritability of $Y$
--   $h^2_\text{IDP}$ is a measure of how close the predicted IDP is to the genetic component of the IDP
--   $N$, is the sample size = nsam
--   $M_Y$ is the number of causal variants for Y
--   $M_\text{IDP}$ is the number of causal variants for the IDP
+How does $\Phi$ relate to the traces expression?
+$$\Phi \longleftrightarrow \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$$
+The model for Y and IDPs
 
-Here $M_Y = M_\text{IDP}$ = msnp.
+$$Y = T ~ \beta + X \cdot b + \epsilon_Y$$
+$$T = X \cdot \gamma$$
+Error in prediction will be introduced as error in $\gamma$ later
 
-::: callout-tip
-## Inflation estimate with uncertainty in IDP prediction
 
-$\text{Var}(Z_\text{bxcan}) = 1 + h_Y^2 \cdot N \cdot h^2_\text{IDP} \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$
-:::
 
-## how to correct the inflation
-
-We will correct the inflation by dividing the association Z-score with the $\sqrt{\text{Var}(Z_\text{bxcan})}$. In practice, we will estimate the factor $$h^2_\text{IDP} \cdot \frac{\text{tr}(R'R)}{\text{tr}^2(R)}$$ by simulating traits Y with different heritability and different sample sizes, calculating the Z-scores of the association with IDPs, and regressing the mean Z-score squared across multiple simulations of Y on $h^2_Y$.
-
-## - \[ \] TODO: test whether more sparse architectures can be accounted for in the variance formula by calculating
-
-$$\frac{\text{tr}(R'R)}{\text{tr}^2(R)}$$ using only SNPs that are causal for both? Or some function of $M_\text{IDP}$, $M_Y$, and $M$ of the intersection.
 
 ```{r}
 suppressMessages(library(tidyverse))
 suppressMessages(library(glue))
 
 PRE = "/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"
-SLUG="inflation-brainxcan" ## copy the slug from the header
-bDATE='2023-04-07' ## copy the date from the blog's header here
+SLUG="inflation-brainxcan-II" ## copy the slug from the header
+bDATE='2023-08-23' ## copy the date from the blog's header here
 DATA = glue("{PRE}/{bDATE}-{SLUG}")
 if(!file.exists(DATA)) system(glue::glue("mkdir {DATA}"))
 WORK=DATA
 ##system(glue("open {DATA}")) ## this will open the folder 
 ```
+
+## copied simulation code from [previous post on polygenicity driven inflation in brainxcan](/post/2023-04-07-inflation-brainxcan)
 
 ## load and define Functions
 
@@ -104,7 +94,7 @@ cor2chi2 = function(cc,nn)
 
 ```{r simulate study and calc varZ}
 
-simulate_study = function(nsam,msnp,nsim,midp,h2IDP,h2Y,prop_causal)
+simulate_study = function(nsam,msnp,nsim,midp,precision_gamma,h2Y,prop_causal)
 {
   ## simulate Xmat (nsam x msnp)
   Xmat = matrix(rbinom(nsam*msnp, 2, 0.4), nsam, msnp)
@@ -123,13 +113,16 @@ simulate_study = function(nsam,msnp,nsim,midp,h2IDP,h2Y,prop_causal)
   gammamat = matrix(rnorm(msnp * midp),msnp, midp)
   is_causal = rbinom(msnp,1,prop_causal)
   gammamat = sweep(gammamat,MARGIN=1,is_causal,FUN="*")
-  epsimat2 = matrix(rnorm(nsam * midp),nsam, midp)
-  epsimat2 = scale(epsimat2)
-  epsimat2 = sweep(epsimat2, MARGIN=2, sqrt(1 - h2IDP), FUN="*" )
   gIDPmat = Xmat %*% gammamat
   gIDPmat = scale(gIDPmat) 
-  gIDPmat = sweep(gIDPmat, MARGIN=2, sqrt(h2IDP), FUN="*" )
-  IDPmat = gIDPmat + epsimat2
+  gIDPmat = sweep(gIDPmat, MARGIN=2, sqrt(precision_gamma), FUN="*" )
+  
+  egammamat = matrix(rnorm(msnp * midp),msnp, midp)
+  eIDPmat = Xmat %*% egammamat
+  eIDPmat = scale(eIDPmat) 
+  eIDPmat = sweep(eIDPmat, MARGIN=2, sqrt(1 - precision_gamma), FUN="*" )
+
+  IDPmat = gIDPmat + eIDPmat
   
   ## simulate Ymat (nsam x nsim) indep of IDPs
   betamat = matrix(rnorm(msnp*nsim),msnp, nsim)
@@ -165,53 +158,67 @@ simulate_study = function(nsam,msnp,nsim,midp,h2IDP,h2Y,prop_causal)
 
 ```{r}
 nsim = 150
-midp = 100
-h2IDP = 0.1 + 0.8 * (1:midp)/midp
-h2Yvec = (1:9)/10
+midp = 99
+precision_gamma = 0.1 + 0.8 * (1:midp)/midp
+h2Yvec = (1:9)/10; num_h2Y = length(h2Yvec)
 nsamlist = c(100,1000,5000,10000); num_nsam=length(nsamlist)
 msnplist = c(99,999,4999); num_msnp=length(msnplist)
-prop_causal=0.10
+prop_causal=1
 ```
 
-## simulate and plot varZ vs h2IDP by h2Y, msnp, nsam
+## simulate and plot varZ vs precision_gamma by h2Y, msnp, nsam
 
-```{r sim and plot with h2yvec}
-rerun=FALSE
-for(h2Y in h2Yvec)
-{
-  print("---------------")
-  print("h2Y is")
-  print(h2Y)
-
+```{r sim}
+rerun=TRUE
 if(rerun)
 {
-  varZmat = array(NA, dim=c(num_nsam, num_msnp, midp) )
-  trrtrmat = matrix(NA,num_nsam, num_msnp)
-  for(ii in 1:num_nsam)
+  varZarray = array(NA, dim=c(num_h2Y,num_nsam, num_msnp, midp))
+  trrtrarray = array(NA,dim=c(num_h2Y,num_nsam, num_msnp))
+  for(hh in 1:num_h2Y)
   {
-    for(jj in 1:num_msnp)
+    h2Y = h2Yvec[hh]
+    print("---------------")
+    print("h2Y is")
+    print(h2Y)
+    
+    # varZmat = array(NA, dim=c(num_nsam, num_msnp, midp) )
+    # trrtrarray = matrix(NA,num_nsam, num_msnp)
+    
+    for(ii in 1:num_nsam)
     {
-      res=list()
-      #print(ii)
-      #print(jj)
-      nsam=nsamlist[ii]
-      msnp=msnplist[jj]
-      #print(nsam)
-      #print(msnp)
-      noskip = !(msnp==4999 & nsam > 4999)
-      if(noskip) 
+      for(jj in 1:num_msnp)
       {
-        res = simulate_study(nsam,msnp,nsim,midp,h2IDP,h2Y,prop_causal)
-        varZmat[ii,jj,] = res$varZ
-        trrtrmat[ii,jj] = res$trrtr
+        res=list()
+        #print(ii)
+        #print(jj)
+        nsam=nsamlist[ii]
+        msnp=msnplist[jj]
+        #print(nsam)
+        #print(msnp)
+        noskip = !(msnp==4999 & nsam > 4999)
+        if(noskip) 
+        {
+          res = simulate_study(nsam,msnp,nsim,midp,precision_gamma,h2Y,prop_causal)
+          varZarray[hh,ii,jj,] = res$varZ
+          trrtrarray[hh,ii,jj] = res$trrtr
+        }
       }
     }
+#    saveRDS(varZmat,glue("{DATA}/varZmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
+#    saveRDS(trrtrmat,glue("{DATA}/trrtrmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
   }
-  rownames(trrtrmat) = paste0("n",nsamlist)
-  colnames(trrtrmat) = paste0("m",msnplist)
-  dimnames(varZmat) = list(rownames(trrtrmat), colnames(trrtrmat), paste0("h2.",h2IDP))
-  saveRDS(varZmat,glue("{DATA}/varZmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
-  saveRDS(trrtrmat,glue("{DATA}/trrtrmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
+  
+    charnsamlist = paste0("n_",nsamlist)
+    charmsnplist = paste0("m_",msnplist)
+    charh2vec = paste0("h2Y_",h2Yvec)
+    dimnames(trrtrarray) = list(charh2vec, charnsamlist,charmsnplist)
+    dimnames(varZarray) = list(charh2vec, charnsamlist,charmsnplist,
+                             paste0("prec_",round(precision_gamma,2)))
+
+  saveRDS(varZarray,glue("{DATA}/varZarray-propcausal{prop_causal}.RDS"))
+  saveRDS(trrtrarray,glue("{DATA}/trrtrarray-propcausal{prop_causal}.RDS"))
+  
+  
 } else
 {
   varZmat = readRDS(glue("{DATA}/varZmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
@@ -219,6 +226,39 @@ if(rerun)
 }
 
 
+
+
+```
+
+```{r}
+#mat = matrix(NA,num_h2Y * num_nsam * num_msnp,5)
+df = data.frame(h2Y=NA,nsam=NA,msnp=NA,prec=NA,value=NA)
+names(df) = c("h2Y","nsam","msnp","prec","value")
+  for(hh in 1:num_h2Y)
+  {
+    h2Y = h2Yvec[hh]
+    
+    for(ii in 1:num_nsam)
+    {
+      nsam = nsamlist[ii]
+      for(jj in 1:num_msnp)
+      {
+        msnp = msnplist[jj]
+        for(pp in 1:length(precision_gamma))
+        {  prec = round(precision_gamma[pp],2)
+          df = rbind(df,c(h2Y,nsam,msnp,prec,varZarray[
+          paste0("h2Y_",h2Y),
+          paste0("n_",nsam),
+          paste0("m_",msnp),
+          paste0("prec_",prec)]))
+        }
+        }
+    }
+  }
+kk=na.omit(df)
+```
+
+```{r plot}
 # Set the margin size
 mar_size <- 0.5
 
@@ -230,8 +270,8 @@ for (ii in 1:num_nsam) {
   for (jj in 1:num_msnp) {
     nsam <- nsamlist[ii]
     msnp <- msnplist[jj]
-    plot(h2IDP, (varZmat[ii, jj, ] - 1) / trrtrmat[ii, jj] / nsamlist[ii], 
-         xlab = "h2IDP", 
+    plot(h2vec, (varZarray[,ii, jj, ] - 1) /  nsamlist[ii], 
+         xlab = "prec_gamma", 
          ylab = "(varz-1) / N / trrtr", 
          xlim = c(0, 1), 
          ylim = c(0, 1))
@@ -249,15 +289,8 @@ for (ii in 1:num_nsam) {
 par(mfrow = c(1, 1))
 
 # Add title to the entire plot
-title(glue("(varZ - 1 ) /nsam/tRRt2R vs h2IDP - blue line has slope h2Y {h2Y}"), outer = TRUE, line = -1)
+title(glue("(varZ - 1 ) /nsam/tRRt2R vs precision_gamma - blue line has slope h2Y {h2Y}"), outer = TRUE, line = -1)
 
 }
 ```
 
-## - \[x\] TODO: show that this inflation does not affect sparse traits like the cis components of gene expression. Inflation does affect cis expression association 😱
-
-```{r inflation with cis predicted gene expression}
-
-
-
-```
