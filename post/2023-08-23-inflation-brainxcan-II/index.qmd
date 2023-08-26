@@ -157,19 +157,19 @@ simulate_study = function(nsam,msnp,nsim,midp,precision_gamma,h2Y,prop_causal)
 ## define parameters for simulation multiple comb of nsam and msnp
 
 ```{r}
-nsim = 150
+nsim = 1000
 midp = 99
 precision_gamma = 0.1 + 0.8 * (1:midp)/midp
 h2Yvec = (1:9)/10; num_h2Y = length(h2Yvec)
-nsamlist = c(100,1000,5000,10000); num_nsam=length(nsamlist)
-msnplist = c(99,999,4999); num_msnp=length(msnplist)
+nsamlist = c(100,1000,2000,3000,5000,6000,7000,8000,10000); num_nsam=length(nsamlist)
+msnplist = c(99,499,999,1999, 2999,3999,4999); num_msnp=length(msnplist)
 prop_causal=1
 ```
 
 ## simulate and plot varZ vs precision_gamma by h2Y, msnp, nsam
 
-```{r sim}
-rerun=TRUE
+```{r simulate varz}
+rerun=FALSE
 if(rerun)
 {
   varZarray = array(NA, dim=c(num_h2Y,num_nsam, num_msnp, midp))
@@ -206,14 +206,26 @@ if(rerun)
     }
 #    saveRDS(varZmat,glue("{DATA}/varZmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
 #    saveRDS(trrtrmat,glue("{DATA}/trrtrmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
-  }
+
+    charnsamlist = paste0("n_",nsamlist)
+    charmsnplist = paste0("m_",msnplist)
+    charh2vec = paste0("h2Y_",h2Yvec)
+    dimnames(trrtrarray) = list(charh2vec, charnsamlist,charmsnplist)
+    dimnames(varZarray) = list(charh2vec, charnsamlist,charmsnplist,
+                             paste0("prec_",round(precision_gamma,4)))
+
+  saveRDS(varZarray,glue("{DATA}/varZarray-propcausal{prop_causal}.RDS"))
+  saveRDS(trrtrarray,glue("{DATA}/trrtrarray-propcausal{prop_causal}.RDS"))
+    
+    
+      }
   
     charnsamlist = paste0("n_",nsamlist)
     charmsnplist = paste0("m_",msnplist)
     charh2vec = paste0("h2Y_",h2Yvec)
     dimnames(trrtrarray) = list(charh2vec, charnsamlist,charmsnplist)
     dimnames(varZarray) = list(charh2vec, charnsamlist,charmsnplist,
-                             paste0("prec_",round(precision_gamma,2)))
+                             paste0("prec_",round(precision_gamma,4)))
 
   saveRDS(varZarray,glue("{DATA}/varZarray-propcausal{prop_causal}.RDS"))
   saveRDS(trrtrarray,glue("{DATA}/trrtrarray-propcausal{prop_causal}.RDS"))
@@ -221,76 +233,168 @@ if(rerun)
   
 } else
 {
-  varZmat = readRDS(glue("{DATA}/varZmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
-  trrtrmat = readRDS(glue("{DATA}/trrtrmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
+  # varZarray = readRDS(glue("{DATA}/varZarray-propcausal{prop_causal}.RDS"))
+  # trrtrarray = readRDS(glue("{DATA}/trrtrarray-propcausal{prop_causal}.RDS"))
+  varZarray = readRDS(glue("{DATA}/saved-varZarray-nsim-1000-propcausal1.RDS"))
+  trrtrarray = readRDS(glue("{DATA}/saved-trrtrarray-nsim-1000-propcausal1.RDS"))
 }
 
 
 
 
 ```
+
 
 ```{r}
-#mat = matrix(NA,num_h2Y * num_nsam * num_msnp,5)
-df = data.frame(h2Y=NA,nsam=NA,msnp=NA,prec=NA,value=NA)
-names(df) = c("h2Y","nsam","msnp","prec","value")
-  for(hh in 1:num_h2Y)
-  {
-    h2Y = h2Yvec[hh]
-    
-    for(ii in 1:num_nsam)
-    {
-      nsam = nsamlist[ii]
-      for(jj in 1:num_msnp)
-      {
-        msnp = msnplist[jj]
-        for(pp in 1:length(precision_gamma))
-        {  prec = round(precision_gamma[pp],2)
-          df = rbind(df,c(h2Y,nsam,msnp,prec,varZarray[
-          paste0("h2Y_",h2Y),
-          paste0("n_",nsam),
-          paste0("m_",msnp),
-          paste0("prec_",prec)]))
-        }
-        }
-    }
-  }
-kk=na.omit(df)
+
+
 ```
 
-```{r plot}
-# Set the margin size
-mar_size <- 0.5
 
-# Adjust the plot margins
-par(mfrow = c(num_nsam, num_msnp), mar = c(mar_size, mar_size, mar_size, mar_size) + 0.1)
+```{r array to df}
 
-# Create the plots
-for (ii in 1:num_nsam) {
-  for (jj in 1:num_msnp) {
-    nsam <- nsamlist[ii]
-    msnp <- msnplist[jj]
-    plot(h2vec, (varZarray[,ii, jj, ] - 1) /  nsamlist[ii], 
-         xlab = "prec_gamma", 
-         ylab = "(varz-1) / N / trrtr", 
-         xlim = c(0, 1), 
-         ylim = c(0, 1))
-    # Add nsam and msnp information as text
-    noskip = !(msnp==4999 & nsam > 4999)
-    if(noskip) 
-      text(x = 0.5, y = 0.9, labels = paste("nsam =", nsam, ", msnp =", msnp), adj = c(0.5, 0.5)) else text(x = 0.5, y = 0.9, labels = "skipped simulation for speed") 
-    abline(0, 1)
-    abline(0, h2Y, col = 'blue')
-    grid()
+
+varZdf = reshape2::melt(varZarray)
+varZdf$Var1 = as.character(varZdf$Var1)
+varZdf$Var2 = as.character(varZdf$Var2)
+varZdf$Var3 = as.character(varZdf$Var3)
+varZdf$Var4 = as.character(varZdf$Var4)
+## check random subset that the melted df has the same values as the array
+rrlist = sample(1:nrow(varZdf),1000)
+for(rr in rrlist)
+{
+  if(!is.na(varZdf$value[rr]))
+  {char_h2Y = varZdf$Var1[rr]
+  char_nsam = varZdf$Var2[rr]
+  char_msnp = varZdf$Var3[rr]
+  char_prec = varZdf$Var4[rr]
+  if( varZdf$value[rr]!= varZarray[char_h2Y,char_nsam,char_msnp,char_prec]
+      ) 
+  {print('Error in row ');print(rr)}
   }
 }
+## extract numbers from the names of dim array
+varZdf = 
+  varZdf %>%
+  mutate(
+    h2Y = as.numeric(str_extract(Var1, "(?<=h2Y_)[\\d\\.]+")),
+    nsam = as.numeric(str_extract(Var2, "(?<=n_)[\\d\\.]+")),
+    msnp = as.numeric(str_extract(Var3, "(?<=m_)[\\d\\.]+")),
+    prec = as.numeric(str_extract(Var4, "(?<=prec_)[\\d\\.]+"))
+  ) %>% rename(varZ = value)
+## remove missing
+print(dim(varZdf))
+varZdf = na.omit(varZdf)
+print(dim(varZdf))
+```
 
-# Reset plotting parameters to defaults
-par(mfrow = c(1, 1))
 
-# Add title to the entire plot
-title(glue("(varZ - 1 ) /nsam/tRRt2R vs precision_gamma - blue line has slope h2Y {h2Y}"), outer = TRUE, line = -1)
+```{r trrtr dependence on M and N}
 
+TRdf = reshape2::melt(trrtrarray)
+TRdf$Var1 = as.character(TRdf$Var1)
+TRdf$Var2 = as.character(TRdf$Var2)
+TRdf$Var3 = as.character(TRdf$Var3)
+TRdf = 
+  TRdf %>%
+  mutate(
+    h2Y = as.numeric(str_extract(Var1, "(?<=h2Y_)[\\d\\.]+")),
+    nsam = as.numeric(str_extract(Var2, "(?<=n_)[\\d\\.]+")),
+    msnp = as.numeric(str_extract(Var3, "(?<=m_)[\\d\\.]+")),
+  ) %>% rename(trrtr = value)
+## remove missing
+print(dim(TRdf))
+TRdf = na.omit(TRdf)
+print(dim(TRdf))
+
+
+TRdf %>% ggplot(aes(nsam,(trrtr - 1/msnp)*nsam)) + geom_point() + geom_hline(yintercept=1,col='gray') + ggtitle( "( trrtr - 1/M )*nsam" )
+```
+
+
+```{r guessing the functional form of trrtr}
+##Numeric "experiments" indicate that trrtr \approx 1/N + 1/M
+with(TRdf, summary(lm( trrtr ~ I(1/msnp) + I(1/nsam) ) ) )
+
+with(TRdf, plot(1/msnp + 1/nsam,trrtr ) ) 
+abline(0,1)
+
+TRdf %>% ggplot(aes(1/msnp + 1/nsam,trrtr ,col=Var3) ) + geom_point() + geom_abline() + ggtitle("trrtr = 1/M + 1/N") + theme_bw()
+TRdf %>% ggplot(aes(1/msnp + 1/nsam,trrtr ,col=Var2) ) + geom_point() + geom_abline() + ggtitle("trrtr = 1/M + 1/N") + theme_bw()
+
+```
+
+
+```{r }
+
+## compare varZ with 1 + h2 N / M
+with(varZdf, summary(lm( varZ ~ I(1 + h2Y * nsam / msnp) ) ) )
+     
+varZdf %>%
+  ggplot(aes(x = 1 + h2Y * nsam / msnp, y = varZ)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 1, color = "gray") + 
+  theme_bw() + 
+  ggtitle("varZ approx. 1 + h2Y * nsam / msnp")
+
+```
+
+## other plots
+
+```{r other plots}
+varZdf %>%
+  filter(nsam > 999) %>%
+  ggplot(aes(x = Var1, y = (varZ - 1) / h2Y / nsam * msnp)) +
+  geom_boxplot() +
+  geom_hline(yintercept = 1, color = 'gray', linetype = 3) +
+  labs(title = "(varZ - 1)*M/N/h2Y vs h2Y", x = "h2Y") 
+
+
+varZdf %>%
+  filter(nsam > 999) %>%
+  ggplot(aes(x = prec, y = (varZ - 1) / h2Y / nsam * msnp)) +
+  geom_point() + geom_smooth() +
+  geom_hline(yintercept = 1, color = 'gray', linetype = 3) +
+  labs(title = "(varZ - 1)*M/N/h2Y vs h2Y") 
+
+for(nn in nsamlist)
+{
+  pp <- varZdf %>%
+    filter(nsam == nn) %>%
+    ggplot(aes(x = prec, y = (varZ - 1) / h2Y / nsam * msnp)) +
+    geom_point() + geom_smooth() +
+    geom_hline(yintercept = 1, color = 'green') +
+    labs(title = glue("(varZ - 1)*M/N/h2Y vs h2Y - nsam={nn}" ) )+
+    theme(legend.position = "none")
+  print(pp)
 }
+
+varZdf %>% 
+  filter(nsam >= 1000) %>% 
+  mutate(phi=(varZ - 1)/h2Y/nsam*msnp ) %>% 
+  group_by(h2Y,nsam,msnp) %>% 
+  summarize(mean=mean(phi),sd=sd(phi),median=median(phi), .groups = "drop" ) %>% 
+  ggplot(aes(h2Y, mean,col=as.factor(nsam))) + 
+  geom_point() +
+  labs(title = "mean (varZ - 1)*M/N/h2Y vs h2Y") 
+
+varZdf %>% 
+  filter(nsam >= 1000) %>% 
+  mutate(phi=(varZ - 1)/h2Y/nsam*msnp ) %>% 
+  group_by(h2Y,nsam,msnp) %>% 
+  summarize(mean=mean(phi),sd=sd(phi),median=median(phi), .groups = "drop" ) %>% 
+  ggplot(aes(nsam, mean,col=as.factor(msnp))) + 
+  geom_point() +
+  labs(title = "mean (varZ - 1)*M/N/h2Y vs nsam") 
+
+varZdf %>% 
+  filter(nsam >= 1000) %>% 
+  mutate(phi=(varZ - 1)/h2Y/nsam*msnp ) %>% 
+  group_by(h2Y,nsam,msnp) %>% 
+  summarize(mean=mean(phi),sd=sd(phi),median=median(phi), .groups = "drop" ) %>% 
+  ggplot(aes(msnp, mean,col=as.factor(nsam))) + 
+  geom_point() +
+  labs(title = "mean (varZ - 1)*M/N/h2Y vs msnp") 
+
 ```
 
