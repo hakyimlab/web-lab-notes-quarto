@@ -1,0 +1,27 @@
+---
+title: lego database 
+author: Haky Im
+date: 2000-01-01
+---
+
+
+```{r}
+suppressMessages(library(tidyverse))
+suppressMessages(library(glue))
+
+PRE = "/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"
+SLUG="lego-database" ## copy the slug from the header
+bDATE='2000-01-01' ## copy the date from the blog's header here
+DATA = glue("{PRE}/{bDATE}-{SLUG}")
+if(!file.exists(DATA)) system(glue::glue("mkdir {DATA}"))
+WORK=DATA
+##system(glue("open {DATA}")) ## this will open the folder 
+```
+
+[downloads schema](https://uchicago.box.com/shared/static/qwo8cvwigi3lylbxddro0leq4uv0b0k0.png) 
+in /Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data/2000-01-01-lego-database/downloads_schema.png
+
+```{r}
+parts = read_csv(glue("{DATA}/parts.csv"))
+```
+

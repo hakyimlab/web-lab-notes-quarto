@@ -16,6 +16,7 @@ description: to investigate the functional form of var(Z_TWAS)(N, h_Y, M)
 ---
 
 
+
 Investigate this expression
 $\text{Var}(Z_\text{bxcan}) = 1 + h_Y^2 \cdot N \cdot \Phi(\cdots)$
 
@@ -26,6 +27,7 @@ The model for Y and IDPs
 $$Y = T ~ \beta + X \cdot b + \epsilon_Y$$
 $$T = X \cdot \gamma$$
 Error in prediction will be introduced as error in $\gamma$ later
+
 
 
 
@@ -43,9 +45,11 @@ WORK=DATA
 ##system(glue("open {DATA}")) ## this will open the folder 
 ```
 
+
 ## copied simulation code from [previous post on polygenicity driven inflation in brainxcan](/post/2023-04-07-inflation-brainxcan)
 
 ## load and define Functions
+
 
 ```{r}
 suppressMessages(devtools::source_gist("115403f16bec0a0e871f3616d552ce9b") ) ## load fn_ratxcan, fast regression and other convenience functions to correlate subsets of columns of two matrices
@@ -139,7 +143,7 @@ simulate_study = function(nsam,msnp,nsim,midp,precision_gamma,h2Y,prop_causal)
   IDPmat = scale(IDPmat)
     ## multiply t(Ymat) %*% IDPmat
   cormat = t(Ymat) %*% IDPmat
-  cormat = cormat / (nsam-1) ## DIVIDE by N-1
+  cormat = cormat / nsam
 
   ## calc varZ
   chi2mat = cor2chi2(cormat,nn=nsam)
@@ -155,7 +159,9 @@ simulate_study = function(nsam,msnp,nsim,midp,precision_gamma,h2Y,prop_causal)
 
 ```
 
+
 ## define parameters for simulation multiple comb of nsam and msnp
+
 
 ```{r}
 nsim = 1000
@@ -167,7 +173,9 @@ msnplist = c(99,499,999,1999, 2999,3999,4999); num_msnp=length(msnplist)
 prop_causal=1
 ```
 
+
 ## simulate and plot varZ vs precision_gamma by h2Y, msnp, nsam
+
 
 ```{r simulate varz}
 rerun=TRUE
@@ -249,12 +257,10 @@ if(rerun)
 
 ```
 
-
 ```{r}
 
 
 ```
-
 
 ```{r array to df}
 
@@ -293,7 +299,6 @@ varZdf = na.omit(varZdf)
 print(dim(varZdf))
 ```
 
-
 ```{r trrtr dependence on M and N}
 
 TRdf = reshape2::melt(trrtrarray)
@@ -316,7 +321,6 @@ print(dim(TRdf))
 TRdf %>% ggplot(aes(nsam,(trrtr - 1/msnp)*nsam)) + geom_point() + geom_hline(yintercept=1,col='gray') + ggtitle( "( trrtr - 1/M )*nsam" )
 ```
 
-
 ```{r guessing the functional form of trrtr}
 ##Numeric "experiments" indicate that trrtr \approx 1/N + 1/M
 with(TRdf, summary(lm( trrtr ~ I(1/msnp) + I(1/nsam) ) ) )
@@ -328,7 +332,6 @@ TRdf %>% ggplot(aes(1/msnp + 1/nsam,trrtr ,col=Var3) ) + geom_point() + geom_abl
 TRdf %>% ggplot(aes(1/msnp + 1/nsam,trrtr ,col=Var2) ) + geom_point() + geom_abline() + ggtitle("trrtr = 1/M + 1/N") + theme_bw()
 
 ```
-
 
 ```{r }
 
@@ -364,7 +367,9 @@ logLik.test(fitnm,fittrr)
 
 ```
 
+
 ## other plots
+
 
 ```{r other plots}
 varZdf %>%

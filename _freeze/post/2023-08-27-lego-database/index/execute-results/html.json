@@ -1,0 +1,14 @@
+{
+  "hash": "fdd333b2eab53782d67c1affe98e3ba9",
+  "result": {
+    "markdown": "---\ntitle: lego database \nauthor: Haky Im\ndate: 2000-01-01\n---\n\n::: {.cell}\n\n```{.r .cell-code}\nsuppressMessages(library(tidyverse))\nsuppressMessages(library(glue))\n\nPRE = \"/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data\"\nSLUG=\"lego-database\" ## copy the slug from the header\nbDATE='2000-01-01' ## copy the date from the blog's header here\nDATA = glue(\"{PRE}/{bDATE}-{SLUG}\")\nif(!file.exists(DATA)) system(glue::glue(\"mkdir {DATA}\"))\nWORK=DATA\n##system(glue(\"open {DATA}\")) ## this will open the folder \n```\n:::\n\n\n[downloads schema](https://uchicago.box.com/shared/static/qwo8cvwigi3lylbxddro0leq4uv0b0k0.png) \nin /Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data/2000-01-01-lego-database/downloads_schema.png\n\n\n::: {.cell}\n\n```{.r .cell-code}\nparts = read_csv(glue(\"{DATA}/parts.csv\"))\n```\n\n::: {.cell-output .cell-output-stderr}\n```\nRows: 25993 Columns: 3\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (2): part_num, name\ndbl (1): part_cat_id\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n```\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
