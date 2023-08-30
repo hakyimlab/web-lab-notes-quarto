@@ -27,9 +27,6 @@ $$Y = T ~ \beta + X \cdot b + \epsilon_Y$$
 $$T = X \cdot \gamma$$
 Error in prediction will be introduced as error in $\gamma$ later
 
-
-
-
 ```{r}
 suppressMessages(library(tidyverse))
 suppressMessages(library(glue))
@@ -101,7 +98,7 @@ simulate_study = function(nsam,msnp,nsim,midp,precision_gamma,h2Y,prop_causal)
   Xmat = matrix(rbinom(nsam*msnp, 2, 0.4), nsam, msnp)
 
   ## calculate GRM or LD matrix depending on min(nsam, msnp) and trrtr
-  R = scale(Xmat) ## QUESTION: DO I NEED TO SCALE ACROSS SAMPLES AND ACROSS SNPS?
+  R = scale(Xmat) 
   if(nsam >  msnp) 
   {
     R = t(R)
@@ -162,10 +159,62 @@ nsim = 1000
 midp = 99
 precision_gamma = 0.1 + 0.8 * (1:midp)/midp
 h2Yvec = (1:9)/10; num_h2Y = length(h2Yvec)
-nsamlist = c(100,1000,2000,3000,5000,6000,7000,8000,10000); num_nsam=length(nsamlist)
-msnplist = c(99,499,999,1999, 2999,3999,4999); num_msnp=length(msnplist)
+#nsamlist = c(100,1000,2000,3000,5000,6000,7000,8000,10000); num_nsam=length(nsamlist)
+nsamlist = c(100,1000,5000,10000); num_nsam=length(nsamlist)
+#msnplist = c(99,499,999,1999, 2999,3999,4999); num_msnp=length(msnplist)
+msnplist = c(99,499,899,2999,5999); num_msnp=length(msnplist)
 prop_causal=1
 ```
+
+
+## weave in these commands for parallel simulation
+```{r}
+#   suppressMessages(library(foreach))
+#   suppressMessages(library(parallel))
+#   
+#   parallel::detectCores()
+#   n.cores <- parallel::detectCores() - 1
+#   #create the cluster
+#   my.cluster <- parallel::makeCluster(
+#     n.cores, 
+#     type = "FORK"
+#     )
+#   print(my.cluster)
+#   doParallel::registerDoParallel(cl = my.cluster)
+#   #check if it is registered (optional)
+#   foreach::getDoParRegistered()
+#   #how many workers are available? (optional)
+#   foreach::getDoParWorkers()
+#   
+#   foreach(chrom=1:20) %dopar% {
+#     
+#     tis <- "Ac-hki"
+#     alpha <- 0.5
+#     window <- 1e6
+#     ## DEFINED ABOVE expression_RDS <- glue("{WORK}/data/expression/resid_expr_mat_nat.Rdata")
+# ##glue("{WORK}/data/expression/resid_expr_mat.Rdata")
+#     ##geno_file <- glue("./data/geno_by_chr/genotype.chr" %&% chrom %&% ".txt")
+#     geno_file_chr <- glue("{WORK}/data/genotype/nat/geno_by_chr/train_genotype_chr{chrom}.txt")
+#     train_rat_id_file <- glue("{WORK}/data/genotype/nat/train_rat_ids_nat.txt")
+#     
+#     gene_annot_RDS <- glue("{WORK}/data/expression/gene_annotation.RDS")
+#     snp_annot_header = glue("{WORK}/data/genotype/snp_annot/snp_annot.chr.")
+#     snp_annot_tail <- glue(".RDS")##"./data/snp_annot/snp_annot.chr" %&% chrom %&% ".RDS"
+#     ##snp_annot_tail <- glue("{WORK}/data/snp_annot/snp_annot.chr.{chrom}.RDS")##"./data/snp_annot/snp_annot.chr" %&% chrom %&% ".RDS"
+#     snp_annot_RDS = glue("{snp_annot_header}{chrom}{snp_annot_tail}")
+#     n_k_folds <- 10
+#     out_dir <- glue("{WORK}/results/output-nat-new/")
+#     snpset <- "place_holder_1KG_snps"
+# 
+#     fit_model(expression_RDS, geno_file_chr, gene_annot_RDS, snp_annot_RDS, n_k_folds, alpha, out_dir, tis, chrom, snpset, window)
+#     }
+#   
+#   ##Finally, it is always recommendable to stop the cluster when we are done working with it.
+#   parallel::stopCluster(cl = my.cluster)
+# 
+# } else print('Not running training in this knit')
+```
+
 
 ## simulate and plot varZ vs precision_gamma by h2Y, msnp, nsam
 
@@ -173,10 +222,31 @@ prop_causal=1
 rerun=TRUE
 if(rerun)
 {
+  ## prep parallel runs
+  tic = Sys.time()
+  print(tic)
+  suppressMessages(library(foreach))
+  suppressMessages(library(parallel))
+  parallel::detectCores()
+  n.cores <- parallel::detectCores() - 1
+  #create the cluster
+  my.cluster <- parallel::makeCluster(
+    n.cores,
+    type = "FORK"
+    )
+  print(my.cluster)
+  doParallel::registerDoParallel(cl = my.cluster)
+  #check if it is registered (optional)
+  foreach::getDoParRegistered()
+  #how many workers are available? (optional)
+  foreach::getDoParWorkers()
+
+  ## initialize varZarrays
   varZarray = array(NA, dim=c(num_h2Y,num_nsam, num_msnp, midp))
   trrtrarray = array(NA,dim=c(num_h2Y,num_nsam, num_msnp))
-  for(hh in 1:num_h2Y)
-  {
+
+  #  for(hh in 1:num_h2Y)
+  foreach(hh=1:num_h2Y) %dopar% {
     h2Y = h2Yvec[hh]
     print("---------------")
     print("h2Y is")
@@ -205,47 +275,36 @@ if(rerun)
         }
       }
     }
-#    saveRDS(varZmat,glue("{DATA}/varZmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
-#    saveRDS(trrtrmat,glue("{DATA}/trrtrmat-h2Y{h2Y}-propcausal{prop_causal}.RDS"))
-
     charnsamlist = paste0("n_",nsamlist)
     charmsnplist = paste0("m_",msnplist)
     charh2vec = paste0("h2Y_",h2Yvec)
     dimnames(trrtrarray) = list(charh2vec, charnsamlist,charmsnplist)
     dimnames(varZarray) = list(charh2vec, charnsamlist,charmsnplist,
                              paste0("prec_",round(precision_gamma,4)))
+  saveRDS(varZarray,glue("{DATA}/varZarray-cor2t-prop_causal-{prop_causal}-dopar-h2-{h2Y}.RDS"))
+  saveRDS(trrtrarray,glue("{DATA}/trrtrarray-cor2t-prop_causal-{prop_causal}-h2-{h2Y}.RDS"))
 
-  saveRDS(varZarray,glue("{DATA}/varZarray-propcausal-cor2t-{prop_causal}.RDS"))
-  saveRDS(trrtrarray,glue("{DATA}/trrtrarray-propcausal-cor2t-{prop_causal}.RDS"))
-    
-    
-      }
-  
-  #   charnsamlist = paste0("n_",nsamlist)
-  #   charmsnplist = paste0("m_",msnplist)
-  #   charh2vec = paste0("h2Y_",h2Yvec)
-  #   dimnames(trrtrarray) = list(charh2vec, charnsamlist,charmsnplist)
-  #   dimnames(varZarray) = list(charh2vec, charnsamlist,charmsnplist,
-  #                            paste0("prec_",round(precision_gamma,4)))
-  # 
-  # saveRDS(varZarray,glue("{DATA}/varZarray-propcausal{prop_causal}.RDS"))
-  # saveRDS(trrtrarray,glue("{DATA}/trrtrarray-propcausal{prop_causal}.RDS"))
-  
-  
-} else
+    }
+  toc=Sys.time()
+  print(toc)
+} 
+print("Finished simulations")
+print(toc  - tic)
+# need to join diff h2Y entries
+hh=1
+h2Y=h2Yvec[hh]
+#varZarray-propcausal-cor2t-prop_causal-1-dopar-h2-0.1
+varZarray = readRDS(glue("{DATA}/varZarray-cor2t-h2-{h2Y}.RDS"))
+trrtrarray = readRDS(glue("{DATA}/trrtrarray-cor2t-h2-{h2Y}.RDS"))
+
+for(hh in 2:num_h2Y)
 {
-  # varZarray = readRDS(glue("{DATA}/varZarray-propcausal{prop_causal}.RDS"))
-  # trrtrarray = readRDS(glue("{DATA}/trrtrarray-propcausal{prop_causal}.RDS"))
-  # varZarray = readRDS(glue("{DATA}/saved-varZarray-nsim-1000-propcausal1.RDS"))
-  # trrtrarray = readRDS(glue("{DATA}/saved-trrtrarray-nsim-1000-propcausal1.RDS"))
-
-  saveRDS(varZarray,glue("{DATA}/varZarray-propcausal-cor2t-{prop_causal}.RDS"))
-  saveRDS(trrtrarray,glue("{DATA}/trrtrarray-propcausal-cor2t-{prop_causal}.RDS"))
-
+  h2Y=h2Yvec[hh]
+  varZarray_hh = readRDS(glue("{DATA}/varZarray-cor2t-h2-{h2Y}.RDS"))
+  trrtrarray_hh = readRDS(glue("{DATA}/trrtrarray-cor2t-h2-{h2Y}.RDS"))
+  varZarray[hh,,,] = varZarray_hh[hh,,,]
+  trrtrarray[hh,,] = trrtrarray_hh[hh,,]
 }
-
-
-
 
 ```
 
@@ -257,7 +316,6 @@ if(rerun)
 
 
 ```{r array to df}
-
 
 varZdf = reshape2::melt(varZarray)
 varZdf$Var1 = as.character(varZdf$Var1)
