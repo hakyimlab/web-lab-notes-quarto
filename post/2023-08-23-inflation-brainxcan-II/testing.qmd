@@ -1,5 +1,5 @@
 ---
-title: "Polygenicity Driven Inflation in Brainxcan II"
+title: "TESTING Polygenicity Driven Inflation in Brainxcan II"
 author: "Haky Im"
 date: "2023-08-23"
 categories: [analysis]
@@ -123,7 +123,12 @@ simulate_study = function(nsam,msnp,nsim,midp,precision_gamma,h2Y,prop_causal)
   IDPmat = gIDPmat + eIDPmat
   
   ## simulate Ymat (nsam x nsim) indep of IDPs
+  b_cond=TRUE
   betamat = matrix(rnorm(msnp*nsim),msnp, nsim)
+  if(b_cond)
+  {
+    betamat = matrix(betamat[,1],msnp, nsim)
+  }
   epsimat = matrix(rnorm(nsam*nsim),nsam, nsim)
   epsimat = scale(epsimat) * sqrt(1 - h2Y)
   gYmat = Xmat %*% betamat
@@ -164,56 +169,6 @@ nsamlist = c(100,1000,5000,10000); num_nsam=length(nsamlist)
 msnplist = c(99,499,899,2999,5999); num_msnp=length(msnplist)
 prop_causal=1
 ```
-
-
-## weave in these commands for parallel simulation
-```{r}
-#   suppressMessages(library(foreach))
-#   suppressMessages(library(parallel))
-#   
-#   parallel::detectCores()
-#   n.cores <- parallel::detectCores() - 1
-#   #create the cluster
-#   my.cluster <- parallel::makeCluster(
-#     n.cores, 
-#     type = "FORK"
-#     )
-#   print(my.cluster)
-#   doParallel::registerDoParallel(cl = my.cluster)
-#   #check if it is registered (optional)
-#   foreach::getDoParRegistered()
-#   #how many workers are available? (optional)
-#   foreach::getDoParWorkers()
-#   
-#   foreach(chrom=1:20) %dopar% {
-#     
-#     tis <- "Ac-hki"
-#     alpha <- 0.5
-#     window <- 1e6
-#     ## DEFINED ABOVE expression_RDS <- glue("{WORK}/data/expression/resid_expr_mat_nat.Rdata")
-# ##glue("{WORK}/data/expression/resid_expr_mat.Rdata")
-#     ##geno_file <- glue("./data/geno_by_chr/genotype.chr" %&% chrom %&% ".txt")
-#     geno_file_chr <- glue("{WORK}/data/genotype/nat/geno_by_chr/train_genotype_chr{chrom}.txt")
-#     train_rat_id_file <- glue("{WORK}/data/genotype/nat/train_rat_ids_nat.txt")
-#     
-#     gene_annot_RDS <- glue("{WORK}/data/expression/gene_annotation.RDS")
-#     snp_annot_header = glue("{WORK}/data/genotype/snp_annot/snp_annot.chr.")
-#     snp_annot_tail <- glue(".RDS")##"./data/snp_annot/snp_annot.chr" %&% chrom %&% ".RDS"
-#     ##snp_annot_tail <- glue("{WORK}/data/snp_annot/snp_annot.chr.{chrom}.RDS")##"./data/snp_annot/snp_annot.chr" %&% chrom %&% ".RDS"
-#     snp_annot_RDS = glue("{snp_annot_header}{chrom}{snp_annot_tail}")
-#     n_k_folds <- 10
-#     out_dir <- glue("{WORK}/results/output-nat-new/")
-#     snpset <- "place_holder_1KG_snps"
-# 
-#     fit_model(expression_RDS, geno_file_chr, gene_annot_RDS, snp_annot_RDS, n_k_folds, alpha, out_dir, tis, chrom, snpset, window)
-#     }
-#   
-#   ##Finally, it is always recommendable to stop the cluster when we are done working with it.
-#   parallel::stopCluster(cl = my.cluster)
-# 
-# } else print('Not running training in this knit')
-```
-
 
 ## simulate and plot varZ vs precision_gamma by h2Y, msnp, nsam
 
@@ -354,42 +309,6 @@ print(dim(varZdf))
 ```
 
 
-```{r trrtr dependence on M and N}
-
-TRdf = reshape2::melt(trrtrarray)
-TRdf$Var1 = as.character(TRdf$Var1)
-TRdf$Var2 = as.character(TRdf$Var2)
-TRdf$Var3 = as.character(TRdf$Var3)
-TRdf = 
-  TRdf %>%
-  mutate(
-    h2Y = as.numeric(str_extract(Var1, "(?<=h2Y_)[\\d\\.]+")),
-    nsam = as.numeric(str_extract(Var2, "(?<=n_)[\\d\\.]+")),
-    msnp = as.numeric(str_extract(Var3, "(?<=m_)[\\d\\.]+")),
-  ) %>% rename(trrtr = value)
-## remove missing
-print(dim(TRdf))
-TRdf = na.omit(TRdf)
-print(dim(TRdf))
-
-
-TRdf %>% ggplot(aes(nsam,(trrtr - 1/msnp)*nsam)) + geom_point() + geom_hline(yintercept=1,col='gray') + ggtitle( "( trrtr - 1/M )*nsam" )
-```
-
-
-```{r guessing the functional form of trrtr}
-##Numeric "experiments" indicate that trrtr \approx 1/N + 1/M
-with(TRdf, summary(lm( trrtr ~ I(1/msnp) + I(1/nsam) ) ) )
-
-with(TRdf, plot(1/msnp + 1/nsam,trrtr ) ) 
-abline(0,1)
-
-TRdf %>% ggplot(aes(1/msnp + 1/nsam,trrtr ,col=Var3) ) + geom_point() + geom_abline() + ggtitle("trrtr = 1/M + 1/N") + theme_bw()
-TRdf %>% ggplot(aes(1/msnp + 1/nsam,trrtr ,col=Var2) ) + geom_point() + geom_abline() + ggtitle("trrtr = 1/M + 1/N") + theme_bw()
-
-```
-
-
 ```{r }
 
 ## compare varZ with 1 + h2 N / M
@@ -421,65 +340,6 @@ with(varZdf, summary(fitnm <<- lm( varZ ~ I(1 + h2Y * nsam * (1/msnp) ) ) ) )
 with(varZdf, summary(fittrr <<- lm( varZ ~ I(1 + h2Y * nsam * (1/msnp + 1/nsam) ) ) ) )
 logLik.test(fitnm,fittrr)
 
-
-```
-
-## other plots
-
-```{r other plots}
-varZdf %>%
-  filter(nsam > 999) %>%
-  ggplot(aes(x = Var1, y = (varZ - 1) / h2Y / nsam * msnp)) +
-  geom_boxplot() +
-  geom_hline(yintercept = 1, color = 'gray', linetype = 3) +
-  labs(title = "(varZ - 1)*M/N/h2Y vs h2Y", x = "h2Y") 
-
-
-varZdf %>%
-  filter(nsam > 999) %>%
-  ggplot(aes(x = prec, y = (varZ - 1) / h2Y / nsam * msnp)) +
-  geom_point() + geom_smooth() +
-  geom_hline(yintercept = 1, color = 'gray', linetype = 3) +
-  labs(title = "(varZ - 1)*M/N/h2Y vs h2Y") 
-
-for(nn in nsamlist)
-{
-  pp <- varZdf %>%
-    filter(nsam == nn) %>%
-    ggplot(aes(x = prec, y = (varZ - 1) / h2Y / nsam * msnp)) +
-    geom_point() + geom_smooth() +
-    geom_hline(yintercept = 1, color = 'green') +
-    labs(title = glue("(varZ - 1)*M/N/h2Y vs h2Y - nsam={nn}" ) )+
-    theme(legend.position = "none")
-  print(pp)
-}
-
-varZdf %>% 
-  filter(nsam >= 1000) %>% 
-  mutate(phi=(varZ - 1)/h2Y/nsam*msnp ) %>% 
-  group_by(h2Y,nsam,msnp) %>% 
-  summarize(mean=mean(phi),sd=sd(phi),median=median(phi), .groups = "drop" ) %>% 
-  ggplot(aes(h2Y, mean,col=as.factor(nsam))) + 
-  geom_point() +
-  labs(title = "mean (varZ - 1)*M/N/h2Y vs h2Y") 
-
-varZdf %>% 
-  filter(nsam >= 1000) %>% 
-  mutate(phi=(varZ - 1)/h2Y/nsam*msnp ) %>% 
-  group_by(h2Y,nsam,msnp) %>% 
-  summarize(mean=mean(phi),sd=sd(phi),median=median(phi), .groups = "drop" ) %>% 
-  ggplot(aes(nsam, mean,col=as.factor(msnp))) + 
-  geom_point() +
-  labs(title = "mean (varZ - 1)*M/N/h2Y vs nsam") 
-
-varZdf %>% 
-  filter(nsam >= 1000) %>% 
-  mutate(phi=(varZ - 1)/h2Y/nsam*msnp ) %>% 
-  group_by(h2Y,nsam,msnp) %>% 
-  summarize(mean=mean(phi),sd=sd(phi),median=median(phi), .groups = "drop" ) %>% 
-  ggplot(aes(msnp, mean,col=as.factor(nsam))) + 
-  geom_point() +
-  labs(title = "mean (varZ - 1)*M/N/h2Y vs msnp") 
 
 ```
 
