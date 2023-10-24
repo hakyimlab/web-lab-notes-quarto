@@ -1,0 +1,135 @@
+---
+title: query alpha-missense 
+date: 2023-10-23
+author: Haky Im
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+suppressMessages(library(tidyverse))
+suppressMessages(library(glue))
+
+PRE = "/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"
+SLUG="query-alpha-missense" ## copy the slug from the header
+bDATE='2023-10-23' ## copy the date from the blog's header here
+DATA = glue("{PRE}/{bDATE}-{SLUG}")
+if(!file.exists(DATA)) system(glue::glue("mkdir {DATA}"))
+WORK=DATA
+##system(glue("open {DATA}")) ## this will open the folder 
+```
+
+
+### 1. Create an SQLite Database
+
+First, ensure SQLite3 is installed. If it's not, you can install it using Homebrew on macOS:
+
+```bash
+brew install sqlite3
+```
+
+Now, let's create an SQLite database from the TSV file:
+
+```bash
+## this needs uncompressed file
+sqlite3 AlphaMissense.db <<EOF
+CREATE TABLE mutations (uniprot_id TEXT, protein_variant TEXT, am_pathogenicity REAL, am_class TEXT);
+.mode tabs
+.import AlphaMissense_aa_substitutions.tsv.gz mutations
+EOF
+```
+
+```{r eval=FALSE}
+##install.packages("readr")
+library(RSQLite)
+library(readr)
+
+# Connect to the SQLite database
+con <- dbConnect(SQLite(), glue("{DATA}/AlphaMissense.db"))
+
+# Read the gzipped TSV file
+data <- read_tsv(glue("{DATA}/AlphaMissense_aa_substitutions.tsv.gz"),skip=3)
+head(data)z
+
+# Write the data into the SQLite database
+tic=Sys.time()
+dbWriteTable(con, "mutations", data)
+toc=Sys.time()
+print(toc-tic)
+
+# Close the connection
+dbDisconnect(con)
+
+```
+
+
+Note: The provided command assumes that the TSV file doesn't contain header lines. If it does, you should create a version of the TSV file without them, or delete the imported header row from the SQLite table afterwards.
+
+### 2. Create a Shiny App
+
+Make sure you have R, Shiny, and the required packages installed:
+
+```{r eval=FALSE}
+install.packages("shiny")
+install.packages("RSQLite")
+install.packages("DT")
+```
+
+Here's a simple Shiny app:
+
+```{r eval=FALSE}
+library(shiny)
+library(RSQLite)
+library(DT)
+
+# Connect to the SQLite database
+con <- dbConnect(SQLite(), "AlphaMissense.db")
+
+ui <- fluidPage(
+    titlePanel("AlphaMissense Query"),
+    
+    sidebarLayout(
+        sidebarPanel(
+            textInput("uniprot_id", "UniProt ID", ""),
+            textInput("protein_variant", "Protein Variant", ""),
+            actionButton("query_button", "Query")
+        ),
+        
+        mainPanel(
+            DTOutput("results_table")
+        )
+    )
+)
+
+server <- function(input, output) {
+    
+    observeEvent(input$query_button, {
+        query <- "SELECT * FROM mutations WHERE 1=1 "
+        
+        if (input$uniprot_id != "") {
+            query <- paste0(query, "AND uniprot_id = '", input$uniprot_id, "' ")
+        }
+        
+        if (input$protein_variant != "") {
+            query <- paste0(query, "AND protein_variant = '", input$protein_variant, "'")
+        }
+        
+        results <- dbGetQuery(con, query)
+        output$results_table <- renderDT({results})
+    })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+This app provides two input fields: one for the `uniprot_id` and another for the `protein_variant`. If the user fills out the `uniprot_id` and clicks "Query", all matching mutations for that UniProt ID will be displayed. If they also provide a protein variant, the app will display only the matching mutation.
+
+To run this app, save the code into a file, say `app.R`, then from the R console (or RStudio), navigate to the directory containing both the SQLite database (`AlphaMissense.db`) and the app (`app.R`), and run:
+
+```{r eval=FALSE}
+library(shiny)
+runApp(glue("{DATA}/test-alpha-missense-query/app.R"))
+```
+
+
