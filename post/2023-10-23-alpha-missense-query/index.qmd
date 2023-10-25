@@ -7,7 +7,7 @@ editor_options:
 ---
 
 
-```{r}
+```{r eval=FALSE}
 suppressMessages(library(tidyverse))
 suppressMessages(library(glue))
 
@@ -46,17 +46,21 @@ library(RSQLite)
 library(readr)
 
 # Connect to the SQLite database
-con <- dbConnect(SQLite(), glue("{DATA}/AlphaMissense.db"))
+con <- dbConnect(SQLite(), glue("{DATA}/test-alpha-missense-query/AlphaMissense.db"))
 
 # Read the gzipped TSV file
-data <- read_tsv(glue("{DATA}/AlphaMissense_aa_substitutions.tsv.gz"),skip=3)
-head(data)z
+# data <- read_tsv(glue("{DATA}/AlphaMissense_aa_substitutions.tsv.gz"),skip=3)
+# head(data)
 
 # Write the data into the SQLite database
-tic=Sys.time()
-dbWriteTable(con, "mutations", data)
-toc=Sys.time()
-print(toc-tic)
+# tic=Sys.time()
+# dbWriteTable(con, "mutations", data)
+# toc=Sys.time()
+# print(toc-tic)
+
+
+dbExecute(con, "VACUUM")
+
 
 # Close the connection
 dbDisconnect(con)
@@ -129,7 +133,81 @@ To run this app, save the code into a file, say `app.R`, then from the R console
 
 ```{r eval=FALSE}
 library(shiny)
-runApp(glue("{DATA}/test-alpha-missense-query/app.R"))
+runApp(glue("{DATA}/app.R"))
 ```
 
+```{r eval=FALSE}
+
+install.packages("bigrquery")
+library(bigrquery)
+
+```
+
+```{r eval=FALSE}
+runApp(glue("~/Downloads/alphamissense-query/app.R"))
+```
+
+
+```{r eval=FALSE}
+library(shiny)
+runApp(glue("~/Downloads/alphamissense-query-hugo/app.R"))
+```
+
+
+
+The error suggests that the deployed Shiny app is not able to authenticate with Google BigQuery because it does not have the required credentials. When you run the Shiny app locally on your machine, it might be using your personal Google credentials. However, when the app is deployed on `shinyapps.io`, it does not have access to these credentials.
+
+To resolve this:
+
+1. **Service Account**: 
+   - You'll need to create a service account in the Google Cloud Console that has access to the BigQuery dataset.
+   - Download the JSON key for this service account.
+
+2. **Include Service Account in Shiny App**:
+   - Save the JSON key in the same directory as your Shiny app.
+   - In your Shiny app, before making any BigQuery calls, authenticate using this service account.
+
+   ```R
+   library(bigrquery)
+   
+   # Authenticate using Service Account
+   bq_auth(path = "path_to_service_account.json")
+   ```
+
+3. **Deploy the Shiny App**:
+   - Make sure you deploy both the Shiny app files (`app.R`, etc.) and the service account JSON key to `shinyapps.io`.
+
+4. **Permissions**:
+   - Ensure the service account has the necessary permissions on BigQuery to read the data.
+
+5. **Billing**:
+   - If your Google Cloud Project uses billing (as BigQuery is a paid service), make sure the service account has permissions to incur charges.
+
+6. **Avoid Hardcoding Paths**:
+   - Instead of hardcoding the path to the service account file, you might want to use a more dynamic approach, for instance:
+
+   ```R
+   # Authenticate using Service Account
+   service_account_path <- Sys.getenv("SERVICE_ACCOUNT_PATH", "default_service_account.json")
+   bq_auth(path = service_account_path)
+   ```
+
+   You can then set the `SERVICE_ACCOUNT_PATH` environment variable appropriately, either locally or on `shinyapps.io`.
+
+After making these adjustments, try redeploying your Shiny app.
+
+```{r eval=FALSE}
+library(biomaRt)
+# Choose the ENSEMBL mart and dataset for human genes
+ensembl <- useMart("ensembl", dataset="hsapiens_gene_ensembl")
+
+# Fetch the required attributes: HUGO name and UniProt ID
+mapping <- getBM(attributes=c('hgnc_symbol', 'uniprotswissprot'), mart=ensembl)
+
+# Filter out entries with empty UniProt IDs or HUGO names
+mapping <- mapping[mapping$hgnc_symbol != '' & mapping$uniprotswissprot != '', ]
+
+write.csv(mapping, "hugo_to_uniprot_mapping.csv", row.names=FALSE)
+
+```
 
