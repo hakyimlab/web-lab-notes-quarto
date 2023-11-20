@@ -14,6 +14,7 @@ categories: [how_to]
 title: "Your Title"
 author: "Your Name"
 date: "2023-02-28"
+date-modified: last-modified
 categories: [analysis,how_to]
 format:
   html:
@@ -28,7 +29,7 @@ editor_options:
 
 -   [ ] copy file to box so that the analysis can be reproducible
 
-```{r}
+```{r eval=FALSE}
 ## - [ ] clean up this part. Create function that creates the folder
 suppressMessages(library(tidyverse))
 suppressMessages(library(glue))
@@ -55,7 +56,7 @@ Useful tips for new posts [here](https://samanthacsik.github.io/posts/2022-10-24
 
 ## functions
 
-```{r echo=FALSE}
+```{r eval=FALSE}
 
 ## input: date, title, slug
 REPO="/Users/haekyungim/Github/web-lab-notes-quarto"
