@@ -9,7 +9,7 @@ tags: []
 ---
 
 
-**LATEST VERSION IN https://bios25328.hakyimlab.org/post/2021/04/07/plink-tutorial/**
+**LATEST VERSION IN https://bios25328.hakyimlab.org/post/2021/04/09/plink-tutorial/**
 
 ## Basic Commands
 
