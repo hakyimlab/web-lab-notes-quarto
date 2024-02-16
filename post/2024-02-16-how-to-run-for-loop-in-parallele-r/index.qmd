@@ -1,0 +1,54 @@
+---
+title: how to run for loops in parallele in R
+author: Haky Im
+date: 2024-02-16
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(foreach)
+library(doParallel)
+library(ggplot2)
+
+# Set up parallel backend
+n.cores <- detectCores() - 1
+registerDoParallel(cores = n.cores)
+
+nsim <- 9
+n_values <- c(1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 1e8)
+results <- data.frame(n = integer(), method = character(), time = numeric(), stringsAsFactors = FALSE)
+
+for (n in n_values) {
+  # Parallel run
+  tic_parallel <- Sys.time()
+  foreach(i = 1:nsim, .combine = 'c') %dopar% {
+    mean(runif(n) ^ 2)
+  }
+  toc_parallel <- Sys.time()
+  parallel_time <- as.numeric(toc_parallel - tic_parallel, units = "secs")
+  
+  # Sequential run
+  tic_sequential <- Sys.time()
+  foreach(i = 1:nsim, .combine = 'c') %do% {
+    mean(runif(n) ^ 2)
+  }
+  toc_sequential <- Sys.time()
+  sequential_time <- as.numeric(toc_sequential - tic_sequential, units = "secs")
+  
+  # Store results
+  results <- rbind(results, data.frame(n = n, method = "Parallel", time = parallel_time))
+  results <- rbind(results, data.frame(n = n, method = "Sequential", time = sequential_time))
+}
+
+# Plot results
+ggplot(results, aes(x = n, y = time, color = method)) +
+  geom_line() +
+#  scale_x_log10() +
+#  scale_y_log10() +
+  geom_point() +
+  labs(x = "Number of samples (n)", y = "Time (seconds)", title = "Comparison of Parallel and Sequential Run Times") +
+  theme_minimal()
+
+```
+
