@@ -1,5 +1,5 @@
 ---
-title: how to run for loops in parallele in R
+title: how to run for loops in parallel in R
 author: Haky Im
 date: 2024-02-16
 editor_options: 
@@ -44,11 +44,21 @@ for (n in n_values) {
 # Plot results
 ggplot(results, aes(x = n, y = time, color = method)) +
   geom_line() +
-#  scale_x_log10() +
+  scale_x_log10() +
 #  scale_y_log10() +
   geom_point() +
   labs(x = "Number of samples (n)", y = "Time (seconds)", title = "Comparison of Parallel and Sequential Run Times") +
   theme_minimal()
 
+# Plot results
+ggplot(results, aes(x = n, y = time, color = method)) +
+  geom_line() +
+  scale_x_log10() +
+  scale_y_log10() +
+  geom_point() +
+  labs(x = "Number of samples (n)", y = "log10 Time (seconds)", title = "Log Log scale Comparison of Parallel and Sequential Run Times") +
+  theme_minimal()
+
 ```
 
+> In this exammple, n~10e6 is the break even point, beyond which, the overhead of parallel computation is offset by the parallel computation
