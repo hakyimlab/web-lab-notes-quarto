@@ -56,7 +56,7 @@ ggplot(results, aes(x = n, y = time, color = method)) +
   scale_x_log10() +
   scale_y_log10() +
   geom_point() +
-  labs(x = "Number of samples (n)", y = "log10 Time (seconds)", title = "Log Log scale Comparison of Parallel and Sequential Run Times") +
+  labs(x = "Number of samples (n)", y = "Time (seconds)", title = "Log Log scale Comparison of Parallel and Sequential Run Times") +
   theme_minimal()
 
 ```
