@@ -35,4 +35,12 @@ We validated the model by running SPrediXcan on height and coronary artery disea
 
 1.  [GIANT height](ARIC_EA_hg38_validation_height.html)
 2.  [CARDIoGRAM+C4D CAD](ARIC_EA_hg38_validation.html)
+
+
+## use the archived version 
+1.  [GIANT height](https://archived-web-lab-notes.hakyimlab.org/post/2021/09/08/generating-metaxcan-prediction-model-from-aric-pwas/aric_ea_hg38_validation_height.html)
+2.  [CARDIoGRAM+C4D CAD](https://archived-web-lab-notes.hakyimlab.org/post/2021/09/08/generating-metaxcan-prediction-model-from-aric-pwas/ARIC_EA_hg38_validation.html)
+
+
+
 :::
