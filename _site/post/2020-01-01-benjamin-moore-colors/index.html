@@ -209,21 +209,36 @@ Attaching package: 'jsonlite'</code></pre>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the JSON file from the URL</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(url) <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>()</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the properties of "Classic Gray"</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>classic_gray <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Classic Gray"</span>,<span class="st">"Gray Owl"</span>,<span class="st">"Abalone"</span>))</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the properties of "Classic Gray"</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>classic_gray <span class="sc">%&gt;%</span> <span class="fu">select</span>(name, hex, number, family) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to convert hex to RGB</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>hex_to_rgb <span class="ot">&lt;-</span> <span class="cf">function</span>(hex) {</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  hex <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"#"</span>, hex)  <span class="co"># Ensure the hex value has a '#' prefix</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  rgb <span class="ot">&lt;-</span> <span class="fu">col2rgb</span>(hex)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">r =</span> rgb[<span class="dv">1</span>, <span class="dv">1</span>], <span class="at">g =</span> rgb[<span class="dv">2</span>, <span class="dv">1</span>], <span class="at">b =</span> rgb[<span class="dv">3</span>, <span class="dv">1</span>])</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate LRV from RGB</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>calculate_lrv <span class="ot">&lt;-</span> <span class="cf">function</span>(hex) {</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  rgb <span class="ot">&lt;-</span> <span class="fu">hex_to_rgb</span>(hex)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  lrv_trucho <span class="ot">&lt;-</span> (<span class="fl">0.2126</span> <span class="sc">*</span> rgb<span class="sc">$</span>r <span class="sc">+</span> <span class="fl">0.7152</span> <span class="sc">*</span> rgb<span class="sc">$</span>g <span class="sc">+</span> <span class="fl">0.0722</span> <span class="sc">*</span> rgb<span class="sc">$</span>b) <span class="sc">/</span> <span class="dv">255</span> <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(lrv_trucho)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate LRV for each color</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lrv_trucho =</span> <span class="fu">map_dbl</span>(hex, calculate_lrv))</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co"># show properties of my selected colors</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Classic Gray"</span>,<span class="st">"Gray Owl"</span>,<span class="st">"Abalone"</span>)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(name, hex, lrv_trucho, number, family) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 4
-  name         hex    number  family 
-  &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;  
-1 Abalone      D3CFC7 2108-60 Gray   
-2 Classic Gray E3E0D7 1548    Neutral
-3 Classic Gray E3E0D7 OC-23   Gray   
-4 Gray Owl     D3D4CC 2137-60 Neutral
-5 Gray Owl     D3D4CC OC-52   Neutral</code></pre>
+<pre><code># A tibble: 5 × 5
+  name         hex    lrv_trucho number  family 
+  &lt;chr&gt;        &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  
+1 Abalone      D3CFC7       81.3 2108-60 Gray   
+2 Classic Gray E3E0D7       87.8 1548    Neutral
+3 Classic Gray E3E0D7       87.8 OC-23   Gray   
+4 Gray Owl     D3D4CC       82.8 2137-60 Neutral
+5 Gray Owl     D3D4CC       82.8 OC-52   Neutral</code></pre>
 </div>
 </div>
 
@@ -539,13 +554,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the JSON file from the URL</span></span>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(url) <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>()</span>
 <span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the properties of "Classic Gray"</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>classic_gray <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Classic Gray"</span>,<span class="st">"Gray Owl"</span>,<span class="st">"Abalone"</span>))</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the properties of "Classic Gray"</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>classic_gray <span class="sc">%&gt;%</span> <span class="fu">select</span>(name, hex, number, family) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(name)</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to convert hex to RGB</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>hex_to_rgb <span class="ot">&lt;-</span> <span class="cf">function</span>(hex) {</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  hex <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"#"</span>, hex)  <span class="co"># Ensure the hex value has a '#' prefix</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  rgb <span class="ot">&lt;-</span> <span class="fu">col2rgb</span>(hex)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">r =</span> rgb[<span class="dv">1</span>, <span class="dv">1</span>], <span class="at">g =</span> rgb[<span class="dv">2</span>, <span class="dv">1</span>], <span class="at">b =</span> rgb[<span class="dv">3</span>, <span class="dv">1</span>])</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate LRV from RGB</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>calculate_lrv <span class="ot">&lt;-</span> <span class="cf">function</span>(hex) {</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>  rgb <span class="ot">&lt;-</span> <span class="fu">hex_to_rgb</span>(hex)</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  lrv_trucho <span class="ot">&lt;-</span> (<span class="fl">0.2126</span> <span class="sc">*</span> rgb<span class="sc">$</span>r <span class="sc">+</span> <span class="fl">0.7152</span> <span class="sc">*</span> rgb<span class="sc">$</span>g <span class="sc">+</span> <span class="fl">0.0722</span> <span class="sc">*</span> rgb<span class="sc">$</span>b) <span class="sc">/</span> <span class="dv">255</span> <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(lrv_trucho)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate LRV for each color</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lrv_trucho =</span> <span class="fu">map_dbl</span>(hex, calculate_lrv))</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="co"># show properties of my selected colors</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Classic Gray"</span>,<span class="st">"Gray Owl"</span>,<span class="st">"Abalone"</span>)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(name, hex, lrv_trucho, number, family) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(name)</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

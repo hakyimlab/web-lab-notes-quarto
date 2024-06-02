@@ -21,11 +21,27 @@ url <- "https://raw.githubusercontent.com/hakyim/benjamin-moore-css/main/colors.
 # Read the JSON file from the URL
 data <- fromJSON(url) %>% as_tibble()
 
-# Find the properties of "Classic Gray"
-classic_gray <- data %>% filter(name %in% c("Classic Gray","Gray Owl","Abalone"))
+# Function to convert hex to RGB
+hex_to_rgb <- function(hex) {
+  hex <- paste0("#", hex)  # Ensure the hex value has a '#' prefix
+  rgb <- col2rgb(hex)
+  list(r = rgb[1, 1], g = rgb[2, 1], b = rgb[3, 1])
+}
 
-# Print the properties of "Classic Gray"
-classic_gray %>% select(name, hex, number, family) %>% arrange(name)
+# Function to calculate LRV from RGB
+calculate_lrv <- function(hex) {
+  rgb <- hex_to_rgb(hex)
+  lrv_trucho <- (0.2126 * rgb$r + 0.7152 * rgb$g + 0.0722 * rgb$b) / 255 * 100
+  return(lrv_trucho)
+}
+
+# Calculate LRV for each color
+data <- data %>%
+  mutate(lrv_trucho = map_dbl(hex, calculate_lrv))
+
+# show properties of my selected colors
+data %>% filter(name %in% c("Classic Gray","Gray Owl","Abalone")) %>% select(name, hex, lrv_trucho, number, family) %>% arrange(name)
 
 ```
+
 
