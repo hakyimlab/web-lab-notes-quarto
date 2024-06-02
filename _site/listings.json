@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/post/2024-05-31-recount3-quickview/index.html",
       "/post/2024-03-18-bios-25328-lab-1-command-line-R/index.html",
       "/post/2024-02-16-how-to-run-for-loop-in-parallele-r/index.html",
       "/post/2023-10-23-alpha-missense-query/index.html",
@@ -88,6 +89,7 @@
       "/post/2020-07-02-hands-on-training-command-line/index.html",
       "/post/2020-06-22-fusion-to-predictdb-format/index.html",
       "/post/2020-06-16-introstatgen-r-studio-servers-using-google-cloud/index.html",
+      "/post/2020-01-01-benjamin-moore-colors/index.html",
       "/post/2001-07-30-gwas-on-anl-servers/index.html",
       "/post/2001-07-30-dbgap-project-renewal/index.html",
       "/post/2001-07-30-how-to-download-the-data-from-the-uk-biobank/index.html",

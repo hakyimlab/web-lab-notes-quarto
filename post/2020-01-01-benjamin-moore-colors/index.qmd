@@ -1,0 +1,31 @@
+---
+title: benjamin moore colors
+author: Haky Im
+date: 2020-01-01
+---
+
+Read benjamin moore list of colors with HEX code from colornerd
+
+```{r read benjamin moore color json}
+
+suppressMessages(library(tidyverse))
+
+# Install and load the jsonlite package
+if (!require(jsonlite)) install.packages("jsonlite")
+suppressMessages(library(jsonlite))
+
+# Define the URL of the JSON file
+#url <- "https://raw.githubusercontent.com/wesbos/benjamin-moore-css/main/colors.json"
+url <- "https://raw.githubusercontent.com/hakyim/benjamin-moore-css/main/colors.json"
+
+# Read the JSON file from the URL
+data <- fromJSON(url) %>% as_tibble()
+
+# Find the properties of "Classic Gray"
+classic_gray <- data %>% filter(name %in% c("Classic Gray","Gray Owl","Abalone"))
+
+# Print the properties of "Classic Gray"
+classic_gray %>% select(name, hex, number, family) %>% arrange(name)
+
+```
+

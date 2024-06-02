@@ -1,0 +1,14 @@
+{
+  "hash": "a29d0b0446e3b9978a902bd6db26698f",
+  "result": {
+    "markdown": "---\ntitle: benjamin moore colors\nauthor: Haky Im\ndate: 2020-01-01\n---\n\n\nRead benjamin moore list of colors with HEX code from colornerd\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsuppressMessages(library(tidyverse))\n\n# Install and load the jsonlite package\nif (!require(jsonlite)) install.packages(\"jsonlite\")\n```\n\n::: {.cell-output .cell-output-stderr}\n```\nLoading required package: jsonlite\n```\n:::\n\n::: {.cell-output .cell-output-stderr}\n```\n\nAttaching package: 'jsonlite'\n```\n:::\n\n::: {.cell-output .cell-output-stderr}\n```\nThe following object is masked from 'package:purrr':\n\n    flatten\n```\n:::\n\n```{.r .cell-code}\nsuppressMessages(library(jsonlite))\n\n# Define the URL of the JSON file\n#url <- \"https://raw.githubusercontent.com/wesbos/benjamin-moore-css/main/colors.json\"\nurl <- \"https://raw.githubusercontent.com/hakyim/benjamin-moore-css/main/colors.json\"\n\n# Read the JSON file from the URL\ndata <- fromJSON(url) %>% as_tibble()\n\n# Find the properties of \"Classic Gray\"\nclassic_gray <- data %>% filter(name %in% c(\"Classic Gray\",\"Gray Owl\",\"Abalone\"))\n\n# Print the properties of \"Classic Gray\"\nclassic_gray %>% select(name, hex, number, family) %>% arrange(name)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n# A tibble: 5 × 4\n  name         hex    number  family \n  <chr>        <chr>  <chr>   <chr>  \n1 Abalone      D3CFC7 2108-60 Gray   \n2 Classic Gray E3E0D7 1548    Neutral\n3 Classic Gray E3E0D7 OC-23   Gray   \n4 Gray Owl     D3D4CC 2137-60 Neutral\n5 Gray Owl     D3D4CC OC-52   Neutral\n```\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

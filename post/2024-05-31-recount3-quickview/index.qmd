@@ -1,0 +1,66 @@
+---
+title: recount quick access
+author: Haky Im
+date: 2024-05-31
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r get project list}
+
+## Install the recount3 R/Bioconductor package
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("recount3")
+
+## Load recount3 R package
+suppressMessages(library("recount3"))
+
+## Find all available human projects
+human_projects <- available_projects()
+
+## Find the project you are interested in,
+## here we use SRP009615 as an example
+## use gtex ADIPOSE_TISSUE instead
+proj_info <- subset(
+    human_projects,
+    project == "ADIPOSE_TISSUE" & project_type == "data_sources"
+)
+
+## Create a RangedSummarizedExperiment (RSE) object at the gene level
+rse_gene_adipose_tissue <- create_rse(proj_info)
+
+## Explore that RSE object
+rse_gene_adipose_tissue
+
+```
+
+```{r look at the data}
+
+# Load the necessary library
+# library(SummarizedExperiment)
+
+# Extract the assay data (raw counts)
+raw_counts <- assay(rse_gene_adipose_tissue, "raw_counts")
+
+# Extract the row data (gene information)
+row_data <- rowData(rse_gene_adipose_tissue)
+
+# Extract the column data (sample information)
+col_data <- colData(rse_gene_adipose_tissue)
+
+# Extract metadata
+metadata <- metadata(rse_gene_adipose_tissue)
+
+# Display the extracted data
+head(raw_counts)[,1:4]
+dim(row_data)
+names(row_data)
+dim(col_data)
+names(col_data)
+print(metadata)
+
+
+```
+

@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Haky Im">
+<meta name="dcterms.date" content="2024-05-31">
+
+<title>Hakyimlab Notes - recount quick access</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": true,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Hakyimlab Notes</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">Miscel</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/hakyimlab/" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/hakyim" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">recount quick access</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Haky Im </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 31, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Install the recount3 R/Bioconductor package</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">"recount3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Bioconductor version 3.18 (BiocManager 1.30.23), R 4.3.2 (2023-10-31)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package(s) not installed when version(s) same as or greater than current; use
+  `force = TRUE` to re-install: 'recount3'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Old packages: 'knitr'</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Load recount3 R package</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(<span class="st">"recount3"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'GenomeInfoDb' was built under R version 4.3.3</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Find all available human projects</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>human_projects <span class="ot">&lt;-</span> <span class="fu">available_projects</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>2024-06-02 10:17:07.210418 caching file sra.recount_project.MD.gz.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>2024-06-02 10:17:07.553967 caching file gtex.recount_project.MD.gz.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>2024-06-02 10:17:07.926997 caching file tcga.recount_project.MD.gz.</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Find the project you are interested in,</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="do">## here we use SRP009615 as an example</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="do">## use gtex ADIPOSE_TISSUE instead</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>proj_info <span class="ot">&lt;-</span> <span class="fu">subset</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    human_projects,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    project <span class="sc">==</span> <span class="st">"ADIPOSE_TISSUE"</span> <span class="sc">&amp;</span> project_type <span class="sc">==</span> <span class="st">"data_sources"</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Create a RangedSummarizedExperiment (RSE) object at the gene level</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>rse_gene_adipose_tissue <span class="ot">&lt;-</span> <span class="fu">create_rse</span>(proj_info)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>2024-06-02 10:17:10.105473 downloading and reading the metadata.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>2024-06-02 10:17:10.410978 caching file gtex.gtex.ADIPOSE_TISSUE.MD.gz.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>2024-06-02 10:17:10.746632 caching file gtex.recount_project.ADIPOSE_TISSUE.MD.gz.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>2024-06-02 10:17:11.134876 caching file gtex.recount_qc.ADIPOSE_TISSUE.MD.gz.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>2024-06-02 10:17:11.489014 caching file gtex.recount_seq_qc.ADIPOSE_TISSUE.MD.gz.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>2024-06-02 10:17:11.880811 downloading and reading the feature information.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>2024-06-02 10:17:12.196454 caching file human.gene_sums.G026.gtf.gz.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>2024-06-02 10:17:12.785954 downloading and reading the counts: 1293 samples across 63856 features.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>2024-06-02 10:17:13.091725 caching file gtex.gene_sums.ADIPOSE_TISSUE.G026.gz.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>2024-06-02 10:17:18.285009 constructing the RangedSummarizedExperiment (rse) object.</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Explore that RSE object</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>rse_gene_adipose_tissue</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>class: RangedSummarizedExperiment 
+dim: 63856 1293 
+metadata(8): time_created recount3_version ... annotation recount3_url
+assays(1): raw_counts
+rownames(63856): ENSG00000278704.1 ENSG00000277400.1 ...
+  ENSG00000182484.15_PAR_Y ENSG00000227159.8_PAR_Y
+rowData names(10): source type ... havana_gene tag
+colnames(1293): GTEX-S32W-2226-SM-2XCAY.1 GTEX-WL46-0326-SM-3LK6Y.1 ...
+  GTEX-1MA7X-1026-SM-DKPQ8.1 GTEX-1MA7X-2126-SM-E6CIX.1
+colData names(198): rail_id external_id ... recount_seq_qc.errq
+  BigWigURL</code></pre>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the necessary library</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(SummarizedExperiment)</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the assay data (raw counts)</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>raw_counts <span class="ot">&lt;-</span> <span class="fu">assay</span>(rse_gene_adipose_tissue, <span class="st">"raw_counts"</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the row data (gene information)</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>row_data <span class="ot">&lt;-</span> <span class="fu">rowData</span>(rse_gene_adipose_tissue)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the column data (sample information)</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>col_data <span class="ot">&lt;-</span> <span class="fu">colData</span>(rse_gene_adipose_tissue)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract metadata</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>metadata <span class="ot">&lt;-</span> <span class="fu">metadata</span>(rse_gene_adipose_tissue)</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the extracted data</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(raw_counts)[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  GTEX-S32W-2226-SM-2XCAY.1 GTEX-WL46-0326-SM-3LK6Y.1
+ENSG00000278704.1                         0                         0
+ENSG00000277400.1                         0                         0
+ENSG00000274847.1                         0                         0
+ENSG00000277428.1                         0                         0
+ENSG00000276256.1                         0                         0
+ENSG00000278198.1                         0                         0
+                  GTEX-144GM-0626-SM-79OKY.1 GTEX-14AS3-2026-SM-5TDD9.1
+ENSG00000278704.1                          0                          0
+ENSG00000277400.1                          0                          0
+ENSG00000274847.1                          0                          0
+ENSG00000277428.1                          0                          0
+ENSG00000276256.1                          0                          0
+ENSG00000278198.1                          0                          0</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(row_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 63856    10</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(row_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "source"      "type"        "bp_length"   "phase"       "gene_id"    
+ [6] "gene_type"   "gene_name"   "level"       "havana_gene" "tag"        </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(col_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1293  198</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(col_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] "rail_id"                                                           
+  [2] "external_id"                                                       
+  [3] "study"                                                             
+  [4] "gtex.run_acc"                                                      
+  [5] "gtex.subjid"                                                       
+  [6] "gtex.sex"                                                          
+  [7] "gtex.age"                                                          
+  [8] "gtex.dthhrdy"                                                      
+  [9] "gtex.sampid"                                                       
+ [10] "gtex.smatsscr"                                                     
+ [11] "gtex.smcenter"                                                     
+ [12] "gtex.smpthnts"                                                     
+ [13] "gtex.smrin"                                                        
+ [14] "gtex.smts"                                                         
+ [15] "gtex.smtsd"                                                        
+ [16] "gtex.smubrid"                                                      
+ [17] "gtex.smtsisch"                                                     
+ [18] "gtex.smtspax"                                                      
+ [19] "gtex.smnabtch"                                                     
+ [20] "gtex.smnabtcht"                                                    
+ [21] "gtex.smnabtchd"                                                    
+ [22] "gtex.smgebtch"                                                     
+ [23] "gtex.smgebtchd"                                                    
+ [24] "gtex.smgebtcht"                                                    
+ [25] "gtex.smafrze"                                                      
+ [26] "gtex.smgtc"                                                        
+ [27] "gtex.sme2mprt"                                                     
+ [28] "gtex.smchmprs"                                                     
+ [29] "gtex.smntrart"                                                     
+ [30] "gtex.smnumgps"                                                     
+ [31] "gtex.smmaprt"                                                      
+ [32] "gtex.smexncrt"                                                     
+ [33] "gtex.sm550nrm"                                                     
+ [34] "gtex.smgnsdtc"                                                     
+ [35] "gtex.smunmprt"                                                     
+ [36] "gtex.sm350nrm"                                                     
+ [37] "gtex.smrdlgth"                                                     
+ [38] "gtex.smmncpb"                                                      
+ [39] "gtex.sme1mmrt"                                                     
+ [40] "gtex.smsflgth"                                                     
+ [41] "gtex.smestlbs"                                                     
+ [42] "gtex.smmppd"                                                       
+ [43] "gtex.smnterrt"                                                     
+ [44] "gtex.smrrnanm"                                                     
+ [45] "gtex.smrdttl"                                                      
+ [46] "gtex.smvqcfl"                                                      
+ [47] "gtex.smmncv"                                                       
+ [48] "gtex.smtrscpt"                                                     
+ [49] "gtex.smmppdpr"                                                     
+ [50] "gtex.smcglgth"                                                     
+ [51] "gtex.smgappct"                                                     
+ [52] "gtex.smunpdrd"                                                     
+ [53] "gtex.smntrnrt"                                                     
+ [54] "gtex.smmpunrt"                                                     
+ [55] "gtex.smexpeff"                                                     
+ [56] "gtex.smmppdun"                                                     
+ [57] "gtex.sme2mmrt"                                                     
+ [58] "gtex.sme2anti"                                                     
+ [59] "gtex.smaltalg"                                                     
+ [60] "gtex.sme2snse"                                                     
+ [61] "gtex.smmflgth"                                                     
+ [62] "gtex.sme1anti"                                                     
+ [63] "gtex.smspltrd"                                                     
+ [64] "gtex.smbsmmrt"                                                     
+ [65] "gtex.sme1snse"                                                     
+ [66] "gtex.sme1pcts"                                                     
+ [67] "gtex.smrrnart"                                                     
+ [68] "gtex.sme1mprt"                                                     
+ [69] "gtex.smnum5cd"                                                     
+ [70] "gtex.smdpmprt"                                                     
+ [71] "gtex.sme2pcts"                                                     
+ [72] "recount_project.project"                                           
+ [73] "recount_project.organism"                                          
+ [74] "recount_project.file_source"                                       
+ [75] "recount_project.metadata_source"                                   
+ [76] "recount_project.date_processed"                                    
+ [77] "recount_qc.aligned_reads%.chrm"                                    
+ [78] "recount_qc.aligned_reads%.chrx"                                    
+ [79] "recount_qc.aligned_reads%.chry"                                    
+ [80] "recount_qc.bc_auc.all_reads_all_bases"                             
+ [81] "recount_qc.bc_auc.all_reads_annotated_bases"                       
+ [82] "recount_qc.bc_auc.unique_reads_all_bases"                          
+ [83] "recount_qc.bc_auc.unique_reads_annotated_bases"                    
+ [84] "recount_qc.bc_auc.all_%"                                           
+ [85] "recount_qc.bc_auc.unique_%"                                        
+ [86] "recount_qc.bc_frag.count"                                          
+ [87] "recount_qc.bc_frag.kallisto_count"                                 
+ [88] "recount_qc.bc_frag.kallisto_mean_length"                           
+ [89] "recount_qc.bc_frag.mean_length"                                    
+ [90] "recount_qc.bc_frag.mode_length"                                    
+ [91] "recount_qc.bc_frag.mode_length_count"                              
+ [92] "recount_qc.exon_fc.all_%"                                          
+ [93] "recount_qc.exon_fc.unique_%"                                       
+ [94] "recount_qc.exon_fc_count_all.total"                                
+ [95] "recount_qc.exon_fc_count_all.assigned"                             
+ [96] "recount_qc.exon_fc_count_unique.total"                             
+ [97] "recount_qc.exon_fc_count_unique.assigned"                          
+ [98] "recount_qc.gene_fc.all_%"                                          
+ [99] "recount_qc.gene_fc.unique_%"                                       
+[100] "recount_qc.gene_fc_count_all.total"                                
+[101] "recount_qc.gene_fc_count_all.assigned"                             
+[102] "recount_qc.gene_fc_count_unique.total"                             
+[103] "recount_qc.gene_fc_count_unique.assigned"                          
+[104] "recount_qc.intron_sum"                                             
+[105] "recount_qc.intron_sum_%"                                           
+[106] "recount_qc.star.%_of_chimeric_reads"                               
+[107] "recount_qc.star.%_of_chimeric_reads2"                              
+[108] "recount_qc.star.%_of_reads_mapped_to_multiple_loci"                
+[109] "recount_qc.star.%_of_reads_mapped_to_multiple_loci2"               
+[110] "recount_qc.star.%_of_reads_mapped_to_too_many_loci"                
+[111] "recount_qc.star.%_of_reads_mapped_to_too_many_loci2"               
+[112] "recount_qc.star.%_of_reads_unmapped:_other"                        
+[113] "recount_qc.star.%_of_reads_unmapped:_other2"                       
+[114] "recount_qc.star.%_of_reads_unmapped:_too_many_mismatches"          
+[115] "recount_qc.star.%_of_reads_unmapped:_too_many_mismatches2"         
+[116] "recount_qc.star.%_of_reads_unmapped:_too_short"                    
+[117] "recount_qc.star.%_of_reads_unmapped:_too_short2"                   
+[118] "recount_qc.star.all_mapped_reads"                                  
+[119] "recount_qc.star.all_mapped_reads2"                                 
+[120] "recount_qc.star.average_input_read_length"                         
+[121] "recount_qc.star.average_input_read_length2"                        
+[122] "recount_qc.star.average_mapped_length"                             
+[123] "recount_qc.star.average_mapped_length2"                            
+[124] "recount_qc.star.deletion_average_length"                           
+[125] "recount_qc.star.deletion_average_length2"                          
+[126] "recount_qc.star.deletion_rate_per_base"                            
+[127] "recount_qc.star.deletion_rate_per_base2"                           
+[128] "recount_qc.star.insertion_average_length"                          
+[129] "recount_qc.star.insertion_average_length2"                         
+[130] "recount_qc.star.insertion_rate_per_base"                           
+[131] "recount_qc.star.insertion_rate_per_base2"                          
+[132] "recount_qc.star.mapping_speed,_million_of_reads_per_hour"          
+[133] "recount_qc.star.mapping_speed,_million_of_reads_per_hour2"         
+[134] "recount_qc.star.mismatch_rate_per_base,_%"                         
+[135] "recount_qc.star.mismatch_rate_per_base,_%2"                        
+[136] "recount_qc.star.number_of_chimeric_reads"                          
+[137] "recount_qc.star.number_of_chimeric_reads2"                         
+[138] "recount_qc.star.number_of_input_reads"                             
+[139] "recount_qc.star.number_of_input_reads2"                            
+[140] "recount_qc.star.number_of_reads_mapped_to_multiple_loci"           
+[141] "recount_qc.star.number_of_reads_mapped_to_multiple_loci2"          
+[142] "recount_qc.star.number_of_reads_mapped_to_too_many_loci"           
+[143] "recount_qc.star.number_of_reads_mapped_to_too_many_loci2"          
+[144] "recount_qc.star.number_of_reads_unmapped:_other"                   
+[145] "recount_qc.star.number_of_reads_unmapped:_other2"                  
+[146] "recount_qc.star.number_of_reads_unmapped:_too_many_mismatches"     
+[147] "recount_qc.star.number_of_reads_unmapped:_too_many_mismatches2"    
+[148] "recount_qc.star.number_of_reads_unmapped:_too_short"               
+[149] "recount_qc.star.number_of_reads_unmapped:_too_short2"              
+[150] "recount_qc.star.number_of_splices:_at/ac"                          
+[151] "recount_qc.star.number_of_splices:_at/ac2"                         
+[152] "recount_qc.star.number_of_splices:_annotated_(sjdb)"               
+[153] "recount_qc.star.number_of_splices:_annotated_(sjdb)2"              
+[154] "recount_qc.star.number_of_splices:_gc/ag"                          
+[155] "recount_qc.star.number_of_splices:_gc/ag2"                         
+[156] "recount_qc.star.number_of_splices:_gt/ag"                          
+[157] "recount_qc.star.number_of_splices:_gt/ag2"                         
+[158] "recount_qc.star.number_of_splices:_non-canonical"                  
+[159] "recount_qc.star.number_of_splices:_non-canonical2"                 
+[160] "recount_qc.star.number_of_splices:_total"                          
+[161] "recount_qc.star.number_of_splices:_total2"                         
+[162] "recount_qc.star.uniquely_mapped_reads_%"                           
+[163] "recount_qc.star.uniquely_mapped_reads_%2"                          
+[164] "recount_qc.star.uniquely_mapped_reads_number"                      
+[165] "recount_qc.star.uniquely_mapped_reads_number2"                     
+[166] "recount_qc.junction_count"                                         
+[167] "recount_qc.junction_coverage"                                      
+[168] "recount_qc.junction_avg_coverage"                                  
+[169] "recount_qc.star.number_of_input_reads_both"                        
+[170] "recount_qc.star.all_mapped_reads_both"                             
+[171] "recount_qc.star.number_of_chimeric_reads_both"                     
+[172] "recount_qc.star.number_of_reads_mapped_to_multiple_loci_both"      
+[173] "recount_qc.star.number_of_reads_mapped_to_too_many_loci_both"      
+[174] "recount_qc.star.number_of_reads_unmapped:_other_both"              
+[175] "recount_qc.star.number_of_reads_unmapped:_too_many_mismatches_both"
+[176] "recount_qc.star.number_of_reads_unmapped:_too_short_both"          
+[177] "recount_qc.star.uniquely_mapped_reads_number_both"                 
+[178] "recount_qc.star.%_mapped_reads_both"                               
+[179] "recount_qc.star.%_chimeric_reads_both"                             
+[180] "recount_qc.star.%_reads_mapped_to_multiple_loci_both"              
+[181] "recount_qc.star.%_reads_mapped_to_too_many_loci_both"              
+[182] "recount_qc.star.%_reads_unmapped:_other_both"                      
+[183] "recount_qc.star.%_reads_unmapped:_too_many_mismatches_both"        
+[184] "recount_qc.star.%_reads_unmapped:_too_short_both"                  
+[185] "recount_qc.star.uniquely_mapped_reads_%_both"                      
+[186] "recount_seq_qc.min_len"                                            
+[187] "recount_seq_qc.max_len"                                            
+[188] "recount_seq_qc.avg_len"                                            
+[189] "recount_seq_qc.#distinct_quality_values"                           
+[190] "recount_seq_qc.#bases"                                             
+[191] "recount_seq_qc.%a"                                                 
+[192] "recount_seq_qc.%c"                                                 
+[193] "recount_seq_qc.%g"                                                 
+[194] "recount_seq_qc.%t"                                                 
+[195] "recount_seq_qc.%n"                                                 
+[196] "recount_seq_qc.avgq"                                               
+[197] "recount_seq_qc.errq"                                               
+[198] "BigWigURL"                                                         </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(metadata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>$time_created
+[1] "2024-06-02 10:17:18 CDT"
+
+$recount3_version
+          package ondiskversion loadedversion
+recount3 recount3        1.12.0        1.12.0
+                                                                                  path
+recount3 /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/library/recount3
+                                                                            loadedpath
+recount3 /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/library/recount3
+         attached is_base       date       source md5ok
+recount3     TRUE   FALSE 2023-10-26 Bioconductor    NA
+                                                                      library
+recount3 /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/library
+
+$project
+[1] "ADIPOSE_TISSUE"
+
+$project_home
+[1] "data_sources/gtex"
+
+$type
+[1] "gene"
+
+$organism
+[1] "human"
+
+$annotation
+[1] "gencode_v26"
+
+$recount3_url
+[1] "http://duffel.rail.bio/recount3"</code></pre>
+</div>
+</div>
+
+
+<!-- -->
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb36" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> recount quick access</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> Haky Im</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> 2024-05-31</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="in">```{r get project list}</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Install the recount3 R/Bioconductor package</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">"recount3"</span>)</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a><span class="do">## Load recount3 R package</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(<span class="st">"recount3"</span>))</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a><span class="do">## Find all available human projects</span></span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>human_projects <span class="ot">&lt;-</span> <span class="fu">available_projects</span>()</span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a><span class="do">## Find the project you are interested in,</span></span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a><span class="do">## here we use SRP009615 as an example</span></span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a><span class="do">## use gtex ADIPOSE_TISSUE instead</span></span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>proj_info <span class="ot">&lt;-</span> <span class="fu">subset</span>(</span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>    human_projects,</span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a>    project <span class="sc">==</span> <span class="st">"ADIPOSE_TISSUE"</span> <span class="sc">&amp;</span> project_type <span class="sc">==</span> <span class="st">"data_sources"</span></span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a><span class="do">## Create a RangedSummarizedExperiment (RSE) object at the gene level</span></span>
+<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a>rse_gene_adipose_tissue <span class="ot">&lt;-</span> <span class="fu">create_rse</span>(proj_info)</span>
+<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-34"><a href="#cb36-34" aria-hidden="true" tabindex="-1"></a><span class="do">## Explore that RSE object</span></span>
+<span id="cb36-35"><a href="#cb36-35" aria-hidden="true" tabindex="-1"></a>rse_gene_adipose_tissue</span>
+<span id="cb36-36"><a href="#cb36-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-37"><a href="#cb36-37" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-38"><a href="#cb36-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-39"><a href="#cb36-39" aria-hidden="true" tabindex="-1"></a><span class="in">```{r look at the data}</span></span>
+<span id="cb36-40"><a href="#cb36-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-41"><a href="#cb36-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the necessary library</span></span>
+<span id="cb36-42"><a href="#cb36-42" aria-hidden="true" tabindex="-1"></a><span class="co"># library(SummarizedExperiment)</span></span>
+<span id="cb36-43"><a href="#cb36-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-44"><a href="#cb36-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the assay data (raw counts)</span></span>
+<span id="cb36-45"><a href="#cb36-45" aria-hidden="true" tabindex="-1"></a>raw_counts <span class="ot">&lt;-</span> <span class="fu">assay</span>(rse_gene_adipose_tissue, <span class="st">"raw_counts"</span>)</span>
+<span id="cb36-46"><a href="#cb36-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-47"><a href="#cb36-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the row data (gene information)</span></span>
+<span id="cb36-48"><a href="#cb36-48" aria-hidden="true" tabindex="-1"></a>row_data <span class="ot">&lt;-</span> <span class="fu">rowData</span>(rse_gene_adipose_tissue)</span>
+<span id="cb36-49"><a href="#cb36-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-50"><a href="#cb36-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the column data (sample information)</span></span>
+<span id="cb36-51"><a href="#cb36-51" aria-hidden="true" tabindex="-1"></a>col_data <span class="ot">&lt;-</span> <span class="fu">colData</span>(rse_gene_adipose_tissue)</span>
+<span id="cb36-52"><a href="#cb36-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-53"><a href="#cb36-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract metadata</span></span>
+<span id="cb36-54"><a href="#cb36-54" aria-hidden="true" tabindex="-1"></a>metadata <span class="ot">&lt;-</span> <span class="fu">metadata</span>(rse_gene_adipose_tissue)</span>
+<span id="cb36-55"><a href="#cb36-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-56"><a href="#cb36-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the extracted data</span></span>
+<span id="cb36-57"><a href="#cb36-57" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(raw_counts)[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb36-58"><a href="#cb36-58" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(row_data)</span>
+<span id="cb36-59"><a href="#cb36-59" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(row_data)</span>
+<span id="cb36-60"><a href="#cb36-60" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(col_data)</span>
+<span id="cb36-61"><a href="#cb36-61" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(col_data)</span>
+<span id="cb36-62"><a href="#cb36-62" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(metadata)</span>
+<span id="cb36-63"><a href="#cb36-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-64"><a href="#cb36-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-65"><a href="#cb36-65" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>
