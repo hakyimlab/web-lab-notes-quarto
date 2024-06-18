@@ -75,4 +75,8 @@ gwascat_sig %>% count(MAPPED_TRAIT) %>% dim()
 in 2020 [1] 2584    2
 
 
+- [ ] number of unique studies
+```{r}
+gwascat %>% count(STUDY) %>% dim()
+```
 
