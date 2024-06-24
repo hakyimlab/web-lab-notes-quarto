@@ -4,6 +4,7 @@ author: Haky Im
 date: 2024-05-31
 editor_options: 
   chunk_output_type: console
+description: how to quickview recount
 ---
 
 

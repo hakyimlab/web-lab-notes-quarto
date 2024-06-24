@@ -9,13 +9,14 @@ website:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/hakyimlab/
-      - icon: twitter
-        href: https://twitter.com/hakyim
+        href: https://github.com/hakyimlab/web-lab-notes-quarto
   search: 
     location: navbar
     type: overlay
     copy-button: true
+  body-footer: |
+      © [Hae Kyung Im](https://hakyimlab.org) - [CC BY 4.0 License](https://creativecommons.org/licenses/by/4.0/)
+  
 format:
   html:
     theme: cosmo
