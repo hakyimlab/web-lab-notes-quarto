@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.2.335">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,42 +19,8 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -91,8 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-submit-button-title": "Submit"
   }
 }</script>
 
@@ -111,24 +76,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <span class="navbar-title">HakyImLab Notes</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
+    <a class="nav-link" href="../../about.html">
  <span class="menu-text">Miscel</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/hakyimlab/web-lab-notes-quarto" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/hakyimlab/web-lab-notes-quarto"><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
+              <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -299,23 +262,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
+    target: function(trigger) {
+      return trigger.previousElementSibling;
     }
   });
   clipboard.on('success', function(e) {
@@ -431,92 +380,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -556,146 +419,146 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> How to Download the Data from the UK Biobank</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> ''</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> '2001-07-30'</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">  - how_to</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="an">tags:</span><span class="co"> []</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Background</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>Application 19526 is the main application from which imlab downloads data. Other ID’s correspond to specific collaborations with other investigators at Uchicago and Argonne.</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>We have requested data in 8 baskets, with overlapping fields. The composition of the baskets are somewhat haphazard, they were put together as need arose. </span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>Basket 7947 was the first one with large number of fields, but incomplete.</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>MRI and IDP’s were requested in two baskets (), not completely overlapping.</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>Details of applications and baskets and field list are <span class="co">[</span><span class="ot">here</span><span class="co">](https://docs.google.com/spreadsheets/d/1Ph6PsxLs22B3qYdkvBV7pbUai_GW6EhaI4TorAoyGUM/edit#gid=911891313)</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>##Requesting a Data Refresh</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>The button to refresh is not very easy to find, so here are the instructions from the <span class="co">[</span><span class="ot">UK Biobank Accessing Data Guide</span><span class="co">](https://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=accessing_data_guide)</span>:</span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a> <span class="at">&gt; In order to gain access to updated data for fields in a previous data basket a researcher can request a “refresh” of that basket through AMS. A refresh of a dataset is a new</span></span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="at">extraction of the fields in the basket, and will include any additional data added to</span></span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="at">Showcase when it was updated. It will also remove the data for participants who have</span></span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="at">withdrawn since the basket was last released.</span></span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a> <span class="at">&gt; In order to request a refresh of a basket, a researcher will need to login to the Access</span></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="at">Management System (AMS), navigate to their project (click Projects then View/Update),</span></span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="at">then click on the Data tab, and then on the “Go to Showcase to refresh or download data”</span></span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="at">button which will lead to the Downloads page. Next click ‘Application’ (at the top of the</span></span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="at">page) and then select the basket to be refreshed. </span></span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## Requesting New Data</span></span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>To request additional data fields, login to the AMS, navigate to the project, then click on the Requests tab. Check "Do you wish to request additional data fields?". Then select fields from Quick Start tab, or Browse and Search buttons.</span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>##Standard data (phenotype data)</span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Downloading standard data file (**_ukb7948.enc_**) directly from &lt;a href=http://biobank.ctsu.ox.ac.uk&gt; the UK Biobank website &lt;/a&gt; using the MD5 Checksum and password, which are included in the email. The email should also contain the key (**_k1952r7948.key_**) file, which will be used to decrypted the downloaded phenotypic data. </span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Downloading utilities (_**ukbmd5, ukbunpack, ukbconv and encoding.ukb.txt**_) directly from <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">http://biobank.ctsu.ox.ac.uk/crystal/download.cgi</span><span class="kw">&gt;</span> the UK Biobank website <span class="kw">&lt;/a&gt;</span>. These data and utility files (from this step and last step) should be saved in the same file directory.</span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Verifying the integrity of **_ukb7948.enc_**. The displayed MD5 Checksum of the dataset should be the same as the MD5 Checksum supplied via email. You may need to run chmod +x ukbmd5 beforehand, and repeat for the other utility files. This step created a decrypted file (_**ukb7948.enc.ukb**_)</span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="in">./ukbmd5 ukb7948.enc </span></span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Decrypting _**ukb7948.enc**_ </span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a><span class="in">./ukbunpack ukb7948.enc k1952r7948.key.txt</span></span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Converting the decrypted data (**_ukb7948.enc_ukb_**) into various useful formats. </span>
-<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a><span class="in">./ukbconv ukb7948.enc_ukb bulk </span></span>
-<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a><span class="in">./ukbconv ukb7948.enc_ukb docs </span></span>
-<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a><span class="in">./ukbconv ukb7948.enc_ukb r </span></span>
-<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a><span class="in">./ukbconv ukb7948.enc_ukb csv </span></span>
-<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>   **csv format**: simple comma-separated-variable output, all fields double-quoted.<span class="kw">&lt;br&gt;&lt;br&gt;</span></span>
-<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>   **r format**: produces a tab deliminated file and an R script for labeling and putting levels on the variables.<span class="kw">&lt;br&gt;&lt;br&gt;</span></span>
-<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>   **docs format**: rather than output the data itself, this option generates an html file describing the data, listing the names and types of each field. You can access html file <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">http://ukbiobank.hakyimlab.org</span><span class="kw">&gt;</span> here <span class="kw">&lt;/a&gt;</span>. <span class="kw">&lt;br&gt;&lt;br&gt;</span></span>
-<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>   **bulk format**: a list of IDs for use with the ukbfetch utility (we will not use this file, instead we will download genotype data using gfech utility). </span>
-<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>##Complex data (genetic data)</span>
-<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Creating the authentication file as .ukbkey </span>
-<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>The authentication file should be named "**_.ukbkey_**" and contain two lines of text, the first containing the Application ID (1952) and the second the truncated password (the first 24 characters). The authentication file should be stored in the home directory of your rcc account. </span>
-<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a><span class="in">1952</span></span>
-<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a><span class="in">a1b2c3d4a1b2c3d4a1b2c3d4</span></span>
-<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a><span class="in">cp .ukbkey ~/ </span></span>
-<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Downloading utilities (_**gfetch, genotype_map.csv and gconv**_) directly from <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">http://biobank.ctsu.ox.ac.uk/crystal/download.cgi</span><span class="kw">&gt;</span> the UK Biobank website <span class="kw">&lt;/a&gt;</span>. These files should be saved in the same file directory. </span>
-<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Downloading genetic data. Datatype is one of "_**cal**_" (calls), "**_imp_**" (imputed data), "**_con_**" (confidences) or "__**int**__" (intensities). It is possible to run more than one _**gfetch**_ download in parallel, however I strongly recommend that you just download only one dataset at a time to avoid overload on either the server side or your limited rcc _**cds**_ provision. Please beware that imputed chromosome X, Y, mitochondria datasets are currently not available. If a download is interrupted, then please delete the incomplete file and restart. </span>
-<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a><span class="in">seq 1 22 | parallel -j1 ./gfetch cal {}</span></span>
-<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a><span class="in">./gfetch cal X </span></span>
-<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a><span class="in">./gfetch cal Y</span></span>
-<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a><span class="in">./gfetch cal MT </span></span>
-<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a><span class="in">seq 1 22 | parallel -j1 ./gfetch imp {}</span></span>
-<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a><span class="in">seq 1 22 | parallel -j1 ./gfetch con {}</span></span>
-<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a><span class="in">./gfetch con X </span></span>
-<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a><span class="in">./gfetch con Y</span></span>
-<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a><span class="in">./gfetch con MT </span></span>
-<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a><span class="in">seq 1 22 | parallel -j1 ./gfetch int {}</span></span>
-<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a><span class="in">./gfetch int X </span></span>
-<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a><span class="in">./gfetch int Y</span></span>
-<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a><span class="in">./gfetch int MT</span></span>
-<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a><span class="ss"> * </span>A single sample map (impv1.sample) for the imputed data also was downloaded</span>
-<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a><span class="in">    ./gfetch imp 1 -m</span></span>
-<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a>##Complex data (episode-level hospital data)</span>
-<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a>This data is held within multiple standard relational databases. <span class="kw">&lt;br&gt;&lt;br&gt;</span></span>
-<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>General structure of the hospital data<span class="kw">&lt;br&gt;</span></span>
-<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a>The HES data has been divided into 5 tables. The master table is <span class="in">`hesin`</span>, which connects to 4 subsidiary tables (<span class="in">`hesin_diag10`</span>, <span class="in">`hesin_diag9`</span>, <span class="in">`hesin_oper`</span>, <span class="in">`hesin_birth`</span>) via the record_id key field.<span class="kw">&lt;br&gt;&lt;br&gt;</span></span>
-<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Record data can be manipulated and extracted directly using SQL via <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">http://biobank.ctsu.ox.ac.uk</span><span class="kw">&gt;</span> the UK Biobank website <span class="kw">&lt;/a&gt;</span>. <span class="kw">&lt;br&gt;&lt;br&gt;</span></span>
-<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a>More detailed information please see <span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">"http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingEpisodeData"</span> <span class="er">target</span><span class="ot">=</span><span class="st">"_blank"</span><span class="kw">&gt;</span> How to access episode-level hospital data <span class="kw">&lt;/a&gt;</span> <span class="kw">&lt;br&gt;&lt;br&gt;</span></span>
-<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a>##Data </span>
-<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Data is in bionimbus. See instructions on how to access <span class="co">[</span><span class="ot">here</span><span class="co">](https://github.com/hakyimlab/ANL-ukbREST-queries/tree/master/ukbREST_setup)</span> </span>
-<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a><span class="in">aws s3 ls --endpoint-url https://bionimbus-objstore.opensciencedatacloud.org \</span></span>
-<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a><span class="in"> --recursive s3://uk-biobank.hakyimlab.org/data/phenotype</span></span>
-<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Now also in CRI</span>
-<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a><span class="in">`/gpfs/data/ukb-share/genotypes`</span> and <span class="in">`/gpfs/data/im-lab/nas40t2/Data/UKB`</span></span>
-<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a>##References</span>
-<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">"http://biobank.ctsu.ox.ac.uk/crystal/exinfo.cgi"</span> <span class="er">target</span><span class="ot">=</span><span class="st">"_blank"</span><span class="kw">&gt;</span> Essential information <span class="kw">&lt;/a&gt;</span></span>
-<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">"http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingData"</span> <span class="er">target</span><span class="ot">=</span><span class="st">"_blank"</span><span class="kw">&gt;</span> Accessing your data <span class="kw">&lt;/a&gt;</span></span>
-<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">"http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=accessing_data_guide"</span> <span class="er">target</span><span class="ot">=</span><span class="st">"_blank"</span><span class="kw">&gt;</span> Using UK Biobank Data <span class="kw">&lt;/a&gt;</span></span>
-<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">"http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingBulkRecordData"</span> <span class="er">target</span><span class="ot">=</span><span class="st">"_blank"</span><span class="kw">&gt;</span> How to access bulk data <span class="kw">&lt;/a&gt;</span></span>
-<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">"http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingEpisodeData"</span> <span class="er">target</span><span class="ot">=</span><span class="st">"_blank"</span><span class="kw">&gt;</span> How to access episode-level hospital data <span class="kw">&lt;/a&gt;</span></span>
-<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">"http://biobank.ctsu.ox.ac.uk/showcase/docs/HospitalEpisodeStatistics.pdf"</span> <span class="er">target</span><span class="ot">=</span><span class="st">"_blank"</span><span class="kw">&gt;</span> Hospital Episode Statistics data in Showcase  <span class="kw">&lt;/a&gt;</span></span>
-<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">"http://biobank.ctsu.ox.ac.uk/crystal/exinfo.cgi?src=AccessingGeneticData"</span> <span class="er">target</span><span class="ot">=</span><span class="st">"_blank"</span><span class="kw">&gt;</span> How to access genetic data? <span class="kw">&lt;/a&gt;</span></span>
-<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span><span class="kw">&lt;a</span> <span class="er">href</span><span class="ot">=</span><span class="st">"http://www.ukbiobank.ac.uk/wp-content/uploads/2014/04/imputation_documentation_May2015.pdf"</span> <span class="er">target</span><span class="ot">=</span><span class="st">"_blank"</span><span class="kw">&gt;</span> A&nbsp;document outlining the methods used to create the imputed dataset<span class="kw">&lt;/a&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="markdown" data-shortcodes="false"><code>---
+title: How to Download the Data from the UK Biobank
+author: ''
+date: '2001-07-30'
+categories:
+  - how_to
+tags: []
+---
+
+
+## Background
+
+
+Application 19526 is the main application from which imlab downloads data. Other ID’s correspond to specific collaborations with other investigators at Uchicago and Argonne.
+
+
+We have requested data in 8 baskets, with overlapping fields. The composition of the baskets are somewhat haphazard, they were put together as need arose. 
+Basket 7947 was the first one with large number of fields, but incomplete.
+MRI and IDP’s were requested in two baskets (), not completely overlapping.
+
+Details of applications and baskets and field list are [here](https://docs.google.com/spreadsheets/d/1Ph6PsxLs22B3qYdkvBV7pbUai_GW6EhaI4TorAoyGUM/edit#gid=911891313)
+
+
+##Requesting a Data Refresh
+
+
+The button to refresh is not very easy to find, so here are the instructions from the [UK Biobank Accessing Data Guide](https://biobank.ndph.ox.ac.uk/showcase/exinfo.cgi?src=accessing_data_guide):
+
+ &gt; In order to gain access to updated data for fields in a previous data basket a researcher can request a “refresh” of that basket through AMS. A refresh of a dataset is a new
+extraction of the fields in the basket, and will include any additional data added to
+Showcase when it was updated. It will also remove the data for participants who have
+withdrawn since the basket was last released.
+
+ &gt; In order to request a refresh of a basket, a researcher will need to login to the Access
+Management System (AMS), navigate to their project (click Projects then View/Update),
+then click on the Data tab, and then on the “Go to Showcase to refresh or download data”
+button which will lead to the Downloads page. Next click ‘Application’ (at the top of the
+page) and then select the basket to be refreshed. 
+
+## Requesting New Data
+
+To request additional data fields, login to the AMS, navigate to the project, then click on the Requests tab. Check "Do you wish to request additional data fields?". Then select fields from Quick Start tab, or Browse and Search buttons.
+
+##Standard data (phenotype data)
+
+* Downloading standard data file (**_ukb7948.enc_**) directly from &lt;a href=http://biobank.ctsu.ox.ac.uk&gt; the UK Biobank website &lt;/a&gt; using the MD5 Checksum and password, which are included in the email. The email should also contain the key (**_k1952r7948.key_**) file, which will be used to decrypted the downloaded phenotypic data. 
+* Downloading utilities (_**ukbmd5, ukbunpack, ukbconv and encoding.ukb.txt**_) directly from &lt;a href=http://biobank.ctsu.ox.ac.uk/crystal/download.cgi&gt; the UK Biobank website &lt;/a&gt;. These data and utility files (from this step and last step) should be saved in the same file directory.
+* Verifying the integrity of **_ukb7948.enc_**. The displayed MD5 Checksum of the dataset should be the same as the MD5 Checksum supplied via email. You may need to run chmod +x ukbmd5 beforehand, and repeat for the other utility files. This step created a decrypted file (_**ukb7948.enc.ukb**_)
+```
+./ukbmd5 ukb7948.enc 
+```
+
+* Decrypting _**ukb7948.enc**_ 
+```
+./ukbunpack ukb7948.enc k1952r7948.key.txt
+```
+
+* Converting the decrypted data (**_ukb7948.enc_ukb_**) into various useful formats. 
+```
+./ukbconv ukb7948.enc_ukb bulk 
+./ukbconv ukb7948.enc_ukb docs 
+./ukbconv ukb7948.enc_ukb r 
+./ukbconv ukb7948.enc_ukb csv 
+```
+   **csv format**: simple comma-separated-variable output, all fields double-quoted.&lt;br&gt;&lt;br&gt;
+   **r format**: produces a tab deliminated file and an R script for labeling and putting levels on the variables.&lt;br&gt;&lt;br&gt;
+   **docs format**: rather than output the data itself, this option generates an html file describing the data, listing the names and types of each field. You can access html file &lt;a href=http://ukbiobank.hakyimlab.org&gt; here &lt;/a&gt;. &lt;br&gt;&lt;br&gt;
+   **bulk format**: a list of IDs for use with the ukbfetch utility (we will not use this file, instead we will download genotype data using gfech utility). 
+
+##Complex data (genetic data)
+
+* Creating the authentication file as .ukbkey 
+The authentication file should be named "**_.ukbkey_**" and contain two lines of text, the first containing the Application ID (1952) and the second the truncated password (the first 24 characters). The authentication file should be stored in the home directory of your rcc account. 
+
+```
+1952
+a1b2c3d4a1b2c3d4a1b2c3d4
+```
+```
+cp .ukbkey ~/ 
+```
+
+* Downloading utilities (_**gfetch, genotype_map.csv and gconv**_) directly from &lt;a href=http://biobank.ctsu.ox.ac.uk/crystal/download.cgi&gt; the UK Biobank website &lt;/a&gt;. These files should be saved in the same file directory. 
+
+* Downloading genetic data. Datatype is one of "_**cal**_" (calls), "**_imp_**" (imputed data), "**_con_**" (confidences) or "__**int**__" (intensities). It is possible to run more than one _**gfetch**_ download in parallel, however I strongly recommend that you just download only one dataset at a time to avoid overload on either the server side or your limited rcc _**cds**_ provision. Please beware that imputed chromosome X, Y, mitochondria datasets are currently not available. If a download is interrupted, then please delete the incomplete file and restart. 
+
+```
+seq 1 22 | parallel -j1 ./gfetch cal {}
+./gfetch cal X 
+./gfetch cal Y
+./gfetch cal MT 
+
+seq 1 22 | parallel -j1 ./gfetch imp {}
+
+seq 1 22 | parallel -j1 ./gfetch con {}
+./gfetch con X 
+./gfetch con Y
+./gfetch con MT 
+
+seq 1 22 | parallel -j1 ./gfetch int {}
+./gfetch int X 
+./gfetch int Y
+./gfetch int MT
+```
+
+ * A single sample map (impv1.sample) for the imputed data also was downloaded
+```
+    ./gfetch imp 1 -m
+```
+
+##Complex data (episode-level hospital data)
+
+This data is held within multiple standard relational databases. &lt;br&gt;&lt;br&gt;
+1. General structure of the hospital data&lt;br&gt;
+The HES data has been divided into 5 tables. The master table is `hesin`, which connects to 4 subsidiary tables (`hesin_diag10`, `hesin_diag9`, `hesin_oper`, `hesin_birth`) via the record_id key field.&lt;br&gt;&lt;br&gt;
+2. Record data can be manipulated and extracted directly using SQL via &lt;a href=http://biobank.ctsu.ox.ac.uk&gt; the UK Biobank website &lt;/a&gt;. &lt;br&gt;&lt;br&gt;
+More detailed information please see &lt;a href="http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingEpisodeData" target="_blank"&gt; How to access episode-level hospital data &lt;/a&gt; &lt;br&gt;&lt;br&gt;
+
+##Data 
+
+1. Data is in bionimbus. See instructions on how to access [here](https://github.com/hakyimlab/ANL-ukbREST-queries/tree/master/ukbREST_setup) 
+
+```
+aws s3 ls --endpoint-url https://bionimbus-objstore.opensciencedatacloud.org \
+ --recursive s3://uk-biobank.hakyimlab.org/data/phenotype
+```
+
+2. Now also in CRI
+`/gpfs/data/ukb-share/genotypes` and `/gpfs/data/im-lab/nas40t2/Data/UKB`
+
+##References
+
+* &lt;a href="http://biobank.ctsu.ox.ac.uk/crystal/exinfo.cgi" target="_blank"&gt; Essential information &lt;/a&gt;
+* &lt;a href="http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingData" target="_blank"&gt; Accessing your data &lt;/a&gt;
+* &lt;a href="http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=accessing_data_guide" target="_blank"&gt; Using UK Biobank Data &lt;/a&gt;
+* &lt;a href="http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingBulkRecordData" target="_blank"&gt; How to access bulk data &lt;/a&gt;
+* &lt;a href="http://biobank.ctsu.ox.ac.uk/showcase/exinfo.cgi?src=AccessingEpisodeData" target="_blank"&gt; How to access episode-level hospital data &lt;/a&gt;
+* &lt;a href="http://biobank.ctsu.ox.ac.uk/showcase/docs/HospitalEpisodeStatistics.pdf" target="_blank"&gt; Hospital Episode Statistics data in Showcase  &lt;/a&gt;
+* &lt;a href="http://biobank.ctsu.ox.ac.uk/crystal/exinfo.cgi?src=AccessingGeneticData" target="_blank"&gt; How to access genetic data? &lt;/a&gt;
+* &lt;a href="http://www.ukbiobank.ac.uk/wp-content/uploads/2014/04/imputation_documentation_May2015.pdf" target="_blank"&gt; A&nbsp;document outlining the methods used to create the imputed dataset&lt;/a&gt;</code></pre>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

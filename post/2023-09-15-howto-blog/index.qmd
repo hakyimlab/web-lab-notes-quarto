@@ -1,0 +1,139 @@
+---
+title: "How to create a new Quarto Blog"
+author: "Sofia Salazar"
+date: "2023-09-15"
+description: "This is a tutorial on how to create a new quarto blog using the R studio interface"
+categories: [how_to]
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    code-tools: true
+    code-overflow: wrap
+editor_options: 
+  chunk_output_type: console
+---
+
+In this tutorial I show how to create a new quarto blog and link it with a repository in GitHub, using the R studio interface.
+
+### 1- Create a new repository in Github
+
+-   1.1 Go to the Github [hakyimlab](github.com/orgs/hakyimlab/)
+
+-   1.2 Click on the green button "New Repository".
+
+-   1.3 Create your repository with the name `analysis-yourName`, set it as a private repo. You can choose to add a `README.Rmd` file.
+
+### 2- Create a quarto blog project in R studio
+
+-   2.1 In R studio, click the "File \> new project" button.
+-   2.2 Choose from the list "Quarto Blog"
+-   2.3 Create a folder in your local computer and name it as `analysis-yourName` then choose the directory where your blog will live. All post files will be stored here.
+-   2.4 Make sure to check the "Create a git repository" box.
+
+### 3- Link local project folder to GitHub repository
+
+-   3.1 In your command-line terminal, inside your `analysis-yourName` folder, type `git status` to verify that a git repo was initialized, you should see something like:
+
+```
+"On branch master
+
+No commits yet ..."
+```
+
+If you don't, simply type `git init`.
+
+-   3.2 Type `git branch -M main` to create and change to branch main.
+
+-   3.3 Type `git pull origin main` to pull from the remote repo, important in case you created a README file.
+
+-   3.4 Type `git add .` and then `git commit -m "your message"`.
+
+-   3.5 Type `git push --set-upstream origin main`.
+
+Your blog is now linked to the GitHub repository!
+
+### 4- Create a new post
+
+Inside the `analysis-yourName` folder in your local computer, you should see the that the following files were created:
+
+-   `_quarto.yml`: you can modify it to change your blog's appearance.
+
+-   `about.qmd`: you can modify it, this is your "about" page of the blog.
+
+-   `analysis-yourName.Rproj`
+
+-   `index.qmd`
+
+-   `posts/`: in this directory is where your posts will be saved.
+
+-   `profile.jpg`
+
+-   `styles.css`
+
+-   And the `README.md` file in case you chose to create it.
+
+- 4.1 Inside the `analysis-yourName/posts/` folder in your local computer, create a new folder. You can delete the `post-with-code` and `welcome` folders as they are just example posts.
+
+- 4.2 Name the folder with year-month-date-slug: `2023-03-02-descriptive-title`. 
+
+- 4.3 Create a file named index.qmd and add the following header, update the title, your name and the date.
+
+```         
+---
+title: "Your Title"
+author: "Your Name"
+date: "2023-02-28"
+categories: [analysis,how_to]
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    code-tools: true
+    code-overflow: wrap
+editor_options: 
+  chunk_output_type: console
+---
+```
+
+Your work goes inside `index.qmd`, including your code.
+
+**! Important: If you are working on a Jupyter Notebook, this file should be named** `index.ipynb`
+
+### 4-Copy to box
+
+- 4.1 Run the following code (with your own data modifications), at the beginning of your works, so that this blog is copied into BOX and it can be reproducible
+
+```{{r}}
+## - [ ] clean up this part. Create function that creates the folder
+suppressMessages(library(tidyverse))
+suppressMessages(library(glue))
+PRE = "/Users/haekyungim/Library/CloudStorage/Box-Box/LargeFiles/imlab-data/data-Github/web-data"
+##PRE="/Users/margaretperry/Library/CloudStorage/Box-Box/imlab-data/data-Github/web-data "
+##PRE="/Users/temi/Library/CloudStorage/Box-Box/imlab-data/data-Github/web-data"
+## COPY THE DATE AND SLUG fields FROM THE HEADER
+SLUG="predictdb-weight-distribution" ## copy the slug from the header
+bDATE='2023-02-28' ## copy the date from the blog's header here
+DATA = glue("{PRE}/{bDATE}-{SLUG}")
+if(!file.exists(DATA)) system(glue::glue("mkdir {DATA}"))
+WORK=DATA
+
+## move data to DATA
+#tempodata=("~/Downloads/tempo/gwas_catalog_v1.0.2-associations_e105_r2022-04-07.tsv")
+#system(glue::glue("cp {tempodata} {DATA}/"))
+
+#system(glue("open {DATA}")) ## this will open the folder 
+```
+
+- 4.2 In the terminal type `quarto render path-to-index.qmd`, and then `quarto preview` to see a preview of your blog
+
+### 5- Push directory into GitHub
+
+When you are done with your work, you should push your changes into the GitHub repository.
+
+- 5.1 In the terminal inside `analysis-yourName` type `git add .` and then `git commit -m "your message"`.
+
+- 5.2 Type `git push` no need to set upstream to main as we already did.
+
+**You can continue adding more posts repeating steps 3 - 5.**
+ 

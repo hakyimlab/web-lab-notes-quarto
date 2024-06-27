@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.2.335">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,10 +19,9 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -49,13 +48,43 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
+    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -91,8 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-submit-button-title": "Submit"
   }
 }</script>
 
@@ -111,24 +139,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <span class="navbar-title">HakyImLab Notes</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
+    <a class="nav-link" href="../../about.html">
  <span class="menu-text">Miscel</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/hakyimlab/web-lab-notes-quarto" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/hakyimlab/web-lab-notes-quarto"><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
+              <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -226,27 +252,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We will learn to run a GWAS using plink.<br>
 This tutorial follows a plink tutorial you can find <a href="https://zzz.bwh.harvard.edu/plink/tutorial.shtml">here</a></p>
 <ul class="task-list">
-<li><input type="checkbox">First, download plink into a new file /Users/<username>/demo/</username></li>
+<li><input type="checkbox" disabled="">First, download plink into a new file /Users/<username>/demo/</username></li>
 </ul>
 <div class="cell">
 <details>
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">DEMO</span><span class="op">=</span><span class="st">"/Users/&lt;yourusername&gt;/demo"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <ul class="task-list">
-<li><input type="checkbox">Download the <a href="https://zzz.bwh.harvard.edu/plink/hapmap1.zip">example data</a> we will be using.
-<ul>
+<li><input type="checkbox" disabled="">Download the <a href="https://zzz.bwh.harvard.edu/plink/hapmap1.zip">example data</a> we will be using.<ul>
 <li>Note that this data is not real and is only intended to be used as an example for using plink.</li>
 </ul></li>
 </ul>
 <p>Whenever running plink commands, you first have to indicate you’re using plink by typing the full path to it.</p>
 <ul class="task-list">
-<li><input type="checkbox">To avoid writing out the same path over and over again, we will define a variable that contains the path to plink.</li>
+<li><input type="checkbox" disabled="">To avoid writing out the same path over and over again, we will define a variable that contains the path to plink.</li>
 </ul>
 <div class="cell">
 <details>
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">plink</span><span class="op">=</span><span class="st">"Users/&lt;username&gt;/demo/plink"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
@@ -256,11 +281,11 @@ This tutorial follows a plink tutorial you can find <a href="https://zzz.bwh.har
 <ul>
 <li><p>PED and MAP files are plain text files that contain a table of part of your data</p></li>
 <li><p>Together, they make up all of the data of the study you’re doing</p></li>
-<li><p><input type="checkbox">Look at the first few lines of your PED file by copy and pasting this command</p></li>
+<li><p><input type="checkbox" disabled="">Look at the first few lines of your PED file by copy and pasting this command</p></li>
 </ul>
 <div class="cell">
 <details>
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d</span> <span class="st">' '</span> <span class="at">-f</span>  1-6  hapmap1.ped <span class="kw">|</span> <span class="fu">head</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
@@ -290,11 +315,11 @@ This tutorial follows a plink tutorial you can find <a href="https://zzz.bwh.har
 <ul>
 <li>Each marker is biallelic, meaning there’s two genotypes for each column, paternal and maternal.</li>
 </ul></li>
-<li><input type="checkbox">Now look at the beginning of your MAP file</li>
+<li><input type="checkbox" disabled="">Now look at the beginning of your MAP file</li>
 </ul>
 <div class="cell">
 <details>
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> hapmap1.map</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
@@ -320,11 +345,11 @@ This tutorial follows a plink tutorial you can find <a href="https://zzz.bwh.har
 <p>It’s helpful to compress your data to speed up analysis and data processing<br>
 One way to do this is to convert your files to binary format</p>
 <ul class="task-list">
-<li><input type="checkbox">Convert your .ped and .map files to binary</li>
+<li><input type="checkbox" disabled="">Convert your .ped and .map files to binary</li>
 </ul>
 <div class="cell">
 <details>
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--file</span> hapmap1 <span class="at">--make-bed</span> <span class="at">--out</span> hapmap1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
@@ -337,11 +362,11 @@ One way to do this is to convert your files to binary format</p>
 <section id="minor-allele-frequencies" class="level2">
 <h2 class="anchored" data-anchor-id="minor-allele-frequencies">Minor Allele Frequencies</h2>
 <ul class="task-list">
-<li><input type="checkbox">Find the minor allele frequencies of your data and look at the head</li>
+<li><input type="checkbox" disabled="">Find the minor allele frequencies of your data and look at the head</li>
 </ul>
 <div class="cell">
 <details>
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--file</span> hapmap1 <span class="at">--freq</span> <span class="at">--out</span> maf</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> maf.freq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -363,11 +388,11 @@ One way to do this is to convert your files to binary format</p>
 <ul>
 <li>When you “run a GWAS,” it just means you’re finding the association between your SNPs and the phenotypes.</li>
 <li>In plink, you use the –assoc command to do this</li>
-<li><input type="checkbox">Run a GWAS and look at the head</li>
+<li><input type="checkbox" disabled="">Run a GWAS and look at the head</li>
 </ul>
 <div class="cell">
 <details>
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--file</span> hapmap1 <span class="at">--assoc</span> <span class="at">--out</span> as</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> as.assoc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -396,36 +421,36 @@ One way to do this is to convert your files to binary format</p>
 <p>Now we will graph a Manhattan plot of our association data We will do this in R using the “qqman” package - [ ] First, download qqman</p>
 <div class="cell">
 <details>
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(qqman)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <ul class="task-list">
-<li><input type="checkbox">Read your association table and set it to a variable</li>
+<li><input type="checkbox" disabled="">Read your association table and set it to a variable</li>
 </ul>
 <div class="cell">
 <details>
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">read_table</span>(<span class="st">"/Users/&lt;username&gt;/..."</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <ul>
 <li>Now if you try to plot mydata, R will give you an error because there are NA values in it.</li>
 <li>To get rid of the NA values, use the command <em>na.omit</em></li>
-<li><input type="checkbox">Take out the NA values</li>
+<li><input type="checkbox" disabled="">Take out the NA values</li>
 </ul>
 <div class="cell">
 <details>
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mydata2 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(mydata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <ul class="task-list">
-<li><input type="checkbox">Now you’re ready to graph your manhattan plot!</li>
+<li><input type="checkbox" disabled="">Now you’re ready to graph your manhattan plot!</li>
 </ul>
 <div class="cell">
 <details>
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">manhattan</span>(mydata2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
@@ -436,14 +461,14 @@ One way to do this is to convert your files to binary format</p>
 When graphing our data in qq plots we use the p-values - [ ] Graph your p values</p>
 <div class="cell">
 <details>
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(mydata2<span class="sc">$</span>P)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>we will read the hapmap1.ped file. typically genotype files are too large to load into memory but in this example it takes 28MB, which is fine with current computers. As a rule of thumb (in a laptop with 16Gb of ram, try not to load files that are more than 1GB)</p>
 <div class="cell">
 <details>
-<summary>Code</summary>
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>hapmap1_ped <span class="ot">=</span> <span class="fu">read_table</span>(<span class="st">"/Users/lvairus/Desktop/hapmap1/hapmap1.ped"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
@@ -481,23 +506,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
+    target: function(trigger) {
+      return trigger.previousElementSibling;
     }
   });
   clipboard.on('success', function(e) {
@@ -613,92 +624,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -738,207 +663,208 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb14" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> 'Hands-On Training: plink'</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> ''</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> '2020-07-14'</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="an">slug:</span><span class="co"> hands-on-training-plink</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - how_to</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="an">tags:</span><span class="co"> []</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>**LATEST VERSION IN https://bios25328.hakyimlab.org/post/2021/04/09/plink-tutorial/**</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## Basic Commands</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>here's a list of some of the basic commands you will learn about </span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We will go more in depth for each one below</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>Command       |       Function</span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>--------------|--------------------------------------</span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>--file        |       loads a file in ascii format</span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>--bfile       |       loads a file in binary format</span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>--make-bed    |       converts an ascii file to binary</span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>--out         |       specifies what you want to name your output</span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>--freq        |       generates minor allele frequencies</span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>A more detailed tutorial for GWAS analysis is <span class="co">[</span><span class="ot">here</span><span class="co">](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6001694/)</span>.</span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction</span></span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>We will learn to run a GWAS using plink.  </span>
-<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>This tutorial follows a plink tutorial you can find <span class="co">[</span><span class="ot">here</span><span class="co">](https://zzz.bwh.harvard.edu/plink/tutorial.shtml)</span></span>
-<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> First, download plink into a new file /Users/<span class="kw">&lt;username&gt;</span>/demo/</span>
-<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash, download plink, eval=FALSE}</span></span>
-<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a><span class="va">DEMO</span><span class="op">=</span><span class="st">"/Users/&lt;yourusername&gt;/demo"</span></span>
-<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Download the <span class="co">[</span><span class="ot">example data</span><span class="co">](https://zzz.bwh.harvard.edu/plink/hapmap1.zip)</span> we will be using.  </span>
-<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Note that this data is not real and is only intended to be used as an example for using plink.  </span>
-<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>Whenever running plink commands, you first have to indicate you're using plink by typing the full path to it.  </span>
-<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> To avoid writing out the same path over and over again, we will define a variable that contains the path to plink.</span>
-<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash, plink path, eval=FALSE}</span></span>
-<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a><span class="va">plink</span><span class="op">=</span><span class="st">"Users/&lt;username&gt;/demo/plink"</span></span>
-<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a><span class="fu">## PED and MAP files</span></span>
-<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>PED and MAP files are plain text files that contain a table of part of your data</span>
-<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Together, they make up all of the data of the study you're doing</span>
-<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Look at the first few lines of your PED file by copy and pasting this command</span>
-<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash, ped head, eval=FALSE}</span></span>
-<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d</span> <span class="st">' '</span> <span class="at">-f</span>  1-6  hapmap1.ped <span class="kw">|</span> <span class="fu">head</span></span>
-<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Each row represents a different individual.  </span>
-<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>PED files start with 6 informative columns about each individual.  </span>
-<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a>1) Family ID</span>
-<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>2) Individual ID</span>
-<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a>3) Paternal ID</span>
-<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a>4) Maternal ID</span>
-<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>5) Sex</span>
-<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>1 = male, 2 = female, other = unknown</span>
-<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a>6) Phenotype</span>
-<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Can be quantitative or an affection status</span>
-<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>The default values for affection status is: 1 = unaffected, 2 = affected, 0 = missing, -9 = missing</span>
-<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Every column after these is the data for the individual's genotypes</span>
-<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Each marker is biallelic, meaning there's two genotypes for each column, paternal and maternal.  </span>
-<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Now look at the beginning of your MAP file</span>
-<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash, map head, eval=FALSE}</span></span>
-<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> hapmap1.map</span>
-<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Each row represents a different SNP.</span>
-<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>there are 4 informative columns.</span>
-<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a>1) Chromosome #</span>
-<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a>2) SNP identifier</span>
-<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a>3) Genetic distance (in centimorgans)</span>
-<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a>4) Base-pair position</span>
-<span id="cb14-89"><a href="#cb14-89" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>every row here corresponds to a genotype column in the ped file to indicate the position of those genotypes</span>
-<span id="cb14-90"><a href="#cb14-90" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>the first row here corresponds to the first genotype column in the .ped (after the first ID-ing 6), the second row here to the next column there, and so on</span>
-<span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-92"><a href="#cb14-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a><span class="fu">## Binary Files</span></span>
-<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a>It's helpful to compress your data to speed up analysis and data processing  </span>
-<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a>One way to do this is to convert your files to binary format</span>
-<span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Convert your .ped and .map files to binary</span>
-<span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash, binary, eval=FALSE}</span></span>
-<span id="cb14-100"><a href="#cb14-100" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--file</span> hapmap1 <span class="at">--make-bed</span> <span class="at">--out</span> hapmap1</span>
-<span id="cb14-101"><a href="#cb14-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-102"><a href="#cb14-102" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-103"><a href="#cb14-103" aria-hidden="true" tabindex="-1"></a>These are the three plink commands we used:  </span>
-<span id="cb14-104"><a href="#cb14-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>*--file hapmap1*: specifies that we want to use the hapmap1 files  </span>
-<span id="cb14-105"><a href="#cb14-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>*--make-bed*: converts that file to binary  </span>
-<span id="cb14-106"><a href="#cb14-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>*--out hapmap1*: names our output files hapmap1  </span>
-<span id="cb14-107"><a href="#cb14-107" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>if you don't specify a name for your output, it defaults to "plink"</span>
-<span id="cb14-108"><a href="#cb14-108" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If you look at your hapmap folder, you'll see four new files</span>
-<span id="cb14-109"><a href="#cb14-109" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>.bed: binary .ped</span>
-<span id="cb14-110"><a href="#cb14-110" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>.bim: binary .map</span>
-<span id="cb14-111"><a href="#cb14-111" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>.fam: copy of the first 6 column of .ped</span>
-<span id="cb14-112"><a href="#cb14-112" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>.log: a log of what commands were run and what it printed</span>
-<span id="cb14-113"><a href="#cb14-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-114"><a href="#cb14-114" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb14-115"><a href="#cb14-115" aria-hidden="true" tabindex="-1"></a><span class="fu">## Minor Allele Frequencies</span></span>
-<span id="cb14-116"><a href="#cb14-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-117"><a href="#cb14-117" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Find the minor allele frequencies of your data and look at the head</span>
-<span id="cb14-118"><a href="#cb14-118" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash, maf, eval=FALSE}</span></span>
-<span id="cb14-119"><a href="#cb14-119" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--file</span> hapmap1 <span class="at">--freq</span> <span class="at">--out</span> maf</span>
-<span id="cb14-120"><a href="#cb14-120" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> maf.freq</span>
-<span id="cb14-121"><a href="#cb14-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-122"><a href="#cb14-122" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-123"><a href="#cb14-123" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>There are 6 columns </span>
-<span id="cb14-124"><a href="#cb14-124" aria-hidden="true" tabindex="-1"></a>1) Chromosome #</span>
-<span id="cb14-125"><a href="#cb14-125" aria-hidden="true" tabindex="-1"></a>2) SNP ID</span>
-<span id="cb14-126"><a href="#cb14-126" aria-hidden="true" tabindex="-1"></a>3) Minor Allele</span>
-<span id="cb14-127"><a href="#cb14-127" aria-hidden="true" tabindex="-1"></a>4) Major Allele</span>
-<span id="cb14-128"><a href="#cb14-128" aria-hidden="true" tabindex="-1"></a>5) Minor Allele Frequencies</span>
-<span id="cb14-129"><a href="#cb14-129" aria-hidden="true" tabindex="-1"></a>6) Number of Allele Observations</span>
-<span id="cb14-130"><a href="#cb14-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-131"><a href="#cb14-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-132"><a href="#cb14-132" aria-hidden="true" tabindex="-1"></a><span class="fu">## Run a GWAS</span></span>
-<span id="cb14-133"><a href="#cb14-133" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>When you "run a GWAS," it just means you're finding the association between your SNPs and the phenotypes.</span>
-<span id="cb14-134"><a href="#cb14-134" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In plink, you use the --assoc command to do this</span>
-<span id="cb14-135"><a href="#cb14-135" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Run a GWAS and look at the head</span>
-<span id="cb14-136"><a href="#cb14-136" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash, GWAS, eval=FALSE}</span></span>
-<span id="cb14-137"><a href="#cb14-137" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--file</span> hapmap1 <span class="at">--assoc</span> <span class="at">--out</span> as</span>
-<span id="cb14-138"><a href="#cb14-138" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> as.assoc</span>
-<span id="cb14-139"><a href="#cb14-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-140"><a href="#cb14-140" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-141"><a href="#cb14-141" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>There are 10 columns</span>
-<span id="cb14-142"><a href="#cb14-142" aria-hidden="true" tabindex="-1"></a>1) Chromosome #</span>
-<span id="cb14-143"><a href="#cb14-143" aria-hidden="true" tabindex="-1"></a>2) SNP ID</span>
-<span id="cb14-144"><a href="#cb14-144" aria-hidden="true" tabindex="-1"></a>3) Base pair</span>
-<span id="cb14-145"><a href="#cb14-145" aria-hidden="true" tabindex="-1"></a>4) Minor Allele</span>
-<span id="cb14-146"><a href="#cb14-146" aria-hidden="true" tabindex="-1"></a>5) Frequency of the minor allele in affected individuals</span>
-<span id="cb14-147"><a href="#cb14-147" aria-hidden="true" tabindex="-1"></a>6) Frequency of the minor allele in unaffected idividuals</span>
-<span id="cb14-148"><a href="#cb14-148" aria-hidden="true" tabindex="-1"></a>7) Major Allele</span>
-<span id="cb14-149"><a href="#cb14-149" aria-hidden="true" tabindex="-1"></a>8) Chi-squared statistic</span>
-<span id="cb14-150"><a href="#cb14-150" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>The difference between the data you observed and the data you expected under the null hypothesis</span>
-<span id="cb14-151"><a href="#cb14-151" aria-hidden="true" tabindex="-1"></a>9) P-value</span>
-<span id="cb14-152"><a href="#cb14-152" aria-hidden="true" tabindex="-1"></a>10) Odds ratio</span>
-<span id="cb14-153"><a href="#cb14-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-154"><a href="#cb14-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-155"><a href="#cb14-155" aria-hidden="true" tabindex="-1"></a><span class="fu">## Manhattan Plot </span></span>
-<span id="cb14-156"><a href="#cb14-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-157"><a href="#cb14-157" aria-hidden="true" tabindex="-1"></a>Now we will graph a Manhattan plot of our association data</span>
-<span id="cb14-158"><a href="#cb14-158" aria-hidden="true" tabindex="-1"></a>We will do this in R using the "qqman" package</span>
-<span id="cb14-159"><a href="#cb14-159" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> First, download qqman</span>
-<span id="cb14-160"><a href="#cb14-160" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, Manhattan, eval = FALSE}</span></span>
-<span id="cb14-161"><a href="#cb14-161" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(qqman)</span>
-<span id="cb14-162"><a href="#cb14-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-163"><a href="#cb14-163" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-164"><a href="#cb14-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-165"><a href="#cb14-165" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Read your association table and set it to a variable</span>
-<span id="cb14-166"><a href="#cb14-166" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=FALSE}</span></span>
-<span id="cb14-167"><a href="#cb14-167" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">read_table</span>(<span class="st">"/Users/&lt;username&gt;/..."</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-168"><a href="#cb14-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-169"><a href="#cb14-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-170"><a href="#cb14-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-171"><a href="#cb14-171" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Now if you try to plot mydata, R will give you an error because there are NA values in it.</span>
-<span id="cb14-172"><a href="#cb14-172" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>To get rid of the NA values, use the command *na.omit*</span>
-<span id="cb14-173"><a href="#cb14-173" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Take out the NA values</span>
-<span id="cb14-174"><a href="#cb14-174" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=FALSE}</span></span>
-<span id="cb14-175"><a href="#cb14-175" aria-hidden="true" tabindex="-1"></a>mydata2 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(mydata)</span>
-<span id="cb14-176"><a href="#cb14-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-177"><a href="#cb14-177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-178"><a href="#cb14-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Now you're ready to graph your manhattan plot!</span>
-<span id="cb14-179"><a href="#cb14-179" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=FALSE}</span></span>
-<span id="cb14-180"><a href="#cb14-180" aria-hidden="true" tabindex="-1"></a><span class="fu">manhattan</span>(mydata2)</span>
-<span id="cb14-181"><a href="#cb14-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-182"><a href="#cb14-182" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-183"><a href="#cb14-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-184"><a href="#cb14-184" aria-hidden="true" tabindex="-1"></a><span class="fu">## QQ Plot</span></span>
-<span id="cb14-185"><a href="#cb14-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-186"><a href="#cb14-186" aria-hidden="true" tabindex="-1"></a>the qq() function takes in a vector instead of a table.  </span>
-<span id="cb14-187"><a href="#cb14-187" aria-hidden="true" tabindex="-1"></a>When graphing our data in qq plots we use the p-values</span>
-<span id="cb14-188"><a href="#cb14-188" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Graph your p values</span>
-<span id="cb14-189"><a href="#cb14-189" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, qqplot, eval=FALSE}</span></span>
-<span id="cb14-190"><a href="#cb14-190" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(mydata2<span class="sc">$</span>P)</span>
-<span id="cb14-191"><a href="#cb14-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-192"><a href="#cb14-192" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-193"><a href="#cb14-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-194"><a href="#cb14-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-195"><a href="#cb14-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-196"><a href="#cb14-196" aria-hidden="true" tabindex="-1"></a>we will read the hapmap1.ped file. typically genotype files are too large to load into memory but in this example it takes 28MB, which is fine with current computers. As a rule of thumb (in a laptop with 16Gb of ram, try not to load files that are more than 1GB)</span>
-<span id="cb14-197"><a href="#cb14-197" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, eval=FALSE}</span></span>
-<span id="cb14-198"><a href="#cb14-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-199"><a href="#cb14-199" aria-hidden="true" tabindex="-1"></a>hapmap1_ped <span class="ot">=</span> <span class="fu">read_table</span>(<span class="st">"/Users/lvairus/Desktop/hapmap1/hapmap1.ped"</span>)</span>
-<span id="cb14-200"><a href="#cb14-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-201"><a href="#cb14-201" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="markdown" data-shortcodes="false"><code>---
+title: 'Hands-On Training: plink'
+author: ''
+date: '2020-07-14'
+slug: hands-on-training-plink
+categories:
+  - how_to
+tags: []
+---
+
+
+**LATEST VERSION IN https://bios25328.hakyimlab.org/post/2021/04/09/plink-tutorial/**
+
+## Basic Commands
+
+- here's a list of some of the basic commands you will learn about 
+- We will go more in depth for each one below
+
+Command       |       Function
+--------------|--------------------------------------
+--file        |       loads a file in ascii format
+--bfile       |       loads a file in binary format
+--make-bed    |       converts an ascii file to binary
+--out         |       specifies what you want to name your output
+--freq        |       generates minor allele frequencies
+
+A more detailed tutorial for GWAS analysis is [here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6001694/).
+
+
+## Introduction
+
+We will learn to run a GWAS using plink.  
+This tutorial follows a plink tutorial you can find [here](https://zzz.bwh.harvard.edu/plink/tutorial.shtml)
+
+- [ ] First, download plink into a new file /Users/&lt;username&gt;/demo/
+```{bash, download plink, eval=FALSE}
+DEMO="/Users/&lt;yourusername&gt;/demo"
+
+```
+
+- [ ] Download the [example data](https://zzz.bwh.harvard.edu/plink/hapmap1.zip) we will be using.  
+  - Note that this data is not real and is only intended to be used as an example for using plink.  
+
+Whenever running plink commands, you first have to indicate you're using plink by typing the full path to it.  
+
+- [ ] To avoid writing out the same path over and over again, we will define a variable that contains the path to plink.
+```{bash, plink path, eval=FALSE}
+plink="Users/&lt;username&gt;/demo/plink"
+
+```
+
+
+## PED and MAP files
+
+- PED and MAP files are plain text files that contain a table of part of your data
+- Together, they make up all of the data of the study you're doing
+
+- [ ] Look at the first few lines of your PED file by copy and pasting this command
+```{bash, ped head, eval=FALSE}
+cut -d ' ' -f  1-6  hapmap1.ped | head
+
+```
+- Each row represents a different individual.  
+- PED files start with 6 informative columns about each individual.  
+1) Family ID
+2) Individual ID
+3) Paternal ID
+4) Maternal ID
+5) Sex
+    - 1 = male, 2 = female, other = unknown
+6) Phenotype
+    - Can be quantitative or an affection status
+    - The default values for affection status is: 1 = unaffected, 2 = affected, 0 = missing, -9 = missing
+
+- Every column after these is the data for the individual's genotypes
+  - Each marker is biallelic, meaning there's two genotypes for each column, paternal and maternal.  
+
+- [ ] Now look at the beginning of your MAP file
+```{bash, map head, eval=FALSE}
+head hapmap1.map
+
+```
+- Each row represents a different SNP.
+- there are 4 informative columns.
+1) Chromosome #
+2) SNP identifier
+3) Genetic distance (in centimorgans)
+4) Base-pair position
+- every row here corresponds to a genotype column in the ped file to indicate the position of those genotypes
+  - the first row here corresponds to the first genotype column in the .ped (after the first ID-ing 6), the second row here to the next column there, and so on
+
+
+## Binary Files
+
+It's helpful to compress your data to speed up analysis and data processing  
+One way to do this is to convert your files to binary format
+
+- [ ] Convert your .ped and .map files to binary
+```{bash, binary, eval=FALSE}
+plink --file hapmap1 --make-bed --out hapmap1
+
+```
+These are the three plink commands we used:  
+- *--file hapmap1*: specifies that we want to use the hapmap1 files  
+- *--make-bed*: converts that file to binary  
+- *--out hapmap1*: names our output files hapmap1  
+    - if you don't specify a name for your output, it defaults to "plink"
+- If you look at your hapmap folder, you'll see four new files
+  - .bed: binary .ped
+  - .bim: binary .map
+  - .fam: copy of the first 6 column of .ped
+  - .log: a log of what commands were run and what it printed
+
+  
+## Minor Allele Frequencies
+
+- [ ] Find the minor allele frequencies of your data and look at the head
+```{bash, maf, eval=FALSE}
+plink --file hapmap1 --freq --out maf
+head maf.freq
+
+```
+- There are 6 columns 
+1) Chromosome #
+2) SNP ID
+3) Minor Allele
+4) Major Allele
+5) Minor Allele Frequencies
+6) Number of Allele Observations
+
+
+## Run a GWAS
+- When you "run a GWAS," it just means you're finding the association between your SNPs and the phenotypes.
+- In plink, you use the --assoc command to do this
+- [ ] Run a GWAS and look at the head
+```{bash, GWAS, eval=FALSE}
+plink --file hapmap1 --assoc --out as
+head as.assoc
+
+```
+- There are 10 columns
+1) Chromosome #
+2) SNP ID
+3) Base pair
+4) Minor Allele
+5) Frequency of the minor allele in affected individuals
+6) Frequency of the minor allele in unaffected idividuals
+7) Major Allele
+8) Chi-squared statistic
+    - The difference between the data you observed and the data you expected under the null hypothesis
+9) P-value
+10) Odds ratio
+
+
+## Manhattan Plot 
+
+Now we will graph a Manhattan plot of our association data
+We will do this in R using the "qqman" package
+- [ ] First, download qqman
+```{r, Manhattan, eval = FALSE}
+library(qqman)
+
+```
+
+- [ ] Read your association table and set it to a variable
+```{r, eval=FALSE}
+mydata &lt;- read_table("/Users/&lt;username&gt;/...", header = TRUE)
+
+```
+
+- Now if you try to plot mydata, R will give you an error because there are NA values in it.
+- To get rid of the NA values, use the command *na.omit*
+- [ ] Take out the NA values
+```{r, eval=FALSE}
+mydata2 &lt;- na.omit(mydata)
+
+```
+- [ ] Now you're ready to graph your manhattan plot!
+```{r, eval=FALSE}
+manhattan(mydata2)
+
+```
+
+## QQ Plot
+
+the qq() function takes in a vector instead of a table.  
+When graphing our data in qq plots we use the p-values
+- [ ] Graph your p values
+```{r, qqplot, eval=FALSE}
+qqplot(mydata2$P)
+
+```
+
+
+
+we will read the hapmap1.ped file. typically genotype files are too large to load into memory but in this example it takes 28MB, which is fine with current computers. As a rule of thumb (in a laptop with 16Gb of ram, try not to load files that are more than 1GB)
+```{r, eval=FALSE}
+
+hapmap1_ped = read_table("/Users/lvairus/Desktop/hapmap1/hapmap1.ped")
+
+```
+</code></pre>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
