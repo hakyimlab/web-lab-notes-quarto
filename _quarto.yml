@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Hakyimlab Notes"
+  title: "HakyImLab Notes"
   navbar:
     background: "#A9A9A9"
     google-analytics: "G-8SL8WKCMYZ"
@@ -15,7 +15,7 @@ website:
     type: overlay
     copy-button: true
   body-footer: |
-      © [Hae Kyung Im](https://hakyimlab.org) - [CC BY 4.0 License](https://creativecommons.org/licenses/by/4.0/)
+      © [HakyImLab and Listed Authors](https://hakyimlab.org) - [CC BY 4.0 License](https://creativecommons.org/licenses/by/4.0/)
   
 format:
   html:
