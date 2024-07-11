@@ -3,6 +3,8 @@ title: how to apply to F30/31 grants
 description: material collected by grad students at UChicago
 author: Jennifer Blanc, Eric McIntire
 date: 2024-07-11
+categories:
+  - how-to
 ---
 
 Jennifer and Erik created this resource to help  graduate students in genetics (HG, GGSB, etc) navigate the process of applying to F30/31 grants. With examples.

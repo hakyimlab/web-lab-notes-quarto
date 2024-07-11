@@ -15,7 +15,7 @@ website:
     type: overlay
     copy-button: true
   body-footer: |
-      © [HakyImLab and Listed Authors](https://hakyimlab.org) - [CC BY 4.0 License](https://creativecommons.org/licenses/by/4.0/)
+      © [HakyImLab and Listed Authors](https://hakyimlab.org) - [CC BY 4.0 License](https://creativecommons.org/licenses/by/4.0/) - Code licensed under MIT
   
 format:
   html:
