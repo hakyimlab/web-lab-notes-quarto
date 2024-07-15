@@ -10,8 +10,7 @@ categories:
 tags: []
 ---
 
-> now we use randi. https://randi-docs.cri.uchicago.edu/Randi%20Quick-Start-Guide/
-> gardner was decommissioned for a while now (2024-07-15)
+> this document needs updating. Here is a [quick start guide for randi](https://randi-docs.cri.uchicago.edu/Randi%20Quick-Start-Guide/), which replaced gardner was decommissioned for a while now (2024-07-15)
 
 
 
