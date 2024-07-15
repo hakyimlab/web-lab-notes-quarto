@@ -10,6 +10,11 @@ categories:
 tags: []
 ---
 
+> now we use randi. https://randi-docs.cri.uchicago.edu/Randi%20Quick-Start-Guide/
+> gardner was decommissioned for a while now (2024-07-15)
+
+
+
 ## Login  
 - Type `ssh username@gardner.cri.uchicago.edu`
 - Type in your password when prompted 
