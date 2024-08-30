@@ -382,14 +382,16 @@ qqunif(df %>% filter(chr!="1") %>% pull(trait),main="ratxcan genes chr!=1",BH=FA
 par(mfrow=c(1,1))
 
 
-
+qqunif(df_loco_chr01 %>% filter(chr=="1") %>% pull(trait),main="ratxcan GRM no chr1 - genes in chr1")
 
 ```
 
 
 ::: {.callout-warning}
 ## Take home
-removing chr1 from GRM negates the correction of ratxcan in chr1
+removing chr1 from GRM negates the correction of ratxcan in chr1.
 :::
+
+> phenotype was simulated to have a relatedness modeling random effect (covariance=GRM), no conexion to any of the genes. Any significant association should be considered false positive.
 
 

@@ -692,8 +692,14 @@ dbl (2): Variance, SE
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qqunif</span>(df_loco_chr01 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(chr<span class="sc">==</span><span class="st">"1"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(trait),<span class="at">main=</span><span class="st">"ratxcan GRM no chr1 - genes in chr1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/compare pvalues in chr 1 vs other chromosomes-3.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -705,9 +711,12 @@ Take home
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>removing chr1 from GRM negates the correction of ratxcan in chr1</p>
+<p>removing chr1 from GRM negates the correction of ratxcan in chr1.</p>
 </div>
 </div>
+<blockquote class="blockquote">
+<p>phenotype was simulated to have a relatedness modeling random effect (covariance=GRM), no conexion to any of the genes. Any significant association should be considered false positive.</p>
+</blockquote>
 
 
 <!-- -->
@@ -1382,16 +1391,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb29-383"><a href="#cb29-383" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
 <span id="cb29-384"><a href="#cb29-384" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-385"><a href="#cb29-385" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-386"><a href="#cb29-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-386"><a href="#cb29-386" aria-hidden="true" tabindex="-1"></a><span class="fu">qqunif</span>(df_loco_chr01 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(chr<span class="sc">==</span><span class="st">"1"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(trait),<span class="at">main=</span><span class="st">"ratxcan GRM no chr1 - genes in chr1"</span>)</span>
 <span id="cb29-387"><a href="#cb29-387" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-388"><a href="#cb29-388" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb29-389"><a href="#cb29-389" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-390"><a href="#cb29-390" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-391"><a href="#cb29-391" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
 <span id="cb29-392"><a href="#cb29-392" aria-hidden="true" tabindex="-1"></a><span class="fu">## Take home</span></span>
-<span id="cb29-393"><a href="#cb29-393" aria-hidden="true" tabindex="-1"></a>removing chr1 from GRM negates the correction of ratxcan in chr1</span>
+<span id="cb29-393"><a href="#cb29-393" aria-hidden="true" tabindex="-1"></a>removing chr1 from GRM negates the correction of ratxcan in chr1.</span>
 <span id="cb29-394"><a href="#cb29-394" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb29-395"><a href="#cb29-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-396"><a href="#cb29-396" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; phenotype was simulated to have a relatedness modeling random effect (covariance=GRM), no conexion to any of the genes. Any significant association should be considered false positive.</span></span>
+<span id="cb29-397"><a href="#cb29-397" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
