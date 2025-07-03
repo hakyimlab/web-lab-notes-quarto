@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Temi">
+<meta name="dcterms.date" content="2025-07-03">
 
-<title>HakyImLab Notes - Quick start</title>
+<title>HakyImLab Notes - How to use AlphaGenome to make predictions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -160,14 +162,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Quick start</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
-</div>
+<h1 class="title">How to use AlphaGenome to make predictions</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">how_to</div>
+  </div>
+  </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Temi </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 3, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -178,21 +195,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Welcome to the quick start guide for AlphaGenome! The goal of this tutorial notebook is to quickly get you started with using the model and making predictions.</p>
 <pre class="{tip}"><code>Open this tutorial in Google colab for interactive viewing.</code></pre>
 <div class="cell" data-cellview="form">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># @title Install AlphaGenome</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># @markdown Run this cell to install AlphaGenome.</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> clear_output</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="op">!</span> pip install alphagenome</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>clear_output()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <section id="imports" class="level2">
 <h2 class="anchored" data-anchor-id="imports">Imports</h2>
 <div class="cell">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alphagenome <span class="im">import</span> colab_utils</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alphagenome.data <span class="im">import</span> gene_annotation</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alphagenome.data <span class="im">import</span> genome</span>
@@ -203,7 +215,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alphagenome.visualization <span class="im">import</span> plot_components</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 <section id="predict-outputs-for-a-dna-sequence" class="level2">
@@ -211,17 +222,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>AlphaGenome is a model that makes predictions from DNA sequences. Let’s load it up:</p>
 <pre class="{tip}"><code>If using Google Colab, store your key in "Secrets" for persistent access across sessions (see [installation](https://www.alphagenomedocs.com/installation.html#google-colab)). Otherwise, `dna_client.create` can take the API key directly.</code></pre>
 <div class="cell">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dna_model <span class="op">=</span> dna_client.create(colab_utils.get_api_key())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>The model can make predictions for the following <a href="https://www.alphagenomedocs.com/exploring_model_metadata.html">output types</a>:</p>
 <div class="cell" data-outputid="35e70860-64b6-48a8-ae78-92c7a72e16e2">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>[output.name <span class="cf">for</span> output <span class="kw">in</span> dna_client.OutputType]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>['ATAC',
  'CAGE',
@@ -240,22 +245,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Here is how to make DNase-seq predictions (as specified by <code>OutputType</code>) in a subset of tracks corresponding to lung tissue (as specified by <code>ontology_terms</code>) for a short DNA sequence of length 2048:</p>
 <p><em>Note: We use ontology terms from standardized biological sources like UBERON (for anatomy) and the Cell Ontology (CL) to provide consistent and widely recognized classifications for tissue and cell types.</em></p>
 <div class="cell">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> dna_model.predict_sequence(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    sequence<span class="op">=</span><span class="st">'GATTACA'</span>.center(<span class="dv">2048</span>, <span class="st">'N'</span>),  <span class="co"># Pad to valid sequence length.</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    requested_outputs<span class="op">=</span>[dna_client.OutputType.DNASE],</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    ontology_terms<span class="op">=</span>[<span class="st">'UBERON:0002048'</span>],  <span class="co"># Lung.</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>The <code>output</code> object contains predictions for all the different requested output types (in this case, only output type <code>DNASE</code>). Predictions for genomic tracks are stored inside a <code>TrackData</code> object:</p>
 <div class="cell" data-outputid="f66c80ff-b7eb-46d5-8ccb-3655be29d3c6">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dnase <span class="op">=</span> output.dnase</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(dnase)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>alphagenome.data.track_data.TrackData</code></pre>
 </div>
@@ -264,12 +263,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="https://services.google.com/fh/files/misc/trackdata.png"><img src="https://services.google.com/fh/files/misc/trackdata.png" alt="trackdata" border="0" height="500"></a></p>
 <p>The predictions of shape <code>(sequence_length, num_tracks)</code> are stored in <code>.values</code>:</p>
 <div class="cell" data-outputid="b299abc9-aa77-4f89-f136-fd58337ec3a4">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dnase.values.shape)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>dnase.values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>(2048, 1)</code></pre>
 </div>
@@ -285,10 +281,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>And the corresponding metadata describing each of the tracks is stored in <code>.metadata</code>:</p>
 <div class="cell" data-outputid="593b0f7f-9ec4-4cd5-e005-f504b9c61f49">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dnase.metadata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="8">
 
   <div id="df-c55f8a4f-fb43-4d63-892b-82d3de181777" class="colab-df-container">
@@ -414,8 +407,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In this case, there is only one output track, so the track metadata returns only 1 row.</p>
 <p>The track metadata is especially useful when requesting predictions for multiple tissues or cell-types, and when dealing with stranded assays (which are assays with separate readouts for the two DNA strands, such as CAGE and RNA-seq):</p>
 <div class="cell" data-outputid="35b5b0d4-8cb9-4b32-9de7-afceccbcadbc">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> dna_model.predict_sequence(</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    sequence<span class="op">=</span><span class="st">'GATTACA'</span>.center(<span class="dv">2048</span>, <span class="st">'N'</span>),  <span class="co"># Pad to valid sequence length.</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    requested_outputs<span class="op">=</span>[</span>
@@ -430,7 +421,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'DNASE predictions shape: </span><span class="sc">{</span>output<span class="sc">.</span>dnase<span class="sc">.</span>values<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">'</span>)</span>
 <span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'CAGE predictions shape: </span><span class="sc">{</span>output<span class="sc">.</span>cage<span class="sc">.</span>values<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>DNASE predictions shape: (2048, 2)
 CAGE predictions shape: (2048, 4)</code></pre>
@@ -439,10 +429,7 @@ CAGE predictions shape: (2048, 4)</code></pre>
 <p>Notice that in this example, we requested predictions for 2 assays and 2 ontology terms simultaneously.</p>
 <p>The CAGE track metadata describes the strand and tissue of each of the 4 predicted tracks (2 per DNA strand):</p>
 <div class="cell" data-outputid="7388120b-0c6b-4863-ca42-4c783a11789e">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>output.cage.metadata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="10">
 
   <div id="df-1175e533-e8b2-4264-b7b3-fe6edf4998bf" class="colab-df-container">
@@ -720,8 +707,6 @@ CAGE predictions shape: (2048, 4)</code></pre>
 <p>For convenience, you can also directly make predictions for a human reference genome sequence specified by a <strong>genomic interval</strong>. For example, let’s predict RNA-seq for tissue ‘Right liver lobe’ in a 1MB region of Chromosome 19 around the gene <em>CYP2B6</em>, which encodes an enzyme involved in drug metabolism, and is primarily expressed in the liver.</p>
 <p>We first load up a GTF file containing gene and transcript locations as annotated by GENCODE (more information on GTF format <a href="https://www.gencodegenes.org/pages/data_format.html">here</a>):</p>
 <div class="cell">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The GTF file contains information on the location of all trancripts.</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that we use genome assembly hg38 for human.</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>gtf <span class="op">=</span> pd.read_feather(</span>
@@ -733,32 +718,22 @@ CAGE predictions shape: (2048, 4)</code></pre>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>gtf_transcripts <span class="op">=</span> gene_annotation.filter_protein_coding(gtf)</span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>gtf_transcripts <span class="op">=</span> gene_annotation.filter_to_longest_transcript(gtf_transcripts)</span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>transcript_extractor <span class="op">=</span> transcript_utils.TranscriptExtractor(gtf_transcripts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>And then fetch the gene’s location as a <code>genome.Interval</code> object by passing either its <code>gene_symbol</code> (HGNC naming convention) or ENSEMBL <code>gene_id</code>:</p>
 <div class="cell" data-outputid="4797853a-3684-4e5d-a79f-b9547b346abf">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>interval <span class="op">=</span> gene_annotation.get_gene_interval(gtf, gene_symbol<span class="op">=</span><span class="st">'CYP2B6'</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>interval</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>Interval(chromosome='chr19', start=40991281, end=41018398, strand='+', name='CYP2B6')</code></pre>
 </div>
 </div>
 <p>We can resize it to a length compatible with the model:</p>
 <div class="cell">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>interval <span class="op">=</span> interval.resize(dna_client.SEQUENCE_LENGTH_1MB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>The <code>.resize()</code> method adjusts the interval to the specified width by expanding (or contracting) around its original center. Note that <code>dna_model.predict_interval()</code> interprets this resizing as an expansion of the actual genomic sequence rather than padding tokens.</p>
 <div class="cell" data-outputid="6dd94e69-543c-485c-b31e-ba7526280c54">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>interval.width</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>1048576</code></pre>
 </div>
@@ -766,18 +741,13 @@ CAGE predictions shape: (2048, 4)</code></pre>
 <p>See the <a href="https://www.alphagenomedocs.com/colabs/essential_commands.html">essential commands documentation</a> for more handy commands like <code>resize</code>.</p>
 <p>Note that AlphaGenome supports the following input sequence lengths:</p>
 <div class="cell" data-outputid="26d04ddd-3796-4341-db88-f74151340c0b">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>dna_client.SUPPORTED_SEQUENCE_LENGTHS.keys()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>dict_keys(['SEQUENCE_LENGTH_2KB', 'SEQUENCE_LENGTH_16KB', 'SEQUENCE_LENGTH_100KB', 'SEQUENCE_LENGTH_500KB', 'SEQUENCE_LENGTH_1MB'])</code></pre>
 </div>
 </div>
 <p>We can now make predictions using our interval:</p>
 <div class="cell" data-outputid="57ccb4ec-19c0-48df-da61-29bb4222b14b">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> dna_model.predict_interval(</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    interval<span class="op">=</span>interval,</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    requested_outputs<span class="op">=</span>[dna_client.OutputType.RNA_SEQ],</span>
@@ -785,7 +755,6 @@ CAGE predictions shape: (2048, 4)</code></pre>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># Right liver lobe.</span></span>
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>output.rna_seq.values.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>(1048576, 3)</code></pre>
 </div>
@@ -793,19 +762,14 @@ CAGE predictions shape: (2048, 4)</code></pre>
 <p>In general, you can have multiple tracks for a given ontology term. In this case, we have 3 RNA-seq tracks for the tissue “Right liver lobe”.</p>
 <p>Let’s visualise these predictions. It’s helpful visualise gene transcripts alongside the predicted tracks, so we extract them here:</p>
 <div class="cell" data-outputid="d7e701a4-dbb2-4094-9b7e-3883e5a37021">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>longest_transcripts <span class="op">=</span> transcript_extractor.extract(interval)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Extracted </span><span class="sc">{</span><span class="bu">len</span>(longest_transcripts)<span class="sc">}</span><span class="ss"> transcripts in this interval.'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Extracted 29 transcripts in this interval.</code></pre>
 </div>
 </div>
 <p>We also provide a <a href="https://www.alphagenomedocs.com/visualization_library_basics.html">visualization basics guide</a> that integrates nicely with <code>TrackData</code> and other objects returned by the model API.</p>
 <div class="cell" data-outputid="56e70030-bd67-4c8e-e787-274945378e4a">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>plot_components.plot(</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    components<span class="op">=</span>[</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>        plot_components.TranscriptAnnotation(longest_transcripts),</span>
@@ -815,7 +779,6 @@ CAGE predictions shape: (2048, 4)</code></pre>
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
 </div>
@@ -823,8 +786,6 @@ CAGE predictions shape: (2048, 4)</code></pre>
 <p>This plot visualises the 3 predicted RNA-seq tracks and also marks the location of the longest transcript per gene in the 1MB region.</p>
 <p>We can zoom in to the middle of the plot by resizing the interval:</p>
 <div class="cell" data-outputid="43cf3376-5b0a-4f2e-ec3b-9f51b2e9e9de">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>plot_components.plot(</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    components<span class="op">=</span>[</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>        plot_components.TranscriptAnnotation(</span>
@@ -836,7 +797,6 @@ CAGE predictions shape: (2048, 4)</code></pre>
 <span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-20-output-1.png" class="img-fluid"></p>
 </div>
@@ -849,39 +809,28 @@ CAGE predictions shape: (2048, 4)</code></pre>
 <p>We can predict the effect of a variant on a specific output type and tissue by making predictions for the reference (REF) and alternative (ALT) allele sequences.</p>
 <p>We specify the variant by defining a <code>genome.Variant</code> object. The specific variant below is a known variant affecting gene expression in colon tissue:</p>
 <div class="cell">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>variant <span class="op">=</span> genome.Variant(</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    chromosome<span class="op">=</span><span class="st">'chr22'</span>,</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    position<span class="op">=</span><span class="dv">36201698</span>,</span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    reference_bases<span class="op">=</span><span class="st">'A'</span>,  <span class="co"># Can differ from the true reference genome base.</span></span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    alternate_bases<span class="op">=</span><span class="st">'C'</span>,</span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>Next, we define the interval over which to make the REF and ALT predictions. A quick way to get a <code>genome.Interval</code> from a <code>genome.Variant</code> is by calling <code>.reference_interval</code>, which we can resize to a model-compatible sequence length:</p>
 <div class="cell">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>interval <span class="op">=</span> variant.reference_interval.resize(dna_client.SEQUENCE_LENGTH_1MB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>We then use <code>predict_variant</code> to get the REF and ALT RNA-seq predictions in the interval for “Colon - Transverse” tissue (<code>UBERON:0001157</code>):</p>
 <div class="cell">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>variant_output <span class="op">=</span> dna_model.predict_variant(</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    interval<span class="op">=</span>interval,</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    variant<span class="op">=</span>variant,</span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    requested_outputs<span class="op">=</span>[dna_client.OutputType.RNA_SEQ],</span>
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    ontology_terms<span class="op">=</span>[<span class="st">'UBERON:0001157'</span>],</span>
 <span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># Colon - Transverse.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>We can plot the predicted REF and ALT values as a single plot and zoom in on the affected gene to better visualise the variant’s effect on gene expression:</p>
 <div class="cell" data-outputid="ba72c94a-7acf-45e8-e6a4-969083b2f5fa">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>longest_transcripts <span class="op">=</span> transcript_extractor.extract(interval)</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>plot_components.plot(</span>
@@ -900,7 +849,6 @@ CAGE predictions shape: (2048, 4)</code></pre>
 <span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    annotations<span class="op">=</span>[plot_components.VariantAnnotation([variant], alpha<span class="op">=</span><span class="fl">0.8</span>)],</span>
 <span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-24-output-1.png" class="img-fluid"></p>
 </div>
@@ -912,32 +860,23 @@ CAGE predictions shape: (2048, 4)</code></pre>
 <p>Scoring the effect of a genetic variant involves making predictions for the REF and ALT sequences and aggregating the track signal. This is implemented in <code>score_variant</code>, which uses specific <code>variant_scorer</code> configs for aggregation.</p>
 <p>We provide a set of recommended variant scoring configurations as a dictionary (<code>variant_scorers.RECOMMENDED_VARIANT_SCORERS</code>), covering all output types, which we have assessed for their performance at domain-specific tasks. See the <a href="https://www.alphagenomedocs.com/variant_scoring.html">variant scoring documentation</a> for more information. Here is a quick demo:</p>
 <div class="cell">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>variant_scorer <span class="op">=</span> variant_scorers.RECOMMENDED_VARIANT_SCORERS[<span class="st">'RNA_SEQ'</span>]</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>variant_scores <span class="op">=</span> dna_model.score_variant(</span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    interval<span class="op">=</span>interval, variant<span class="op">=</span>variant, variant_scorers<span class="op">=</span>[variant_scorer]</span>
 <span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>The returned <code>variant_scores</code> is a list of length 1 because we only specified 1 scorer:</p>
 <div class="cell" data-outputid="632143ef-17f8-42b5-86e1-9a03adb7f55c">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(variant_scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="26">
 <pre><code>1</code></pre>
 </div>
 </div>
 <p>The actual scores per variant are in <code>AnnData</code> format, which is a way of annotating data (the numerical scores) with additional information about the rows and columns.</p>
 <div class="cell" data-outputid="63ba8c79-e7f2-42d3-8ada-0364c953cc30">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>variant_scores <span class="op">=</span> variant_scores[<span class="dv">0</span>]</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>variant_scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="27">
 <pre><code>AnnData object with n_obs × n_vars = 37 × 667
     obs: 'gene_id', 'strand', 'gene_name', 'gene_type'
@@ -950,20 +889,14 @@ CAGE predictions shape: (2048, 4)</code></pre>
 <p><a href="https://services.google.com/fh/files/misc/anndata.png"><img src="https://services.google.com/fh/files/misc/anndata.png" alt="anndata" border="0" height="500"></a></p>
 <p>We have a variant effect score for each of the 37 genes in the interval and each of the 667 <code>RNA_SEQ</code> tracks:</p>
 <div class="cell" data-outputid="6a60501e-03f6-431f-dcb7-6d88ed28cc66">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>variant_scores.X.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="28">
 <pre><code>(37, 667)</code></pre>
 </div>
 </div>
 <p>We can access information on the 37 genes using <code>.obs</code>. Here are just first 5 genes:</p>
 <div class="cell" data-outputid="06c23cfe-32b0-44dc-e06f-914c6ff75f09">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>variant_scores.obs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="29">
 
   <div id="df-0aa514fa-d14e-435c-8d43-a2f3a98e1dfd" class="colab-df-container">
@@ -1229,10 +1162,7 @@ CAGE predictions shape: (2048, 4)</code></pre>
 <p>Note that if you are using a variant scorer that is not gene-specific (i.e., a <code>variant_scorers.CenterMaskScorer</code>), then <code>variant_scores.X</code> would have shape <code>(1, 667)</code> and there will be no gene metadata available since there is no concept of genes in this scenario.</p>
 <p>The description of each track is accessed using <code>.var</code> (this is the same dataframe as the output metadata, but is included alongside the variant scores for convenience):</p>
 <div class="cell" data-outputid="59c3ecf9-3567-46fe-e84b-ec7eb0fdd5db">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>variant_scores.var</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="30">
 
   <div id="df-6e1d2835-1e6a-4ac7-8282-20a21a89ef46" class="colab-df-container">
@@ -1624,12 +1554,9 @@ CAGE predictions shape: (2048, 4)</code></pre>
 </div>
 <p>Some handy additional metadata can be found in <code>.uns</code>:</p>
 <div class="cell" data-outputid="c6013fe3-8492-4734-a3d3-51821128b356">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Interval: </span><span class="sc">{</span>variant_scores<span class="sc">.</span>uns[<span class="st">"interval"</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Variant: </span><span class="sc">{</span>variant_scores<span class="sc">.</span>uns[<span class="st">"variant"</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Variant scorer: </span><span class="sc">{</span>variant_scores<span class="sc">.</span>uns[<span class="st">"variant_scorer"</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Interval: chr22:35677410-36725986:.
 Variant: chr22:36201698:A&gt;C
@@ -1639,11 +1566,8 @@ Variant scorer: GeneMaskLFCScorer(requested_output=RNA_SEQ)</code></pre>
 <p>We recommend interacting with variant scores by flattening <code>AnnData</code> objects using <code>tidy_scores</code>, which produces a dataframe with each row being a single score for each combination of (variant, gene, scorer, ontology). It optionally excludes stranded tracks which do not match the gene’s strand for gene-specific scorer.</p>
 <p>The <code>raw_score</code> column contains the same values as stored in <code>variant_scores.X</code>. The <code>quantile_score</code> column is the rank of the <code>raw_score</code> in the distribution of scores for a background set of common variants, represented as a quantile probability. This allows for direct comparison across variant scoring strategies that yield scores on different scales. See <a href="https://www.alphagenomedocs.com/faqs.html#what-is-the-difference-between-a-quantile-score-and-raw-score">FAQs</a> for further details.</p>
 <div class="cell" data-executioninfo="{&quot;elapsed&quot;:525,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1750435569393,&quot;user&quot;:{&quot;displayName&quot;:&quot;&quot;,&quot;userId&quot;:&quot;&quot;},&quot;user_tz&quot;:420}" data-outputid="2c0a8f0a-055a-4b3d-cbff-c915ac8dc9c5">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>variant_scorers.tidy_scores([variant_scores], match_gene_strand<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="119">
 
   <div id="df-f6200eff-319b-485b-b883-c8e71462f027" class="colab-df-container">
@@ -2137,38 +2061,29 @@ Variant scorer: GeneMaskLFCScorer(requested_output=RNA_SEQ)</code></pre>
 <p><a href="https://services.google.com/fh/files/misc/ism_green_v2.png"><img src="https://services.google.com/fh/files/misc/ism_green_v2.png" alt="ISM" border="0" height="500"></a></p>
 <p>We define an <code>ism_interval</code>, which is a relatively small region of DNA that we want to systematically mutate. We also define the <code>sequence_interval</code>, which is the contextual interval the model will use when making predictions for each variant.</p>
 <div class="cell">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2KB DNA sequence to use as context when making predictions.</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>sequence_interval <span class="op">=</span> genome.Interval(<span class="st">'chr20'</span>, <span class="dv">3_753_000</span>, <span class="dv">3_753_400</span>)</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>sequence_interval <span class="op">=</span> sequence_interval.resize(dna_client.SEQUENCE_LENGTH_2KB)</span>
 <span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Mutate all bases in the central 256-base region of the sequence_interval.</span></span>
 <span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>ism_interval <span class="op">=</span> sequence_interval.resize(<span class="dv">256</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>Next, we define the scorer we want to use to score each of the ISM variants. Here, we use a center mask scorer on predicted <code>DNASE</code> values, which will score each variant’s effect on DNA accessibility in the 500bp vicinity. See the <a href="https://www.alphagenomedocs.com/variant_scoring.html">variant scoring documentation</a> for more information on variant scoring.</p>
 <div class="cell">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>dnase_variant_scorer <span class="op">=</span> variant_scorers.CenterMaskScorer(</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    requested_output<span class="op">=</span>dna_client.OutputType.DNASE,</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">501</span>,</span>
 <span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    aggregation_type<span class="op">=</span>variant_scorers.AggregationType.DIFF_MEAN,</span>
 <span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>Finally, we can use <code>score_variants</code> (notice the plural s) to score all variants.</p>
 <p>Note that this operation is quite expensive. For speed reasons, we recommend using shorter input sequences for the contextual <code>sequence_interval</code> and narrower <code>ism_interval</code> regions to mutate if possible.</p>
 <div class="cell" data-outputid="f7f42ee0-cadd-475a-ba48-bb911e61405e">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>variant_scores <span class="op">=</span> dna_model.score_ism_variants(</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    interval<span class="op">=</span>sequence_interval,</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    ism_interval<span class="op">=</span>ism_interval,</span>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    variant_scorers<span class="op">=</span>[dnase_variant_scorer],</span>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id":"1bc02ebfff8b4e719380e07ddc8663bb","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
@@ -2177,21 +2092,15 @@ Variant scorer: GeneMaskLFCScorer(requested_output=RNA_SEQ)</code></pre>
 </div>
 <p>The length of the returned <code>variant_scores</code> is 768, since we scored 768 variants (256 positions * 3 alternative bases per position):</p>
 <div class="cell" data-outputid="07994783-145b-43ec-fbfc-a616f7ae0dc9">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(variant_scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="36">
 <pre><code>768</code></pre>
 </div>
 </div>
 <p>Each variant has scores of shape <code>(1, 305)</code>, reflecting the fact that we are not using a gene-centric scorer and that there are 305 <code>DNASE</code> tracks:</p>
 <div class="cell" data-outputid="e937d291-b700-477c-ad7d-e61d5a7afabb">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Index into first variant and first scorer.</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>variant_scores[<span class="dv">0</span>][<span class="dv">0</span>].X.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="37">
 <pre><code>(1, 305)</code></pre>
 </div>
@@ -2199,8 +2108,6 @@ Variant scorer: GeneMaskLFCScorer(requested_output=RNA_SEQ)</code></pre>
 <p>To understand which positions are most influential in the predictions, we can visualize these scores using a sequence logo. This requires summarizing the scores into a single scalar value per variant.</p>
 <p>As an example, let’s extract the DNASE score for just the K562 cell line, a widely used experimental model. Alternatively, you could average across multiple tissues to obtain a single scalar value.</p>
 <div class="cell">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_k562(adata):</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  values <span class="op">=</span> adata.X[:, adata.var[<span class="st">'ontology_curie'</span>] <span class="op">==</span> <span class="st">'EFO:0002067'</span>]</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">assert</span> values.size <span class="op">==</span> <span class="dv">1</span></span>
@@ -2211,23 +2118,17 @@ Variant scorer: GeneMaskLFCScorer(requested_output=RNA_SEQ)</code></pre>
 <span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    [extract_k562(x[<span class="dv">0</span>]) <span class="cf">for</span> x <span class="kw">in</span> variant_scores],</span>
 <span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>    variants<span class="op">=</span>[v[<span class="dv">0</span>].uns[<span class="st">'variant'</span>] <span class="cf">for</span> v <span class="kw">in</span> variant_scores],</span>
 <span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>The shape of <code>ism_result</code> is <code>(256, 4</code>) since we have 1 score per position per each of the 4 DNA bases.</p>
 <p>Note that in this case, our call to <code>ism.ism_matrix()</code> had the argument <code>multiply_by_sequence</code> set to ‘True’, so the output array contains non-zero values only for the bases corresponding to the reference sequence.</p>
 <div class="cell" data-outputid="e9103b13-6b66-4612-aef7-a1ce0ec5f192">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>ism_result.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="39">
 <pre><code>(256, 4)</code></pre>
 </div>
 </div>
 <p>Finally, we plot the contribution scores as a sequence logo:</p>
 <div class="cell" data-outputid="3bbd720c-61a3-418b-fb58-3b90c3ad2435">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>plot_components.plot(</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    [</span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>        plot_components.SeqLogo(</span>
@@ -2241,7 +2142,6 @@ Variant scorer: GeneMaskLFCScorer(requested_output=RNA_SEQ)</code></pre>
 <span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-40-output-1.png" class="img-fluid"></p>
 </div>
@@ -2254,20 +2154,15 @@ Variant scorer: GeneMaskLFCScorer(requested_output=RNA_SEQ)</code></pre>
 <p>So far, this notebook has focused on predictions for human (<code>Organism.HOMO_SAPIENS</code>). To generate predictions for mouse, specify the organism as <code>Organism.MUS_MUSCULUS</code> instead. Please note that the supported ontology terms differ between species.</p>
 <p>The following example demonstrates how to call <code>predict_sequence</code> for mouse predictions:</p>
 <div class="cell">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> dna_model.predict_sequence(</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>    sequence<span class="op">=</span><span class="st">'GATTACA'</span>.center(<span class="dv">2048</span>, <span class="st">'N'</span>),  <span class="co"># Pad to valid sequence length.</span></span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>    organism<span class="op">=</span>dna_client.Organism.MUS_MUSCULUS,</span>
 <span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>    requested_outputs<span class="op">=</span>[dna_client.OutputType.DNASE],</span>
 <span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>    ontology_terms<span class="op">=</span>[<span class="st">'UBERON:0002048'</span>],  <span class="co"># Lung.</span></span>
 <span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>And here is an example of calling <code>predict_interval</code> for a mouse genomic interval:</p>
 <div class="cell" data-executioninfo="{&quot;elapsed&quot;:515,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1749822142263,&quot;user&quot;:{&quot;displayName&quot;:&quot;&quot;,&quot;userId&quot;:&quot;&quot;},&quot;user_tz&quot;:-60}" data-outputid="6c990e68-22a0-43cb-95f5-bce28ca4b265">
-<details>
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>interval <span class="op">=</span> genome.Interval(<span class="st">'chr1'</span>, <span class="dv">3_000_000</span>, <span class="dv">3_000_001</span>).resize(</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    dna_client.SEQUENCE_LENGTH_1MB</span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -2280,7 +2175,6 @@ Variant scorer: GeneMaskLFCScorer(requested_output=RNA_SEQ)</code></pre>
 <span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>output.rna_seq.values.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>(1048576, 3)</code></pre>
 </div>
