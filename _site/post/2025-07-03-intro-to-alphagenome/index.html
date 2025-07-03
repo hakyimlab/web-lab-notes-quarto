@@ -95,10 +95,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -146,14 +142,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#imports" id="toc-imports" class="nav-link active" data-scroll-target="#imports">Imports</a></li>
-  <li><a href="#predict-outputs-for-a-dna-sequence" id="toc-predict-outputs-for-a-dna-sequence" class="nav-link" data-scroll-target="#predict-outputs-for-a-dna-sequence">Predict outputs for a DNA sequence</a></li>
-  <li><a href="#predict-outputs-for-a-genome-interval-reference-genome" id="toc-predict-outputs-for-a-genome-interval-reference-genome" class="nav-link" data-scroll-target="#predict-outputs-for-a-genome-interval-reference-genome">Predict outputs for a genome interval (reference genome)</a></li>
-  <li><a href="#predict-variant-effects" id="toc-predict-variant-effects" class="nav-link" data-scroll-target="#predict-variant-effects">Predict variant effects</a></li>
-  <li><a href="#scoring-the-effect-of-a-genetic-variant" id="toc-scoring-the-effect-of-a-genetic-variant" class="nav-link" data-scroll-target="#scoring-the-effect-of-a-genetic-variant">Scoring the effect of a genetic variant</a></li>
-  <li><a href="#highlighting-important-regions-with-in-silico-mutagenesis" id="toc-highlighting-important-regions-with-in-silico-mutagenesis" class="nav-link" data-scroll-target="#highlighting-important-regions-with-in-silico-mutagenesis">Highlighting important regions with <em>in silico</em> mutagenesis</a></li>
-  <li><a href="#making-mouse-predictions" id="toc-making-mouse-predictions" class="nav-link" data-scroll-target="#making-mouse-predictions">Making mouse predictions</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#sources" id="toc-sources" class="nav-link active" data-scroll-target="#sources">Sources</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#software-environment" id="toc-software-environment" class="nav-link" data-scroll-target="#software-environment">Software environment</a></li>
+  </ul></li>
+  <li><a href="#making-predictions" id="toc-making-predictions" class="nav-link" data-scroll-target="#making-predictions">Making predictions</a>
+  <ul class="collapse">
+  <li><a href="#make-predictions-on-a-dna-sequence-or-list-of-dna-sequences" id="toc-make-predictions-on-a-dna-sequence-or-list-of-dna-sequences" class="nav-link" data-scroll-target="#make-predictions-on-a-dna-sequence-or-list-of-dna-sequences">Make predictions on a DNA sequence or list of DNA sequences</a></li>
+  <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting">Plotting</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -192,2005 +190,284 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>Welcome to the quick start guide for AlphaGenome! The goal of this tutorial notebook is to quickly get you started with using the model and making predictions.</p>
-<pre class="{tip}"><code>Open this tutorial in Google colab for interactive viewing.</code></pre>
-<div class="cell" data-cellview="form">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># @title Install AlphaGenome</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># @markdown Run this cell to install AlphaGenome.</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> clear_output</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="op">!</span> pip install alphagenome</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>clear_output()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="imports" class="level2">
-<h2 class="anchored" data-anchor-id="imports">Imports</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alphagenome <span class="im">import</span> colab_utils</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alphagenome.data <span class="im">import</span> gene_annotation</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alphagenome.data <span class="im">import</span> genome</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alphagenome.data <span class="im">import</span> transcript <span class="im">as</span> transcript_utils</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alphagenome.interpretation <span class="im">import</span> ism</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alphagenome.models <span class="im">import</span> dna_client</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alphagenome.models <span class="im">import</span> variant_scorers</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alphagenome.visualization <span class="im">import</span> plot_components</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="sources" class="level1">
+<h1>Sources</h1>
+<p>There is a more comprehensive set of tutorials [here] (https://www.alphagenomedocs.com/colabs/quick_start.html) that cover many usage options.</p>
 </section>
-<section id="predict-outputs-for-a-dna-sequence" class="level2">
-<h2 class="anchored" data-anchor-id="predict-outputs-for-a-dna-sequence">Predict outputs for a DNA sequence</h2>
-<p>AlphaGenome is a model that makes predictions from DNA sequences. Let’s load it up:</p>
-<pre class="{tip}"><code>If using Google Colab, store your key in "Secrets" for persistent access across sessions (see [installation](https://www.alphagenomedocs.com/installation.html#google-colab)). Otherwise, `dna_client.create` can take the API key directly.</code></pre>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>This notebook describes how you could make predictions with AlphaGenome. First, you need to obtain an API key which detailed here <a href="https://alphagenome.com/docs/quickstart/quickstart.html#obtaining-an-api-key">here</a>.</p>
+<section id="software-environment" class="level2">
+<h2 class="anchored" data-anchor-id="software-environment">Software environment</h2>
+<p>If you are not on a Colab notebook, you can install the required packages using the following command:</p>
+<pre><code>conda create -p ./alphagenome-env python=3.11
+conda activate alphagenome-env
+pip install alphagenome</code></pre>
+<p>There are other ways <a href="https://www.alphagenomedocs.com/installation.html">here</a></p>
+</section>
+</section>
+<section id="making-predictions" class="level1">
+<h1>Making predictions</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dna_model <span class="op">=</span> dna_client.create(colab_utils.get_api_key())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import the neccesary libraries</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alphagenome.data <span class="im">import</span> genome</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alphagenome.models <span class="im">import</span> dna_client</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> alphagenome.visualization <span class="im">import</span> plot_components</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/Users/temidayoadeluwa/Work/software/conda_envs/alphagenome-env/lib/python3.11/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.27.2 is exactly one major version older than the runtime version 6.31.1 at alphagenome/protos/dna_model.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
+  warnings.warn(
+/Users/temidayoadeluwa/Work/software/conda_envs/alphagenome-env/lib/python3.11/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.27.2 is exactly one major version older than the runtime version 6.31.1 at alphagenome/protos/tensor.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
+  warnings.warn(
+/Users/temidayoadeluwa/Work/software/conda_envs/alphagenome-env/lib/python3.11/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm</code></pre>
 </div>
-<p>The model can make predictions for the following <a href="https://www.alphagenomedocs.com/exploring_model_metadata.html">output types</a>:</p>
-<div class="cell" data-outputid="35e70860-64b6-48a8-ae78-92c7a72e16e2">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>[output.name <span class="cf">for</span> output <span class="kw">in</span> dna_client.OutputType]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use your api key here to get the model</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>API_KEY <span class="op">=</span> <span class="st">'&lt;&lt; insert your API key here'</span> <span class="co">#AIzaSyB1t8L2Pt1ifgRB0pw8Iu_F41TLM50ohvE'</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># get the model</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>alphagenome_model <span class="op">=</span> dna_client.create(API_KEY)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="make-predictions-on-a-dna-sequence-or-list-of-dna-sequences" class="level2">
+<h2 class="anchored" data-anchor-id="make-predictions-on-a-dna-sequence-or-list-of-dna-sequences">Make predictions on a DNA sequence or list of DNA sequences</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># alphagenome typically takes in a sequence of DNA of length  ~1mb</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># you can get the exact number by runing</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"AlphaGenome typically takes in a sequence length of </span><span class="sc">{</span>dna_client<span class="sc">.</span>SEQUENCE_LENGTH_1MB<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># however, the model can also predict on sequences shorter than specifically [2048, 16384, 131072, 524288] </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>AlphaGenome typically takes in a sequence length of 1048576</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you can use this code to create a random sequence of DNA</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_random_dna_sequence(length):</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> np.random.choice([<span class="st">'A'</span>, <span class="st">'T'</span>, <span class="st">'C'</span>, <span class="st">'G'</span>], size<span class="op">=</span>length)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">''</span>.join(out)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># e.g. </span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>create_random_dna_sequence(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>['ATAC',
- 'CAGE',
- 'DNASE',
- 'RNA_SEQ',
- 'CHIP_HISTONE',
- 'CHIP_TF',
- 'SPLICE_SITES',
- 'SPLICE_SITE_USAGE',
- 'SPLICE_JUNCTIONS',
- 'CONTACT_MAPS',
- 'PROCAP']</code></pre>
+<pre><code>'GCCTAGTCAC'</code></pre>
 </div>
 </div>
-<p>AlphaGenome predicts multiple ‘tracks’ per output type, covering a wide variety of tissues and cell-types. However, predictions can be made efficiently for subsets of interest.</p>
-<p>Here is how to make DNase-seq predictions (as specified by <code>OutputType</code>) in a subset of tracks corresponding to lung tissue (as specified by <code>ontology_terms</code>) for a short DNA sequence of length 2048:</p>
-<p><em>Note: We use ontology terms from standardized biological sources like UBERON (for anatomy) and the Cell Ontology (CL) to provide consistent and widely recognized classifications for tissue and cell types.</em></p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first create the seqence you want to predict on</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ideally you would want to obtain this from say the reference genome</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>input_sequence <span class="op">=</span> create_random_dna_sequence(dna_client.SEQUENCE_LENGTH_1MB)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Input sequence length: </span><span class="sc">{</span><span class="bu">len</span>(input_sequence)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Input sequence length: 1048576</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you can use this to check the supported sequence lengths</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>dna_client.SUPPORTED_SEQUENCE_LENGTHS</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="61">
+<pre><code>{'SEQUENCE_LENGTH_2KB': 2048,
+ 'SEQUENCE_LENGTH_16KB': 16384,
+ 'SEQUENCE_LENGTH_100KB': 131072,
+ 'SEQUENCE_LENGTH_500KB': 524288,
+ 'SEQUENCE_LENGTH_1MB': 1048576}</code></pre>
+</div>
+</div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> dna_model.predict_sequence(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    sequence<span class="op">=</span><span class="st">'GATTACA'</span>.center(<span class="dv">2048</span>, <span class="st">'N'</span>),  <span class="co"># Pad to valid sequence length.</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    requested_outputs<span class="op">=</span>[dna_client.OutputType.DNASE],</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    ontology_terms<span class="op">=</span>[<span class="st">'UBERON:0002048'</span>],  <span class="co"># Lung.</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># now you can make predictions on the sequence</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the important arguments are</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. the sequence you want to predict on</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. the requested outputs you want to obtain</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> alphagenome_model.predict_sequence(</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    sequence <span class="op">=</span> input_sequence,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    requested_outputs<span class="op">=</span>[dna_client.OutputType.RNA_SEQ,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                           dna_client.OutputType.CHIP_TF,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                           dna_client.OutputType.ATAC,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                           dna_client.OutputType.CAGE,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                           dna_client.OutputType.CHIP_HISTONE,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>                           dna_client.OutputType.CONTACT_MAPS,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>                           dna_client.OutputType.DNASE,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>                           dna_client.OutputType.PROCAP],</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>     ontology_terms<span class="op">=</span>[] <span class="co"># this can be an empty list                      </span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The <code>output</code> object contains predictions for all the different requested output types (in this case, only output type <code>DNASE</code>). Predictions for genomic tracks are stored inside a <code>TrackData</code> object:</p>
-<div class="cell" data-outputid="f66c80ff-b7eb-46d5-8ccb-3655be29d3c6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dnase <span class="op">=</span> output.dnase</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(dnase)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<p>You can find the list of available outputs and ontologies <a href="https://www.alphagenomedocs.com/colabs/tissue_ontology_mapping.html">here</a></p>
+<p>If you wanted to make predictions for a list of DNA sequences, you can use the following code:</p>
+<pre><code>alphagenome_model.predict_sequences(sequences = [list of sequences], ...)</code></pre>
+<p>What does the output look like?</p>
+<p>It is an <code>alphagenome.models.dna_output.Output</code> object.</p>
+<p>It contains the following attributes:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you can access the following attributes of the output object</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># some of them are functions that may map to the entire object e.g. to filter or calulate statistics</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># some lead you to the actual data you want to visualize or analyze i.e. the profiles you requested predictions for</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>[f <span class="cf">for</span> f <span class="kw">in</span> <span class="bu">dir</span>(output) <span class="cf">if</span> <span class="kw">not</span> f.startswith(<span class="st">'__'</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<pre><code>['atac',
+ 'cage',
+ 'chip_histone',
+ 'chip_tf',
+ 'contact_maps',
+ 'dnase',
+ 'filter_ontology_terms',
+ 'filter_output_type',
+ 'filter_to_strand',
+ 'get',
+ 'map_track_data',
+ 'procap',
+ 'resize',
+ 'rna_seq',
+ 'splice_junctions',
+ 'splice_site_usage',
+ 'splice_sites']</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we can explore the atac track or profiles</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this is now a TrackData object</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>atac_profiles <span class="op">=</span> output.atac</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(atac_profiles)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
 <pre><code>alphagenome.data.track_data.TrackData</code></pre>
 </div>
 </div>
-<p><code>TrackData</code> objects have the following components:</p>
-<p><a href="https://services.google.com/fh/files/misc/trackdata.png"><img src="https://services.google.com/fh/files/misc/trackdata.png" alt="trackdata" border="0" height="500"></a></p>
-<p>The predictions of shape <code>(sequence_length, num_tracks)</code> are stored in <code>.values</code>:</p>
-<div class="cell" data-outputid="b299abc9-aa77-4f89-f136-fd58337ec3a4">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dnase.values.shape)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>dnase.values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>(2048, 1)</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>array([[0.00138092],
-       [0.00121307],
-       [0.00121307],
-       ...,
-       [0.00138092],
-       [0.00213623],
-       [0.00292969]], shape=(2048, 1), dtype=float32)</code></pre>
-</div>
-</div>
-<p>And the corresponding metadata describing each of the tracks is stored in <code>.metadata</code>:</p>
-<div class="cell" data-outputid="593b0f7f-9ec4-4cd5-e005-f504b9c61f49">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dnase.metadata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
-
-  <div id="df-c55f8a4f-fb43-4d63-892b-82d3de181777" class="colab-df-container">
-    <div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">name</th>
-<th data-quarto-table-cell-role="th">strand</th>
-<th data-quarto-table-cell-role="th">Assay title</th>
-<th data-quarto-table-cell-role="th">ontology_curie</th>
-<th data-quarto-table-cell-role="th">biosample_name</th>
-<th data-quarto-table-cell-role="th">biosample_type</th>
-<th data-quarto-table-cell-role="th">biosample_life_stage</th>
-<th data-quarto-table-cell-role="th">data_source</th>
-<th data-quarto-table-cell-role="th">endedness</th>
-<th data-quarto-table-cell-role="th">genetically_modified</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>UBERON:0002048 DNase-seq</td>
-<td>.</td>
-<td>DNase-seq</td>
-<td>UBERON:0002048</td>
-<td>lung</td>
-<td>tissue</td>
-<td>embryonic</td>
-<td>encode</td>
-<td>paired</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-
-
-</div>
-    <div class="colab-df-buttons">
-
-  <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-c55f8a4f-fb43-4d63-892b-82d3de181777')" title="Convert this dataframe to an interactive table." style="display:none;">
-
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 -960 960 960">
-    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"></path>
-  </svg>
-    </button>
-
-  <style>
-    .colab-df-container {
-      display:flex;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    .colab-df-buttons div {
-      margin-bottom: 4px;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-    <script>
-      const buttonEl =
-        document.querySelector('#df-c55f8a4f-fb43-4d63-892b-82d3de181777 button.colab-df-convert');
-      buttonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-      async function convertToInteractive(key) {
-        const element = document.querySelector('#df-c55f8a4f-fb43-4d63-892b-82d3de181777');
-        const dataTable =
-          await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                    [key], {});
-        if (!dataTable) return;
-
-        const docLinkHtml = 'Like what you see? Visit the ' +
-          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-          + ' to learn more about interactive tables.';
-        element.innerHTML = '';
-        dataTable['output_type'] = 'display_data';
-        await google.colab.output.renderOutput(dataTable, element);
-        const docLink = document.createElement('div');
-        docLink.innerHTML = docLinkHtml;
-        element.appendChild(docLink);
-      }
-    </script>
-  </div>
-
-    </div>
-  </div>
-</div>
-</div>
-<p>In this case, there is only one output track, so the track metadata returns only 1 row.</p>
-<p>The track metadata is especially useful when requesting predictions for multiple tissues or cell-types, and when dealing with stranded assays (which are assays with separate readouts for the two DNA strands, such as CAGE and RNA-seq):</p>
-<div class="cell" data-outputid="35b5b0d4-8cb9-4b32-9de7-afceccbcadbc">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> dna_model.predict_sequence(</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    sequence<span class="op">=</span><span class="st">'GATTACA'</span>.center(<span class="dv">2048</span>, <span class="st">'N'</span>),  <span class="co"># Pad to valid sequence length.</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    requested_outputs<span class="op">=</span>[</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        dna_client.OutputType.CAGE,</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        dna_client.OutputType.DNASE,</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    ontology_terms<span class="op">=</span>[</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'UBERON:0002048'</span>,  <span class="co"># Lung.</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'UBERON:0000955'</span>,  <span class="co"># Brain.</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'DNASE predictions shape: </span><span class="sc">{</span>output<span class="sc">.</span>dnase<span class="sc">.</span>values<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'CAGE predictions shape: </span><span class="sc">{</span>output<span class="sc">.</span>cage<span class="sc">.</span>values<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>DNASE predictions shape: (2048, 2)
-CAGE predictions shape: (2048, 4)</code></pre>
-</div>
-</div>
-<p>Notice that in this example, we requested predictions for 2 assays and 2 ontology terms simultaneously.</p>
-<p>The CAGE track metadata describes the strand and tissue of each of the 4 predicted tracks (2 per DNA strand):</p>
-<div class="cell" data-outputid="7388120b-0c6b-4863-ca42-4c783a11789e">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>output.cage.metadata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
-
-  <div id="df-1175e533-e8b2-4264-b7b3-fe6edf4998bf" class="colab-df-container">
-    <div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">name</th>
-<th data-quarto-table-cell-role="th">strand</th>
-<th data-quarto-table-cell-role="th">Assay title</th>
-<th data-quarto-table-cell-role="th">ontology_curie</th>
-<th data-quarto-table-cell-role="th">biosample_name</th>
-<th data-quarto-table-cell-role="th">biosample_type</th>
-<th data-quarto-table-cell-role="th">data_source</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>hCAGE UBERON:0000955</td>
-<td>+</td>
-<td>hCAGE</td>
-<td>UBERON:0000955</td>
-<td>brain</td>
-<td>tissue</td>
-<td>fantom</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>hCAGE UBERON:0002048</td>
-<td>+</td>
-<td>hCAGE</td>
-<td>UBERON:0002048</td>
-<td>lung</td>
-<td>tissue</td>
-<td>fantom</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>hCAGE UBERON:0000955</td>
-<td>-</td>
-<td>hCAGE</td>
-<td>UBERON:0000955</td>
-<td>brain</td>
-<td>tissue</td>
-<td>fantom</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>hCAGE UBERON:0002048</td>
-<td>-</td>
-<td>hCAGE</td>
-<td>UBERON:0002048</td>
-<td>lung</td>
-<td>tissue</td>
-<td>fantom</td>
-</tr>
-</tbody>
-</table>
-
-
-</div>
-    <div class="colab-df-buttons">
-
-  <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-1175e533-e8b2-4264-b7b3-fe6edf4998bf')" title="Convert this dataframe to an interactive table." style="display:none;">
-
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 -960 960 960">
-    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"></path>
-  </svg>
-    </button>
-
-  <style>
-    .colab-df-container {
-      display:flex;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    .colab-df-buttons div {
-      margin-bottom: 4px;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-    <script>
-      const buttonEl =
-        document.querySelector('#df-1175e533-e8b2-4264-b7b3-fe6edf4998bf button.colab-df-convert');
-      buttonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-      async function convertToInteractive(key) {
-        const element = document.querySelector('#df-1175e533-e8b2-4264-b7b3-fe6edf4998bf');
-        const dataTable =
-          await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                    [key], {});
-        if (!dataTable) return;
-
-        const docLinkHtml = 'Like what you see? Visit the ' +
-          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-          + ' to learn more about interactive tables.';
-        element.innerHTML = '';
-        dataTable['output_type'] = 'display_data';
-        await google.colab.output.renderOutput(dataTable, element);
-        const docLink = document.createElement('div');
-        docLink.innerHTML = docLinkHtml;
-        element.appendChild(docLink);
-      }
-    </script>
-  </div>
-
-
-<div id="df-28bd794e-a6c9-472e-8672-bc8ca25d9244">
-  <button class="colab-df-quickchart" onclick="quickchart('df-28bd794e-a6c9-472e-8672-bc8ca25d9244')" title="Suggest charts" style="display:none;">
-
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 0 24 24" width="24px">
-    <g>
-        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"></path>
-    </g>
-</svg>
-  </button>
-
-<style>
-  .colab-df-quickchart {
-      --bg-color: #E8F0FE;
-      --fill-color: #1967D2;
-      --hover-bg-color: #E2EBFA;
-      --hover-fill-color: #174EA6;
-      --disabled-fill-color: #AAA;
-      --disabled-bg-color: #DDD;
-  }
-
-  [theme=dark] .colab-df-quickchart {
-      --bg-color: #3B4455;
-      --fill-color: #D2E3FC;
-      --hover-bg-color: #434B5C;
-      --hover-fill-color: #FFFFFF;
-      --disabled-bg-color: #3B4455;
-      --disabled-fill-color: #666;
-  }
-
-  .colab-df-quickchart {
-    background-color: var(--bg-color);
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: none;
-    fill: var(--fill-color);
-    height: 32px;
-    padding: 0;
-    width: 32px;
-  }
-
-  .colab-df-quickchart:hover {
-    background-color: var(--hover-bg-color);
-    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-    fill: var(--button-hover-fill-color);
-  }
-
-  .colab-df-quickchart-complete:disabled,
-  .colab-df-quickchart-complete:disabled:hover {
-    background-color: var(--disabled-bg-color);
-    fill: var(--disabled-fill-color);
-    box-shadow: none;
-  }
-
-  .colab-df-spinner {
-    border: 2px solid var(--fill-color);
-    border-color: transparent;
-    border-bottom-color: var(--fill-color);
-    animation:
-      spin 1s steps(1) infinite;
-  }
-
-  @keyframes spin {
-    0% {
-      border-color: transparent;
-      border-bottom-color: var(--fill-color);
-      border-left-color: var(--fill-color);
-    }
-    20% {
-      border-color: transparent;
-      border-left-color: var(--fill-color);
-      border-top-color: var(--fill-color);
-    }
-    30% {
-      border-color: transparent;
-      border-left-color: var(--fill-color);
-      border-top-color: var(--fill-color);
-      border-right-color: var(--fill-color);
-    }
-    40% {
-      border-color: transparent;
-      border-right-color: var(--fill-color);
-      border-top-color: var(--fill-color);
-    }
-    60% {
-      border-color: transparent;
-      border-right-color: var(--fill-color);
-    }
-    80% {
-      border-color: transparent;
-      border-right-color: var(--fill-color);
-      border-bottom-color: var(--fill-color);
-    }
-    90% {
-      border-color: transparent;
-      border-bottom-color: var(--fill-color);
-    }
-  }
-</style>
-
-  <script>
-    async function quickchart(key) {
-      const quickchartButtonEl =
-        document.querySelector('#' + key + ' button');
-      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
-      quickchartButtonEl.classList.add('colab-df-spinner');
-      try {
-        const charts = await google.colab.kernel.invokeFunction(
-            'suggestCharts', [key], {});
-      } catch (error) {
-        console.error('Error during call to suggestCharts:', error);
-      }
-      quickchartButtonEl.classList.remove('colab-df-spinner');
-      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
-    }
-    (() => {
-      let quickchartButtonEl =
-        document.querySelector('#df-28bd794e-a6c9-472e-8672-bc8ca25d9244 button');
-      quickchartButtonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-    })();
-  </script>
-</div>
-    </div>
-  </div>
-</div>
-</div>
-<p>See the <a href="https://www.alphagenomedocs.com/exploring_model_metadata.html">output metadata documentation</a> for more information on the output types and output shapes. For the mapping between tissue names (e.g.&nbsp;‘brain’ -&gt; ‘UBERON:0000955’) and ontology terms, see this <a href="tissue_ontology_mapping.ipynb">tutorial</a>.</p>
-</section>
-<section id="predict-outputs-for-a-genome-interval-reference-genome" class="level2">
-<h2 class="anchored" data-anchor-id="predict-outputs-for-a-genome-interval-reference-genome">Predict outputs for a genome interval (reference genome)</h2>
-<p>For convenience, you can also directly make predictions for a human reference genome sequence specified by a <strong>genomic interval</strong>. For example, let’s predict RNA-seq for tissue ‘Right liver lobe’ in a 1MB region of Chromosome 19 around the gene <em>CYP2B6</em>, which encodes an enzyme involved in drug metabolism, and is primarily expressed in the liver.</p>
-<p>We first load up a GTF file containing gene and transcript locations as annotated by GENCODE (more information on GTF format <a href="https://www.gencodegenes.org/pages/data_format.html">here</a>):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The GTF file contains information on the location of all trancripts.</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that we use genome assembly hg38 for human.</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>gtf <span class="op">=</span> pd.read_feather(</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://storage.googleapis.com/alphagenome/reference/gencode/'</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'hg38/gencode.v46.annotation.gtf.gz.feather'</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up transcript extractors using the information in the GTF file.</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>gtf_transcripts <span class="op">=</span> gene_annotation.filter_protein_coding(gtf)</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>gtf_transcripts <span class="op">=</span> gene_annotation.filter_to_longest_transcript(gtf_transcripts)</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>transcript_extractor <span class="op">=</span> transcript_utils.TranscriptExtractor(gtf_transcripts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>And then fetch the gene’s location as a <code>genome.Interval</code> object by passing either its <code>gene_symbol</code> (HGNC naming convention) or ENSEMBL <code>gene_id</code>:</p>
-<div class="cell" data-outputid="4797853a-3684-4e5d-a79f-b9547b346abf">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>interval <span class="op">=</span> gene_annotation.get_gene_interval(gtf, gene_symbol<span class="op">=</span><span class="st">'CYP2B6'</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>interval</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>Interval(chromosome='chr19', start=40991281, end=41018398, strand='+', name='CYP2B6')</code></pre>
-</div>
-</div>
-<p>We can resize it to a length compatible with the model:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>interval <span class="op">=</span> interval.resize(dna_client.SEQUENCE_LENGTH_1MB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The <code>.resize()</code> method adjusts the interval to the specified width by expanding (or contracting) around its original center. Note that <code>dna_model.predict_interval()</code> interprets this resizing as an expansion of the actual genomic sequence rather than padding tokens.</p>
-<div class="cell" data-outputid="6dd94e69-543c-485c-b31e-ba7526280c54">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>interval.width</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
-<pre><code>1048576</code></pre>
-</div>
-</div>
-<p>See the <a href="https://www.alphagenomedocs.com/colabs/essential_commands.html">essential commands documentation</a> for more handy commands like <code>resize</code>.</p>
-<p>Note that AlphaGenome supports the following input sequence lengths:</p>
-<div class="cell" data-outputid="26d04ddd-3796-4341-db88-f74151340c0b">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>dna_client.SUPPORTED_SEQUENCE_LENGTHS.keys()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
-<pre><code>dict_keys(['SEQUENCE_LENGTH_2KB', 'SEQUENCE_LENGTH_16KB', 'SEQUENCE_LENGTH_100KB', 'SEQUENCE_LENGTH_500KB', 'SEQUENCE_LENGTH_1MB'])</code></pre>
-</div>
-</div>
-<p>We can now make predictions using our interval:</p>
-<div class="cell" data-outputid="57ccb4ec-19c0-48df-da61-29bb4222b14b">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> dna_model.predict_interval(</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    interval<span class="op">=</span>interval,</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    requested_outputs<span class="op">=</span>[dna_client.OutputType.RNA_SEQ],</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    ontology_terms<span class="op">=</span>[<span class="st">'UBERON:0001114'</span>],</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># Right liver lobe.</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>output.rna_seq.values.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="16">
-<pre><code>(1048576, 3)</code></pre>
-</div>
-</div>
-<p>In general, you can have multiple tracks for a given ontology term. In this case, we have 3 RNA-seq tracks for the tissue “Right liver lobe”.</p>
-<p>Let’s visualise these predictions. It’s helpful visualise gene transcripts alongside the predicted tracks, so we extract them here:</p>
-<div class="cell" data-outputid="d7e701a4-dbb2-4094-9b7e-3883e5a37021">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>longest_transcripts <span class="op">=</span> transcript_extractor.extract(interval)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Extracted </span><span class="sc">{</span><span class="bu">len</span>(longest_transcripts)<span class="sc">}</span><span class="ss"> transcripts in this interval.'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Extracted 29 transcripts in this interval.</code></pre>
-</div>
-</div>
-<p>We also provide a <a href="https://www.alphagenomedocs.com/visualization_library_basics.html">visualization basics guide</a> that integrates nicely with <code>TrackData</code> and other objects returned by the model API.</p>
-<div class="cell" data-outputid="56e70030-bd67-4c8e-e787-274945378e4a">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>plot_components.plot(</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    components<span class="op">=</span>[</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>        plot_components.TranscriptAnnotation(longest_transcripts),</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>        plot_components.Tracks(output.rna_seq),</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    interval<span class="op">=</span>output.rna_seq.interval,</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-<p>This plot visualises the 3 predicted RNA-seq tracks and also marks the location of the longest transcript per gene in the 1MB region.</p>
-<p>We can zoom in to the middle of the plot by resizing the interval:</p>
-<div class="cell" data-outputid="43cf3376-5b0a-4f2e-ec3b-9f51b2e9e9de">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>plot_components.plot(</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    components<span class="op">=</span>[</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>        plot_components.TranscriptAnnotation(</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>            longest_transcripts, fig_height<span class="op">=</span><span class="fl">0.1</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>        ),</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        plot_components.Tracks(output.rna_seq),</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    interval<span class="op">=</span>output.rna_seq.interval.resize(<span class="dv">2</span><span class="op">**</span><span class="dv">15</span>),</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-20-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-<p>You can see here that predicted RNA-seq values are nicely aligned with the location of exons, and that the predictions are stranded – the predicted values are much higher for the positive strand, where the gene is located. We see that the <em>CYP2B6</em> gene is on the positive strand since the arrows in the transcript go from left to right.</p>
-<p>For more detail on the visualization library, please refer to the <a href="https://www.alphagenomedocs.com/visualization_library_basics.html">visualization basics guide</a> and <a href="https://www.alphagenomedocs.com/api/visualization.html">library documentation</a>.</p>
-</section>
-<section id="predict-variant-effects" class="level2">
-<h2 class="anchored" data-anchor-id="predict-variant-effects">Predict variant effects</h2>
-<p>We can predict the effect of a variant on a specific output type and tissue by making predictions for the reference (REF) and alternative (ALT) allele sequences.</p>
-<p>We specify the variant by defining a <code>genome.Variant</code> object. The specific variant below is a known variant affecting gene expression in colon tissue:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>variant <span class="op">=</span> genome.Variant(</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    chromosome<span class="op">=</span><span class="st">'chr22'</span>,</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    position<span class="op">=</span><span class="dv">36201698</span>,</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    reference_bases<span class="op">=</span><span class="st">'A'</span>,  <span class="co"># Can differ from the true reference genome base.</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    alternate_bases<span class="op">=</span><span class="st">'C'</span>,</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Next, we define the interval over which to make the REF and ALT predictions. A quick way to get a <code>genome.Interval</code> from a <code>genome.Variant</code> is by calling <code>.reference_interval</code>, which we can resize to a model-compatible sequence length:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>interval <span class="op">=</span> variant.reference_interval.resize(dna_client.SEQUENCE_LENGTH_1MB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>We then use <code>predict_variant</code> to get the REF and ALT RNA-seq predictions in the interval for “Colon - Transverse” tissue (<code>UBERON:0001157</code>):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>variant_output <span class="op">=</span> dna_model.predict_variant(</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    interval<span class="op">=</span>interval,</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    variant<span class="op">=</span>variant,</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    requested_outputs<span class="op">=</span>[dna_client.OutputType.RNA_SEQ],</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    ontology_terms<span class="op">=</span>[<span class="st">'UBERON:0001157'</span>],</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># Colon - Transverse.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>We can plot the predicted REF and ALT values as a single plot and zoom in on the affected gene to better visualise the variant’s effect on gene expression:</p>
-<div class="cell" data-outputid="ba72c94a-7acf-45e8-e6a4-969083b2f5fa">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>longest_transcripts <span class="op">=</span> transcript_extractor.extract(interval)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>plot_components.plot(</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    [</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>        plot_components.TranscriptAnnotation(longest_transcripts),</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>        plot_components.OverlaidTracks(</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>            tdata<span class="op">=</span>{</span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>                <span class="st">'REF'</span>: variant_output.reference.rna_seq,</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">'ALT'</span>: variant_output.alternate.rna_seq,</span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>            },</span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>            colors<span class="op">=</span>{<span class="st">'REF'</span>: <span class="st">'dimgrey'</span>, <span class="st">'ALT'</span>: <span class="st">'red'</span>},</span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>        ),</span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    interval<span class="op">=</span>variant_output.reference.rna_seq.interval.resize(<span class="dv">2</span><span class="op">**</span><span class="dv">15</span>),</span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Annotate the location of the variant as a vertical line.</span></span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    annotations<span class="op">=</span>[plot_components.VariantAnnotation([variant], alpha<span class="op">=</span><span class="fl">0.8</span>)],</span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-24-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-<p>We see that the ALT allele (base ‘C’ at position 36201698) is associated with both lower expression and an exon skipping event in the <em>APOL4</em> gene on the negative strand. Note that we can ignore the uppermost line plot which shows a very minimal predicted amount of expression on the positive DNA strand (check the y axis scales). It is possible to adjust the y axes limits, see <a href="https://www.alphagenomedocs.com/visualization_library_basics.html#visualization-library-basics">visualization basics</a> and <a href="https://www.alphagenomedocs.com/api/visualization.html">library documentation</a>.</p>
-</section>
-<section id="scoring-the-effect-of-a-genetic-variant" class="level2">
-<h2 class="anchored" data-anchor-id="scoring-the-effect-of-a-genetic-variant">Scoring the effect of a genetic variant</h2>
-<p>Scoring the effect of a genetic variant involves making predictions for the REF and ALT sequences and aggregating the track signal. This is implemented in <code>score_variant</code>, which uses specific <code>variant_scorer</code> configs for aggregation.</p>
-<p>We provide a set of recommended variant scoring configurations as a dictionary (<code>variant_scorers.RECOMMENDED_VARIANT_SCORERS</code>), covering all output types, which we have assessed for their performance at domain-specific tasks. See the <a href="https://www.alphagenomedocs.com/variant_scoring.html">variant scoring documentation</a> for more information. Here is a quick demo:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>variant_scorer <span class="op">=</span> variant_scorers.RECOMMENDED_VARIANT_SCORERS[<span class="st">'RNA_SEQ'</span>]</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>variant_scores <span class="op">=</span> dna_model.score_variant(</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    interval<span class="op">=</span>interval, variant<span class="op">=</span>variant, variant_scorers<span class="op">=</span>[variant_scorer]</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The returned <code>variant_scores</code> is a list of length 1 because we only specified 1 scorer:</p>
-<div class="cell" data-outputid="632143ef-17f8-42b5-86e1-9a03adb7f55c">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(variant_scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="26">
-<pre><code>1</code></pre>
-</div>
-</div>
-<p>The actual scores per variant are in <code>AnnData</code> format, which is a way of annotating data (the numerical scores) with additional information about the rows and columns.</p>
-<div class="cell" data-outputid="63ba8c79-e7f2-42d3-8ada-0364c953cc30">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>variant_scores <span class="op">=</span> variant_scores[<span class="dv">0</span>]</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>variant_scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="27">
-<pre><code>AnnData object with n_obs × n_vars = 37 × 667
-    obs: 'gene_id', 'strand', 'gene_name', 'gene_type'
-    var: 'name', 'strand', 'Assay title', 'ontology_curie', 'biosample_name', 'biosample_type', 'biosample_life_stage', 'gtex_tissue', 'data_source', 'endedness', 'genetically_modified'
-    uns: 'interval', 'variant', 'variant_scorer'
-    layers: 'quantiles'</code></pre>
-</div>
-</div>
-<p><code>AnnData</code> objects have the following components:</p>
-<p><a href="https://services.google.com/fh/files/misc/anndata.png"><img src="https://services.google.com/fh/files/misc/anndata.png" alt="anndata" border="0" height="500"></a></p>
-<p>We have a variant effect score for each of the 37 genes in the interval and each of the 667 <code>RNA_SEQ</code> tracks:</p>
-<div class="cell" data-outputid="6a60501e-03f6-431f-dcb7-6d88ed28cc66">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>variant_scores.X.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># and it contains the following attributes</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>[f <span class="cf">for</span> f <span class="kw">in</span> <span class="bu">dir</span>(atac_profiles) <span class="cf">if</span> <span class="kw">not</span> f.startswith(<span class="st">'_'</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
-<pre><code>(37, 667)</code></pre>
+<pre><code>['bin_index',
+ 'change_resolution',
+ 'copy',
+ 'downsample',
+ 'filter_to_negative_strand',
+ 'filter_to_nonnegative_strand',
+ 'filter_to_nonpositive_strand',
+ 'filter_to_positive_strand',
+ 'filter_to_stranded',
+ 'filter_to_unstranded',
+ 'filter_tracks',
+ 'groupby',
+ 'interval',
+ 'metadata',
+ 'names',
+ 'num_tracks',
+ 'ontology_terms',
+ 'pad',
+ 'positional_axes',
+ 'resize',
+ 'resolution',
+ 'reverse_complement',
+ 'select_tracks_by_index',
+ 'select_tracks_by_name',
+ 'slice_by_interval',
+ 'slice_by_positions',
+ 'strands',
+ 'to_protos',
+ 'uns',
+ 'upsample',
+ 'values',
+ 'width']</code></pre>
 </div>
 </div>
-<p>We can access information on the 37 genes using <code>.obs</code>. Here are just first 5 genes:</p>
-<div class="cell" data-outputid="06c23cfe-32b0-44dc-e06f-914c6ff75f09">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>variant_scores.obs.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="29">
-
-  <div id="df-0aa514fa-d14e-435c-8d43-a2f3a98e1dfd" class="colab-df-container">
-    <div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">gene_id</th>
-<th data-quarto-table-cell-role="th">strand</th>
-<th data-quarto-table-cell-role="th">gene_name</th>
-<th data-quarto-table-cell-role="th">gene_type</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>ENSG00000100320.24</td>
-<td>-</td>
-<td>RBFOX2</td>
-<td>protein_coding</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>ENSG00000100336.18</td>
-<td>-</td>
-<td>APOL4</td>
-<td>protein_coding</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>ENSG00000100342.22</td>
-<td>+</td>
-<td>APOL1</td>
-<td>protein_coding</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>ENSG00000100345.23</td>
-<td>-</td>
-<td>MYH9</td>
-<td>protein_coding</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>ENSG00000100348.10</td>
-<td>-</td>
-<td>TXN2</td>
-<td>protein_coding</td>
-</tr>
-</tbody>
-</table>
-
-
-</div>
-    <div class="colab-df-buttons">
-
-  <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-0aa514fa-d14e-435c-8d43-a2f3a98e1dfd')" title="Convert this dataframe to an interactive table." style="display:none;">
-
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 -960 960 960">
-    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"></path>
-  </svg>
-    </button>
-
-  <style>
-    .colab-df-container {
-      display:flex;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    .colab-df-buttons div {
-      margin-bottom: 4px;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-    <script>
-      const buttonEl =
-        document.querySelector('#df-0aa514fa-d14e-435c-8d43-a2f3a98e1dfd button.colab-df-convert');
-      buttonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-      async function convertToInteractive(key) {
-        const element = document.querySelector('#df-0aa514fa-d14e-435c-8d43-a2f3a98e1dfd');
-        const dataTable =
-          await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                    [key], {});
-        if (!dataTable) return;
-
-        const docLinkHtml = 'Like what you see? Visit the ' +
-          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-          + ' to learn more about interactive tables.';
-        element.innerHTML = '';
-        dataTable['output_type'] = 'display_data';
-        await google.colab.output.renderOutput(dataTable, element);
-        const docLink = document.createElement('div');
-        docLink.innerHTML = docLinkHtml;
-        element.appendChild(docLink);
-      }
-    </script>
-  </div>
-
-
-<div id="df-d1669f1e-2040-4149-a45b-3e053277bf30">
-  <button class="colab-df-quickchart" onclick="quickchart('df-d1669f1e-2040-4149-a45b-3e053277bf30')" title="Suggest charts" style="display:none;">
-
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 0 24 24" width="24px">
-    <g>
-        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"></path>
-    </g>
-</svg>
-  </button>
-
-<style>
-  .colab-df-quickchart {
-      --bg-color: #E8F0FE;
-      --fill-color: #1967D2;
-      --hover-bg-color: #E2EBFA;
-      --hover-fill-color: #174EA6;
-      --disabled-fill-color: #AAA;
-      --disabled-bg-color: #DDD;
-  }
-
-  [theme=dark] .colab-df-quickchart {
-      --bg-color: #3B4455;
-      --fill-color: #D2E3FC;
-      --hover-bg-color: #434B5C;
-      --hover-fill-color: #FFFFFF;
-      --disabled-bg-color: #3B4455;
-      --disabled-fill-color: #666;
-  }
-
-  .colab-df-quickchart {
-    background-color: var(--bg-color);
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: none;
-    fill: var(--fill-color);
-    height: 32px;
-    padding: 0;
-    width: 32px;
-  }
-
-  .colab-df-quickchart:hover {
-    background-color: var(--hover-bg-color);
-    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-    fill: var(--button-hover-fill-color);
-  }
-
-  .colab-df-quickchart-complete:disabled,
-  .colab-df-quickchart-complete:disabled:hover {
-    background-color: var(--disabled-bg-color);
-    fill: var(--disabled-fill-color);
-    box-shadow: none;
-  }
-
-  .colab-df-spinner {
-    border: 2px solid var(--fill-color);
-    border-color: transparent;
-    border-bottom-color: var(--fill-color);
-    animation:
-      spin 1s steps(1) infinite;
-  }
-
-  @keyframes spin {
-    0% {
-      border-color: transparent;
-      border-bottom-color: var(--fill-color);
-      border-left-color: var(--fill-color);
-    }
-    20% {
-      border-color: transparent;
-      border-left-color: var(--fill-color);
-      border-top-color: var(--fill-color);
-    }
-    30% {
-      border-color: transparent;
-      border-left-color: var(--fill-color);
-      border-top-color: var(--fill-color);
-      border-right-color: var(--fill-color);
-    }
-    40% {
-      border-color: transparent;
-      border-right-color: var(--fill-color);
-      border-top-color: var(--fill-color);
-    }
-    60% {
-      border-color: transparent;
-      border-right-color: var(--fill-color);
-    }
-    80% {
-      border-color: transparent;
-      border-right-color: var(--fill-color);
-      border-bottom-color: var(--fill-color);
-    }
-    90% {
-      border-color: transparent;
-      border-bottom-color: var(--fill-color);
-    }
-  }
-</style>
-
-  <script>
-    async function quickchart(key) {
-      const quickchartButtonEl =
-        document.querySelector('#' + key + ' button');
-      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
-      quickchartButtonEl.classList.add('colab-df-spinner');
-      try {
-        const charts = await google.colab.kernel.invokeFunction(
-            'suggestCharts', [key], {});
-      } catch (error) {
-        console.error('Error during call to suggestCharts:', error);
-      }
-      quickchartButtonEl.classList.remove('colab-df-spinner');
-      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
-    }
-    (() => {
-      let quickchartButtonEl =
-        document.querySelector('#df-d1669f1e-2040-4149-a45b-3e053277bf30 button');
-      quickchartButtonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-    })();
-  </script>
-</div>
-    </div>
-  </div>
+<div class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you can extract the predictions directly</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>atac_profiles.values, atac_profiles.values.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>(array([[0.00230408, 0.00120544, 0.00154877, ..., 0.00744629, 0.00442505,
+         0.00524902],
+        [0.0072937 , 0.00402832, 0.00491333, ..., 0.0234375 , 0.01330566,
+         0.01556396],
+        [0.00127411, 0.00074768, 0.0008812 , ..., 0.00396729, 0.00260925,
+         0.00299072],
+        ...,
+        [0.00105286, 0.00048447, 0.00064468, ..., 0.00338745, 0.00238037,
+         0.00254822],
+        [0.00077057, 0.00037575, 0.00053406, ..., 0.00263977, 0.00195312,
+         0.00204468],
+        [0.00112152, 0.00061798, 0.0008316 , ..., 0.00338745, 0.00260925,
+         0.00271606]], shape=(1048576, 167), dtype=float32),
+ (1048576, 167))</code></pre>
 </div>
 </div>
-<p>Note that if you are using a variant scorer that is not gene-specific (i.e., a <code>variant_scorers.CenterMaskScorer</code>), then <code>variant_scores.X</code> would have shape <code>(1, 667)</code> and there will be no gene metadata available since there is no concept of genes in this scenario.</p>
-<p>The description of each track is accessed using <code>.var</code> (this is the same dataframe as the output metadata, but is included alongside the variant scores for convenience):</p>
-<div class="cell" data-outputid="59c3ecf9-3567-46fe-e84b-ec7eb0fdd5db">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>variant_scores.var</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="30">
-
-  <div id="df-6e1d2835-1e6a-4ac7-8282-20a21a89ef46" class="colab-df-container">
-    <div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">name</th>
-<th data-quarto-table-cell-role="th">strand</th>
-<th data-quarto-table-cell-role="th">Assay title</th>
-<th data-quarto-table-cell-role="th">ontology_curie</th>
-<th data-quarto-table-cell-role="th">biosample_name</th>
-<th data-quarto-table-cell-role="th">biosample_type</th>
-<th data-quarto-table-cell-role="th">biosample_life_stage</th>
-<th data-quarto-table-cell-role="th">gtex_tissue</th>
-<th data-quarto-table-cell-role="th">data_source</th>
-<th data-quarto-table-cell-role="th">endedness</th>
-<th data-quarto-table-cell-role="th">genetically_modified</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>CL:0000047 polyA plus RNA-seq</td>
-<td>+</td>
-<td>polyA plus RNA-seq</td>
-<td>CL:0000047</td>
-<td>neuronal stem cell</td>
-<td>in_vitro_differentiated_cells</td>
-<td>embryonic</td>
-<td></td>
-<td>encode</td>
-<td>paired</td>
-<td>False</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>CL:0000062 total RNA-seq</td>
-<td>+</td>
-<td>total RNA-seq</td>
-<td>CL:0000062</td>
-<td>osteoblast</td>
-<td>primary_cell</td>
-<td>adult</td>
-<td></td>
-<td>encode</td>
-<td>paired</td>
-<td>False</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>CL:0000084 polyA plus RNA-seq</td>
-<td>+</td>
-<td>polyA plus RNA-seq</td>
-<td>CL:0000084</td>
-<td>T-cell</td>
-<td>primary_cell</td>
-<td>adult</td>
-<td></td>
-<td>encode</td>
-<td>paired</td>
-<td>False</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>CL:0000084 total RNA-seq</td>
-<td>+</td>
-<td>total RNA-seq</td>
-<td>CL:0000084</td>
-<td>T-cell</td>
-<td>primary_cell</td>
-<td>adult</td>
-<td></td>
-<td>encode</td>
-<td>single</td>
-<td>False</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>CL:0000115 total RNA-seq</td>
-<td>+</td>
-<td>total RNA-seq</td>
-<td>CL:0000115</td>
-<td>endothelial cell</td>
-<td>in_vitro_differentiated_cells</td>
-<td>adult</td>
-<td></td>
-<td>encode</td>
-<td>single</td>
-<td>False</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">662</td>
-<td>UBERON:0018115 polyA plus RNA-seq</td>
-<td>.</td>
-<td>polyA plus RNA-seq</td>
-<td>UBERON:0018115</td>
-<td>left renal pelvis</td>
-<td>tissue</td>
-<td>embryonic</td>
-<td></td>
-<td>encode</td>
-<td>single</td>
-<td>False</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">663</td>
-<td>UBERON:0018116 polyA plus RNA-seq</td>
-<td>.</td>
-<td>polyA plus RNA-seq</td>
-<td>UBERON:0018116</td>
-<td>right renal pelvis</td>
-<td>tissue</td>
-<td>embryonic</td>
-<td></td>
-<td>encode</td>
-<td>single</td>
-<td>False</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">664</td>
-<td>UBERON:0018117 polyA plus RNA-seq</td>
-<td>.</td>
-<td>polyA plus RNA-seq</td>
-<td>UBERON:0018117</td>
-<td>left renal cortex interstitium</td>
-<td>tissue</td>
-<td>embryonic</td>
-<td></td>
-<td>encode</td>
-<td>single</td>
-<td>False</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">665</td>
-<td>UBERON:0018118 polyA plus RNA-seq</td>
-<td>.</td>
-<td>polyA plus RNA-seq</td>
-<td>UBERON:0018118</td>
-<td>right renal cortex interstitium</td>
-<td>tissue</td>
-<td>embryonic</td>
-<td></td>
-<td>encode</td>
-<td>single</td>
-<td>False</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">666</td>
-<td>UBERON:0036149 gtex Skin_Not_Sun_Exposed_Supra...</td>
-<td>.</td>
-<td>polyA plus RNA-seq</td>
-<td>UBERON:0036149</td>
-<td>suprapubic skin</td>
-<td>tissue</td>
-<td>adult</td>
-<td>Skin_Not_Sun_Exposed_Suprapubic</td>
-<td>gtex</td>
-<td>paired</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>667 rows × 11 columns</p>
-</div>
-    <div class="colab-df-buttons">
-
-  <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-6e1d2835-1e6a-4ac7-8282-20a21a89ef46')" title="Convert this dataframe to an interactive table." style="display:none;">
-
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 -960 960 960">
-    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"></path>
-  </svg>
-    </button>
-
-  <style>
-    .colab-df-container {
-      display:flex;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    .colab-df-buttons div {
-      margin-bottom: 4px;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-    <script>
-      const buttonEl =
-        document.querySelector('#df-6e1d2835-1e6a-4ac7-8282-20a21a89ef46 button.colab-df-convert');
-      buttonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-      async function convertToInteractive(key) {
-        const element = document.querySelector('#df-6e1d2835-1e6a-4ac7-8282-20a21a89ef46');
-        const dataTable =
-          await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                    [key], {});
-        if (!dataTable) return;
-
-        const docLinkHtml = 'Like what you see? Visit the ' +
-          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-          + ' to learn more about interactive tables.';
-        element.innerHTML = '';
-        dataTable['output_type'] = 'display_data';
-        await google.colab.output.renderOutput(dataTable, element);
-        const docLink = document.createElement('div');
-        docLink.innerHTML = docLinkHtml;
-        element.appendChild(docLink);
-      }
-    </script>
-  </div>
-
-
-<div id="df-b42565c2-5212-4f16-9bc7-1b0be4a6a280">
-  <button class="colab-df-quickchart" onclick="quickchart('df-b42565c2-5212-4f16-9bc7-1b0be4a6a280')" title="Suggest charts" style="display:none;">
-
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 0 24 24" width="24px">
-    <g>
-        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"></path>
-    </g>
-</svg>
-  </button>
-
-<style>
-  .colab-df-quickchart {
-      --bg-color: #E8F0FE;
-      --fill-color: #1967D2;
-      --hover-bg-color: #E2EBFA;
-      --hover-fill-color: #174EA6;
-      --disabled-fill-color: #AAA;
-      --disabled-bg-color: #DDD;
-  }
-
-  [theme=dark] .colab-df-quickchart {
-      --bg-color: #3B4455;
-      --fill-color: #D2E3FC;
-      --hover-bg-color: #434B5C;
-      --hover-fill-color: #FFFFFF;
-      --disabled-bg-color: #3B4455;
-      --disabled-fill-color: #666;
-  }
-
-  .colab-df-quickchart {
-    background-color: var(--bg-color);
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: none;
-    fill: var(--fill-color);
-    height: 32px;
-    padding: 0;
-    width: 32px;
-  }
-
-  .colab-df-quickchart:hover {
-    background-color: var(--hover-bg-color);
-    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-    fill: var(--button-hover-fill-color);
-  }
-
-  .colab-df-quickchart-complete:disabled,
-  .colab-df-quickchart-complete:disabled:hover {
-    background-color: var(--disabled-bg-color);
-    fill: var(--disabled-fill-color);
-    box-shadow: none;
-  }
-
-  .colab-df-spinner {
-    border: 2px solid var(--fill-color);
-    border-color: transparent;
-    border-bottom-color: var(--fill-color);
-    animation:
-      spin 1s steps(1) infinite;
-  }
-
-  @keyframes spin {
-    0% {
-      border-color: transparent;
-      border-bottom-color: var(--fill-color);
-      border-left-color: var(--fill-color);
-    }
-    20% {
-      border-color: transparent;
-      border-left-color: var(--fill-color);
-      border-top-color: var(--fill-color);
-    }
-    30% {
-      border-color: transparent;
-      border-left-color: var(--fill-color);
-      border-top-color: var(--fill-color);
-      border-right-color: var(--fill-color);
-    }
-    40% {
-      border-color: transparent;
-      border-right-color: var(--fill-color);
-      border-top-color: var(--fill-color);
-    }
-    60% {
-      border-color: transparent;
-      border-right-color: var(--fill-color);
-    }
-    80% {
-      border-color: transparent;
-      border-right-color: var(--fill-color);
-      border-bottom-color: var(--fill-color);
-    }
-    90% {
-      border-color: transparent;
-      border-bottom-color: var(--fill-color);
-    }
-  }
-</style>
-
-  <script>
-    async function quickchart(key) {
-      const quickchartButtonEl =
-        document.querySelector('#' + key + ' button');
-      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
-      quickchartButtonEl.classList.add('colab-df-spinner');
-      try {
-        const charts = await google.colab.kernel.invokeFunction(
-            'suggestCharts', [key], {});
-      } catch (error) {
-        console.error('Error during call to suggestCharts:', error);
-      }
-      quickchartButtonEl.classList.remove('colab-df-spinner');
-      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
-    }
-    (() => {
-      let quickchartButtonEl =
-        document.querySelector('#df-b42565c2-5212-4f16-9bc7-1b0be4a6a280 button');
-      quickchartButtonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-    })();
-  </script>
-</div>
-    </div>
-  </div>
-</div>
-</div>
-<p>Some handy additional metadata can be found in <code>.uns</code>:</p>
-<div class="cell" data-outputid="c6013fe3-8492-4734-a3d3-51821128b356">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Interval: </span><span class="sc">{</span>variant_scores<span class="sc">.</span>uns[<span class="st">"interval"</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Variant: </span><span class="sc">{</span>variant_scores<span class="sc">.</span>uns[<span class="st">"variant"</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Variant scorer: </span><span class="sc">{</span>variant_scores<span class="sc">.</span>uns[<span class="st">"variant_scorer"</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Interval: chr22:35677410-36725986:.
-Variant: chr22:36201698:A&gt;C
-Variant scorer: GeneMaskLFCScorer(requested_output=RNA_SEQ)</code></pre>
-</div>
-</div>
-<p>We recommend interacting with variant scores by flattening <code>AnnData</code> objects using <code>tidy_scores</code>, which produces a dataframe with each row being a single score for each combination of (variant, gene, scorer, ontology). It optionally excludes stranded tracks which do not match the gene’s strand for gene-specific scorer.</p>
-<p>The <code>raw_score</code> column contains the same values as stored in <code>variant_scores.X</code>. The <code>quantile_score</code> column is the rank of the <code>raw_score</code> in the distribution of scores for a background set of common variants, represented as a quantile probability. This allows for direct comparison across variant scoring strategies that yield scores on different scales. See <a href="https://www.alphagenomedocs.com/faqs.html#what-is-the-difference-between-a-quantile-score-and-raw-score">FAQs</a> for further details.</p>
-<div class="cell" data-executioninfo="{&quot;elapsed&quot;:525,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1750435569393,&quot;user&quot;:{&quot;displayName&quot;:&quot;&quot;,&quot;userId&quot;:&quot;&quot;},&quot;user_tz&quot;:420}" data-outputid="2c0a8f0a-055a-4b3d-cbff-c915ac8dc9c5">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>variant_scorers.tidy_scores([variant_scores], match_gene_strand<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="119">
-
-  <div id="df-f6200eff-319b-485b-b883-c8e71462f027" class="colab-df-container">
-    <div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">variant_id</th>
-<th data-quarto-table-cell-role="th">scored_interval</th>
-<th data-quarto-table-cell-role="th">gene_id</th>
-<th data-quarto-table-cell-role="th">gene_name</th>
-<th data-quarto-table-cell-role="th">gene_type</th>
-<th data-quarto-table-cell-role="th">gene_strand</th>
-<th data-quarto-table-cell-role="th">junction_Start</th>
-<th data-quarto-table-cell-role="th">junction_End</th>
-<th data-quarto-table-cell-role="th">output_type</th>
-<th data-quarto-table-cell-role="th">variant_scorer</th>
-<th data-quarto-table-cell-role="th">track_name</th>
-<th data-quarto-table-cell-role="th">track_strand</th>
-<th data-quarto-table-cell-role="th">Assay title</th>
-<th data-quarto-table-cell-role="th">ontology_curie</th>
-<th data-quarto-table-cell-role="th">biosample_name</th>
-<th data-quarto-table-cell-role="th">biosample_type</th>
-<th data-quarto-table-cell-role="th">gtex_tissue</th>
-<th data-quarto-table-cell-role="th">raw_score</th>
-<th data-quarto-table-cell-role="th">quantile_score</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>chr22:36201698:A&gt;C</td>
-<td>chr22:35677410-36725986:.</td>
-<td>ENSG00000100320</td>
-<td>RBFOX2</td>
-<td>protein_coding</td>
-<td>-</td>
-<td>None</td>
-<td>None</td>
-<td>RNA_SEQ</td>
-<td>GeneMaskLFCScorer(requested_output=RNA_SEQ)</td>
-<td>CL:0000047 polyA plus RNA-seq</td>
-<td>-</td>
-<td>polyA plus RNA-seq</td>
-<td>CL:0000047</td>
-<td>neuronal stem cell</td>
-<td>in_vitro_differentiated_cells</td>
-<td></td>
-<td>0.000903</td>
-<td>0.606708</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>chr22:36201698:A&gt;C</td>
-<td>chr22:35677410-36725986:.</td>
-<td>ENSG00000100320</td>
-<td>RBFOX2</td>
-<td>protein_coding</td>
-<td>-</td>
-<td>None</td>
-<td>None</td>
-<td>RNA_SEQ</td>
-<td>GeneMaskLFCScorer(requested_output=RNA_SEQ)</td>
-<td>CL:0000062 total RNA-seq</td>
-<td>-</td>
-<td>total RNA-seq</td>
-<td>CL:0000062</td>
-<td>osteoblast</td>
-<td>primary_cell</td>
-<td></td>
-<td>-0.000363</td>
-<td>-0.477020</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>chr22:36201698:A&gt;C</td>
-<td>chr22:35677410-36725986:.</td>
-<td>ENSG00000100320</td>
-<td>RBFOX2</td>
-<td>protein_coding</td>
-<td>-</td>
-<td>None</td>
-<td>None</td>
-<td>RNA_SEQ</td>
-<td>GeneMaskLFCScorer(requested_output=RNA_SEQ)</td>
-<td>CL:0000084 polyA plus RNA-seq</td>
-<td>-</td>
-<td>polyA plus RNA-seq</td>
-<td>CL:0000084</td>
-<td>T-cell</td>
-<td>primary_cell</td>
-<td></td>
-<td>-0.007063</td>
-<td>-0.989667</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>chr22:36201698:A&gt;C</td>
-<td>chr22:35677410-36725986:.</td>
-<td>ENSG00000100320</td>
-<td>RBFOX2</td>
-<td>protein_coding</td>
-<td>-</td>
-<td>None</td>
-<td>None</td>
-<td>RNA_SEQ</td>
-<td>GeneMaskLFCScorer(requested_output=RNA_SEQ)</td>
-<td>CL:0000084 total RNA-seq</td>
-<td>-</td>
-<td>total RNA-seq</td>
-<td>CL:0000084</td>
-<td>T-cell</td>
-<td>primary_cell</td>
-<td></td>
-<td>-0.007229</td>
-<td>-0.990997</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>chr22:36201698:A&gt;C</td>
-<td>chr22:35677410-36725986:.</td>
-<td>ENSG00000100320</td>
-<td>RBFOX2</td>
-<td>protein_coding</td>
-<td>-</td>
-<td>None</td>
-<td>None</td>
-<td>RNA_SEQ</td>
-<td>GeneMaskLFCScorer(requested_output=RNA_SEQ)</td>
-<td>CL:0000115 total RNA-seq</td>
-<td>-</td>
-<td>total RNA-seq</td>
-<td>CL:0000115</td>
-<td>endothelial cell</td>
-<td>in_vitro_differentiated_cells</td>
-<td></td>
-<td>0.000461</td>
-<td>0.449849</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">14647</td>
-<td>chr22:36201698:A&gt;C</td>
-<td>chr22:35677410-36725986:.</td>
-<td>ENSG00000293594</td>
-<td>ENSG00000293594</td>
-<td>processed_pseudogene</td>
-<td>-</td>
-<td>None</td>
-<td>None</td>
-<td>RNA_SEQ</td>
-<td>GeneMaskLFCScorer(requested_output=RNA_SEQ)</td>
-<td>UBERON:0018115 polyA plus RNA-seq</td>
-<td>.</td>
-<td>polyA plus RNA-seq</td>
-<td>UBERON:0018115</td>
-<td>left renal pelvis</td>
-<td>tissue</td>
-<td></td>
-<td>0.006467</td>
-<td>0.989427</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">14648</td>
-<td>chr22:36201698:A&gt;C</td>
-<td>chr22:35677410-36725986:.</td>
-<td>ENSG00000293594</td>
-<td>ENSG00000293594</td>
-<td>processed_pseudogene</td>
-<td>-</td>
-<td>None</td>
-<td>None</td>
-<td>RNA_SEQ</td>
-<td>GeneMaskLFCScorer(requested_output=RNA_SEQ)</td>
-<td>UBERON:0018116 polyA plus RNA-seq</td>
-<td>.</td>
-<td>polyA plus RNA-seq</td>
-<td>UBERON:0018116</td>
-<td>right renal pelvis</td>
-<td>tissue</td>
-<td></td>
-<td>0.007303</td>
-<td>0.992679</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">14649</td>
-<td>chr22:36201698:A&gt;C</td>
-<td>chr22:35677410-36725986:.</td>
-<td>ENSG00000293594</td>
-<td>ENSG00000293594</td>
-<td>processed_pseudogene</td>
-<td>-</td>
-<td>None</td>
-<td>None</td>
-<td>RNA_SEQ</td>
-<td>GeneMaskLFCScorer(requested_output=RNA_SEQ)</td>
-<td>UBERON:0018117 polyA plus RNA-seq</td>
-<td>.</td>
-<td>polyA plus RNA-seq</td>
-<td>UBERON:0018117</td>
-<td>left renal cortex interstitium</td>
-<td>tissue</td>
-<td></td>
-<td>0.004375</td>
-<td>0.964537</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">14650</td>
-<td>chr22:36201698:A&gt;C</td>
-<td>chr22:35677410-36725986:.</td>
-<td>ENSG00000293594</td>
-<td>ENSG00000293594</td>
-<td>processed_pseudogene</td>
-<td>-</td>
-<td>None</td>
-<td>None</td>
-<td>RNA_SEQ</td>
-<td>GeneMaskLFCScorer(requested_output=RNA_SEQ)</td>
-<td>UBERON:0018118 polyA plus RNA-seq</td>
-<td>.</td>
-<td>polyA plus RNA-seq</td>
-<td>UBERON:0018118</td>
-<td>right renal cortex interstitium</td>
-<td>tissue</td>
-<td></td>
-<td>0.003006</td>
-<td>0.905090</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">14651</td>
-<td>chr22:36201698:A&gt;C</td>
-<td>chr22:35677410-36725986:.</td>
-<td>ENSG00000293594</td>
-<td>ENSG00000293594</td>
-<td>processed_pseudogene</td>
-<td>-</td>
-<td>None</td>
-<td>None</td>
-<td>RNA_SEQ</td>
-<td>GeneMaskLFCScorer(requested_output=RNA_SEQ)</td>
-<td>UBERON:0036149 gtex Skin_Not_Sun_Exposed_Supra...</td>
-<td>.</td>
-<td>polyA plus RNA-seq</td>
-<td>UBERON:0036149</td>
-<td>suprapubic skin</td>
-<td>tissue</td>
-<td>Skin_Not_Sun_Exposed_Suprapubic</td>
-<td>-0.002312</td>
-<td>-0.822706</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>14652 rows × 19 columns</p>
-</div>
-    <div class="colab-df-buttons">
-
-  <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-f6200eff-319b-485b-b883-c8e71462f027')" title="Convert this dataframe to an interactive table." style="display:none;">
-
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 -960 960 960">
-    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"></path>
-  </svg>
-    </button>
-
-  <style>
-    .colab-df-container {
-      display:flex;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    .colab-df-buttons div {
-      margin-bottom: 4px;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-    <script>
-      const buttonEl =
-        document.querySelector('#df-f6200eff-319b-485b-b883-c8e71462f027 button.colab-df-convert');
-      buttonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-      async function convertToInteractive(key) {
-        const element = document.querySelector('#df-f6200eff-319b-485b-b883-c8e71462f027');
-        const dataTable =
-          await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                    [key], {});
-        if (!dataTable) return;
-
-        const docLinkHtml = 'Like what you see? Visit the ' +
-          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-          + ' to learn more about interactive tables.';
-        element.innerHTML = '';
-        dataTable['output_type'] = 'display_data';
-        await google.colab.output.renderOutput(dataTable, element);
-        const docLink = document.createElement('div');
-        docLink.innerHTML = docLinkHtml;
-        element.appendChild(docLink);
-      }
-    </script>
-  </div>
-
-
-    <div id="df-8e277693-4c31-4700-afbd-3b4a5f4e1332">
-      <button class="colab-df-quickchart" onclick="quickchart('df-8e277693-4c31-4700-afbd-3b4a5f4e1332')" title="Suggest charts" style="display:none;">
-
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 0 24 24" width="24px">
-    <g>
-        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"></path>
-    </g>
-</svg>
-      </button>
-
-<style>
-  .colab-df-quickchart {
-      --bg-color: #E8F0FE;
-      --fill-color: #1967D2;
-      --hover-bg-color: #E2EBFA;
-      --hover-fill-color: #174EA6;
-      --disabled-fill-color: #AAA;
-      --disabled-bg-color: #DDD;
-  }
-
-  [theme=dark] .colab-df-quickchart {
-      --bg-color: #3B4455;
-      --fill-color: #D2E3FC;
-      --hover-bg-color: #434B5C;
-      --hover-fill-color: #FFFFFF;
-      --disabled-bg-color: #3B4455;
-      --disabled-fill-color: #666;
-  }
-
-  .colab-df-quickchart {
-    background-color: var(--bg-color);
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: none;
-    fill: var(--fill-color);
-    height: 32px;
-    padding: 0;
-    width: 32px;
-  }
-
-  .colab-df-quickchart:hover {
-    background-color: var(--hover-bg-color);
-    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-    fill: var(--button-hover-fill-color);
-  }
-
-  .colab-df-quickchart-complete:disabled,
-  .colab-df-quickchart-complete:disabled:hover {
-    background-color: var(--disabled-bg-color);
-    fill: var(--disabled-fill-color);
-    box-shadow: none;
-  }
-
-  .colab-df-spinner {
-    border: 2px solid var(--fill-color);
-    border-color: transparent;
-    border-bottom-color: var(--fill-color);
-    animation:
-      spin 1s steps(1) infinite;
-  }
-
-  @keyframes spin {
-    0% {
-      border-color: transparent;
-      border-bottom-color: var(--fill-color);
-      border-left-color: var(--fill-color);
-    }
-    20% {
-      border-color: transparent;
-      border-left-color: var(--fill-color);
-      border-top-color: var(--fill-color);
-    }
-    30% {
-      border-color: transparent;
-      border-left-color: var(--fill-color);
-      border-top-color: var(--fill-color);
-      border-right-color: var(--fill-color);
-    }
-    40% {
-      border-color: transparent;
-      border-right-color: var(--fill-color);
-      border-top-color: var(--fill-color);
-    }
-    60% {
-      border-color: transparent;
-      border-right-color: var(--fill-color);
-    }
-    80% {
-      border-color: transparent;
-      border-right-color: var(--fill-color);
-      border-bottom-color: var(--fill-color);
-    }
-    90% {
-      border-color: transparent;
-      border-bottom-color: var(--fill-color);
-    }
-  }
-</style>
-
-      <script>
-        async function quickchart(key) {
-          const quickchartButtonEl =
-            document.querySelector('#' + key + ' button');
-          quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
-          quickchartButtonEl.classList.add('colab-df-spinner');
-          try {
-            const charts = await google.colab.kernel.invokeFunction(
-                'suggestCharts', [key], {});
-          } catch (error) {
-            console.error('Error during call to suggestCharts:', error);
-          }
-          quickchartButtonEl.classList.remove('colab-df-spinner');
-          quickchartButtonEl.classList.add('colab-df-quickchart-complete');
-        }
-        (() => {
-          let quickchartButtonEl =
-            document.querySelector('#df-8e277693-4c31-4700-afbd-3b4a5f4e1332 button');
-          quickchartButtonEl.style.display =
-            google.colab.kernel.accessAllowed ? 'block' : 'none';
-        })();
-      </script>
-    </div>
-    </div>
-  </div>
-</div>
-</div>
+<p>There are 167 ATAC-seq profiles, and one values for each of the 1048576 input nucleotides.</p>
 </section>
-<section id="highlighting-important-regions-with-in-silico-mutagenesis" class="level2">
-<h2 class="anchored" data-anchor-id="highlighting-important-regions-with-in-silico-mutagenesis">Highlighting important regions with <em>in silico</em> mutagenesis</h2>
-<p>To highlight which regions in a DNA sequence are functionally important for a final variant prediction, we can perform an <strong>in silico mutagenesis</strong> (ISM) analysis by scoring all possible single nucleotide variants in a specific interval.</p>
-<p>Here is a visual overview of this process:</p>
-<p><a href="https://services.google.com/fh/files/misc/ism_green_v2.png"><img src="https://services.google.com/fh/files/misc/ism_green_v2.png" alt="ISM" border="0" height="500"></a></p>
-<p>We define an <code>ism_interval</code>, which is a relatively small region of DNA that we want to systematically mutate. We also define the <code>sequence_interval</code>, which is the contextual interval the model will use when making predictions for each variant.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2KB DNA sequence to use as context when making predictions.</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>sequence_interval <span class="op">=</span> genome.Interval(<span class="st">'chr20'</span>, <span class="dv">3_753_000</span>, <span class="dv">3_753_400</span>)</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>sequence_interval <span class="op">=</span> sequence_interval.resize(dna_client.SEQUENCE_LENGTH_2KB)</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Mutate all bases in the central 256-base region of the sequence_interval.</span></span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>ism_interval <span class="op">=</span> sequence_interval.resize(<span class="dv">256</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="plotting" class="level2">
+<h2 class="anchored" data-anchor-id="plotting">Plotting</h2>
+<p>The AlphaGenome team provided tools to make visualization easy.</p>
+<p>To visualize, we can predict for a small interval of the genome</p>
+<div class="cell" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>small_interval <span class="op">=</span> genome.Interval(<span class="st">'chr22'</span>, <span class="dv">36_150_498</span>, <span class="dv">36_252_898</span>).resize(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    dna_client.SEQUENCE_LENGTH_2KB</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>small_interval</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="63">
+<pre><code>Interval(chromosome='chr22', start=36200674, end=36202722, strand='.', name='')</code></pre>
 </div>
-<p>Next, we define the scorer we want to use to score each of the ISM variants. Here, we use a center mask scorer on predicted <code>DNASE</code> values, which will score each variant’s effect on DNA accessibility in the 500bp vicinity. See the <a href="https://www.alphagenomedocs.com/variant_scoring.html">variant scoring documentation</a> for more information on variant scoring.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>dnase_variant_scorer <span class="op">=</span> variant_scorers.CenterMaskScorer(</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    requested_output<span class="op">=</span>dna_client.OutputType.DNASE,</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">501</span>,</span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    aggregation_type<span class="op">=</span>variant_scorers.AggregationType.DIFF_MEAN,</span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Finally, we can use <code>score_variants</code> (notice the plural s) to score all variants.</p>
-<p>Note that this operation is quite expensive. For speed reasons, we recommend using shorter input sequences for the contextual <code>sequence_interval</code> and narrower <code>ism_interval</code> regions to mutate if possible.</p>
-<div class="cell" data-outputid="f7f42ee0-cadd-475a-ba48-bb911e61405e">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>variant_scores <span class="op">=</span> dna_model.score_ism_variants(</span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    interval<span class="op">=</span>sequence_interval,</span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    ism_interval<span class="op">=</span>ism_interval,</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    variant_scorers<span class="op">=</span>[dnase_variant_scorer],</span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="66">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we will request for just the RNA_SEQ track</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># note that we use a different function here: predict_interval</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>predictions_small_interval <span class="op">=</span> alphagenome_model.predict_interval(</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    interval <span class="op">=</span> small_interval,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    requested_outputs<span class="op">=</span>[dna_client.OutputType.RNA_SEQ],</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>     ontology_terms<span class="op">=</span>[]                      </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>rna_seq_predictions <span class="op">=</span> predictions_small_interval.rna_seq</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(rna_seq_predictions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="66">
+<pre><code>alphagenome.data.track_data.TrackData</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="67">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how many tracks are there</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>rna_seq_predictions.values.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="67">
+<pre><code>(2048, 667)</code></pre>
+</div>
+</div>
+<p>The AlphaGenome supplied helper codes to visualize predictions, but it will not be easy to plot 667 track. Instead, we can subset to a manageable number of tracks. Let’s use the plot the first 6 tracks.</p>
+<div class="cell" data-execution_count="70">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the argument here is a set of conditions of what tracks to return, here the first 6 tracks are True and the rest are False</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>filtered_rna_seq_predictions <span class="op">=</span> rna_seq_predictions.filter_tracks(</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    [<span class="va">True</span>, <span class="va">True</span>, <span class="va">True</span>, <span class="va">True</span>, <span class="va">True</span>, <span class="va">True</span>] <span class="op">+</span> [<span class="va">False</span>] <span class="op">*</span> (rna_seq_predictions.values.shape[<span class="dv">1</span>] <span class="op">-</span> <span class="dv">6</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(filtered_rna_seq_predictions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="70">
+<pre><code>alphagenome.data.track_data.TrackData</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="72">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># then we can visualize these tracks</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>plot_components.plot(</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>        plot_components.Tracks(</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>            tdata<span class="op">=</span>filtered_rna_seq_predictions</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    interval <span class="op">=</span> filtered_rna_seq_predictions.interval</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"1bc02ebfff8b4e719380e07ddc8663bb","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
+<p><img src="index_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p>The length of the returned <code>variant_scores</code> is 768, since we scored 768 variants (256 positions * 3 alternative bases per position):</p>
-<div class="cell" data-outputid="07994783-145b-43ec-fbfc-a616f7ae0dc9">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(variant_scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="36">
-<pre><code>768</code></pre>
-</div>
-</div>
-<p>Each variant has scores of shape <code>(1, 305)</code>, reflecting the fact that we are not using a gene-centric scorer and that there are 305 <code>DNASE</code> tracks:</p>
-<div class="cell" data-outputid="e937d291-b700-477c-ad7d-e61d5a7afabb">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Index into first variant and first scorer.</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>variant_scores[<span class="dv">0</span>][<span class="dv">0</span>].X.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="37">
-<pre><code>(1, 305)</code></pre>
-</div>
-</div>
-<p>To understand which positions are most influential in the predictions, we can visualize these scores using a sequence logo. This requires summarizing the scores into a single scalar value per variant.</p>
-<p>As an example, let’s extract the DNASE score for just the K562 cell line, a widely used experimental model. Alternatively, you could average across multiple tissues to obtain a single scalar value.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_k562(adata):</span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  values <span class="op">=</span> adata.X[:, adata.var[<span class="st">'ontology_curie'</span>] <span class="op">==</span> <span class="st">'EFO:0002067'</span>]</span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">assert</span> values.size <span class="op">==</span> <span class="dv">1</span></span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> values.flatten()[<span class="dv">0</span>]</span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>ism_result <span class="op">=</span> ism.ism_matrix(</span>
-<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    [extract_k562(x[<span class="dv">0</span>]) <span class="cf">for</span> x <span class="kw">in</span> variant_scores],</span>
-<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>    variants<span class="op">=</span>[v[<span class="dv">0</span>].uns[<span class="st">'variant'</span>] <span class="cf">for</span> v <span class="kw">in</span> variant_scores],</span>
-<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The shape of <code>ism_result</code> is <code>(256, 4</code>) since we have 1 score per position per each of the 4 DNA bases.</p>
-<p>Note that in this case, our call to <code>ism.ism_matrix()</code> had the argument <code>multiply_by_sequence</code> set to ‘True’, so the output array contains non-zero values only for the bases corresponding to the reference sequence.</p>
-<div class="cell" data-outputid="e9103b13-6b66-4612-aef7-a1ce0ec5f192">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>ism_result.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="39">
-<pre><code>(256, 4)</code></pre>
-</div>
-</div>
-<p>Finally, we plot the contribution scores as a sequence logo:</p>
-<div class="cell" data-outputid="3bbd720c-61a3-418b-fb58-3b90c3ad2435">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>plot_components.plot(</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    [</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>        plot_components.SeqLogo(</span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>            scores<span class="op">=</span>ism_result,</span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>            scores_interval<span class="op">=</span>ism_interval,</span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>            ylabel<span class="op">=</span><span class="st">'ISM K562 DNase'</span>,</span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>    interval<span class="op">=</span>ism_interval,</span>
-<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>    fig_width<span class="op">=</span><span class="dv">35</span>,</span>
-<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-40-output-1.png" class="img-fluid"></p>
-</div>
-</div>
-<p>This plot shows that the sequence between positions ~225 to ~240 has the strongest effect on predicted nearby DNAse in K562 cells.</p>
-<p>These contribution scores can be used to systematically discover motifs important for different modalities and cell types, find the transcription factors binding those motifs and map motif instances across the genome. Here are a few tools you can use to do this: - <a href="https://github.com/jmschrei/tfmodisco-lite/">tfmodisco-lite</a> - <a href="https://github.com/jmschrei/tangermeme">tangermeme</a> - <a href="https://meme-suite.org/meme/tools/tomtom">tomtom</a></p>
-</section>
-<section id="making-mouse-predictions" class="level2">
-<h2 class="anchored" data-anchor-id="making-mouse-predictions">Making mouse predictions</h2>
-<p>So far, this notebook has focused on predictions for human (<code>Organism.HOMO_SAPIENS</code>). To generate predictions for mouse, specify the organism as <code>Organism.MUS_MUSCULUS</code> instead. Please note that the supported ontology terms differ between species.</p>
-<p>The following example demonstrates how to call <code>predict_sequence</code> for mouse predictions:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> dna_model.predict_sequence(</span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>    sequence<span class="op">=</span><span class="st">'GATTACA'</span>.center(<span class="dv">2048</span>, <span class="st">'N'</span>),  <span class="co"># Pad to valid sequence length.</span></span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>    organism<span class="op">=</span>dna_client.Organism.MUS_MUSCULUS,</span>
-<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>    requested_outputs<span class="op">=</span>[dna_client.OutputType.DNASE],</span>
-<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>    ontology_terms<span class="op">=</span>[<span class="st">'UBERON:0002048'</span>],  <span class="co"># Lung.</span></span>
-<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>And here is an example of calling <code>predict_interval</code> for a mouse genomic interval:</p>
-<div class="cell" data-executioninfo="{&quot;elapsed&quot;:515,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1749822142263,&quot;user&quot;:{&quot;displayName&quot;:&quot;&quot;,&quot;userId&quot;:&quot;&quot;},&quot;user_tz&quot;:-60}" data-outputid="6c990e68-22a0-43cb-95f5-bce28ca4b265">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>interval <span class="op">=</span> genome.Interval(<span class="st">'chr1'</span>, <span class="dv">3_000_000</span>, <span class="dv">3_000_001</span>).resize(</span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    dna_client.SEQUENCE_LENGTH_1MB</span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> dna_model.predict_interval(</span>
-<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>    interval<span class="op">=</span>interval,</span>
-<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>    organism<span class="op">=</span>dna_client.Organism.MUS_MUSCULUS,</span>
-<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>    requested_outputs<span class="op">=</span>[dna_client.OutputType.RNA_SEQ],</span>
-<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>    ontology_terms<span class="op">=</span>[<span class="st">'UBERON:0002048'</span>],  <span class="co"># Lung.</span></span>
-<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>output.rna_seq.values.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
-<pre><code>(1048576, 3)</code></pre>
-</div>
-</div>
-</section>
-<section id="conclusion" class="level2">
-<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>That’s it for the quick start guide. To dive in further, check out our <a href="https://www.alphagenomedocs.com/tutorials/index.html">other tutorials</a>.</p>
 
 
+</section>
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div>© HakyImLab and Listed Authors - CC BY 4.0 for Text and figures - MIT for code</div></div></section></div></main> <!-- /main -->
-<script type="application/vnd.jupyter.widget-state+json">
-{"04607ea662b44806a92681c824d03d2d":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HTMLModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HTMLModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HTMLView","description":"","description_tooltip":null,"layout":"IPY_MODEL_db3ac3598d7a4ad0b054a1b6bc68dd4a","placeholder":"​","style":"IPY_MODEL_091ccda084584439b685b47c58570e87","value":" 26/26 [00:06&lt;00:00,  4.55it/s]"}},"04fe5298a30d412dbe720ecd99a6e40d":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"091ccda084584439b685b47c58570e87":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"DescriptionStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"DescriptionStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","description_width":""}},"12c5c031388c44609def174765f4d5d8":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"1bc02ebfff8b4e719380e07ddc8663bb":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HBoxModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HBoxModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HBoxView","box_style":"","children":["IPY_MODEL_64aba7c6d4e74b1caa7b34b310f56c5a","IPY_MODEL_de42a9b35a0644aeafd14822aa2d9887","IPY_MODEL_04607ea662b44806a92681c824d03d2d"],"layout":"IPY_MODEL_04fe5298a30d412dbe720ecd99a6e40d"}},"64aba7c6d4e74b1caa7b34b310f56c5a":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"HTMLModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"HTMLModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"HTMLView","description":"","description_tooltip":null,"layout":"IPY_MODEL_7db3dce4f15241a8918adee303e3e7fd","placeholder":"​","style":"IPY_MODEL_aab3713618b546678873f5902eaec719","value":"100%"}},"7db3dce4f15241a8918adee303e3e7fd":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"aab3713618b546678873f5902eaec719":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"DescriptionStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"DescriptionStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","description_width":""}},"c6a96447d64447efb7c2b053573236b8":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"ProgressStyleModel","state":{"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"ProgressStyleModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"StyleView","bar_color":null,"description_width":""}},"db3ac3598d7a4ad0b054a1b6bc68dd4a":{"model_module":"@jupyter-widgets/base","model_module_version":"1.2.0","model_name":"LayoutModel","state":{"_model_module":"@jupyter-widgets/base","_model_module_version":"1.2.0","_model_name":"LayoutModel","_view_count":null,"_view_module":"@jupyter-widgets/base","_view_module_version":"1.2.0","_view_name":"LayoutView","align_content":null,"align_items":null,"align_self":null,"border":null,"bottom":null,"display":null,"flex":null,"flex_flow":null,"grid_area":null,"grid_auto_columns":null,"grid_auto_flow":null,"grid_auto_rows":null,"grid_column":null,"grid_gap":null,"grid_row":null,"grid_template_areas":null,"grid_template_columns":null,"grid_template_rows":null,"height":null,"justify_content":null,"justify_items":null,"left":null,"margin":null,"max_height":null,"max_width":null,"min_height":null,"min_width":null,"object_fit":null,"object_position":null,"order":null,"overflow":null,"overflow_x":null,"overflow_y":null,"padding":null,"right":null,"top":null,"visibility":null,"width":null}},"de42a9b35a0644aeafd14822aa2d9887":{"model_module":"@jupyter-widgets/controls","model_module_version":"1.5.0","model_name":"FloatProgressModel","state":{"_dom_classes":[],"_model_module":"@jupyter-widgets/controls","_model_module_version":"1.5.0","_model_name":"FloatProgressModel","_view_count":null,"_view_module":"@jupyter-widgets/controls","_view_module_version":"1.5.0","_view_name":"ProgressView","bar_style":"success","description":"","description_tooltip":null,"layout":"IPY_MODEL_12c5c031388c44609def174765f4d5d8","max":26,"min":0,"orientation":"horizontal","style":"IPY_MODEL_c6a96447d64447efb7c2b053573236b8","value":26}}}
-</script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
