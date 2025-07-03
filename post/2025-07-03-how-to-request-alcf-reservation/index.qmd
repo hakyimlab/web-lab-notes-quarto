@@ -1,0 +1,69 @@
+---
+title: "How to request an ALCF reservation"
+author: "Sofia Salazar"
+date: "2025-07-03"
+description: ""
+categories: [how_to]
+format:
+  html:
+    code-fold: false
+    code-summary: "Show the code"
+    code-tools: true
+    code-overflow: wrap
+editor_options:
+  chunk_output_type: console
+---
+
+This is a guide on how to request **reservations** or **score boosts** for ALCF machines (Polaris, Aurora, Sophia, etc.).
+
+Some definitions (source: ALCF):
+
+" A **reservation** means we set aside some number of nodes on a system for a limited time. Only certain users or projects can submit to the queues assigned to the reservation.
+A **score boost** means we give your job(s) a boost in score to help it move ahead in the queue, but it still allows the scheduler to more efficiently fill the machine."
+
+ALCF says that it is preferred to request a score boost than a reservation. Either way, the following steps are required:
+
+1. Fill out [this form](https://forms.office.com/Pages/ResponsePage.aspx?id=haH8DPcl40mK53BNUybihXhEiVpWIVZNp8Ow6W1CJnVUNTZLQ1c2N1lSOVNFQkg4RkJTSTAyMUJCNi4u) to request the service.
+
+2. You will be asked to fill out your name, email and ALCF username.
+
+3. You will be prompted to choose between score boost or reservation request.
+
+4. Then, you will be asked to specify a deadline date and name motivating the need to be prioritized over other users. This includes any Journal or Conference dates, as well as Grant deadlines.
+
+5. Then, you should choose the machine (Aurora, Polaris, Sunspot, Crux or Sophia), where the service is being requested.
+
+6. Add the ALCF Project Name to be used (TFXcan/AIHPC4Edu for Polaris, GeomicVar for Aurora).
+
+7. If a boost is requested, you should add the ID(s) of the Job(s) to boost.
+
+8. If a reservation is requested, you will be asked if this will help you scale up to multiple nodes, as well as prepare to submit an ALCC or INCITE award application. You will also be asked to provide the list of users in your ALCF Project that can submit jobs to the reservation. If none are provided, all members of the Project will be able to submit jobs.
+
+9. If a reservation is requested, select if you want a single or recurring reservation.
+
+10. If a reservation is requested, add the information about the length in minutes of the reservation, the earliest start date, latest start date, prefered start time, and when is the best time for the reservation to run (anytime/daytime). Consider submitting this form at least 5 business days before your earliest start date to allow time for the application to be approved
+
+11. If a reservation is requested, answer if you will run only one large job or if multiple jobs will run sequentially or in parallel.
+
+12. Add the number of jobs to be ran.
+
+13. For score boosting, the points from 8-12 are not necessary.
+
+14. In the final box, add details about your reservation/score boost request. For example the project, the reason why you are requesting it, the nature of the service need, etc.
+
+**How to use a reservation**
+
+Upon approval, you will be given a queue name to which you can submit. On your job scripts simply add it to the queue `-q` flag:
+
+```
+#!/bin/bash -l
+#PBS -A <your_ProjectName>
+#PBS -N <your_JobName>
+#PBS -l walltime=<requested_walltime_value>
+#PBS -l filesystems=<requested_fs1:requested_fs2>
+#PBS -k doe
+#PBS -l place=scatter
+#PBS -q <RESERVATION_QUEUE_NAME_ASSIGNED>
+```
+
+

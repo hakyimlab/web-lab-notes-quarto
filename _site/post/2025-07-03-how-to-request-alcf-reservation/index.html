@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Haky Im">
-<meta name="dcterms.date" content="2021-06-16">
+<meta name="author" content="Sofia Salazar">
+<meta name="dcterms.date" content="2025-07-03">
 
-<title>Github Cheatsheet – HakyImLab Notes</title>
+<title>How to request an ALCF reservation – HakyImLab Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -145,25 +145,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#clean-github-repository-history" id="toc-clean-github-repository-history" class="nav-link active" data-scroll-target="#clean-github-repository-history">clean github repository history</a></li>
-  <li><a href="#get-rid-of-ds_store-files" id="toc-get-rid-of-ds_store-files" class="nav-link" data-scroll-target="#get-rid-of-ds_store-files">get rid of DS_Store files</a></li>
-  <li><a href="#amend-last-commit-message" id="toc-amend-last-commit-message" class="nav-link" data-scroll-target="#amend-last-commit-message">amend last commit message</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Github Cheatsheet</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">How to request an ALCF reservation</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
   <div class="quarto-categories">
-    <div class="quarto-category">cheatsheet</div>
+    <div class="quarto-category">how_to</div>
   </div>
   </div>
 
@@ -174,14 +166,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Haky Im </p>
+             <p>Sofia Salazar </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">June 16, 2021</p>
+      <p class="date">July 3, 2025</p>
     </div>
   </div>
   
@@ -193,37 +185,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="clean-github-repository-history" class="level2">
-<h2 class="anchored" data-anchor-id="clean-github-repository-history">clean github repository history</h2>
-<pre><code>-- Remove the history from
-rm -rf .git
-
--- recreate the repos from the current content only
-git init
-git add .
-git commit -m "Initial commit"
-
--- push to the github remote repos ensuring you overwrite history
-git remote add origin https://github.com/&lt;YOUR ACCOUNT&gt;/&lt;YOUR REPOS&gt;.git
-git push -u --force origin main </code></pre>
-<p>Note: older repos may have master as the main branch</p>
-<pre><code>git push -u --force origin master</code></pre>
-</section>
-<section id="get-rid-of-ds_store-files" class="level2">
-<h2 class="anchored" data-anchor-id="get-rid-of-ds_store-files">get rid of DS_Store files</h2>
-<pre><code>find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
-echo .DS_Store &gt;&gt; .gitignore
-git add .gitignore
-git commit -m '.DS_Store banished!'</code></pre>
-</section>
-<section id="amend-last-commit-message" class="level2">
-<h2 class="anchored" data-anchor-id="amend-last-commit-message">amend last commit message</h2>
-<p>You can change the most recent commit message using the <code>git commit --amend</code> command.</p>
+<p>This is a guide on how to request <strong>reservations</strong> or <strong>score boosts</strong> for ALCF machines (Polaris, Aurora, Sophia, etc.).</p>
+<p>Some definitions (source: ALCF):</p>
+<p>” A <strong>reservation</strong> means we set aside some number of nodes on a system for a limited time. Only certain users or projects can submit to the queues assigned to the reservation. A <strong>score boost</strong> means we give your job(s) a boost in score to help it move ahead in the queue, but it still allows the scheduler to more efficiently fill the machine.”</p>
+<p>ALCF says that it is preferred to request a score boost than a reservation. Either way, the following steps are required:</p>
+<ol type="1">
+<li><p>Fill out <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=haH8DPcl40mK53BNUybihXhEiVpWIVZNp8Ow6W1CJnVUNTZLQ1c2N1lSOVNFQkg4RkJTSTAyMUJCNi4u">this form</a> to request the service.</p></li>
+<li><p>You will be asked to fill out your name, email and ALCF username.</p></li>
+<li><p>You will be prompted to choose between score boost or reservation request.</p></li>
+<li><p>Then, you will be asked to specify a deadline date and name motivating the need to be prioritized over other users. This includes any Journal or Conference dates, as well as Grant deadlines.</p></li>
+<li><p>Then, you should choose the machine (Aurora, Polaris, Sunspot, Crux or Sophia), where the service is being requested.</p></li>
+<li><p>Add the ALCF Project Name to be used (TFXcan/AIHPC4Edu for Polaris, GeomicVar for Aurora).</p></li>
+<li><p>If a boost is requested, you should add the ID(s) of the Job(s) to boost.</p></li>
+<li><p>If a reservation is requested, you will be asked if this will help you scale up to multiple nodes, as well as prepare to submit an ALCC or INCITE award application. You will also be asked to provide the list of users in your ALCF Project that can submit jobs to the reservation. If none are provided, all members of the Project will be able to submit jobs.</p></li>
+<li><p>If a reservation is requested, select if you want a single or recurring reservation.</p></li>
+<li><p>If a reservation is requested, add the information about the length in minutes of the reservation, the earliest start date, latest start date, prefered start time, and when is the best time for the reservation to run (anytime/daytime). Consider submitting this form at least 5 business days before your earliest start date to allow time for the application to be approved</p></li>
+<li><p>If a reservation is requested, answer if you will run only one large job or if multiple jobs will run sequentially or in parallel.</p></li>
+<li><p>Add the number of jobs to be ran.</p></li>
+<li><p>For score boosting, the points from 8-12 are not necessary.</p></li>
+<li><p>In the final box, add details about your reservation/score boost request. For example the project, the reason why you are requesting it, the nature of the service need, etc.</p></li>
+</ol>
+<p><strong>How to use a reservation</strong></p>
+<p>Upon approval, you will be given a queue name to which you can submit. On your job scripts simply add it to the queue <code>-q</code> flag:</p>
+<pre><code>#!/bin/bash -l
+#PBS -A &lt;your_ProjectName&gt;
+#PBS -N &lt;your_JobName&gt;
+#PBS -l walltime=&lt;requested_walltime_value&gt;
+#PBS -l filesystems=&lt;requested_fs1:requested_fs2&gt;
+#PBS -k doe
+#PBS -l place=scatter
+#PBS -q &lt;RESERVATION_QUEUE_NAME_ASSIGNED&gt;</code></pre>
 
 
 <!-- -->
 
-</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -676,48 +671,74 @@ git commit -m '.DS_Store banished!'</code></pre>
     }
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Github Cheatsheet</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> Haky Im</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> '2021-06-16'</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="an">slug:</span><span class="co"> github-cheatsheet</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> </span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - cheatsheet</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="an">tags:</span><span class="co"> []</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## clean github repository history</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="in">-- Remove the history from</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="in">rm -rf .git</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="in">-- recreate the repos from the current content only</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="in">git init</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="in">git add .</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="in">git commit -m "Initial commit"</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="in">-- push to the github remote repos ensuring you overwrite history</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="in">git remote add origin https://github.com/&lt;YOUR ACCOUNT&gt;/&lt;YOUR REPOS&gt;.git</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="in">git push -u --force origin main </span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>Note: older repos may have master as the main branch</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="in">git push -u --force origin master</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## get rid of DS_Store files</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="in">find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch</span></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="in">echo .DS_Store &gt;&gt; .gitignore</span></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="in">git add .gitignore</span></span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="in">git commit -m '.DS_Store banished!'</span></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## amend last commit message</span></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>You can change the most recent commit message using the <span class="in">`git commit --amend`</span> command.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "How to request an ALCF reservation"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Sofia Salazar"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2025-07-03"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> ""</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [how_to]</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-summary: "Show the code"</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>This is a guide on how to request **reservations** or **score boosts** for ALCF machines (Polaris, Aurora, Sophia, etc.).</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>Some definitions (source: ALCF):</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>" A **reservation** means we set aside some number of nodes on a system for a limited time. Only certain users or projects can submit to the queues assigned to the reservation.</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>A **score boost** means we give your job(s) a boost in score to help it move ahead in the queue, but it still allows the scheduler to more efficiently fill the machine."</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>ALCF says that it is preferred to request a score boost than a reservation. Either way, the following steps are required:</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Fill out <span class="co">[</span><span class="ot">this form</span><span class="co">](https://forms.office.com/Pages/ResponsePage.aspx?id=haH8DPcl40mK53BNUybihXhEiVpWIVZNp8Ow6W1CJnVUNTZLQ1c2N1lSOVNFQkg4RkJTSTAyMUJCNi4u)</span> to request the service.</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>You will be asked to fill out your name, email and ALCF username.</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>You will be prompted to choose between score boost or reservation request.</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Then, you will be asked to specify a deadline date and name motivating the need to be prioritized over other users. This includes any Journal or Conference dates, as well as Grant deadlines.</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Then, you should choose the machine (Aurora, Polaris, Sunspot, Crux or Sophia), where the service is being requested.</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Add the ALCF Project Name to be used (TFXcan/AIHPC4Edu for Polaris, GeomicVar for Aurora).</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>If a boost is requested, you should add the ID(s) of the Job(s) to boost.</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="ss">8. </span>If a reservation is requested, you will be asked if this will help you scale up to multiple nodes, as well as prepare to submit an ALCC or INCITE award application. You will also be asked to provide the list of users in your ALCF Project that can submit jobs to the reservation. If none are provided, all members of the Project will be able to submit jobs.</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="ss">9. </span>If a reservation is requested, select if you want a single or recurring reservation.</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="ss">10. </span>If a reservation is requested, add the information about the length in minutes of the reservation, the earliest start date, latest start date, prefered start time, and when is the best time for the reservation to run (anytime/daytime). Consider submitting this form at least 5 business days before your earliest start date to allow time for the application to be approved</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="ss">11. </span>If a reservation is requested, answer if you will run only one large job or if multiple jobs will run sequentially or in parallel.</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="ss">12. </span>Add the number of jobs to be ran.</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="ss">13. </span>For score boosting, the points from 8-12 are not necessary.</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="ss">14. </span>In the final box, add details about your reservation/score boost request. For example the project, the reason why you are requesting it, the nature of the service need, etc.</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>**How to use a reservation**</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>Upon approval, you will be given a queue name to which you can submit. On your job scripts simply add it to the queue <span class="in">`-q`</span> flag:</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="in">#!/bin/bash -l</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="in">#PBS -A &lt;your_ProjectName&gt;</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="in">#PBS -N &lt;your_JobName&gt;</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a><span class="in">#PBS -l walltime=&lt;requested_walltime_value&gt;</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a><span class="in">#PBS -l filesystems=&lt;requested_fs1:requested_fs2&gt;</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a><span class="in">#PBS -k doe</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="in">#PBS -l place=scatter</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a><span class="in">#PBS -q &lt;RESERVATION_QUEUE_NAME_ASSIGNED&gt;</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
