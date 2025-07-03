@@ -1,0 +1,66 @@
+---
+title: "How to get an AlphaGenome API key"
+author: "Temi"
+date: "2025-07-03"
+description: ""
+categories: [how_to]
+format:
+  html:
+    code-fold: false
+    code-summary: "Show the code"
+    code-tools: true
+    code-overflow: wrap
+editor_options:
+  chunk_output_type: console
+---
+
+# Introduction
+For the time being, Google requires a user to have an API key to access the AlphaGenome model. 
+To get this key, follow the steps below.
+
+
+# Steps
+
+## 1. 
+Create a google account (i.e. @gmail.com). You should be logged in to this account.
+Other domains e.g. @ucsf.edu will not work.
+
+
+## 2.
+Visit [this website](https://deepmind.google.com/science/alphagenome/)
+
+You should be taken to a page that looks like this:
+
+![AlphaGenome's website front page](./Screenshot%202025-07-03%20at%203.18.07%E2%80%AFPM.png)
+
+
+Your google account should be displayed in the top right corner.
+
+## 3.
+Click on the `Get API Key` link.
+You should be taken to a page that looks like this:
+
+![AlphaGenome user-specific API page](./Screenshot%202025-07-03%20at%203.18.56%E2%80%AFPM.png)
+
+Fill in the details and click on `Create API Key`.
+
+## 4. 
+You should receive an API Key that you can copy and paste for access to the model. You can always go back to find your key by clicking on the `Get API Key` in step 1.
+
+## 5. 
+To use the API key, 
+
+```{{python}}
+#| echo: fenced
+from alphagenome.models import dna_client
+
+my_api_key = "<<this is the API key that I created>>"
+alphagenome_model = dna_client.create(my_api_key)
+```
+
+From here, you can make predictions as in :
+
+```{{python}}
+alphagenome_model.predict_sequence("...ACGTGAAATA...")
+```
+
